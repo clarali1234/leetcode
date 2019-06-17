@@ -1,0 +1,13 @@
+class Solution(object):
+    def reverse(self, x):
+        sign = [1, -1][x < 0]
+        reverse_string = int(str(abs(x))[::-1])
+        return sign * reverse_string * (reverse_string < 2**31)
+ 
+ 
+ test = Solution()
+ print(test.reverse(1250))
+ # note: 
+ # 1. sign = [1, -1][x < 0], x < 0 is slice of list;
+ # 2. in python, int(True) = 1, int(false) = 0
+ # 3. integer range in a 32 bit computer is - 2 ** 31 <= x < 2**31 - 1, since we need reverse integer, abs(x) < 2 ** 31
