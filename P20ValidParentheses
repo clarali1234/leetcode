@@ -1,0 +1,18 @@
+# use list(stack) and dictionary data structure 
+# list is a container to hold left parentheses
+# the key in dict is right parentheses, the value is left parentheses
+
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = ['N']
+        dict_string = {')':'(', ']':'[', '}':'{'}
+        for i in s:
+            if i in dict_string:
+                if dict_string[i] != stack.pop():
+                    return False
+            else:
+                stack.append(i)
+                
+        return len(stack) == 1
+        
