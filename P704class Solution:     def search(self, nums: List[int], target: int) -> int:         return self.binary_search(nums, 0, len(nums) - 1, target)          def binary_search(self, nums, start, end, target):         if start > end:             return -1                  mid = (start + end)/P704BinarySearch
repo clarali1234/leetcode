@@ -28,7 +28,10 @@ class Solution:
             if nums[mid] < target:
                 left = mid + 1
             elif nums[mid] == target:
-                right = mid # can changed to return mid which will make the run faster
+                right = mid 
+             # return mid for casual position
+             # right = mid for first position
+             # left = mid for last position and the following check right first
             else:
                 right = mid - 1
         
@@ -39,6 +42,7 @@ class Solution:
             return right
         
         return -1
+       
         
 
         
