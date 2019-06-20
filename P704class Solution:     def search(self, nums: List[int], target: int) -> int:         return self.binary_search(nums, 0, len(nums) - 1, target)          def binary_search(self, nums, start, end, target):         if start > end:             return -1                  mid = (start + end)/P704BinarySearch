@@ -28,7 +28,7 @@ class Solution:
             if nums[mid] < target:
                 left = mid + 1
             elif nums[mid] == target:
-                right = mid
+                right = mid # can changed to return mid which will make the run faster
             else:
                 right = mid - 1
         
@@ -39,5 +39,7 @@ class Solution:
             return right
         
         return -1
+        
+
         
         
