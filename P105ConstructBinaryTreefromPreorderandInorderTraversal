@@ -1,0 +1,45 @@
+# Method1 devide and conquer + recursion
+# Time Complexity O(n)
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        inorder_map = {val:i for i, val in enumerate(inorder)}
+        return  self.buildTree_helper(inorder_map, preorder, 0, len(inorder) - 1)
+    
+    def buildTree_helper(self, inorder_map, preorder, left, right):
+        if  not preorder:
+            return 
+        root_val = preorder.pop(0)
+        root = TreeNode(root_val)
+        root_index = inorder_map[root_val]
+        if root_index != left:
+            root.left = self.buildTree_helper(inorder_map,  preorder, left, root_index - 1)
+        if root_index != right:
+            root.right = self.buildTree_helper(inorder_map, preorder, root_index + 1, right)
+        return root
+
+# Method2 recursion
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        if not inorder:
+            return
+        root = TreeNode(preorder[0])
+        root_index = inorder.index(preorder[0])
+        root.left = self.buildTree(preorder[1 : 1 + root_index], inorder[ : root_index])
+        root.right = self.buildTree(preorder[1 + root_index : ], inorder[root_index + 1 : ])
+        return root
+    
