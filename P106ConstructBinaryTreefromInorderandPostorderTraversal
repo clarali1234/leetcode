@@ -1,0 +1,51 @@
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param inorder: A list of integers that inorder traversal of a tree
+    @param postorder: A list of integers that postorder traversal of a tree
+    @return: Root of a tree
+    """
+    def buildTree(self, inorder, postorder):
+        # write your code here
+        inorder_map = {val : i for i, val in enumerate(inorder)}
+        return self.buildTree_helper(inorder, postorder, 0, len(inorder) - 1)
+        
+    def buildTree_helper(self, inorder_map, postorder, inorder_start, 
+    inorder_end):
+        if not postorder:
+            return
+        root_val = postorder.pop(-1)
+        root = TreeNode(root_val)
+        root_index = inorder_map[root_val]
+        
+        if inorder_start != root_index:
+            root.left = self.buildTree_helper(inorder_map, 
+            postorder, inorder_start, root_index -1)
+        if inorder_end != root_index:
+            root.right = self.buildTree_helper(inorder_map,
+            postorder, root_index + 1,  inorder_end)
+        return root
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def buildTree(self, inorder: List[int], postorder: List[int]) -> TreeNode:
+        if not inorder:
+            return 
+        root = TreeNode(postorder[-1])
+        root_index = inorder.index(postorder[-1])
+        root.left = self.buildTree(inorder[: root_index], postorder[ : root_index])
+        root.right = self.buildTree(inorder[root_index + 1 : ], postorder[root_index : -1])
+        return root
