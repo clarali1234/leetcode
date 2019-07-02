@@ -7,14 +7,14 @@
 
 class Solution:
     def inorderTraversal(self, root: TreeNode) -> List[int]:
-        self.results = []
-        self.traverse(root)
-        return self.results
+        results = []
+        self.traverse(root, results)
+        return results
     
-    def traverse(self, root):
+    def traverse(self, root, results):
         if not root:
             return 
-        self.traverse(root.left)
-        self.results.append(root.val)
-        self.traverse(root.right)
+        self.traverse(root.left, results)
+        results.append(root.val)
+        self.traverse(root.right, results)
         
