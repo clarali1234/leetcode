@@ -7,14 +7,13 @@
 
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
-        self.results = []
-        self.traverse(root)
-        return self.results
+        results = []
+        self.traverse(root, results)
+        return results
     
-    def traverse(self, root):
+    def traverse(self, root, results):
         if not root:
             return
-        self.results.append(root.val)
-        self.traverse(root.left)
-        self.traverse(root.right)
-        
+        results.append(root.val)
+        self.traverse(root.left, results)
+        self.traverse(root.right, results)
