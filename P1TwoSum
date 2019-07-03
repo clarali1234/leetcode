@@ -4,6 +4,6 @@ class Solution:
         for i in range(len(nums)):
             second_num = target - nums[i]
             if second_num in hash_table:
-                return [i, hash_table[second_num]]
+                return [hash_table[second_num], i]
             else:
                 hash_table[nums[i]] = i
