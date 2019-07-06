@@ -1,0 +1,32 @@
+"""
+Definition for a undirected graph node
+class UndirectedGraphNode:
+    def __init__(self, x):
+        self.label = x
+        self.neighbors = []
+"""
+
+
+class Solution:
+    """
+    @param: node: A undirected graph node
+    @return: A undirected graph node
+    """
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        if not node:
+            return
+        new_start_node = UndirectedGraphNode(node.label)
+        mapping = {node : new_start_node}
+        queue = collections.deque([node])
+        while queue:
+            current_node = queue.popleft()
+            new_node = mapping[current_node]
+            for next_node in current_node.neighbors:
+                if next_node not in mapping:
+                    next_new_node = UndirectedGraphNode(next_node.label)
+                    mapping[next_node] = next_new_node
+                    queue.append(next_node)
+                else:
+                    next_new_node = mapping[next_node]
+                new_node.neighbors.append(next_new_node)
+        return new_start_node
