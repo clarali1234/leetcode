@@ -5,7 +5,6 @@ class Solution:
     """
     def alienOrder(self, words):
         # Write your code here
-        indegree = [0] * 26
         graph = self.build_graph(words)
         return self.topological_sort(graph)
         
