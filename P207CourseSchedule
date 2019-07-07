@@ -1,0 +1,22 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        indegree = [0] * numCourses
+        neighbor = {i: [] for i in range(numCourses)}
+        
+        for i, j in prerequisites:
+            neighbor[j].append(i)
+            indegree[i] += 1
+        
+        queue, count = [], 0
+        for index in range(numCourses):
+            if indegree[index] == 0:
+                queue.append(index)
+        
+        while len(queue) > 0:
+            course = queue.pop(0)
+            count += 1
+            for c in neighbor[course]:
+                indegree[c] -= 1
+                if indegree[c] == 0:
+                    queue.append(c)
+        return count == numCourses
