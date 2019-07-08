@@ -7,7 +7,7 @@ class Solution:
         if start > end:
             return -1
         
-        mid = (start + end) // 2
+        mid = start + (end - start) //2
         if nums[mid] == target:
             return mid
         if nums[mid] < target:
@@ -17,30 +17,26 @@ class Solution:
         
 # binary search
 
-class Solution:
-    def search(self, nums: List[int], target: int) -> int:
+class Solution():
+    def search(self, nums, target):
         if not nums:
             return -1
         
         left, right = 0, len(nums) - 1
         while left + 1 < right:
-            mid = (left + right) // 2
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid   # if find last position, start = mid; if find fist, end = mid
             if nums[mid] < target:
                 left = mid + 1
-            elif nums[mid] == target:
-                right = mid 
-             # return mid for casual position
-             # right = mid for first position
-             # left = mid for last position and the following check right first
             else:
                 right = mid - 1
-        
-        # the order can be changed according finding first position or last position
+                
         if nums[left] == target:
-            return left
+            return left         # if find last positon, check right first
         if nums[right] == target:
             return right
-        
+    
         return -1
        
         
