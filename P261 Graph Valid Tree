@@ -1,0 +1,21 @@
+class Solution:
+    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+        if len(edges) != n - 1:
+            return False
+        neighbors = {i: set() for i in range(n)}
+        
+        for i, j in edges:
+            neighbors[i].add(j)
+            neighbors[j].add(i)
+            
+        visited = set()
+        queue = collections.deque([0])
+        while queue:
+            node = queue.popleft()
+            if node in visited:
+                return False
+            for neighbor in neighbors[node]:
+                queue.append(neighbor)
+                neighbors[neighbor].remove(node)
+            visited.add(node)
+        return len(visited) == n
