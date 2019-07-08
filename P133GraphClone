@@ -15,18 +15,24 @@ class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
             return
+        
+        
         new_start_node = UndirectedGraphNode(node.label)
+        # copy start node, store the old to new information in a hash map
         mapping = {node : new_start_node}
+        
+        # use bfs to traverse all the nodes and copy nodes and edges information
         queue = collections.deque([node])
         while queue:
-            current_node = queue.popleft()
-            new_node = mapping[current_node]
-            for next_node in current_node.neighbors:
-                if next_node not in mapping:
-                    next_new_node = UndirectedGraphNode(next_node.label)
-                    mapping[next_node] = next_new_node
-                    queue.append(next_node)
+            node = queue.popleft()
+            new_node = mapping[node]
+            for neighbor in node.neighbors:
+                if neighbor not in mapping:
+                    new_neighbor = UndirectedGraphNode(neighbor.label)
+                    mapping[neighbor] = new_neighbor
+                    queue.append(neighbor)
                 else:
-                    next_new_node = mapping[next_node]
-                new_node.neighbors.append(next_new_node)
+                    new_neighbor = mapping[neighbor]
+                new_node.neighbors.append(new_neighbor)
         return new_start_node
+        
