@@ -1,0 +1,29 @@
+# return maximum average
+# time O(n)
+# space O(h)
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maximumAverageSubtree(self, root: TreeNode) -> float:
+        self.average = 0
+        self.helper(root)
+        return self.average
+
+    def helper(self, root):
+        if not root:
+            return 0, 0
+        left_sum, left_size = self.helper(root.left)
+        right_sum, right_size = self.helper(root.right)
+        sum_new = left_sum + right_sum + root.val
+        size_new = left_size + right_size + 1
+        average_new = sum_new / size_new
+        self.average = max(average_new, self.average)
+        return sum_new, size_new
