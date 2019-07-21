@@ -19,3 +19,6 @@ class Solution:
         self.helper(root.right, count)
 
 ## 非递归实现中序遍历，防止stack overflow
+## follow up
+add a count variable to each of the tree node which is used to represent the num of nodes in its left subtree
+and then use quick sort to find k-th smallest element
