@@ -17,3 +17,5 @@ class Solution:
         self.helper(root.left, count)
         count.append(root.val)
         self.helper(root.right, count)
+
+## 非递归实现中序遍历，防止stack overflow
