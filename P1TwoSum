@@ -1,9 +1,17 @@
+# dictionary
+# time O(n)
+# space O(n)
+
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         hash_table = {}
         for i in range(len(nums)):
             second_num = target - nums[i]
             if second_num in hash_table:
-                return [hash_table[second_num], i]
+                return [i, hash_table[second_num]]
             else:
                 hash_table[nums[i]] = i
+                
+ # two pointers
+ # time O(nlgn)
+ # space O(1)
