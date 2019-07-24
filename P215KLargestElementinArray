@@ -1,0 +1,35 @@
+# quick select O(n) time 
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return None
+        return self.partition(nums, 0, len(nums)- 1, len(nums) - k)
+        
+    # choose the random element as pivot
+    # it considers the last element as pivot and 
+    # moves all smaller element to the left of it 
+    # and greater elements to the right
+    def partition(self, nums, start, end, k):
+        if start == end:
+            return nums[k]
+            
+        pivot = nums[end]
+        left, right = start, end
+        while left <= right:
+            while left <= right and nums[left] < pivot:
+                left += 1 
+            while left <= right and nums[right] > pivot:
+                right -= 1 
+            if left <= right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left, right = left + 1, right - 1
+        
+        # left is no bigger than right
+        if k <= right:
+            return self.partition(nums, start, right, k)
+        if k >= left:
+            return self.partition(nums, left, end, k)
+        return nums[k]
+            
+        
