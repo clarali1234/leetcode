@@ -21,3 +21,27 @@ class Solution:
                 left += 1
                 right -= 1
         return left
+        
+        
+# one time partition
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        # one time partition 
+        # index which is smaller than left is 1
+        # index which is larger than right is 2
+        # traverse the array by index
+        left, index, right = 0, 0, len(nums) - 1
+        
+        while index <= right:
+            if nums[index] == 0:
+                nums[left], nums[index] = nums[index], nums[left]
+                index += 1
+                left += 1
+            elif nums[index] == 2:
+                nums[index], nums[right] = nums[right], nums[index]
+                right -= 1
+            else:
+                index += 1
