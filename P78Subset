@@ -1,0 +1,27 @@
+# dfs + recursiom
+# time space O(n*2^n)
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return 
+    
+        result = []
+        self.dfs(nums, 0, [], result)
+        return result
+    
+    def dfs(self, nums, index, cur_subset, result):
+        # 递归的出口
+        if index == len(nums):
+            result.append(list(cur_subset))
+            return 
+        
+        #递归的拆解
+        # 选nums【index】
+        cur_subset.append(nums[index])
+        self.dfs(nums, index + 1, cur_subset, result)
+        
+        # 不选nums[index]
+        cur_subset.pop()
+        self.dfs(nums, index + 1, cur_subset, result)
+        
