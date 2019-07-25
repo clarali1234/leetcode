@@ -25,3 +25,21 @@ class Solution:
         cur_subset.pop()
         self.dfs(nums, index + 1, cur_subset, result)
         
+        
+# combination 
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        result = []
+        if not nums:
+            return result
+        
+        self.dfs(nums, 0, [], result)
+        return result
+        
+    def dfs(self, nums, start_index, cur_subset, result):
+        result.append(list(cur_subset))
+        
+        for i in range(start_index, len(nums)):
+            cur_subset.append(nums[i])
+            self.dfs(nums, i+ 1, cur_subset, result)
+            cur_subset.pop()
