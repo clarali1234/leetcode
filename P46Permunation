@@ -1,0 +1,28 @@
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        if nums is None:
+            return []
+        if nums is []:
+            return [[]]
+        
+        result = []
+        visited = len(nums) * [False]
+        self.dfs(nums, visited, [], result)
+        return result
+    
+    def dfs(self, nums, visited, permutation, result):
+        if len(nums) == len(permutation):
+            result.append(list(permutation))
+            return 
+        
+        for i in range(len(nums)):
+            if visited[i]:
+                continue
+            # [] -> [1]
+            permutation.append(nums[i])
+            visited[i] = True
+            self.dfs(nums, visited, permutation, result)
+            # [] ->[2]
+            visited[i] = False
+            permutation.pop()
+                
