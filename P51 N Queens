@@ -1,0 +1,30 @@
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        self.dfs([-1] * n, 0, [], res)
+        return res
+    
+    # nums is a one-dimension array, like [1, 3, 0, 2] means
+    # first queen is placed in column 1, second queen is placed
+    # in column 3, etc.
+    
+    def dfs(self, nums, index, path, res):
+        if index == len(nums):
+            res.append(path)
+            # backtracking
+            return          
+        
+        for i in range(len(nums)):
+            nums[index] = i
+            # pruning
+            if self.valid(nums, index):
+                tmp = '.' * len(nums)
+                self.dfs(nums,index + 1, path + [tmp[:i] + "Q" + tmp[i+1:]], res)
+    
+    # check whether nth queen can be placed in that column
+    def valid(self, nums, n):
+        for i in range(n):
+    # check if the nth queen and each of the previous queen are in the same diagonal OR same column
+            if abs(nums[i] - nums[n]) == n - i or nums[i] == nums[n]:
+                return False
+        return True
