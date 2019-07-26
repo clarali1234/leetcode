@@ -1,0 +1,60 @@
+  # time O(n*m) n: wordlist length, m:word length
+  # space O(n*m^2) distance or O(m)???
+
+from collections import defaultdict
+from  collections import deque
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        if endWord not in wordList:
+            return []
+        wordList.append(beginWord)
+        indexes = self.build_indexes(wordList)
+        distance = self.bfs(endWord, indexes)
+        
+        result = []
+        self.dfs(beginWord, endWord, distance, indexes, [beginWord], result)
+        
+        return result
+    
+    def build_indexes(self, wordList):
+        indexes = {}
+        for word in wordList:
+            for i in range(len(word)):
+                key = word[:i] + '_' + word[i + 1:]
+                if key in indexes:
+                    indexes[key].add(word)
+                else:
+                    indexes[key]  = set([word])
+        return indexes
+    
+    def bfs(self, end, indexes):
+        distance = {end: 0}
+        queue = deque([end])
+        while queue:
+            word = queue.popleft()
+            for next_word in self.get_next_words(word, indexes):
+                if next_word not in distance:
+                    distance[next_word] = distance[word]  + 1
+                    queue.append(next_word)
+        return distance
+    
+    def get_next_words(self, word, indexes):
+        words = []
+        for i in range(len(word)):
+            key = word[:i] + '_' + word[i+1:]
+            for w in indexes.get(key, []):
+                words.append(w)
+        return words
+    
+    def dfs(self, curt, target, distance, indexes, path, result):
+        if curt == target:
+            result.append(list(path))
+            return 
+        
+        for word in self.get_next_words(curt, indexes):
+            if curt not in distance or word not in distance or distance[word] != distance[curt] - 1:
+                continue
+            path.append(word)
+            self.dfs(word, target,  distance, indexes, path, result)
+            path.pop()
+        
