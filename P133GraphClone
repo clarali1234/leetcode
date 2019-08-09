@@ -2,26 +2,24 @@
 # time O(v+e)
 # space O(v)
 
-class Solution():
+class Solution:
     def cloneGraph(self, node):
-        """
-        :type node: Node
-        :rtype: Node
-        """
-        que = collections.deque()
-        hashd = dict()
-        que.append(node)
+        
+        visited = {}
+        queue = collections.deque([node])
         node_copy = Node(node.val, [])
-        hashd[node] = node_copy
-        while que:
-            t = que.popleft()
-            if not t: continue
-            for n in t.neighbors:
-                if n not in hashd:
-                    hashd[n] = Node(n.val, [])
-                    que.append(n)
-                hashd[t].neighbors.append(hashd[n])
-        return node_copy
+        visited[node] = node_copy
+        
+        while queue:
+            cur_node = queue.popleft()
+            if not cur_node:
+                continue
+            for neighbor in cur_node.neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = Node(neighbor.val, [])
+                    queue.append(neighbor) 
+                visited[cur_node].neighbors.append(visited[neighbor])
+        return node_copy      
         
 # DFS
 
