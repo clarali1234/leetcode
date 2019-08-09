@@ -1,3 +1,9 @@
+# serilization is the process of converting the data structure into a sequence string that it can be transmitted across a network
+# link to reconstructed later in the same or another computer environment.
+
+# serilization: object to string
+# deserilization: string to object
+
 # Definition for a binary tree node.
 # class TreeNode(object):
 #     def __init__(self, x):
