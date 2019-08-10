@@ -1,5 +1,8 @@
+# 判断是否为tree
+# 1. n - 1 edges 2. 无环
+
 class Solution:
-    def validTree(self, n: int, edges: List[List[int]]) -> bool:
+    def validTree(self, n, edges):
         if len(edges) != n - 1:
             return False
         neighbors = {i: set() for i in range(n)}
