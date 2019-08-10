@@ -1,3 +1,6 @@
+# BFS time O(r*c), space O(r*c)
+
+
 # DFS
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
