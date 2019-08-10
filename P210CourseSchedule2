@@ -1,31 +1,42 @@
+# BFS
+# same as CourseSchedule
+
 class Solution:
-    """
-    @param: numCourses: a total of n courses
-    @param: prerequisites: a list of prerequisite pairs
-    @return: the course order
-    """
-    def findOrder(self, numCourses, prerequisites):
-        # write your code here
-        indegrees = [0] * numCourses
-        neighbors = {i: [] for i in range(numCourses)}
-        for i, j in prerequisites:
+    def findOrder(self, numCourses, prerequisities):
+        indegree = [0] * numCourses
+        neighbors = {course : [] for course in range(numCourses)}
+        
+        for i, j in prerequisities:
+            indegree[i] += 1
             neighbors[j].append(i)
-            indegrees[i] += 1
-            
-        start_nodes = [node for node in range(numCourses) if indegrees[node] == 0]
-        queue = collections.deque(start_nodes)
+        
+        queue = []
+        result = []
+        for course in range(numCourses):
+            if indegree[course] == 0:
+                queue.append(course)
                 
-        order = []
-        while queue:
-            node = queue.popleft()
-            order.append(node)
-            
-            for neighbor in neighbors[node]:
-                indegrees[neighbor] -= 1
-                if indegrees[neighbor] == 0:
+        while len(queue) > 0:
+            course = queue.pop(0)
+            result.append(course)
+            for neighbor in neighbors[course]:           
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
                     queue.append(neighbor)
                     
-        if len(order) == numCourses:
-            return  order
+        if len(result) == numCourses:
+            return result
         else:
             return []
+                        
+        
+        
+        
+        
+    
+                             
+                
+        
+        
+        
+        
