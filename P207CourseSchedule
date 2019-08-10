@@ -1,22 +1,40 @@
+# topological sort by BFS
+# time O(numCourses + len(prerequisities)
+# space O(numCourses)
+# 思路 queue.pop（0）说明完成了该course, count += 1, 要所有先修课都修完（indegree = 0)时该课程才会上完
+
+
 class Solution:
-    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    def canFinish(self, numCourses, prerequisities):
         indegree = [0] * numCourses
-        neighbor = {i: [] for i in range(numCourses)}
+        neighbors = {course:[] for course in range(numCourses)}
         
-        for i, j in prerequisites:
-            neighbor[j].append(i)
+        
+        for i, j in prerequisities:
             indegree[i] += 1
+            neighbors[j].append(i)
         
-        queue, count = [], 0
-        for index in range(numCourses):
-            if indegree[index] == 0:
-                queue.append(index)
+        count = 0
+        queue = []
+        for course in range(numCourses):
+            if indegree[course] == 0:
+                queue.append(course)
         
         while len(queue) > 0:
             course = queue.pop(0)
             count += 1
-            for c in neighbor[course]:
-                indegree[c] -= 1
-                if indegree[c] == 0:
-                    queue.append(c)
-        return count == numCourses
+            for neighbor in neighbors[course]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+                    
+        return count == numCourses             
+        
+        
+        
+    
+        
+        
+        
+        
+        
