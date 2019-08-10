@@ -1,3 +1,13 @@
+# BFS topo sort
+# Time Complexity: The first step to create a graph takes O(n + alhpa) time where n is number of given words and alpha 
+# is number of characters in given alphabet. The second step is also topological sorting. 
+# Note that there would be alpha vertices and at-most (n-1) edges in the graph. 
+# The time complexity of topological sorting is O(V+E) which is O(n + aplha) here. 
+# So overall time complexity is O(n + aplha) + O(n + aplha) which is O(n + aplha).
+
+
+
+
 class Solution:
     """
     @param words: a list of words
@@ -60,3 +70,62 @@ class Solution:
             return order
         return  ""
                 
+                
+                
+ class Solution:
+    def alienOrder(self, words):        
+        graph = self.build_graph(words)
+        return self.bfs(graph)
+        
+    def build_graph(self, words):        
+        graph = {}
+        
+        for word in words:
+            for char in word:
+                if char not in graph:
+                    graph[char] = set()
+        
+        for i in range(len(words) - 1):
+            word_first = words[i]
+            word_second = words[i + 1]
+            length = min(len(word_first), len(word_second))
+            for j in range(length):
+                if word_first[j] != word_second[j]:
+                    graph[word_first[j]].add(word_second[j])
+                    break
+                    
+        return graph
+        
+    def bfs(self, graph):
+        indegree = {node : 0 for node in graph}
+        
+        for char in graph:
+            for neighbor in graph[char]:
+                indegree[neighbor] += 1
+                
+        queue = []      
+        for node in graph:
+            if indegree[node] == 0:
+                queue.append(node)
+                    
+                    
+        order = ''                    
+        while len(queue) > 0:
+            node = queue.pop(0)
+            order += node
+            for neighbor in graph[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+                    
+        if len(order) == len(graph):
+            return order
+        else:
+            return ''                
+                         
+                        
+                    
+                    
+                
+             
+                                   
