@@ -5,6 +5,7 @@ class Solution:
         return string_no_cases == string_no_cases[::-1]
         
 # method 2, without extra space
+# time O(n), space O(1)
 class Solution:
     def isPalindrome(self, s: str) -> bool:
         left, right = 0, len(s) - 1
