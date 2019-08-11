@@ -1,6 +1,8 @@
 ## convert to two sum
-# time O(n^2)
-# space O(n^2)
+# time O(n^2) （sort: O(nlgn), algo: O(n^2))
+# space O(1)
+# 思路： 枚举第一个数，然后进行two sum, 若第一个数和前一个数相同则跳过
+# 固定第一个数，对于two sum,当找到一个triple时，则继续进行search，再次判断当前的数是否和前一个数相同
 
 class Solution:
     def threeSum(self, nums):
