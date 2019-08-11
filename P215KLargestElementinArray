@@ -2,8 +2,7 @@
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        if not nums:
-            return None
+
         return self.partition(nums, 0, len(nums)- 1, len(nums) - k)
         
     # choose the random element as pivot
@@ -11,9 +10,6 @@ class Solution:
     # moves all smaller element to the left of it 
     # and greater elements to the right
     def partition(self, nums, start, end, k):
-        if start == end:
-            return nums[k]
-            
         pivot = nums[end]
         left, right = start, end
         while left <= right:
