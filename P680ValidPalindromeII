@@ -1,3 +1,6 @@
+# time O(n)
+# space O(1)
+
 # use helper function is_palindrome 
 
 class Solution:
