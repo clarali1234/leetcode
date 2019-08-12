@@ -1,0 +1,24 @@
+# time O(klgk)
+# space O(k)
+
+
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n = len(matrix)
+        m = len(matrix[0])
+        if m == 0 or n == 0:
+            return None
+        
+        heapmin = [(matrix[0][0], 0, 0)]
+        visited = set([])
+        num = None
+        
+        for _ in range(k):
+            num, x, y = heapq.heappop(heapmin)
+            if x + 1 < n and (x + 1) * m + y not in visited:
+                heapq.heappush(heapmin, (matrix[x + 1][y], x + 1, y))
+                visited.add((x + 1) * m + y)
+            if y + 1 < m and x * m + y + 1 not in visited:
+                heapq.heappush(heapmin, (matrix[x][y + 1], x, y + 1))
+                visited.add(x * m + y + 1)
+        return num
