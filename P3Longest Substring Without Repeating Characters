@@ -1,0 +1,20 @@
+# two pointers 
+# time O(n), space O(1)
+
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+
+        length = 0
+        fast = 0
+        unique_char = set([])
+        
+        for slow in range(len(s)):
+            while fast < len(s) and s[fast] not in unique_char:
+                unique_char.add(s[fast])
+                fast += 1
+            length = max(length, fast - slow)
+            unique_char.remove(s[slow])
+                
+        return length
+                
