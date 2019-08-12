@@ -1,0 +1,26 @@
+# time O(n)
+# space O(n)
+
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        if not s or k == 0:
+            return 0
+        
+        length = 0
+        fast = 0 
+        counter = {}
+        
+        for slow in range(len(s)):
+            while fast < len(s) and (len(counter) < k or s[fast] in counter):
+                counter[s[fast]] = counter.get(s[fast], 0) + 1
+                fast += 1
+                
+            length = max(length, fast - slow)
+            
+            if counter[s[slow]] > 1:
+                counter[s[slow]] -= 1
+            else:
+                del counter[s[slow]]
+                
+        return length
+                
