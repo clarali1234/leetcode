@@ -1,0 +1,43 @@
+# time O(n) n:len(s)
+# space O(n + m)
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not s:
+            return ''
+        
+        target_hash = self.get_target_hash(t)
+        current_hash = {}
+        target_char_num = len(target_hash)
+        matched_char_num = 0
+        
+        fast = 0
+        min_string = ''
+        min_length = len(s) + 1
+        
+        for slow in range(len(s)):
+            while fast < len(s) and matched_char_num < target_char_num:
+                if s[fast] in target_hash:
+                    current_hash[s[fast]] = current_hash.get(s[fast], 0) + 1
+                    if current_hash[s[fast]] == target_hash[s[fast]]:
+                        matched_char_num += 1
+                fast += 1
+                
+            if min_length > fast - slow and matched_char_num == target_char_num:
+                min_length = min(min_length, fast - slow)
+                min_string = s[slow:fast]
+            
+            if s[slow] in target_hash:
+                if current_hash[s[slow]] == target_hash[s[slow]]:
+                    matched_char_num -= 1
+                current_hash[s[slow]] -= 1
+        return min_string
+                
+    def get_target_hash(self, target):
+        target_hash = {}
+        for c in target:
+            target_hash[c] = target_hash.get(c, 0) + 1
+        return target_hash
+        
+            
+        
