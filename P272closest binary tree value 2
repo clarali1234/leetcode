@@ -1,5 +1,5 @@
 # non-recursion inorder traversal
-# time O(n), space O(h)
+# time O(n), space O(n)
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -32,3 +32,51 @@ class Solution:
                 res.append(root.val)
                 root = root.right
         return res
+        
+        
+ # follow up assume that the BST is balanced, could you solve it in less than O(n) runtime (where n = total nodes)?
+ # time O(klgn), space O(lgn + K)
+ # Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def closestKValues(self, root: TreeNode, target: float, k: int) -> List[int]:
+        res = []
+        large, small = [], []
+        while root:
+            if root.val < target:
+                small.append(root)
+                root = root.right
+            else:
+                large.append(root)
+                root = root.left
+        
+        for _ in range(k):
+            if small and (not large or large and (target - small[-1].val) <= (large[-1].val - target)):
+                res.append(self.precessor(small))
+            else:
+                res.append(self.successor(large))
+        return res
+                 
+    def precessor(self, small):
+        cur_node = small.pop()
+        node = cur_node.left
+        while node:
+            small.append(node)
+            node = node.right
+        return cur_node.val
+    def successor(self, large):
+        cur_node = large.pop()
+        node = cur_node.right
+        while node:
+            large.append(node)
+            node = node.left
+        return cur_node.val
+        
+        
+            
+        
