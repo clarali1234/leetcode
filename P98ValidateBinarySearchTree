@@ -9,15 +9,14 @@
 
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
-        if root is None:
+        if not root:
             return True
-        return self.is_valid_helper(root, None, None)
-        
-    def is_valid_helper(self, root, maximum, minimum):
-        if root is None:
+        return self.helper(root, sys.maxsize, -sys.maxsize)
+    
+    def helper(self, node, maximum, minimum):
+        if not node:
             return True
-        if maximum != None and root.val >= maximum or minimum != None and root.val <= minimum:
+        if node.val >= maximum or node.val <= minimum:
             return False
-        left = self.is_valid_helper(root.left, root.val, minimum)
-        right = self.is_valid_helper(root.right, maximum, root.val)
-        return left and right# Definition for a binary tree node.
+        return self.helper(node.left, node.val, minimum) and self.helper(node.right, maximum, node.val)
+        
