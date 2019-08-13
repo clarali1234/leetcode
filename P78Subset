@@ -1,5 +1,6 @@
 # dfs + recursiom
-# time space O(n*2^n)
+# time  O(n*2^n)
+# space O(n)
 
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
