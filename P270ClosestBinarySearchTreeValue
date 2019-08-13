@@ -7,20 +7,23 @@
 
 class Solution:
     def closestValue(self, root: TreeNode, target: float) -> int:
-        self.closest = float('inf')
-        return self.helper(root, target)
-    
-    def helper(self, root, target):
         if not root:
             return 
         
-        if abs(root.val - target) < abs(self.closest - target):
-            self.closest = root.val
-        
-        if target < root.val:
-            self.helper(root.left, target)
-        
-        if target > root.val:
-            self.helper(root.right, target)
+        self.closest = - sys.maxsize
+        self.helper(root, target)
         return self.closest
+        
+    def helper(self, node, target):
+        if not node:
+            return
+        
+        if abs(node.val - target) < abs(self.closest - target):
+            self.closest = node.val
+            
+        if target < node.val:
+            self.helper(node.left, target)
+            
+        if target > node.val:
+            self.helper(node.right, target)
         
