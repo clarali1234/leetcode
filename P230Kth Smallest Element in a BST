@@ -1,3 +1,5 @@
+# inorder traversal, BST 非减序列
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -7,18 +9,23 @@
 
 class Solution:
     def kthSmallest(self, root: TreeNode, k: int) -> int:
-        count = []
-        self.helper(root, count)
-        return count[k - 1]
+        value = []
+        self.dfs(root, value)
+        return value[k - 1]
     
-    def helper(self, root, count):
-        if not root:
-            return None
-        self.helper(root.left, count)
-        count.append(root.val)
-        self.helper(root.right, count)
+    def dfs(self, node, value):
+        if not node:
+            return 
+        
+        self.dfs(node.left, value)
+        value.append(node.val)
+        self.dfs(node.right, value)
+
 
 ## 非递归实现中序遍历，防止stack overflow
-## follow up
-add a count variable to each of the tree node which is used to represent the num of nodes in its left subtree
-and then use quick sort to find k-th smallest element
+
+# follow up
+# 在 TreeNode 中增加一个 counter，代表整个树的节点个数
+#在增删查改的过程中记录不断更新受影响节点的 counter
+#在 kthSmallest 的实现中用类似 Quick Select 的算法去找到 kth smallest element 时间复杂度为 O(h)，h 为树的高度。
+
