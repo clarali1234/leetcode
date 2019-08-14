@@ -1,3 +1,6 @@
+# worst case time O(n^2)
+
+
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
         res = []
@@ -32,3 +35,31 @@ class Solution:
             if abs(nums[i] - nums[n]) == n - i or nums[i] == nums[n]:
                 return False
         return True
+
+
+
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        result = []
+        nums = [-1] * n
+        self.dfs(nums, 0, [], result)
+        return result
+    
+    
+    def dfs(self, nums, index, path, result):
+        if index == len(nums):
+            result.append(list(path))
+            return 
+            
+        for i in range(len(nums)):
+            nums[index] = i
+            if self.valid(nums, index):
+                temp = '.' * len(nums)
+                self.dfs(nums, index + 1, path + [temp[: i] + 'Q' + temp[i + 1: ]], result)
+                
+    def valid(self, nums, index):
+        for i in range(index):
+            if abs(nums[i] - nums[index]) == index - i or nums[i] == nums[index]:
+                return False
+        return True
+            
