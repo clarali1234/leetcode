@@ -1,4 +1,5 @@
-# worst case time O(n^2)
+# worst case time O(n!)
+# using backtracking O(n!)
 
 
 class Solution:
