@@ -1,0 +1,23 @@
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        if not nums:
+            return 
+        
+        nums.sort()
+        result = []
+        self.dfs(nums, [], result)
+        return result
+    
+    def dfs(self, nums, permutation, result):
+        if len(nums) == 0:
+            result.append(list(permutation))
+        
+        for i in range(len(nums)):
+            if i and nums[i] == nums[i - 1]:
+                continue
+            
+            permutation.append(nums[i])
+            self.dfs(nums[0 : i] + nums[i + 1 : ], permutation, result)
+            
+            permutation.pop()
+        
