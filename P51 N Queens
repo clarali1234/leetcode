@@ -8,6 +8,8 @@ class Solution:
     # first queen is placed in column 1, second queen is placed
     # in column 3, etc.
     
+    # index 代表第几个棋
+    
     def dfs(self, nums, index, path, res):
         if index == len(nums):
             res.append(path)
@@ -17,6 +19,8 @@ class Solution:
         for i in range(len(nums)):
             nums[index] = i
             # pruning
+            
+            # 检查这里第index个棋的位置是否和前面的冲突
             if self.valid(nums, index):
                 tmp = '.' * len(nums)
                 self.dfs(nums,index + 1, path + [tmp[:i] + "Q" + tmp[i+1:]], res)
