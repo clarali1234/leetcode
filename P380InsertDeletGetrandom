@@ -1,3 +1,6 @@
+# hash insert, delete O(1), O(1),但是不支持随机访问
+# 所以用hash + array, array 储存元素，hash key:element, value: element index in array
+
 class RandomizedSet:
 
     def __init__(self):
