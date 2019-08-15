@@ -1,10 +1,6 @@
-#用 HashMap 存储 number to a list of indices in numbers array. 也就是说，把某个数在数组中出现的所有的位置用 List 的形式存储下来
-#这样子的话，删除一个数的时候，就是从这个 list 里随便拿走一个数（比如最后一个数）
-#但是还需要解决的问题是，原来的算法中，删除一个数的时候，需要拿 number array 的最后个位置的数，来覆盖掉被删除的数。那这样原本在最后一个位置的数，他在 HashMap 里的记录就应该相应的变化。
-#但是，我们只能得到这个移动了的数是什么，而这个被移动过的数，可能出现在好多个位置上，去要从 HashMap 里得到的 indices 列表里，改掉那个 index=当前最后一个位置的下标。
-#所以这里的做法是，修改 number array，不只是存储 Number，同时存储，这个数在 HashMap 的 indices 列表中是第几个数。这样就能直接去改那个数的值了。否则还得 for 循环一次，就无法做到 O(1)
-
-
+# 知道思路即可
+# hash: key:element, value:[] index of elements in array
+# array [[], []] array中每一个元素，第一部分是element的数值，第二个元素是该数值的index在hash表value中的位置
 
 
 
