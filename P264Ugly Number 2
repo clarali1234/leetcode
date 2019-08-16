@@ -1,4 +1,9 @@
-# time O(nlgn)
+# bruce-force method: 找到N个丑数<1690, then排序找到nth最小的
+# time O(NlgN), space O(N)
+
+
+
+# time O(n), space O(n)
 
 import heapq
 
