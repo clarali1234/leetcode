@@ -16,7 +16,7 @@ class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
         dic = collections.Counter(words)
         heap = [(-val, key) for key, val in dic.items()]
-        minheap = heapq.heapify(heap)
+        heapq.heapify(heap)
         result = []
         for _ in range(k):
             result.append(heapq.heappop(heap)[1])
