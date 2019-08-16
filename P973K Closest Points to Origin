@@ -1,3 +1,13 @@
+# We keep a min heap of size K.
+# For each item, we insert an item to our heap.
+# If inserting an item makes heap size larger than k, then we immediately pop an item after inserting ( heappushpop ).
+
+# Runtime:
+# Inserting an item to a heap of size k take O(logK) time.
+# And we do this for each item points.
+# So runtime is O(N * logK) where N is the length of points.
+
+# Space: O(K) for our heap.
 # time O(n*lgk)
 # space O(k)
 
