@@ -1,0 +1,59 @@
+# method 1: priority queue
+# 遍历所有的node, 每次从长度为k的priority queue里面取出最小的
+# time O(nklgk)， space O(k)
+
+from queue import PriorityQueue
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        dummy = ListNode(0)
+        q = PriorityQueue()
+        
+        for node in lists:
+            current = node
+            while current:
+                q.put(current.val)
+                current = current.next
+                
+        current = dummy 
+        while not q.empty():
+            current.next = ListNode(q.get())
+            current = current.next
+        
+        return dummy.next
+
+
+
+
+
+# method 2: divide and conquer
+# time O(nklgk), space O(lgk) -> O(1)
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists:
+            return None
+        dummy = ListNode(0)
+        while len(lists) > 1:
+            merged = []
+            while len(lists) > 1:
+                merged.append(self.merge_two(lists.pop(), lists.pop(), dummy))
+            lists += merged
+        return lists[0]
+    
+        
+    def merge_two(self, l1, l2, dummy):
+        current = dummy
+        while l1 and l2:
+            if l1.val <= l2.val:
+                current.next = l1
+                l1 = l1.next
+            else:
+                current.next = l2
+                l2 = l2.next
+            current = current.next
+        current.next = l1 or l2
+        return dummy.next
+                
+        
+
