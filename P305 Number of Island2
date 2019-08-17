@@ -1,0 +1,47 @@
+# For our problem, If there are N positions, then there are O(N) operations and N objects then total is O(N log*N), when we don't consider the O(mn) for array initialization.
+
+directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
+
+class Solution:
+    def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
+        self.size = 0
+        self.father = {}
+        self.island = set([])
+        self.res = []
+        
+        for position in positions:
+            x = position[0]
+            y = position[1]
+            if (x, y) in self.island:
+                self.res.append(self.size)
+                continue
+                
+            self.father[(x, y)] = (x, y)
+            self.island.add((x,y))
+            self.size += 1
+            
+            for direction in directions:
+                x_ = direction[0] + x
+                y_ = direction[1] + y
+                if (x_, y_) in self.island:
+                    self.union((x_,y_), (x,y))
+            self.res.append(self.size)
+        return self.res
+                
+    def union(self, a, b):
+        root_a = self.find(a)
+        root_b = self.find(b)
+        if root_a != root_b:
+            self.father[root_a] = root_b
+            self.size -= 1
+    
+    def find(self, node):
+        path = []
+        while self.father[node] != node:
+            node = self.father[node]
+            path.append(node)
+        for n in path:
+            self.father[n] = node
+        return node
+            
+        
