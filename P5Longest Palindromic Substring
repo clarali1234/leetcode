@@ -1,0 +1,77 @@
+# method1, DP, O(n^2)
+# method2, emumeration, O(n^2)
+# method3, rabin-karp O(n)
+
+
+# DP: 基于区间型动态规划的解法
+# state variable:
+# start index and end index of a substring can identify a state, which influences our decision
+# so state variable is state(s, e) indicates whether str[s, e] is palindromic
+# goal state:
+# max(e - s + 1) that makes state(s, e) = true
+# state transition:
+# Let's observe example base cases
+
+# for s = e, "a" is palindromic,
+# for s + 1 = e, "aa" is palindromic (if str[s] = str[e])
+# for s + 2 = e, "aba" is palindromic (if str[s] = str[e] and "b" is palindromic)
+# for s + 3 = e, "abba" is palindromic (if str[s] = str[e] and "bb" is palindromic)
+# we realize that
+
+# for s + dist = e, str[s, e] is palindromic if str[s] == str[e] and str[s + 1, e - 1] is palindromic
+# state transition equation:
+
+# state(s, e) is true:
+# for s = e, 
+# for s + 1 = e,  if str[s] == str[e]
+# for s + 2 <= e, if str[s] == str[e] && state(s + 1, e - 1) is true
+
+
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s:
+            return ''
+        
+        n = len(s)
+        is_palindrome = [[False] * n for _ in range(n)]
+        
+        for i in range(n):
+            is_palindrome[i][i] = True
+        for i in range(1, n):
+            is_palindrome[i][i - 1] = True
+            
+        longest, start, end = 1, 0, 0
+        for length in range(1, n):
+            for i in range(n - length):
+                j = i + length
+                is_palindrome[i][j] = (s[i] == s[j] and is_palindrome[i + 1][j - 1])
+                if is_palindrome[i][j] and length + 1 > longest:
+                    longest = length + 1 
+                    start, end = i, j
+        return s[start:end + 1]
+
+# method2, emumeration, O(n^2)
+class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        if not s:
+            return ''
+        
+        longest = ''
+        for middle in range(len(s)):
+            sub = self.find_palindrome_from(s, middle, middle)
+            if len(sub) > len(longest):
+                longest = sub
+            sub = self.find_palindrome_from(s, middle, middle + 1)
+            if len(sub) > len(longest):
+                longest = sub
+        return longest
+    
+    def find_palindrome_from(self, string, left, right):
+        while left >= 0 and right < len(string) and string[left] == string[right]:
+            left -= 1
+            right += 1
+        return string[left + 1 : right]
+        
+        
+  # rabin-karp O(n)
+
