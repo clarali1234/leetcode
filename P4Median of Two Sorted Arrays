@@ -1,0 +1,38 @@
+# time O(lg(m+n)), 提示用binary search, 注意two pointers O(m+n)
+# 边界条件复杂
+
+# O(lgm + lgn)) is same as O(lg(m+n))
+# since, lg(m+n) <= lgm * lgn <= 2lg(m+2)
+
+class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        l = len(nums1) + len(nums2)
+        if l % 2 == 1:
+            return self.kth(nums1, nums2, l // 2)
+        else:
+            return (self.kth(nums1, nums2, l // 2) + self.kth(nums1, nums2, l //2 - 1)) / 2
+        
+    def kth(self, nums1, nums2, k):
+        if not nums1:
+            return nums2[k]
+        if not nums2:
+            return nums1[k]
+        
+        index1, index2 = len(nums1) // 2, len(nums2) // 2
+        n1, n2 = nums1[index1], nums2[index2]
+        
+        # when k > index1 + index
+        if index1 + index2 < k:
+            # if a's median is bigger than b's, b's first half doesn't include k
+            if n1 > n2:
+                return self.kth(nums1, nums2[index2 + 1:], k - index2 - 1)
+            else:
+                return self.kth(nums1[index1 + 1:], nums2, k - index1 -1)
+        else:
+            # if a's median is bigger than b's, a's second half doesn't include k
+            if n1 > n2:
+                return self.kth(nums1[:index1], nums2, k)
+            else:
+                return self.kth(nums1, nums2[:index2], k)
+        
+        
