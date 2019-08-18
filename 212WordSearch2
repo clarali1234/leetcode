@@ -1,0 +1,65 @@
+# 首先建立字典树，字典树从root开始。利用字母的公共前缀建树。
+# 遍历字母矩阵，将字母矩阵的每个字母，从root开始dfs搜索，搜索到底部时，将字符串存入答案返回即可。
+
+
+directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_word = False
+        self.word = None
+                
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def add(self, word):
+        current = self.root
+        for letter in word:
+            if letter not in current.children:
+                current.children[letter] = TrieNode()
+            current = current.children[letter]
+        current.is_word = True
+        current.word = word
+    
+    def find(self, word):
+        current = self.root
+        for letter in word:
+            current = current.children.get(letter)
+            if current is None:
+                return False
+        return current
+            
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        if board is None or len(board) == 0:
+            return []
+        
+        trie = Trie()
+        for word in words:
+            trie.add(word)
+        
+        result = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                c = board[i][j]
+                self.search(board, i, j, trie.root.children.get(c), set([(i, j)]), result)
+        return list(result)
+    
+    def search(self, board, x, y, node, visited, result):
+        
+        if node is None:
+            return
+        
+        if node.is_word:
+            result.add(node.word)
+        
+        for delta_x, delta_y in directions:
+            x_ = x + delta_x
+            y_ = y + delta_y
+            
+            if not self.inside(board, x_, y_):
+                continue
+            if (x_, y_) in visited:
+                continue
+            visited.add((x_, y_))
