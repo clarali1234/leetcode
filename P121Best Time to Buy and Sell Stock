@@ -1,3 +1,5 @@
+# bruce-force method, time O(n^2)
+
 # time O(n)
 
 class Solution:
@@ -10,3 +12,4 @@ class Solution:
             max_profit = max(max_profit, profit)
         return max_profit
         
+
