@@ -1,0 +1,35 @@
+# 深拷贝要对每个点都新建一遍。ALL
+# 使用hashtable，在这个hash表里，记录了老链表和新链表的每一组对应。这样先构造了一个纯next的链表，然后再次循环就能得到带random的链表了
+
+# time o(n)
+# space o(n)
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, next, random):
+        self.val = val
+        self.next = next
+        self.random = random
+"""
+class Solution:
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        if not head:
+            return None
+        
+        dic = {}
+        inter_node = head
+        while inter_node:
+            dic[inter_node] = Node(inter_node.val, None, None)
+            inter_node = inter_node.next
+        
+        inter_node = head
+        while inter_node:
+            dic[inter_node].next = dic[inter_node.next] if inter_node.next else None
+            dic[inter_node].random = dic[inter_node.random] if inter_node.random else None
+            inter_node = inter_node.next
+            
+        return dic[head] if head else None
+        
+            
+            
+        
