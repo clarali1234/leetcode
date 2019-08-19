@@ -1,1 +1,16 @@
+# 扫描线算法 time O(nlgn)
+# 先排序再扫描
 
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        points = []
+        for interval in intervals:
+            points.append((interval[0], 1))
+            points.append((interval[1], -1))
+        
+        meeting_room = 0
+        ongoing_meeting = 0
+        for _, delta in sorted(points):
+            ongoing_meeting += delta
+            meeting_room = max(meeting_room, ongoing_meeting)
+        return meeting_room
