@@ -1,0 +1,54 @@
+# 对字符串进行从左到右的遍历，如果出现左括号“（”，记录下来，如果右括号在左括号之前出现，加入左括号的count中，
+# 并且把右括号的个数-1,最后return 左右括号的个数。
+# 对字符串进行又一次的遍历，如果字符串既不是“（”也不是“）”则跳过，否则选择要还是不要。
+
+# time O(n * 2^n)
+# space O(n)
+
+class Solution(object):
+    def removeInvalidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        res = []
+        left, right = self.left_right_count(s)
+        self.dfs(s, left, right, 0, res)
+        return res
+    
+    def dfs(self, s, left, right, start, res):
+        if left == 0 and right == 0:
+            if self.is_valid(s):
+                res.append(s)
+            return 
+    
+        for i in range(start, len(s)):
+            if i > start and s[i] == s[i-1]:
+                continue
+            if s[i] == '(' and left > 0:
+                self.dfs(s[:i] + s[i + 1:], left - 1, right, i, res)
+            if s[i] == ')' and right > 0:
+                self.dfs(s[:i] + s[i + 1:], left, right - 1, i, res)
+                
+    def is_valid(self, s):
+        left, right = self.left_right_count(s)
+        return left == 0 and right == 0
+    
+    def left_right_count(self, s):
+        left = right = 0
+        for ch in s:
+            if ch == '(':
+                left += 1
+            if ch == ')':
+                if left > 0:
+                    left -= 1
+                else:
+                    right += 1
+        return left, right
+        
+                
+                
+                
+                
+        
+        
