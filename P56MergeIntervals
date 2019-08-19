@@ -1,0 +1,23 @@
+# 将区间按起点从小到大排序，然后从左到右扫一遍找最远的右端点。
+# 交错或包含的区间就合并。
+# if curt.start <= last.end
+  # merge
+# else:
+  # insert a new interval
+  
+# time o(nlgn)
+# space O(n)
+class Solution(object):
+    def merge(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        intervals = sorted(intervals, key = lambda x:x[0])
+        result = []
+        for interval in intervals:
+            if len(result) == 0 or result[-1][1] < interval[0]:
+                result.append(interval)
+            else:
+                result[-1][1] = max(result[-1][1], interval[1])
+        return result
