@@ -1,0 +1,25 @@
+# prefix sum + hash table
+# brute-force 遍历i,j , sum O(n), O(n^3), space O(1)
+
+# prefix_sum[i] = sum(nums[0:i-1])
+# time O(n^2), space 0(n)
+
+# prefix_sum + hash
+# time O(n), space O(n)
+# hash , key: prefix sum, value :count, prefix_sum = current_sum - k
+class Solution(object):
+    def subarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        count = {0:1}
+        cur = 0
+        res = 0
+        for num in nums:
+            cur += num
+            res += count.get(cur - k, 0)
+            count[cur] = count.get(cur, 0) + 1
+        return res
+        
