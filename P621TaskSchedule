@@ -1,0 +1,25 @@
+# freq(A) = k
+# task分成k-1组， 每组n + 1个
+# (k - 1) * (n + 1) + p (和A有相同frequency任务的数量，如果没有则为1）
+# lower bound: schedule all tasks without idle
+
+# time O(n)
+# space O(n)
+
+  class Solution(object):
+    def leastInterval(self, tasks, n):
+        """
+        :type tasks: List[str]
+        :type n: int
+        :rtype: int
+        """
+        count = collections.Counter(tasks)
+        counts = count.values()
+        max_count = max(counts)
+        res = (max_count - 1) * (n + 1)
+        for count in counts:
+            if count == max_count:
+                res += 1
+            else:
+                res += 0
+        return max(len(tasks), res)
