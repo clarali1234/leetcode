@@ -1,0 +1,30 @@
+# We use 2 pointers i and j. T
+# the steps are:
+
+# if no overlap: increment the index of the lesser interval
+# if overlap: overlap interval = bigger start index + lower end index.
+# increment the index of the lesser interval
+
+# time o(m + n)
+# space o(1)
+
+class Solution(object):
+    def intervalIntersection(self, A, B):
+        """
+        :type A: List[List[int]]
+        :type B: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        i = 0
+        j = 0
+        res = []
+        while i < len(A) and j < len(B) :
+            start = max(A[i][0], B[j][0])
+            end = min(A[i][1], B[j][1])
+            if start <= end:
+                res.append([start, end])
+            if A[i][1] < B[j][1]:
+                i += 1
+            else:
+                j += 1
+        return res
