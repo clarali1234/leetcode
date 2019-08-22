@@ -1,0 +1,49 @@
+# sol1 brute-force
+# time O((len(s)-len(p))*len(p)) = O(n^2)
+
+# sol2 sliding window + hashmap
+# time O(s * 26) = O(n)
+# space O(len(p))
+# hash table: char:count
+
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        hash_p = {}
+        for c in p:
+            hash_p[c] = hash_p.get(c, 0) + 1
+        count = len(p)
+        
+        # initialize
+        res = []
+        
+        # current candidate is s[left, right + 1]
+        left = 0
+        right = 0
+        
+        while right < len(s):
+            # for every iteration, check if current character is a desired char. if so, cross it off. otherwise, move on to the next character
+            if s[right] in hash_p:
+                hash_p[s[right]] -= 1
+                if hash_p[s[right]] >= 0:
+                    count -= 1
+                    
+             # if all items are crossed-off, add to result list
+            if count == 0:
+                res.append(left)
+                
+            # Move window only if the minimum size is met.
+            if right - left + 1 == len(p):
+                if s[left] in hash_p:
+                    if hash_p[s[left]] >= 0:
+                        count += 1
+                    hash_p[s[left]] += 1
+                left += 1
+            right += 1
+        
+        return res
+                
