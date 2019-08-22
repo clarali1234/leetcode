@@ -1,0 +1,28 @@
+# 遍历整个图, 将相邻的节点染成不同的颜色, 如果可以完成这个遍历(即染色过程没有冲突), 说明是二分图.
+# 可以用BFS或DFS来实现, 只需要根据当前节点的颜色设定下一个节点的颜色即可, 如果下一个节点已经被染成了相同的颜色, 说明发生了冲突.
+
+# BFS 时间复杂度是O(E+V)，空间复杂度是O(V).
+
+#DFS
+class Solution(object):
+    def isBipartite(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: bool
+        """
+        n = len(graph)
+        self.color = [0] * n
+        for i in range(n):
+            if self.color[i] == 0 and not self.colored(graph, i, 1):
+                return False
+        return True
+    
+    
+    def colored(self, graph, current, color):
+        self.color[current] = color
+        for neighbor in graph[current]:
+            if self.color[neighbor] == 0 and not self.colored(graph, neighbor, -color):
+                return False
+            elif self.color[neighbor] == self.color[current]:
+                return False
+        return True
