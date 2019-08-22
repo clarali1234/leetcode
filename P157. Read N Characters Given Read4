@@ -1,0 +1,17 @@
+class Solution(object):
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Number of characters to read (int)
+        :rtype: The number of actual characters read (int)
+        """
+        i = 0
+        while i < n:
+            buf4 = [''] * 4
+            count = read4(buf4)
+            if not count:
+                break
+            count = min(count, n - i)
+            buf[i: ] = buf4[:count]
+            i += count
+        return i
