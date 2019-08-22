@@ -1,0 +1,32 @@
+# dp
+# time O(m * n)
+# space o(m * n)
+
+class NumMatrix(object):
+
+    def __init__(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        """
+        if len(matrix) == 0 or len(matrix[0]) == 0:
+            return 
+        
+        n = len(matrix)
+        m = len(matrix[0])
+        self.dp = [[0] * (m + 1) for i in range(n + 1)]
+        
+        for r in range(n):
+            for c in range(m):
+                self.dp[r + 1][c + 1] = self.dp[r + 1][c] + self.dp[r][c + 1] - self.dp[r][c] + matrix[r][c]
+                
+    def sumRegion(self, row1, col1, row2, col2):
+        """
+        :type row1: int
+        :type col1: int
+        :type row2: int
+        :type col2: int
+        :rtype: int
+        """
+        return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
+        
+
