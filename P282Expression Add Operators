@@ -1,0 +1,36 @@
+# dfs 
+# time O(n*4^(n-1))
+# space O(n)
+
+class Solution(object):
+    def addOperators(self, num, target):
+        """
+        :type num: str
+        :type target: int
+        :rtype: List[str]
+        """
+        self.res = []
+        self.dfs(num, 0, '', 0, 0, target)
+        return self.res
+    
+    def dfs(self, num, index, temp, total, last, target):
+        if index == len(num):
+            if total == target:
+                self.res.append(temp)
+            return 
+        
+        for i in range(index, len(num)):
+            x = int(num[index:i + 1])
+            if index == 0:
+                self.dfs(num, i + 1, str(x), x, x, target)
+            else:
+                self.dfs(num, i + 1, temp + '+' + str(x), total + x, x, target)
+                self.dfs(num, i + 1, temp + '-' + str(x), total - x, -x, target)        
+                self.dfs(num, i + 1, temp + '*' + str(x), total - last + last * x ,last * x, target)
+            if x == 0:
+                break
+                
+                
+                
+        
+        
