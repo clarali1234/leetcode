@@ -1,0 +1,34 @@
+# I separate the process into two steps
+
+# Get data from read4 and store it in a queue
+  Transfer data from queue to buf
+# Initially, we will go to else clause, we get data from read4, and use the return value to store non-empty data. 
+# If it returns 3, put first 3 characters into the queue. 
+# If it returns 0, it means we come to the end. So just end the process.
+
+# Then we go to if clause, just pop from the queue head and put it into buf, and increase i by 1.
+
+# Continue the process until i equal n, or when there is no more data to read. 
+
+class Solution(object):
+    '''算法思路：
+    要将上次 read4 读取后剩余的保存起来
+    '''
+    def __init__(self):
+        self.queue = []
+        
+    def read(self, buf, n):
+        i = 0
+        while i < n:
+            if self.queue:
+                buf[i] = self.queue.pop(0)
+                i += 1
+            else:
+                buf4 = ['']*4
+                count = read4(buf4)
+                if count == 0:
+                    break
+                self.queue += buf4[:count]
+        return i
+                
+        
