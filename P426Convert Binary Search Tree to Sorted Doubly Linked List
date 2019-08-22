@@ -1,0 +1,35 @@
+# inorder traversal (因为sorted)
+# 递归 
+
+class Solution(object):
+    def treeToDoublyList(self, root):
+        """
+        :type root: Node
+        :rtype: Node
+        """
+        if not root:
+            return None
+        head, tail = self.helper(root)
+        return head
+    
+    def helper(self, root):
+        head = root
+        tail = root
+        
+        if root.left:
+            left_head, left_tail = self.helper(root.left)
+            left_tail.right = root
+            root.left = left_tail
+            head = left_head
+            
+        if root.right:
+            right_head, right_tail = self.helper(root.right)
+            right_head.left = root
+            root.right = right_head
+            tail = right_tail
+            
+        head.left = tail
+        tail.right = head
+        return head, tail
+        
+        
