@@ -1,0 +1,65 @@
+# 无向图最短距离 BFS
+# node ：所有的1都要被访问到
+
+directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+class Solution(object):
+    
+    def shortestDistance(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        m = len(grid)
+        n = len(grid[0])
+        
+        distance = [[sys.maxsize for i in range(n)] for j in range(m)]
+        reachable_count = [[0 for i in range(n)] for j in range(m)]
+        min_distance = sys.maxsize
+        buildings = 0
+        
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    self.bfs(grid, i, j, m, n, distance, reachable_count)
+                    buildings  += 1
+                    
+        for i in range(m):
+            for j in range(n):
+                if reachable_count[i][j] == buildings and distance[i][j] < min_distance:
+                    min_distance = distance[i][j]
+                    
+        if min_distance != sys.maxsize:
+            return min_distance
+        return -1
+    
+    def bfs(self, grid, i, j, m, n, distance, reachable_count):
+        visited = [[False for y in range(n)] for x in range(m)]
+        visited[i][j] = True
+        queue = collections.deque([(i, j, 0)])
+        
+        while queue:
+            i, j, count = queue.popleft()
+            if distance[i][j] == sys.maxsize:
+                distance[i][j] = 0
+            distance[i][j] += count
+            
+            for delta_x, delta_y in directions:
+                new_x = i + delta_x
+                new_y = j + delta_y
+                if not self.is_valid(grid, new_x, new_y, visited):
+                    continue
+                visited[new_x][new_y] = True
+                queue.append((new_x, new_y, count + 1))
+                reachable_count[new_x][new_y] += 1
+               
+    def is_valid(self, grid, x, y, visited):
+        if x < 0 or x > len(grid) - 1 or y < 0 or y > len(grid[0]) -1:
+            return False
+        if visited[x][y]:
+            return False
+        if grid[x][y] != 0:
+            return False
+        return True
