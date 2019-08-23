@@ -1,0 +1,26 @@
+# brute force: try every pairs, time O(n^2)
+# two pinters:
+# area = min(l, r) * (r - l)
+# start l = 0, right = n - 1, if h(l) < h(r), l ++; else r -- 
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        left = 0
+        right = len(height) - 1
+        result = 0
+        
+        while left < right:
+            if height[left] < height[right]:
+                area = height[left] * (right - left)
+                left += 1
+            else:
+                area = height[right] * (right - left)
+                right -= 1          
+            result = max(result, area)
+        return result
