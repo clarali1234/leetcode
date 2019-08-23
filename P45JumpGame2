@@ -14,7 +14,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        reach = 0
+     
         current = 0
         count = 0
         pos = 0
