@@ -1,0 +1,62 @@
+
+# 2 follow up：in place，bit ，当前状态在最后一位，用倒数第二位存储下一个generation的状态，然后把每个格子右移一位
+# time O(mn) 每个格子扫描一次9个格子
+# space O(mn) -> O(1)
+我们用32位整数的最后两位二进制来表示board[i][j]的当前状态以及下一状态，0 表示死细胞，1 表示活细胞。由于初始时board由 0 和 1 构成，所以我们设定最低位的二进制表示当前细胞的状态，倒数第二位二进制表示下一状态，不同的表示对应的结果如下：
+00 -- 当前为死细胞且下一状态仍为死细胞
+01 -- 当前为活细胞且下一状态为死细胞
+10 -- 当前为死细胞且下一状态为活细胞
+11 -- 当前为活细胞且下一状态仍为活细胞
+对于前两种情况我们不需要做改动，因为给出的board内所有元素的倒数第二位均为0，所以需要修改的为后两种情况：
+
+当死细胞周围正好有 3 个活细胞时，则满足第三种状态，所以需要重新赋值：board[i][j] = 2
+当活细胞周围正好有 2 个或者 3 个活细胞时，则满足第四种状态，所以需要重新赋值：board[i][j] = 3
+
+class Solution:
+    """
+    @param board: the given board
+    @return: nothing
+    """
+    def gameOfLife(self, board):
+        # Write your code here
+        m = len(board)
+        n = len(board[0])
+    
+        for i in range(m):
+            for j in range(n):
+                # 计算与board[i][j]相邻的活细胞数量
+                lives = self.liveNeighbors(board, m, n, i, j);
+                
+                # 如果当前位置为活细胞，且相邻活细胞数量为2个或者3个，则下一状态仍为活细胞
+                if board[i][j] == 1 and lives >= 2 and lives <= 3:  
+                    board[i][j] = 3
+                
+                # 如果当前位置为死细胞，且相邻活细胞数量为3个，则下一状态为活细胞
+                if board[i][j] == 0 and lives == 3:
+                    board[i][j] = 2
+        
+        # 更新细胞状态
+        for i in range(m):
+            for j in range(n):
+                board[i][j] >>= 1
+    
+    def liveNeighbors(self, board, m, n, i, j):
+        lives = 0
+        for x in range(max(i - 1, 0), min(i + 1, m - 1) + 1):
+            for y in range(max(j - 1, 0), min(j + 1, n - 1) + 1):
+                lives += board[x][y] & 1
+        lives -= board[i][j] & 1
+        return lives
+
+
+ # 3 follow up:
+ # In principle, the board is infinite, which would cause problems when the active area 
+ # encroaches the border of the array. How would you address these problems?
+ 
+ # In order for us to update a particular cell, we only have to look at its 8 neighbors 
+ # which essentially lie in the row above and below it. 
+ # So, for updating the cells of a row, we just need the row above and the row below. 
+ # Thus, we read one row at a time from the file and at max we will have 3 rows in memory. 
+ # We will keep discarding rows that are processed and then we will keep reading new rows from the file, one at a time.
+ 
+ 
