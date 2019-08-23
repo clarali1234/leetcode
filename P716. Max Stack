@@ -1,0 +1,79 @@
+# can't be O(lgn) using python
+# can't be O(1)
+
+# sol1 two stacks
+# popMax O(n); others O(1)
+class MaxStack(object):
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.max_stack = []
+        
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: None
+        """
+        self.stack.append(x)
+        if self.max_stack:
+            self.max_stack.append(max(x, self.max_stack[-1]))
+        else:
+            self.max_stack.append(x)
+        
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        self.max_stack.pop()
+        return self.stack.pop()
+        
+        
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        return self.stack[-1] if self.stack else None
+        
+
+    def peekMax(self):
+        """
+        :rtype: int
+        """
+        return self.max_stack[-1] if self.stack else None
+        
+
+    def popMax(self):
+        """
+        :rtype: int
+        """
+        num_max = self.max_stack[-1]
+        temp = []
+        while num_max != self.stack[-1]:
+            temp.append(self.stack.pop())
+            self.max_stack.pop()
+        
+        self.stack.pop()
+        self.max_stack.pop()
+        
+        for n in temp[::-1]:
+            self.push(n)
+        return num_max
+            
+        
+
+
+# Your MaxStack object will be instantiated and called as such:
+# obj = MaxStack()
+# obj.push(x)
+# param_2 = obj.pop()
+# param_3 = obj.top()
+# param_4 = obj.peekMax()
+# param_5 = obj.popMax()
+
+
