@@ -1,0 +1,56 @@
+# dfs
+# The recursion is obvious - traverse the list and if there is any nestedList, find its depth. 
+# The final depth is the maximum depth from any nestedList.
+
+class Solution(object):
+    def depthSumInverse(self, nestedList):
+        """
+        :type nestedList: List[NestedInteger]
+        :rtype: int
+        """
+        if not nestedList:
+            return 0
+        res = 0
+        return self.dfs(nestedList, res)
+        
+    
+    def dfs(self, nestedList, res):
+        nest_list = []
+        for nest in nestedList:
+            if nest.isInteger():
+                res += nest.getInteger()
+            else:
+                nest_list += nest.getList()
+        res += 0 if len(nest_list) == 0 else self.dfs(nest_list, res)
+        return res
+        
+        
+   # bfs
+   
+class Solution(object):
+    def depthSumInverse(self, nestedList):
+        """
+        :type nestedList: List[NestedInteger]
+        :rtype: int
+        """
+        if not nestedList:
+            return 0
+        queue = collections.deque([nestedList])
+        sum_all = []
+        while queue:
+            level_sum = 0
+            size = len(queue)
+            for _ in range(size):
+                nList = queue.popleft()
+                for nest in nList:
+                    if nest.isInteger():
+                        level_sum += nest.getInteger()
+                    else:
+                        queue.append(nest.getList())
+            sum_all.append(level_sum)
+            
+        res = 0
+        for i in range(len(sum_all), 0, -1):
+            res += sum_all[len(sum_all) - i] * i
+        return res
+                
