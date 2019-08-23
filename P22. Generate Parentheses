@@ -6,6 +6,9 @@
   # 如果左括号多于右括号, 那么此时可以添加一个左括号或右括号, 递归进入下一层
   # 如果左括号 = 右括号, 那么此时只能添加一个左括号, 递归进入下一层
   
+ # time O(2^n)
+ # space o(n)
+  
   class Solution(object):
     def generateParenthesis(self, n):
         """
