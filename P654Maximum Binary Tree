@@ -1,0 +1,42 @@
+# divide and conquer
+# time O(nlgn)~O(n^2) max ele o(n), 创建sub array O(n), 总时间取决于递归深度 
+# space O(lgn)~O(n)
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def constructMaximumBinaryTree(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: TreeNode
+        """
+        if not nums:
+            return None
+        node = TreeNode(max(nums))
+        node.left = self.constructMaximumBinaryTree(nums[0:nums.index(max(nums))])
+        node.right = self.constructMaximumBinaryTree(nums[nums.index(max(nums)) + 1:])
+        return node
+        
+        
+# stack time O(n) space O(n)
+# 利用数组实现基本数据结构的调整，当前遍历到的数字比stk中的最后一个大时，
+# 将stk中的最后一个数字转变为当前节点的左子树，循环调整至stk为空或者stk中的最后节点值大于新节点的值。
+# 如果stk不为空，说明stk中的最后一个节点值大于新节点值，则将新节点设为stk中的最后一个节点的右子树，将新节点存入stk。
+class Solution(object):
+    def constructMaximumBinaryTree(self, nums):
+        stack = []
+        for num in nums:
+            node = TreeNode(num)
+            while stack and num > stack[-1].val:
+                node.left = stack.pop()
+            if stack:
+                stack[-1].right = node
+            stack.append(node)
+        return stack[0]
+                
+
