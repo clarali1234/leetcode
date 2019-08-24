@@ -1,0 +1,28 @@
+# binar search
+# time O(lg(x/精度))
+# space O(1)
+
+class Solution(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        if x == 0:
+            return 0
+        
+        left = 0
+        right = x
+        while left + 1 < right:
+            mid = left + (right - left) // 2
+            if mid == x // mid:
+                return mid
+            elif mid < x // mid:
+                left = mid
+            else:
+                right = mid
+                
+        if right <= x // right:
+            return right
+        return left
+        
