@@ -1,0 +1,50 @@
+ # 可以利用直方图的算法
+• 以矩阵每一行为直方图的底部，通过1确定每个柱形的高度 
+• 求出最大全1子矩阵
+• 时间复杂度O(N^2)
+# space O(n)
+
+class Solution(object):
+    def maximalRectangle(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        heights = [0] * n
+        res = 0
+        for row in matrix:
+            for j in range(n):
+                if row[j] == '0':
+                    heights[j] = 0
+                else:
+                    heights[j] += 1
+            res = max(res, self.maxRectangle(heights))
+        return res
+    
+    def maxRectangle(self, heights):
+        stack = []
+        area = 0
+        heights.append(0)
+        for i in range(len(heights)):
+            if not stack or heights[i] > heights[stack[-1]]:
+                stack.append(i)
+            else:
+                while stack and heights[i] <= heights[stack[-1]]:
+                    h = heights[stack[-1]]
+                    stack.pop()
+                    w = i if not stack else i - stack[-1] - 1
+                    area = max(area, h * w)
+                stack.append(i)
+        return area
+                    
+        
+        
+        
+                    
+                
+        
+        
