@@ -1,0 +1,37 @@
+# 单调栈(stack)。
+# time O(n)
+# space O(n)
+
+- 压栈时弹出大于等于自己的值
+– 最后停下来时碰到的栈顶就是左边第一个比自己小的值
+– 一个数X被新来的值R弹出栈顶，那么R就是X右边第一个小于等于X的值
+• 如果有相同的数，那么最靠右的bar会求得最大面积 • 最后插入-1
+
+这个题是单调栈的运用，使用一个单调递增栈来维护已经出现了的矩形高度，
+如果后面新来的元素高度比栈里最后的元素高，那么需要入栈，因为面积最大的元素会出现在后面。
+如果后面新来的元素高度比栈里的最后的元素小，那么需要弹出栈里的元素，并且，每次弹出的时候都要对计算目前的宽度，相乘得到面积。
+
+# time O(n), worst O(n^2)
+# space O(n)
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        stack = []
+        area = 0
+        heights.append(0)
+        for i in range(len(heights)):
+            if not stack or heights[i] > heights[stack[-1]]:
+                stack.append(i)
+            else:
+                while stack and heights[i] <= heights[stack[-1]]:
+                    h = heights[stack[-1]]
+                    stack.pop()
+                    w = i if not stack else i - stack[-1] - 1
+                    area = max(area, h * w)
+                stack.append(i)
+        return area
+        
+
