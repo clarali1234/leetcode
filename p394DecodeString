@@ -1,0 +1,36 @@
+# sol1 recursion
+
+
+# sol2 stack
+# 这个题，遇到’[‘就把之前的字符串进行进栈操作。遇到’]'进行出栈操作。
+# curstring保存的是出栈操作完成后的字符串。
+# 注意这一步：curstring = prestring + prenum * curstring，
+# prestring是前面的字符串，prenum * curstring是这一步骤结束之后的字符串，所以是前面的字符串+现在的字符串得到目前已有的字符串。
+# time O(k_max * n)
+# space O(k_max * n)
+class Solution(object):
+    def decodeString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        current_num = 0
+        current_string = ''
+        stack = []
+        for char in s:
+            if char == '[':
+                stack.append(current_string)
+                stack.append(current_num)
+                current_string = ''
+                current_num = 0
+            elif char == ']':
+                previous_num = stack.pop()
+                previous_string = stack.pop()
+                current_string = previous_string + previous_num * current_string 
+            elif char.isdigit():
+                current_num = current_num * 10 + int(char)
+            else:
+                current_string += char
+        return current_string
+            
+        
