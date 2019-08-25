@@ -1,0 +1,22 @@
+# 模拟题，循环过程中用set记录每次得到的平方和
+# 当出现非1的重复平方和时，返回False
+# 否则，返回True
+
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        num_set = set()
+        while n and n not in num_set:
+            num_set.add(n)
+            sum_square = 0
+            while n:
+                digit = n % 10
+                sum_square += digit * digit 
+                n = n // 10
+            n = sum_square
+            
+        return n == 1
+        
