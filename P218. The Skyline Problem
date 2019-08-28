@@ -1,0 +1,31 @@
+# time O(nlgn)
+将建筑物的左右边界存下来；
+遍历所有边界，若其为某个建筑物的左边界，则将建筑物右边界和高度入堆；
+若最大堆堆顶元素的右边界小于等于（因为若某个最大值是右边界，则最后存的不是该高度，而是除他之外最大的值，如例子中的 7）当前边界值，将其出堆；
+取堆顶元素的建筑物高，若其不等于前一次的关键点，则说明该点与上一次的点不在一条水平线上，为一个“关键点”。
+
+
+import heapq
+
+class Solution(object):
+    def getSkyline(self, buildings):
+        """
+        :type buildings: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        borders = sorted([i[0] for i in buildings] + [i[1] for i in buildings])
+        index = 0
+        heap = []
+        res = [[]]
+        for boarder in borders:
+            while index < len(buildings) and buildings[index][0] == borders:
+                heappush(heap, [-buildings[index][2], buildings[index][1]])
+                index += 1
+            while heap and heap[0][1] <= border:
+                heappop(heap)
+            heigh = -heap[0][0] if heap else 0
+            if heigh != res[-1][1]:
+                res.append([border, heigh])
+        return res
+            
+
