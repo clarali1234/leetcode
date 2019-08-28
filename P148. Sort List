@@ -1,0 +1,109 @@
+# merge sort
+using recursion
+# time O(nlgn)
+# spce O(lgn)
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def sortList(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
+        if not head or not head.next:
+            return head
+        middle = self.find_middle(head)
+        right_head = middle.next
+        middle.next = None
+        return self.merge(self.sortList(head), self.sortList(right_head))
+        
+        
+    def find_middle(self, head):
+        slow, fast = head, head
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        return slow
+    
+    def merge(self, head1, head2):
+        dummy = ListNode(None)
+        current = dummy
+        while head1 and head2:
+            if head1.val < head2.val:
+                current.next = head1
+                head1 = head1.next 
+            else:
+                current.next = head2
+                head2 = head2.next
+            current = current.next
+        current.next = head1 or head2
+        return dummy.next
+        
+without using recursion
+# time O(nlgn)
+# space O(1)
+class Solution(object):
+    def sortList(self, head):
+        if not head or not head.next:
+            return head
+        dummy = ListNode(None)
+        dummy.next = head 
+        
+        # get length 
+        temp = head
+        length = 0
+        while temp:
+            temp = temp.next
+            length += 1
+        
+        step = 1
+        while step < length:
+            current, tail = dummy.next, dummy
+            while current:
+                left = current
+                right = self.split(left, step)
+                current = self.split(right, step)
+                tail = self.merge(left, right, tail)
+            step = step * 2 
+        return dummy.next
+        
+    
+    # merge 2 sorted lists, and append the result to head
+    # return the tail
+    def merge(self, h1, h2, head):
+        current = head
+        while h1 and h2:
+            if h1.val < h2.val:
+                current.next = h1
+                h1 = h1.next
+            else:
+                current.next = h2
+                h2 = h2.next
+            current = current.next
+        current.next = h1 or h2
+        while current.next:
+            current = current.next
+        return current
+
+    # divide the linked list into two lists
+    # first linked list contains n nodes
+    # return the head of second linked list
+    def split(self, head, n):
+        for i in range(n-1):
+            if head:
+                head = head.next
+            else:
+                break
+        if not head:
+            return None
+        second = head.next
+        head.next = None
+        return second
+        
+        
+        
+ 
