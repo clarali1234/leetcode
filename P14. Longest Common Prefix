@@ -1,0 +1,16 @@
+# 很直观的思路，从任意一个字符串开始，扫描该字符串，依次检查其他字符串的同一位置是否是一样的字符，当遇到不一样时则返回当前得到的前缀。
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        
+        if not strs:
+            return ''
+        shortest = min(strs, key = len)
+        for i, char in enumerate(shortest):
+            for other in strs:
+                if other[i] != char:
+                    return shortest[:i]
+        return shortest
