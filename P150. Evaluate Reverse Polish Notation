@@ -1,0 +1,34 @@
+逆波兰表达式是更利于计算机运算的表达式形式, 需要用到栈(先进后出的数据结构).
+
+遍历表达式:
+
+碰到数字则入栈
+碰到运算符则连续从栈中取出2个元素, 使用该运算符运算然后将结果入栈
+最后栈中剩余一个数字, 就是结果.
+
+# time O(n)
+# space O(n)
+class Solution(object):
+    def evalRPN(self, tokens):
+        """
+        :type tokens: List[str]
+        :rtype: int
+        """
+        
+        stack = []
+        for i in tokens:
+            if i not in ['+', '-', '*', '/']:
+                stack.append(int(i))
+            else:
+                num2 = stack.pop()
+                num1 = stack.pop()
+                if i == '+':
+                    stack.append(num1 + num2)
+                elif i == '-':
+                    stack.append(num1 - num2)
+                elif i == '*':
+                    stack.append(num1 * num2)
+                else:
+                    stack.append(int(num1 * 1.0 / num2))
+        return stack[-1]
+        
