@@ -1,0 +1,27 @@
+# DP[i][j]前i种硬币组成j钱需要最少的数量
+# 转移方程DP[i][j] = min(DP[i][j], DP[i-1][j-k*coin_i] + k) = min(DP[i][j],DP[i-1][j-coin_i]+1)
+# ans = DP[n-1][amount]
+# time O(n*amount)
+# space O(amount)
+
+class Solution(object):
+    def coinChange(self, coins, amount):
+        """
+        :type coins: List[int]
+        :type amount: int
+        :rtype: int
+        """
+        
+        dp = [sys.maxsize] * (amount + 1)
+        dp[0] = 0
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                if dp[i - coin] != sys.maxsize:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        if dp[amount] == sys.maxsize:
+            return -1 
+        else:
+            return dp[amount]
+        
+        
+        
