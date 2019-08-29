@@ -1,0 +1,58 @@
+# sol1: bruce-force , O(n^2)
+
+# sol2: fenwick tree
+# time O(nlgn)
+# space O(k) k : # of unique values
+# idea : input倒序，转换成求频率的和； 把array转化成rank大小，[1,4,2,3], increase freq[rank] by 1；扫描input，求prefix sum
+
+class Solution(object):
+    def countSmaller(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        rank = {val:i + 1 for i,val in enumerate(sorted(nums))}
+        self.n = len(nums)
+        res = []
+        self.fenwick = [0] *(self.n + 1)
+        
+        for x in reversed(nums):
+            res.append(self.get_sum(rank[x] - 1))
+            self.update(rank[x])
+        return res[::-1]
+        
+        
+    
+    def update(self, i):
+        while i <= self.n:
+            self.fenwick[i] += 1
+            i += (i & -i)
+            
+    def get_sum(self, i):
+        s = 0
+        while i:
+            s += self.fenwick[i]
+            i -= (i & -i)
+        return s
+        
+   # merge sort
+   # The smaller numbers on the right of a number are exactly those that jump from its right to its left during a stable sort. 
+   # So I do mergesort with added tracking of those right-to-left jumps.
+   # time O(nlgn)
+   class Solution(object):
+    def countSmaller(self, nums):
+        self.smaller = [0] * len(nums)
+        self.sort(list(enumerate(nums)))
+        return self.smaller
+    
+    def sort(self, enum):
+            half = len(enum) // 2
+            if half:
+                left, right = self.sort(enum[:half]), self.sort(enum[half:])
+                for i in range(len(enum))[::-1]:
+                    if not right or left and left[-1][1] > right[-1][1]:
+                        self.smaller[left[-1][0]] += len(right)
+                        enum[i] = left.pop()
+                    else:
+                        enum[i] = right.pop()
+            return enum
