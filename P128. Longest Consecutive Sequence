@@ -1,0 +1,33 @@
+# time O(n)
+# space O(n)
+# hashtable
+哈希表，遍历每个数，从中间扩展左右两边，不断刷新最长长度
+class Solution(object):
+    def longestConsecutive(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        dic = {}
+        for x in nums:
+            dic[x] = 1
+        
+        ans = 0
+        for x in nums:
+            if x in dic:
+                length = 1
+                del dic[x]
+                l = x - 1
+                r = x + 1
+                while l in dic:
+                    length += 1
+                    del dic[l]
+                    l = l - 1
+                while r in dic:
+                    length += 1
+                    del dic[r]
+                    r = r + 1
+                if ans < length:
+                    ans = length
+        return ans
+                
