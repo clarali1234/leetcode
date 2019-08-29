@@ -1,0 +1,20 @@
+# time O(m+n)
+# 从矩阵的右上角(屏幕坐标系）开始，执行两重循环
+# 外循环递增枚举每行，内循环递减枚举列
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if len(matrix) == 0 or len(matrix[0]) == 0:
+            return False
+        
+        j = len(matrix[0]) - 1
+        for i in range(len(matrix)):
+            while j and matrix[i][j] > target:
+                j -= 1 
+            if matrix[i][j] == target:
+                return True
+        return False
