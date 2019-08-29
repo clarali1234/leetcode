@@ -1,0 +1,24 @@
+# dp
+# dp[i] = max(dp[i-1], dp[i-2] + A[i-1])
+# 利用滚动数组可以实现O(1)空间, 滚动数组针对这一类的问题，当dependency只取决于k个数的时候，
+# 一种方法是可以定义k个函数来作为迭代的数据存储，另一种方法就是开辟一个长度为k的数组，然后在迭代的时候，更新对应的res[i%k]即可。
+# dp[i]前i个房间最大值
+class Solution(object):
+    def rob(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        if len(nums) <= 2:
+            return max(nums)
+        
+        dp = [0] * 2
+        dp[0], dp[1] = nums[0], max(nums[0], nums[1])
+        for i in range(2, len(nums)):
+            dp[i % 2] = max(dp[(i-1) % 2], dp[(i - 2) % 2] + nums[i])
+        return max(dp[0], dp[1])
+        
+        
+
