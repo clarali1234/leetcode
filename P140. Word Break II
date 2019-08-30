@@ -1,0 +1,33 @@
+# dfs + memo (top down dp)
+# Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: List[str]
+        """
+        
+        return self.dfs(s, wordDict, {})
+        
+    
+    def dfs(self, s, wordDict, memo):
+        if s in memo:
+            return memo[s]
+        if not s:
+            return []
+        
+        res = []
+        for word in wordDict:
+            if not s.startswith(word):
+                continue
+            if len(s) == len(word):
+                res.append(word)
+            else:
+                rest_res = self.dfs(s[len(word):], wordDict, memo)
+                for rest in rest_res:
+                    res.append(word + ' ' + rest)
+        memo[s] = res
+        return res
+                
