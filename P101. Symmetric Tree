@@ -1,0 +1,49 @@
+# 递归，对于每个节点，检查树的左右节点值是否相等，同时判断：左节点的左子树和右节点的右子树是否对称、右节点的左子树和左节点的右子树是否对称。
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+        return self.mirror(root.left, root.right)
+    
+    def mirror(self, left, right):
+        if not left or not right:
+            return left == right
+        if left.val != right.val:
+            return False
+        return self.mirror(left.left, right.right) and self.mirror(left.right, right.left)
+        
+        
+  # iterative
+  class Solution(object):
+    def isSymmetric(self, root):
+        if not root:
+            return True
+        stackl = [root.left]
+        stackr = [root.right]
+        
+        while stackl and stackr:
+            left = stackl.pop()
+            right = stackr.pop()
+            if not left and not right:
+                continue
+            if not left or not right:
+                return False
+            if left.val != right.val:
+                return False
+            stackl.append(left.left)
+            stackl.append(left.right)
+            stackr.append(right.right)
+            stackr.append(right.left)
+            
+        return len(stackl) == 0 and len(stackr) == 0
