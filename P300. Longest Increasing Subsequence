@@ -1,0 +1,53 @@
+# dp 
+# time dp[x]=max(dp[x],dp[y]+1)
+
+class Solution(object):
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return 1
+        
+        n = len(nums)
+        dp = [1] * n
+        
+        for i in range(n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp[i] for i in range(n))
+        
+  # binary search
+  # o(nlgn)
+  class Solution(object):
+    def lengthOfLIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        
+        tails = [0] * len(nums)
+        size = 0
+        for x in nums:
+            i = 0
+            j = size
+            while i != j:
+                mid = (i + j) // 2
+                if tails[mid] < x:
+                    i = mid + 1
+                else:
+                    j = mid 
+                    
+            tails[i] = x
+            size = max(i + 1, size)
+        return size 
+        
+    tails 是len 为0， 1， 2， ...的最长生序列LIS的尾巴
+    https://leetcode.com/problems/longest-increasing-subsequence/discuss/74824/JavaPython-Binary-search-O(nlogn)-time-with-explanation
+        
+  
