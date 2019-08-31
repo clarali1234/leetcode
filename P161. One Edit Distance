@@ -1,0 +1,26 @@
+
+
+class Solution(object):
+    def isOneEditDistance(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        m = len(s)
+        n = len(t)
+        
+        if s == t or abs(m - n) > 1:
+            return False
+        if m > n:
+            return self.isOneEditDistance(t, s)
+        
+        for i in range(m):
+            if s[i] != t[i]:
+                if m == n:
+                    # 替换
+                    return s[i + 1:] == t[i + 1:]            
+                # 增加
+                return s[i:] == t[i + 1:]
+        
+        return True
