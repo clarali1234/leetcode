@@ -1,0 +1,34 @@
+# 这是一道典型的DFS题目，我们可以让robot一直向前扫，直到obstructed。此时我们让robot换一个方向(turnLeft or turnRight)，
+# 然后继续move。直到robot到达一个点，这个点前后左右不是blocked就是visited的时候，返回。
+# 找到robot在这个点之前的状态，继续尝试换一个方向move。当所有的搜索返回，clean all the available point
+
+class Solution(object):
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        visited = set()
+        self.dfs(robot, 0, 0, 0, 1, visited)
+        
+    def dfs(self, robot, x, y, delta_x, delta_y, visited):
+        # clean current room
+        robot.clean()
+        visited.add((x, y))
+        
+        # traverse neighbors (0, 1) up
+        for _ in range(4):
+            x_new = x + delta_x
+            y_new = y + delta_y
+            if (x_new, y_new) not in visited and robot.move():
+                self.dfs(robot, x_new, y_new, delta_x, delta_y, visited)
+            delta_x, delta_y = - delta_y, delta_x
+            robot.turnLeft()
+        
+        # go back to previous position
+        robot.turnLeft()
+        robot.turnLeft()
+        robot.move()
+        # go back to previous direction
+        robot.turnLeft()
+        robot.turnLeft()
