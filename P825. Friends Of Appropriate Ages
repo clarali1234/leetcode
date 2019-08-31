@@ -1,0 +1,12 @@
+class Solution(object):
+    def numFriendRequests(self, ages):
+        """
+        :type ages: List[int]
+        :rtype: int
+        """
+        c = collections.Counter(ages)
+        return sum(self.request(a, b) * c[a] * (c[b] - (a == b)) for a in c for b in c)
+        
+    def request(self, a, b):
+        return not (b <= a * 0.5 + 7 or b > a)
+        
