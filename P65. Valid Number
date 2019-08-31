@@ -1,0 +1,17 @@
+小数点和 e/E 都至多只能出现 1 次
+如果含有小数点, 则小数点前后至少有一个数字, 一个孤立的小数点是非法的.
+如果含有 e/E, 则它的前后必须有数字.
+
+class Solution(object):
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        try:
+            float(s)
+            return True
+        except:
+            return False
+        
+  
