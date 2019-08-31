@@ -1,0 +1,31 @@
+# bfs start with 0:gates
+class Solution(object):
+    def wallsAndGates(self, rooms):
+        """
+        :type rooms: List[List[int]]
+        :rtype: None Do not return anything, modify rooms in-place instead.
+        """
+        if not rooms:
+            return 
+        
+        m = len(rooms)
+        n = len(rooms[0])
+        
+        q = collections.deque()
+        for i in range(m):
+            for j in range(n):
+                if rooms[i][j] == 0:
+                    q.append((i, j))
+        
+        while q:
+            row, col = q.popleft()
+            dist = rooms[row][col] + 1
+            for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                new_row = row + x
+                new_col = col + y
+                if 0 <= new_row < m and 0 <= new_col < n and rooms[new_row][new_col] == 2147483647:
+                    rooms[new_row][new_col] = dist
+                    q.append((new_row, new_col))
+        
+                    
+        
