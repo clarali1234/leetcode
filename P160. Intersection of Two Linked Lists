@@ -1,0 +1,23 @@
+# 我们可以用环的思想来做，我们让两条链表分别从各自的开头开始往后遍历，当其中一条遍历到末尾时，
+# 我们跳到另一个条链表的开头继续遍历。两个指针最终会相等
+class Solution(object):
+    def getIntersectionNode(self, headA, headB):
+        """
+        :type head1, head1: ListNode
+        :rtype: ListNode
+        """
+        if not headA or not headB:
+            return None
+        point1 = headA
+        point2 = headB
+        while point1 and point2 and point1 != point2:
+            point1 = point1.next
+            point2 = point2.next
+            if point1 == point2:
+                return point1
+            if not point1:
+                point1 = headB
+            if not point2:
+                point2 = headA
+        return point1
+        
