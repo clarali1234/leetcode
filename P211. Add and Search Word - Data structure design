@@ -1,0 +1,51 @@
+class TrieNode():
+    def __init__(self):
+        self.children = {}
+        self.is_word = False
+        
+class WordDictionary(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.root = TrieNode()
+        
+
+    def addWord(self, word):
+        """
+        Adds a word into the data structure.
+        :type word: str
+        :rtype: None
+        """
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                current.children[char] = TrieNode()
+            current = current.children[char]
+        current.is_word = True
+        
+
+    def search(self, word):
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        :type word: str
+        :rtype: bool
+        """
+        
+        if not word:
+            return False
+        return self.helper(word, self.root, 0)
+        
+    def helper(self, word, root, index):
+        if root == None:
+            return False
+        if index == len(word):
+            return root.is_word
+        if word[index] != '.':
+            return self.helper(word, root.children.get(word[index]), index + 1)
+        else:
+            for child in root.children.values():
+                if self.helper(word, child, index + 1):
+                    return True
+        return False
