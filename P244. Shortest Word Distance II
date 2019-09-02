@@ -1,0 +1,52 @@
+# sol1: time o(m*n)
+
+class WordDistance(object):
+
+    def __init__(self, words):
+        """
+        :type words: List[str]
+        """
+        self.dic = {}
+        for index, w in enumerate(words):
+            self.dic[w] = self.dic.get(w, []) + [index]
+
+    def shortest(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        return min(abs(i1 - i2) for i1 in self.dic[word1] for i2 in self.dic[word2])
+        
+ # sol2 two pointers
+ # time O(m + n)
+ 
+ class WordDistance(object):
+
+    def __init__(self, words):
+        """
+        :type words: List[str]
+        """
+        self.dic = {}
+        for index, w in enumerate(words):
+            self.dic[w] = self.dic.get(w, []) + [index]
+        
+
+    def shortest(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        l1 = self.dic[word1]
+        l2 = self.dic[word2]
+        i = 0
+        j = 0
+        res = sys.maxsize
+        while i < len(l1) and j < len(l2):
+            res = min(res, abs(l1[i] - l2[j]))
+            if l1[i] > l2[j]:
+                j += 1
+            else:
+                i += 1
+        return res
