@@ -1,0 +1,37 @@
+class Solution(object):
+    def shortestDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        dic = {}
+        for index, word in enumerate(words):
+            dic[word] = dic.get(word, []) + [index]
+            
+        l1 = dic[word1]
+        l2 = dic[word2]
+        return min(abs(i - j) for i in l1 for j in l2)
+        
+       # time O(n)
+       # space O(1)
+  class Solution(object):
+    def shortestDistance(self, words, word1, word2):
+        """
+        :type words: List[str]
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+
+        dis = sys.maxsize
+        index = [None, None]
+        for i in range(len(words)):            
+            if words[i] == word1:
+                index[0] = i
+            elif words[i] == word2:
+                index[1] = i
+            if index[0] != None and index[1] != None:
+                dis = min(dis, abs(index[0] - index[1]))
+        return dis 
