@@ -1,0 +1,31 @@
+# 每一个节点从左子节点和右子节点分开走可以得到两个深度，由于成为叶节点的条件是左右子节点都为空，
+# 所以我们取左右子节点中较大值加1为当前节点的深度值，知道了深度值就可以将节点值加入到结果res中的正确位置了
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findLeaves(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        self.leaves = []
+        self.dfs(root)
+        return self.leaves
+    
+    def dfs(self, root):
+        if not root:
+            return -1
+        left_height  = self.dfs(root.left)
+        right_height = self.dfs(root.right)
+        height = max(left_height, right_height) + 1
+        if height >= len(self.leaves):
+            self.leaves.append([])
+        self.leaves[height].append(root.val)
+        return height
+            
+        
