@@ -1,0 +1,17 @@
+# dp
+# 设定状态: f[i][j] 表示第i所房屋涂色为j时, 前i所房屋的最小花费
+# 状态转移方程: f[i][j] = min{f[i-1][k]} +costs[i][j] (k != j)
+# 边界: f[0][i] = costs[0][i]
+# 答案: min{f[n-1][i]} i = 0, 1, 2
+# 优化: 由于状态 f[i][j] 只受 f[i-1][k] 的影响, 所以可以使用滚动数组把空间复杂度降低至 O(1)
+
+class Solution(object):
+    def minCost(self, costs):
+        """
+        :type costs: List[List[int]]
+        :rtype: int
+        """
+        red, blue, green = 0, 0, 0
+        for r, b, g in costs:
+            red, blue, green = min(blue, green) + r, min(red, green) + b, min(red, blue) + g
+        return min(red, blue, green)
