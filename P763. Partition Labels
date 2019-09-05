@@ -1,0 +1,26 @@
+# time O(n)
+# space O(1)
+
+# Figure out the rightmost index first and use it to denote the start of the next section.
+# Reset the left pointer at the start of each new section.
+# Store the difference of right and left pointers + 1 as in the result for each section
+
+class Solution(object):
+    def partitionLabels(self, S):
+        """
+        :type S: str
+        :rtype: List[int]
+        """
+        last_index = {}
+        for index, char in enumerate(S):
+            last_index[char] = index
+            
+        start = end = 0
+        res = []
+        for i, c in enumerate(S):
+            if last_index[c] > end:
+                end = last_index[c]
+            if i == end:
+                res.append(end - start + 1)
+                start = end + 1
+        return res
