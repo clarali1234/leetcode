@@ -1,0 +1,43 @@
+# sol1
+# build graph bds
+# time O(n), space O(n)
+# build undirected graph from the tree, traverse the tree begin from the target, collect all notes that k steps from the target
+
+class Solution(object):
+    def distanceK(self, root, target, K):
+        """
+        :type root: TreeNode
+        :type target: TreeNode
+        :type K: int
+        :rtype: List[int]
+        """
+        dic = collections.defaultdict(list)
+        self.build_graph(None, root, dic)
+        return self.bfs(dic, root, target, K)
+        
+    def build_graph(self, parent, child, dic):
+        if parent and child:
+            dic[parent.val].append(child.val)
+            dic[child.val].append(parent.val)
+        if child.left:
+            self.build_graph(child, child.left, dic)
+        if child.right:
+            self.build_graph(child, child.right, dic)
+            
+    def bfs(self, dic, root, target, K):
+        queue = collections.deque([target.val])
+        seen = set()
+        
+        while K > 0:
+            K -= 1
+       
+            size = len(queue)
+            for _ in range(size):
+                node = queue.popleft()
+                seen.add(node)
+                for neighbor in dic[node]:
+                    if neighbor not in seen:
+                        queue.append(neighbor)
+        return list(queue)
+                            
+                        
