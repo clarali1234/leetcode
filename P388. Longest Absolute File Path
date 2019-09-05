@@ -1,0 +1,20 @@
+class Solution(object):
+    def lengthLongestPath(self, input):
+        """
+        :type input: str
+        :rtype: int
+        """
+        res = 0
+        # current maximum path length through that level:current level
+        # begin with "-1 level" of 0 length
+        levels = {-1 : 0}
+        # each file/directory is token 
+        for token in input.split('\n'):
+            # print(token)
+            level = token.count('\t')
+            # len(token) - lab is the length of string in current level
+            levels[level] = levels[level - 1] + len(token) - level
+            
+            if '.' in token:
+                # levels[level] + level, length of string + backslash
+                res = max(res, levels[level] + level)
