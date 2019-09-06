@@ -1,0 +1,44 @@
+
+class Solution(object):
+    def boundaryOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        self.res = []
+        if not root:
+            return self.res
+        self.res.append(root.val)
+        if root.left == None and root.right == None:
+            return self.res
+        self.dfs_left(root.left)
+        self.dfs_leaves(root)
+        self.dfs_right(root.right)
+        
+        return self.res
+    
+    def dfs_left(self, root):
+        if not root or (root.left == None and root.right == None):
+            return 
+        self.res.append(root.val)
+        if root.left != None:
+            self.dfs_left(root.left)
+        else:
+            self.dfs_left(root.right)
+    
+    def dfs_leaves(self, root):
+        if not root:
+            return 
+        if root.left == None and root.right == None:
+            return self.res.append(root.val)
+        self.dfs_leaves(root.left)
+        self.dfs_leaves(root.right)
+        
+    def dfs_right(self, root):
+        if not root or (root.left == None and root.right == None):
+            return 
+        if root.right != None:
+            self.dfs_right(root.right)
+        else:
+            self.dfs_right(root.left)
+        self.res.append(root.val)
