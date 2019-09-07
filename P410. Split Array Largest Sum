@@ -1,0 +1,51 @@
+# dp dp[i][j] 前j个元素最多分成i组的最大和
+# time O(m* n^2)
+#  dp[i][j] = min(max(dp[i-1][k], sum[k+1, j])) 0 <=k<j
+
+# binary search
+# lower_bound = max(nums), upper_bound = sum(nums)
+# 给一个c, 求最少需要将nums划分成多少组，使得每一组的和 <=c k组
+# if k > m, l = c + 1 else r = c
+# time O(log(sum(nums)) * n)
+# space O(1)
+
+class Solution(object):
+    def splitArray(self, nums, m):
+        """
+        :type nums: List[int]
+        :type m: int
+        :rtype: int
+        """
+        left = max(nums)
+        right = sum(nums)
+        
+        while left < right:
+            mid = (left + right) // 2
+            if self.split(nums, mid, m):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+        
+        
+        
+    def split(self, nums, subsum, m):
+        # upbound is subsum
+        # num of subarray(k) >= m
+        # subsum 小了
+        current = 0
+        count = 0
+        for n in nums:
+            current += n
+            if current > subsum:
+                count += 1
+                if count >= m:
+                    return False
+                current = n
+        return True
+            
+        
+        
+        
+        
+        
