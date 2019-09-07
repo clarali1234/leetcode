@@ -1,0 +1,47 @@
+# sort the trees by heights 
+# bfs to each tree O(mn)
+# time O(mn * mn), worst O(m^2, n^2)
+# space O(mn), 用数组记录遍历过的点
+
+directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+class Solution(object):
+    def cutOffTree(self, forest):
+        """
+        :type forest: List[List[int]]
+        :rtype: int
+        """
+        self.m = len(forest)
+        self.n = len(forest[0])
+        trees = sorted((forest[i][j], i, j) for i in range(self.m) for j in range(self.n) if forest[i][j] > 1)
+        res = 0
+        x = y = 0
+        while trees:
+            h, i, j = trees.pop(0)
+            ans = self.dfs(forest, x, y, i, j)
+            if ans == -1:
+                return -1
+            x, y = i, j
+            res = res + ans
+        return res
+    
+    def dfs(self, forest, x, y, i, j):
+    
+        queue = collections.deque([(x, y, 0)])
+        step = 0
+        # visited set to ensure each tree path is the shortest
+        visited = set()
+        visited.add((x, y))
+        while queue:
+            x, y, step = queue.popleft()
+            if x == i and y == j:
+                return step
+            for dx, dy in directions:
+                new_x = x + dx
+                new_y = y +  dy
+                if 0 <= new_x < self.m and 0 <= new_y < self.n and (new_x, new_y) not in visited and forest[new_x][new_y]:   
+                    visited.add((new_x, new_y))
+                    queue.append((new_x, new_y, step + 1))
+        return -1
+        
+            
+        
