@@ -1,0 +1,36 @@
+# dfs recursion
+
+# compare the depth between left sub tree and right sub tree.
+# A, If it is equal, it means the left sub tree is a full binary tree
+# B, It it is not , it means the right sub tree is a full binary tree
+
+# time O(lgn * lgn)
+# space O(lgn)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def countNodes(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        left_height = self.height(root.left)
+        right_height = self.height(root.right)
+        if left_height == right_height:
+            return 2 ** left_height + self.countNodes(root.right)
+        else:
+            return self.countNodes(root.left) + 2 ** right_height 
+        
+    def height(self, root):
+        if not root:
+            return 0
+        return 1 + self.height(root.left)
+        
