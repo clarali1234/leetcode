@@ -1,0 +1,25 @@
+# hash
+# time o(nlgn)
+# space O(n)
+
+class Solution(object):
+    def verticalTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+        dic = collections.defaultdict(list)
+        queue = collections.deque([(root, 0 , 0)])
+        while queue:
+            node, x, y = queue.popleft()
+            dic[x].append((y, node.val))
+            if node.left:
+                queue.append((node.left, x - 1, y - 1))
+            if node.right:
+                queue.append((node.right, x + 1, y - 1))
+                
+        res = []
+        for i in sorted(dic.keys()):
+            level = [x[1] for x in sorted(dic[i], key = lambda x : (-x[0], x[1]))]
+            res.append(level)
+        return res
