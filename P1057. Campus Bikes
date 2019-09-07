@@ -1,0 +1,31 @@
+# sort
+# traverse all the pairs
+# time O(mn*lgmn)
+# space O(mn)
+
+class Solution(object):
+    def assignBikes(self, workers, bikes):
+        """
+        :type workers: List[List[int]]
+        :type bikes: List[List[int]]
+        :rtype: List[int]
+        """
+        distance = []
+        for i in range(len(workers)):
+            for j in range(len(bikes)):
+                dis = abs(workers[i][0] - bikes[j][0]) + abs(workers[i][1]- bikes[j][1])
+                distance.append((dis, i, j))
+        distance.sort()
+        
+        
+        res = [-1] * len(workers)
+        bike_set = set()
+       
+        for dis, i, j in distance:
+            if res[i] == -1 and j not in bike_set:
+                res[i] = j
+                bike_set.add(j)
+                if len(bike_set) == len(workers):
+                    break
+        return res
+            
