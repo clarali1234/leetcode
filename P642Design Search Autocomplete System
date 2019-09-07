@@ -1,0 +1,70 @@
+# trie
+class TrieNode():
+    def __init__(self):
+        self.children = {}
+    
+class Trie():
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        cur = self.root
+        for c in word:
+            if c not in cur.children:
+                cur.children[c] = TrieNode()
+            cur = cur.children[c]
+        cur.children['#'] = word
+        
+    def search(self, prefix, cur = None):
+        if not cur:
+            cur = self.root
+        for c in prefix:
+            if c not in cur.children:
+                return []
+            cur = cur.children[c]
+        
+        res = []
+        for ele in cur.children:
+            if ele == '#':
+                res.append(cur.children['#'])
+            else:
+                res += self.search('', cur.children[ele])
+        return res
+                
+                
+class AutocompleteSystem(object):
+
+    def __init__(self, sentences, times):
+        """
+        :type sentences: List[str]
+        :type times: List[int]
+        """
+        self.track_times = collections.defaultdict()
+        for i, s in enumerate(sentences):
+            self.track_times[s] = times[i]
+        
+        self.trie = Trie()
+        for s in sentences:
+            self.trie.insert(s)
+        
+        self.keyword = ""
+        
+
+    def input(self, c):
+        """
+        :type c: str
+        :rtype: List[str]
+        """
+        if c == '#':
+            self.track_times[self.keyword] = self.track_times.get(self.keyword, 0) + 1
+            self.trie.insert(self.keyword)
+            self.keyword = ""
+            return []
+            
+        self.keyword += c
+        res = self.trie.search(self.keyword)
+        res.sort(key = lambda x: (- self.track_times[x], x))
+        return res[:3]
+            
+            
+        
