@@ -1,0 +1,43 @@
+# stack + sort
+# time O(nlgn)
+# space O(n)
+
+#In Python, I used stack to find next_higher and next_lower
+class Solution(object):
+    def oddEvenJumps(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        n = len(A)
+        next_higher = [0] * n
+        next_lower = [0] * n
+        
+        stack = []
+        for value, index in sorted((value, index) for (index, value) in enumerate(A)):
+            while stack and stack[-1] < index:
+                next_higher[stack.pop()] = index
+            stack.append(index)
+            
+            
+        stack = []
+        for value, index in sorted((-value, index) for (index, value) in enumerate(A)):
+            while stack and stack[-1] < index:
+                next_lower[stack.pop()] = index
+            stack.append(index)
+            
+        #can reach end starting with a up jump
+        high = [0] * n
+        # can reach end starting with a down jump
+        low = [0] * n
+        high[n - 1] = low[n - 1] = 1
+        for i in range(n-1)[::-1]:
+            high[i] = low[next_higher[i]]
+            low[i] = high[next_lower[i]]
+        return sum(high)
+        
+        
+        
+        
+
+
