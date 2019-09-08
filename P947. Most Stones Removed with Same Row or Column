@@ -1,0 +1,35 @@
+# dfs or union find 分组
+# dfs可能会超时
+# 思路：总的石头数 - 总的组数 = 最多可去掉的石头数
+
+class Solution(object):
+    def removeStones(self, stones):
+        """
+        :type stones: List[List[int]]
+        :rtype: int
+        """
+        self.rows = collections.defaultdict(list)
+        self.cols = collections.defaultdict(list)
+        self.stone_points = {(i, j) for (i, j) in stones}
+        count = 0
+        
+        for i, j in stones:
+            self.rows[i].append(j)
+            self.cols[j].append(i)
+            
+        for x, y in stones:
+            if (x, y) in self.stone_points:
+                self.dfs(stones, x, y)
+                count += 1
+        return len(stones) - count
+            
+    def dfs(self, stones, i, j):
+        self.stone_points.discard((i, j))
+        for m in self.rows[i]:
+            if (i, m) in self.stone_points:
+                self.dfs(stones, i, m)
+        for n in self.cols[j]:
+            if (n, j) in self.stone_points:
+                self.dfs(stones, n, j)
+                
+            
