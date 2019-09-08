@@ -1,0 +1,40 @@
+# counter 
+# max counter * 2 - 1 > len(s)
+# heap reorganize
+# time O(nlgA) = O(n)
+# space O(A)
+
+from collections import Counter
+from heapq import * 
+class Solution(object):
+    def reorganizeString(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        counter = Counter(S)
+        max_common = counter.most_common(1)[0][1]
+        if max_common * 2 - 1 > len(S):
+            return ''
+        heap = []
+        for char, times in counter.items():
+            heappush(heap, (-times, char))
+            
+        res = ''
+        new_times = 0
+        new_char = ''
+        while heap:
+            neg_times, char = heappop(heap)
+            res += char
+            if new_times < 0:
+                heappush(heap, (new_times, new_char))
+            # this make sure same chars are not adjacent to each other
+            neg_times += 1
+            new_times = neg_times
+            new_char = char
+        
+        return res
+        
+        
+        
+     
