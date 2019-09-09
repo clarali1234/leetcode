@@ -1,0 +1,33 @@
+# 对于要进行查找的重量，我们都去计算这个重量情况下，是不是能够在D天之内把所有的货物都拉出去。
+# 然后进行简单的二分就可以了。和猴子吃香蕉的题目如出一辙。
+# time O(nlgn)
+# space O(1)
+class Solution(object):
+    def shipWithinDays(self, weights, D):
+        """
+        :type weights: List[int]
+        :type D: int
+        :rtype: int
+        """
+        left = max(weights)
+        right = sum(weights)
+        
+    
+        while left < right:
+            cur = 0
+            need = 1
+            mid = (left + right) // 2
+            for weight in weights:
+                if cur + weight > mid:
+                    need += 1
+                    cur = 0
+                cur += weight
+            if need > D:
+                left = mid + 1
+            else:
+                right = mid
+        return left
+                
+                    
+            
+        
