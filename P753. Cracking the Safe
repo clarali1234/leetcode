@@ -1,0 +1,35 @@
+# node = k ^ n
+# space O(k^n)
+# time O(k^n)
+class Solution(object):
+    def crackSafe(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        size = k ** n
+        res = ['0'] * n
+        visited = set()
+        visited.add(''.join(res))
+        self.dfs(res, size, n, k, visited )
+        return ''.join(res)
+        
+        
+    def dfs(self, res, size, n, k, visited):
+        if len(visited) == size:
+            return True
+        node = ''.join(res[len(res) - n + 1:])
+        for i in range(k):
+            node += str(i) 
+            if node not in visited:
+                res.append(str(i))
+                visited.add(node)
+                if self.dfs(res, size, n, k, visited):
+                    return True
+                res.pop()
+                visited.remove(node)
+            node = node[:-1]
+            
+                
+        
