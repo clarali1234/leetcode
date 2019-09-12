@@ -1,0 +1,44 @@
+class Solution(object):
+    def backspaceCompare(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: bool
+        """
+        return self.build(S) == self.build(T)
+    
+    def build(self, s):
+        ans = []
+        for c in s:
+            if c != '#':
+                ans.append(c)
+            elif ans:
+                ans.pop()
+        return ans
+                
+ class Solution(object):
+    def backspaceCompare(self, S, T):
+        i = len(S) - 1
+        j = len(T) - 1
+        back_s = 0
+        back_t = 0
+        while True:
+            while i >= 0 and (back_s or S[i] == '#'):
+                if S[i] == '#':
+                    back_s += 1
+                else: 
+                    back_s -= 1
+                i -= 1
+            while j >= 0 and (back_t or T[j] == '#'):
+                if T[j] == '#':
+                    back_t += 1
+                else:
+                    back_t -= 1
+                j -= 1
+            if not (i >= 0 and j >= 0 and S[i] == T[j]):
+                return i == j == -1
+            i -= 1
+            j -= 1
+    
+                
+        
