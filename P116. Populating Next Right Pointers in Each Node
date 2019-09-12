@@ -1,0 +1,37 @@
+class Solution(object):
+    def connect(self, root):
+        """
+        :type root: Node
+        :rtype: Node
+        """
+        if not root or not root.left:
+            return root
+        root.left.next = root.right
+        if root.next:
+            root.right.next = root.next.left
+        self.connect(root.left)
+        self.connect(root.right)
+        return root
+ 
+ 
+ # sol2: bfs with no queue
+ class Solution(object):
+    def connect(self, root):
+        """
+        :type root: Node
+        :rtype: Node
+        """
+        if not root or not root.left:
+            return root 
+        cur = root
+        next_level = root.left
+        
+        while cur.left:
+            cur.left.next = cur.right
+            if cur.next:
+                cur.right.next = cur.next.left
+                cur = cur.next
+            else:
+                cur = next_level
+                next_level = cur.left
+        return root
