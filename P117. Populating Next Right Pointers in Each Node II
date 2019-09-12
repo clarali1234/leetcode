@@ -1,0 +1,34 @@
+# 递归
+# first: inorder? preorder? post order? - preorder
+# second: local view: 
+# cur node
+# cur.left.next = cur.right
+# cur.right.next = cur.next.left
+
+# time O(n), space O(lgn)
+# dummy node
+# dummy is like a dupicate of tail and it records the route where tail walks in a level. 
+# Therefore, the first element of dummy must be 0 and 
+# second element must be the leftmost node in a level which can be set as the first parent node of next level
+
+class Solution(object):
+    def connect(self, root):
+        if not root:
+            return None
+        tail = dummy = Node(0)
+        node = root
+        while node:
+            tail.next = node.left
+            if tail.next:
+                tail = tail.next
+            tail.next = node.right
+            if tail.next:
+                tail = tail.next
+            node = node.next
+            if not node:
+                tail = dummy
+                node = dummy.next
+        return root
+                
+            
+            
