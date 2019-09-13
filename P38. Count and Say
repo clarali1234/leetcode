@@ -1,0 +1,22 @@
+class Solution(object):
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        s = '1'
+        for _ in range(n - 1):
+            prev = s[0]
+            count = 0
+            temp = ''
+            for l in s:
+                if l == prev:
+                    count += 1
+                else:
+                    temp = temp + str(count) + prev
+                    count = 1
+                    prev = l
+            temp += str(count) + prev
+            s = temp
+        return s
+                    
