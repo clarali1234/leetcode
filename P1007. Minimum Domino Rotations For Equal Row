@@ -1,0 +1,43 @@
+无论怎么换位置，如果最后可以让某一行的数字完全一样，每个位置上只有两个可能，这个数要么是A的，要么是B的。 那么，对第0个数字来说，要么是A[0], 要么是B[0]。
+那么，不管在那一行，后面的数字要么和A[0]相同， 要么和B[0]相同， 否则就不能达到效果。
+所以，
+–遍历数组一次， 如果可以在A或者B里面在每个位置上都找到和A[0]相同的元素，那么就可以把某一行全部变成A[0]
+–再遍历数组一次， 如果可以在A或者B里面在每个位置上都找到和B[0]相同的元素，那么就可以把某一行全部变成B[0]
+
+在任何时候，只要这个牌的正反面有一面不是出现最多的数字，那么一定返回-1.
+
+我们最终只需要返回两个方向翻转的次数的最小值即可。
+1.如果出现最多的数字的次数<长度，无论第一第二都不行。
+2.如果出现最多的次数=长度，这个时候第二多次数如果等于N，那么两者效果一样，如果第二多次数如果小于N，那么不可能。
+3.如果出现最多的次数>N，这个时候一定会出现某些牌的正反面都是该最多的数字。此时第二多的数字没有机会。
+
+总之，只需要判断出现最多的数字即可。
+
+class Solution(object):
+    def minDominoRotations(self, A, B):
+        """
+        :type A: List[int]
+        :type B: List[int]
+        :rtype: int
+        """
+        count = collections.Counter(A + B)
+        if count.most_common(1)[0][1] < len(A):
+            return -1
+        target = count.most_common(1)[0][0]
+        
+        count_b = count_a = 0
+        for i in range(len(A)):
+            if A[i] == B[i]:
+                if A[i] == target:
+                    continue
+                else:
+                    return -1 
+            elif A[i] == target:
+                count_b += 1
+            elif B[i] == target:
+                count_a += 1
+            else:
+                return -1
+        return min(count_a, count_b)
+          
+                
