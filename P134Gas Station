@@ -1,0 +1,21 @@
+# 首先判断总的油够不够consume,如果总的油小于总的消耗那一定是走不完的。
+# 其次判断，过程中是否剩的油会小于0，如果小于0 那只能从下一个station开始。遍历一遍即可得到答案。
+
+class Solution(object):
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        if sum(gas) < sum(cost):
+            return -1
+        start_index = 0
+        diff = 0
+        for i in range(len(gas)):
+            if gas[i] + diff < cost[i]:
+                start_index = i + 1
+                diff = 0
+            else:
+                diff = diff + gas[i] - cost[i]
+        return start_index
