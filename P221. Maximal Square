@@ -1,0 +1,32 @@
+# 能够成的正方形等于左边、上边、左上能够成的正方形边长的最小值+1.
+# 为什么是最小值？因为只要存在一个0，那么就没法构成更大的正方形，这个是很保守的策略。
+#  dp[i][j] 表示以(i, j)为右下顶点的最大全1矩阵的边长.
+
+class Solution(object):
+    def maximalSquare(self, matrix):
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
+        if not matrix:
+            return 0
+        m = len(matrix)
+        n = len(matrix[0])
+        
+        #dp = [[0] * m for _ in range(n)]
+        dp = [[ 0 if matrix[i][j] == '0' else 1 for j in range(n)] for i in range(m)]
+        #for i in range(m):
+            #dp[0][i] = matrix[0][i]
+        #for j in range(n):
+            #dp[j][0] = matrix[j][0]
+            
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == '1':
+                    dp[i][j] = min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+                else:
+                    dp[i][j] = 0
+        res = max(max(row) for row in dp)
+        return res**2
+        
+ 
