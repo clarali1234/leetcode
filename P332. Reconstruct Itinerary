@@ -1,10 +1,39 @@
+# dfs
 class Solution(object):
-    def numJewelsInStones(self, J, S):
+    def findItinerary(self, tickets):
         """
-        :type J: str
-        :type S: str
-        :rtype: int
+        :type tickets: List[List[str]]
+        :rtype: List[str]
         """
-
-        return sum([s in set(J) for s in S])
+        self.collection = collections.defaultdict(list)
+        for depart, to in sorted(tickets)[::-1]:
+            self.collection[depart].append(to)
+            
+        self.rout = []
+        self.traverse('JFK')
+        return self.rout[::-1]
+    
+    def traverse(self, depart):
+        while self.collection[depart]:
+            self.traverse(self.collection[depart].pop())
+        self.rout.append(depart)
+    
+  # non-recursion
+  class Solution(object):
+    def findItinerary(self, tickets):
+        """
+        :type tickets: List[List[str]]
+        :rtype: List[str]
+        """
+        collect = collections.defaultdict(list)
+        for depart, to in sorted(tickets)[::-1]:
+            collect[depart].append(to)
+            
+        rout = []
+        stack = ['JFK']
+        while stack:
+            while collect[stack[-1]]:
+                stack.append(collect[stack[-1]].pop())
+            rout.append(stack.pop())
+        return rout[::-1]
         
