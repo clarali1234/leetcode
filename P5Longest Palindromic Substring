@@ -1,56 +1,57 @@
 # method1, DP, O(n^2)
 # method2, emumeration, O(n^2)
-# method3, rabin-karp O(n)
 
-
-# DP: 基于区间型动态规划的解法
-# state variable:
-# start index and end index of a substring can identify a state, which influences our decision
-# so state variable is state(s, e) indicates whether str[s, e] is palindromic
-# goal state:
-# max(e - s + 1) that makes state(s, e) = true
-# state transition:
-# Let's observe example base cases
-
-# for s = e, "a" is palindromic,
-# for s + 1 = e, "aa" is palindromic (if str[s] = str[e])
-# for s + 2 = e, "aba" is palindromic (if str[s] = str[e] and "b" is palindromic)
-# for s + 3 = e, "abba" is palindromic (if str[s] = str[e] and "bb" is palindromic)
-# we realize that
-
-# for s + dist = e, str[s, e] is palindromic if str[s] == str[e] and str[s + 1, e - 1] is palindromic
-# state transition equation:
+# so state variable is dp(s, e) indicates whether str[s, e] is palindromic
 
 # state(s, e) is true:
-# for s = e, 
+# for s = e  
 # for s + 1 = e,  if str[s] == str[e]
 # for s + 2 <= e, if str[s] == str[e] && state(s + 1, e - 1) is true
 
 
-class Solution:
-    def longestPalindrome(self, s: str) -> str:
+class Solution(object):
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
         if not s:
             return ''
-        
         n = len(s)
-        is_palindrome = [[False] * n for _ in range(n)]
+        dp = [[False] * n for _ in range(n)]
         
+        start = 0
+        max_len = 1
+        
+        # Fill DP table for single char palindromes
         for i in range(n):
-            is_palindrome[i][i] = True
-        for i in range(1, n):
-            is_palindrome[i][i - 1] = True
-            
-        longest, start, end = 1, 0, 0
-        for length in range(1, n):
-            for i in range(n - length):
-                j = i + length
-                is_palindrome[i][j] = (s[i] == s[j] and is_palindrome[i + 1][j - 1])
-                if is_palindrome[i][j] and length + 1 > longest:
-                    longest = length + 1 
-                    start, end = i, j
-        return s[start:end + 1]
+            dp[i][i] = True
+        
+        # Fill DP table for 2 char long palindromes
+        for i in range(n - 1):
+            if s[i] == s[i + 1]:
+                dp[i][i + 1] = True
+                start = i
+                max_len = 2
+        
+        # Fill DP table for palindromes of every other length
+        # starting from 3
+        length = 3 
+        while length <= n:
+            for i in range(n - length + 1):
+                j = i + length - 1
+                if dp[i + 1][j - 1] == True and s[i] == s[j]:
+                    dp[i][j] = True
+                    max_len = length
+                    start = i
+            length += 1
+        return s[start : start + max_len]
+                    
+        
+    
 
-# method2, emumeration, O(n^2)
+# method2, emumeration, O(n^2) from middle to two ends
+# 中心线枚举, 每个点作为中心线时找到的最长的回文串
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         if not s:
@@ -58,9 +59,11 @@ class Solution:
         
         longest = ''
         for middle in range(len(s)):
+            # case: aba
             sub = self.find_palindrome_from(s, middle, middle)
             if len(sub) > len(longest):
                 longest = sub
+             # case: abba
             sub = self.find_palindrome_from(s, middle, middle + 1)
             if len(sub) > len(longest):
                 longest = sub
@@ -72,6 +75,20 @@ class Solution:
             right += 1
         return string[left + 1 : right]
         
+class Solution(object):
+    def longestPalindrome(self, s):
+        if not s:
+            return ''
         
-  # rabin-karp O(n)
-
+        res = ''
+        for i in range(len(s)):
+            res = max(self.helper(s, i, i), self.helper(s, i, i + 1), res, key = len)
+        return res
+    
+    def helper(self, s, left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left -= 1
+            right += 1
+        return s[left + 1 : right]
+            
+            
