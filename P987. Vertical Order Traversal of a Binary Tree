@@ -1,5 +1,5 @@
 # hash
-# time o(n)
+# time o(nlgn)
 # space O(n)
 
 class Solution(object):
