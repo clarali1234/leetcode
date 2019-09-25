@@ -1,6 +1,6 @@
-# serilization is the process of converting the data structure into a sequence string that it can be transmitted across a network
-# link to reconstructed later in the same or another computer environment.
-
+two methods:
+1. bfs
+2. dfs
 # serilization: object to string
 # deserilization: string to object
 
@@ -70,8 +70,53 @@ class Codec:
             index += 1
             
         return root
-            
 
-# Your Codec object will be instantiated and called as such:
-# codec = Codec()
-# codec.deserialize(codec.serialize(root))
+
+# dfs
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return []
+        self.res = []
+        self.dfs(root)
+        return ' '.join(self.res)
+        
+        
+    def dfs(self, root):
+        if not root:
+            self.res.append('#')
+        else:
+            self.res.append(str(root.val))
+            self.dfs(root.left)
+            self.dfs(root.right)
+        
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        self.dfs = collections.deque(
+            TreeNode(int(val)) if val != '#' else None
+            for val in data.split()
+        )
+        
+        return self.build()
+    def build(self):
+        if self.dfs:
+            node = self.dfs.popleft()
+            if not node:
+                return 
+            root = node
+            root.left = self.build()
+            root.right = self.build()
+            return root
