@@ -1,3 +1,4 @@
+# 开辟两个栈，一个栈是普通的栈，一个栈用来维护最小值的队列
 class MinStack(object):
 
     def __init__(self):
