@@ -1,4 +1,54 @@
-# quick select O(n) time 
+# sort O(nlgn)
+
+https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/301338/Python-or-tm-215
+根据Max Heap数据结构来解
+你要第Kth大的元素，那我就Heapify一个Max Heap，然后既然是要找第K个大的元素，Max Heap顶端是最大的，
+第k个大的就是从最底层向上的第k个元素，实现方法从最底下一个一个pop
+
+Time Complexity：Heapify用了O(N)，然后一共pop了k个元素，每个元素使用logn的时间复杂，所以一共是O(n + klog(n))
+#Time: O(n + klog(n)) | Space: O(n)
+import heapq
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        nums = [-num for num in nums]
+        heapq.heapify(nums)
+        res = float('inf')
+        for _ in range(k):
+            res = heapq.heappop(nums)
+        return -res
+
+Time: O(k) + O((n-k) * logk) | Space: O(K)
+
+import heapq
+class Solution(object):
+    def findKthLargest(self, nums, k):
+        min_heap = [-float('inf')] * k
+        heapq.heapify(min_heap)
+        for num in nums:
+            if num > min_heap[0]:
+                heapq.heappop(min_heap)
+                heapq.heappush(min_heap, num)
+        return min_heap[0]
+        
+# quick select O(n) time average, worst O(n^2)
+import random
+class Solution:
+    # @param {integer[]} nums
+    # @param {integer} k
+    # @return {integer}
+    def findKthLargest(self, nums, k):
+        pivot = random.choice(nums)
+        nums1, nums2 = [], []
+        for num in nums:
+            if num > pivot:
+                nums1.append(num)
+            elif num < pivot:
+                nums2.append(num)
+        if k <= len(nums1):
+            return self.findKthLargest(nums1, k)
+        if k > len(nums) - len(nums2):
+            return self.findKthLargest(nums2, k - (len(nums) - len(nums2)))
+        return pivot
 
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
