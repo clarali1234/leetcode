@@ -1,15 +1,17 @@
-class Solution:
-    def isPalindrome(self, x: int) -> bool:
+既然不能将数字转字符串，那仍然可以考虑生成一个反转整数，通过比较反转整数和原整数是否相等来判断回文。
+
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
         if x < 0:
             return False
-        div = 1
-        while (x / div >= 10):
-            div *= 10
-        while x != 0:
-            left = x // div
-            right = x % 10
-            if left != right:
-                return False
-            x = (x % div) // 10
-            div /= 100
-        return True
+
+        tmp = x
+        y = 0
+        while tmp:
+            y = y*10 + tmp%10
+            tmp = tmp/10
+        return y == x
