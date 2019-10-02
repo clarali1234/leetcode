@@ -1,3 +1,7 @@
+优先队列也是可以满足要求的解法。很多语言都有内建优先队列结构，在Python里有Queue.PriorityQueue，也有更高效的heapq（用list模拟heap），
+这里使用heapq。【时间复杂度O(nlogk)】
+注：由于heapq默认是最小堆，代码中在堆的push时给权重加了负号，这样堆顶部对应的实际上是出现次数最多的数。
+
 import heapq
 class Solution:
     def topKFrequent(self, nums: List[str], k: int) -> List[str]:
