@@ -1,6 +1,9 @@
 # time O(n)
 # space O(1)
+如果一段序列中每个元素的在S中最右边的序号都在某个范围内，那么就可以划分成一个段。
 
+因此，使用字典保存每个元素出现的最靠右的位置。然后对字符串S进行遍历，找出最靠右的序号的最大值j。
+如果i和j重合了，说明已经到了这个划分的末尾了，然后进行划分。并开始计算下一个划分。
 # Figure out the rightmost index first and use it to denote the start of the next section.
 # Reset the left pointer at the start of each new section.
 # Store the difference of right and left pointers + 1 as in the result for each section
