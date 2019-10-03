@@ -5,11 +5,13 @@
 #         self.left = None
 #         self.right = None
 
+在初始化的过程中，就使用中序遍历，把BST的中序遍历是有序的这个特点用上。再定义hasnext()和next()就很容易了。
 class BSTIterator:
 
     def __init__(self, root: TreeNode):
         self.stack = []
-        self.helper(root)
+        self.Inorder(root)
+        
     def next(self) -> int:
         """
         @return the next smallest number
