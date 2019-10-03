@@ -1,6 +1,10 @@
 ## sort + two pointers
 # time O(n^2)
 # space O(1)
+同样需要先排序，然后使用一个指针遍历，另外两个指针分别指向下一个元素和最后一个元素然后向中间靠拢的方式。
+在靠拢的过程中如果当前的和与target的差距比要返回的结果与target更小，那么更新要返回的结果。
+
+指针的移动策略是如果和比目标值大，说明我们需要把这个和调小一点；如果和比目标小，那么需要把和调大一点。如果相等那么就返回结果。
 
 class Solution:
     def threeSumClosest(self, nums: List[int], target: int) -> int:
