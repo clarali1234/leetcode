@@ -22,7 +22,8 @@ class Solution:
                 right -= 1
         return left
         
-        
+设置两个头尾指针，头指针p0指向的位置是0该放置的位置，尾指针p2指向的位置是2该放置的位置。
+i用来遍历整个数组，碰到0把它和p0指向的数交换，碰到2把它和p2指向的数交换，碰到1继续向后遍历        
 # one time partition
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
