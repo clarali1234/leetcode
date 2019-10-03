@@ -1,5 +1,5 @@
-# dp 
-# time dp[x]=max(dp[x],dp[y]+1)
+# dp time:O(n^2)
+# dp[x] = max(dp[x], dp[y] + 1) 其中 y < x 并且 nums[x] > nums[y]
 
 class Solution(object):
     def lengthOfLIS(self, nums):
@@ -22,6 +22,9 @@ class Solution(object):
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp[i] for i in range(n))
         
+O(n * log n)解法（运行时间44ms）：
+维护一个单调序列
+遍历nums数组，二分查找每一个数在单调序列中的位置，然后替换之。
   # binary search
   # o(nlgn)
   class Solution(object):
