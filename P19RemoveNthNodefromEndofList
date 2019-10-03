@@ -1,3 +1,5 @@
+用两个指针，一个指针p从前到后扫描整个链表，一个指针q慢指针p的步数为n+1，那么当p指向尾部的Null时，
+指针q恰好指向要删除节点的前一个节点。由于可能删除头部节点，伪装一个新的头部方便操作。
 class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         dummy = ListNode(0)
