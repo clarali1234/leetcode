@@ -23,7 +23,7 @@ class Codec:
         res = []
         i = 0
         while i < len(s):
-            length_index = s.find('#', i)
+            length_index = s.find('#', i) # i is start, end is optional
             length = int(s[i : length_index])
             res.append(s[length_index + 1 : length_index + 1 + length])
             i = length_index + 1 + length
