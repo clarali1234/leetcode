@@ -1,3 +1,5 @@
+分两步：1，对集合进行排序。2，进行剪枝，如果元素重复，直接跳过这一元素，决策树的这一枝被剪掉
+
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         if not nums:
