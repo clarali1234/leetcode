@@ -2,6 +2,15 @@
 # build graph bds
 # time O(n), space O(n)
 # build undirected graph from the tree, traverse the tree begin from the target, collect all notes that k steps from the target
+这样树的遍历问题就转为了图的遍历（其实树也是一种特殊的图）。
+建立反向连接就是用一个 HashMap 来来建立每个结点和其父结点之间的映射，使用先序遍历建立好所有的反向连接，
+然后再开始查找和目标结点距离K的所有结点，这里需要一个 HashSet 来记录所有已经访问过了的结点。
+
+在递归函数中，首先判断当前结点是否已经访问过，是的话直接返回，否则就加入到 visited 中。
+再判断此时K是否为0，是的话说明当前结点已经是距离目标结点为K的点了，将其加入结果 res 中，然后直接返回。
+否则分别对当前结点的左右子结点调用递归函数，注意此时带入 K-1，这两步是对子树进行查找。
+之前说了，还得对父结点，以及兄弟子树进行查找，这是就体现出建立的反向连接 HashMap 的作用了，
+若当前结点的父结点存在，我们也要对其父结点调用递归函数，并同样带入 K-1，这样就能正确的找到所有满足题意的点了，
 
 class Solution(object):
     def distanceK(self, root, target, K):
