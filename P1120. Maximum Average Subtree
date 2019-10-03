@@ -2,7 +2,10 @@
 # time O(n)
 # space O(h)
 
-
+第一个位置表示以该节点为根的子树值的和，第二个位置表示子树的节点数；
+自顶向上的累加每个节点的这两个数值；
+子树平均数是和/节点，使用一个全局变量来存储；
+使用字典做记忆化搜索，用来加速
 
 # Definition for a binary tree node.
 # class TreeNode:
