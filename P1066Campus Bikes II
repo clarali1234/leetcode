@@ -1,4 +1,15 @@
-# I passed a boolean list into my dfs method, where "0" means the bike is available for other users, and "1" means occupied.class Solution(object):
+先用二维矩阵记录每个工人到每辆车的距离，dp[i][j] = distance就表示工人 i 和车 j 的距离为distance。
+
+然后问题就转化为：
+在二维矩阵里每一行取一个数digit，
+当前行取完 digit 之后别的行不能在 digit 在的这一列再取，
+求所有行都取一个数后, 所有这些取出来数的最小和。
+暴力解就是回溯， 所有取法都试一次，时间复杂度是O(N!)，
+
+所以python需要优化剪枝，用dp记录之前已经计算过的局部解，
+
+# I passed a boolean list into my dfs method, where "0" means the bike is available for other users, and "1" means occupied.
+class Solution(object):
     def assignBikes(self, workers, bikes):
         """
         :type workers: List[List[int]]
