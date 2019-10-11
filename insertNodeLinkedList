@@ -1,0 +1,28 @@
+class ListNode(object):
+    def __init__(self, val, next = None):
+        self.val = val
+        self.next = next
+
+class Solution(object):
+    def insertNode(self, head, val):
+        dummy = ListNode(0, head)
+        pointer = dummy
+        while pointer.next and pointer.next.val < val:
+            pointer = pointer.next
+        node = ListNode(val, pointer.next)
+        pointer.next = node
+
+        return dummy.next
+
+
+if __name__ == "__main__":
+    head = ListNode(7, None)
+    test = Solution()
+    head = test.insertNode(head, 3)
+    head = test.insertNode(head, 4)
+    head = test.insertNode(head, 1)
+    head = test.insertNode(head, 5)
+
+    while head != None:
+        print(head.val)
+        head = head.next
