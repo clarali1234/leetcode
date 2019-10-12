@@ -1,9 +1,5 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+1. recursion 
+ time O(n), space O(n)
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
@@ -14,4 +10,17 @@ class Solution:
                 return self.lowestCommonAncestor(root.right, p, q)
             else:
                 return root
-        
+2. iteration
+ time O(n), space O(1)
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        pointer = root
+        while pointer:
+            if max(p.val, q.val) < pointer.val:
+                pointer = pointer.left
+            elif min(p.val, q.val) > pointer.val:
+                pointer = pointer.right
+            else:
+                return pointer
+  
