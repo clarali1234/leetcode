@@ -1,3 +1,23 @@
+1. brute force recursion, time O(2^(m+n)), space O(m + n)
+python 超时
+class Solution(object):
+    def minPathSum(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        return self.helper(grid, 0, 0)
+    
+    def helper(self, grid, i, j):
+        if i == len(grid) or j == len(grid[0]):
+            return sys.maxsize
+        if i == len(grid) - 1 and j == len(grid[0]) - 1:
+            return grid[i][j]
+        
+        return grid[i][j] + min(self.helper(grid, i + 1, j), self.helper(grid, i, j + 1))
+
+
+
 # dp
 # dp[i][j] 到达i-1, j-1时最小sum
 # 转移方程:f[i][j]=min{f[i-1][j],f[i][j-1]}+A[i][j]
@@ -9,11 +29,8 @@
   
  class Solution(object):
     def minPathSum(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        if not grid  or len(grid) == 0 or len(grid[0]) == 0:
+      
+        if not grid:
             return 0
         m = len(grid)
         n = len(grid[0])
@@ -28,5 +45,50 @@
             for y in range(1, n):
                 dp[x][y] = min(dp[x - 1][y], dp[x][y - 1]) + grid[x][y]
         return dp[m - 1][n - 1]
+ 
+ # dp space O(n)
+ 这里我们并不提前更新第一行或是第一列，而是在遍历的时候判断，若j等于0时，说明是第一列，
+ 我们直接加上当前的数字，否则就要比较是左边的 dp[j-1] 小还是上面的 dp[j] 小，
+ 当是第一行的时候，dp[j] 是整型最大值，所以肯定会取到 dp[j-1] 的值，然后再加上当前位置的数字即可，
+ class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        M, N = len(grid), len(grid[0])
+        cost = [sys.maxsize]*N
+
+        for i in range(M):
+            for j in range(N):
+                if j == 0:
+                    cost[j] = grid[i][j] + cost[j] if i > 0 else grid[i][j]
+                else: 
+                    cost[j] = min(cost[j-1], cost[j]) + grid[i][j]
+        return cost[-1]
         
         
+# dp space O(1)
+发现path数组没有必要重新复制出来，可以直接使用grid代表了。
+这样实际上就对grid进行了一个覆盖：遍历过的地方代表path，还没遍历到的地方代表grid。
+
+class Solution(object):
+    def minPathSum(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        
+        m = len(grid)
+        n = len(grid[0])
+        
+        for i in range(m):
+            for j in range(n):
+                if i == 0 and j == 0:
+                    prev = 0
+                elif i == 0:
+                    prev = grid[i][j - 1]
+                elif j == 0:
+                    prev = grid[i - 1][j]
+                else:
+                    prev = min(grid[i - 1][j], grid[i][j - 1])
+                grid[i][j] = grid[i][j] + prev
+        return grid[i][j]
