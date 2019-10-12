@@ -1,46 +1,47 @@
 # sol1 build graph + dfs q:query; e:equation
 # time O(e + q*e^2)
 # space O(e)
+
+import collections
+
 class Solution(object):
-    def calcEquation(self, equations, values, queries):
-        """
-        :type equations: List[List[str]]
-        :type values: List[float]
-        :type queries: List[List[str]]
-        :rtype: List[float]
-        """
-        # graph 
-        graph = self.build_graph(equations, values)
-        res = []
-        for x, y in queries:
-            ans = self.dfs(graph, x, y, set(), 1.0)
-            res.append(ans)
-        return res
-    
-    def add_edge(self, graph, x, y, value):
-        graph[x].append((y, value))
-        graph[y].append((x, 1.0 / value))
+    def calEquation(self, euqations, values, queries):
+        # build graph
+        graph = collections.defaultdict(dict)
+        for (x,y), value in zip(equations, values):
+            graph[x][y] = value
+            graph[y][x] = 1.0 / value
         
-    def build_graph(self, equations, values):
-        graph = collections.defaultdict(list)
-        for vertices, value in zip(equations, values):
-            x, y = vertices[0], vertices[1]
-            self.add_edge(graph, x, y, value)
-        return graph
-            
-    def dfs(self, graph, x, y, visited, value):
-        if x not in graph or y not in graph or x in visited:
+        res  = []
+        for i, j in queries:
+            res.append(self.dfs(graph, i, j, set(), 1.0))
+        return res
+                       
+    def dfs(self, graph, i, j, visited, value):
+        if i not in graph or j not in graph or i in visited:
             return -1.0
-        if x == y:
+        if i == j:
             return value
-        visited.add(x)
+        
+        visited.add(i)
         temp = 0
-        for i in range(len(graph[x])):
-            #visited.add(graph[x][i][0])
-            temp = self.dfs(graph, graph[x][i][0], y, visited, value * graph[x][i][1])
-            if temp != -1:
+        for n in graph[i]:
+            temp = self.dfs(graph, n,j, visited, value * graph[i][n])
+            if temp != -1.0:
                 return temp
-        return -1
+        return -1.0
+
+
+if __name__ == '__main__':
+    equations = [['a','b'],['b','c']]
+    values = [2, 3]
+    queries = [['a','c'], ['x','a']]
+    test = Solution()
+    res = test.calEquation(equations, values, queries)
+    print(res)
+            
+            
+        
             
             
 # sol2 union find
