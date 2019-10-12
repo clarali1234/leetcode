@@ -1,6 +1,4 @@
-# BFS time O(r*c), space O(r*c)
-
-
+思路：用dfs去遍历graph, 从1开始，若遇到1则染成0， 数dfs的次数
 # DFS time(h * n^2), h is the depth of recursion
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
@@ -29,33 +27,9 @@ class Solution:
             neighbor_x = direction[0] + x
             neighbor_y = direction[1] + y
             self.dfs(grid, neighbor_x, neighbor_y, rows, cols)
-            
-            
-    # BFS
-    class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        # sanity check
-        if not grid:
-            return 0
-        
-        count = 0
-        rows, cols = len(grid), len(grid[0])
-        location_set = set([(i, j) for i in range(rows) for j in range(cols) if grid[i][j] == '1'])
-        directions = [[-1, 0], [1, 0], [0, 1], [0, -1]]
-        while location_set:
-            count += 1
-            queue = collections.deque([location_set.pop()])
-            while queue:
-                i, j = queue.popleft()
-                for direction in directions:
-                    neighbor_i = i + direction[0]
-                    neighbor_j = j + direction[1]
-                    if (neighbor_i, neighbor_j) in location_set:
-                        location_set.remove((neighbor_i, neighbor_j))
-                        queue.append((neighbor_i, neighbor_j))
-        return count
-        
-# BFS
+ 
+# bfs 遍历图，对于任何一个未访问过的1，进行一次bfs，把她周围的1放入visited里面
+# BFS time O(r*c), space O(r*c)   
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         # sanity check
