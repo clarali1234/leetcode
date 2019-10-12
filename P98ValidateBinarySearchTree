@@ -1,14 +1,32 @@
-一：递归。（当前节点值比他左子树大，比右子树小）
+1. 暴力解：in-order traversal, 如果不是sorted或者有重复元素则返回false
+    time O(nlgn), space: O(h)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 
-1. 为空返回true
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        self.in_order = []
+        self.dfs(root)
+        return self.in_order == sorted(self.in_order) and len(self.in_order) == len(set(self.in_order))
+    
+    def dfs(self, root):
+        if not root:
+            return None
+        self.dfs(root.left)
+        self.in_order.append(root.val)
+        self.dfs(root.right)
 
-2.左子树返回的合法性。考虑左子树不空的时候，那么根结点要比所有左子树上的结点大，即根结点大于左子树的最大值----左子树的右下角的结点。
 
-3. 左子树返回为真且右子树也为真则返回真。考虑右子树时，根要比右子树的最小值小---最左左下角的结点。
-
-
-# Divide and Conquer
-
+2. 递归。
+    time O(n), space O(h)
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
