@@ -62,4 +62,33 @@ class Solution(object):
 如果我们频繁的操作该树，并且频繁的调用kth函数，有什么优化方法使时间复杂度降低至O(h)？
 h是树的高度。根据提示，我们可以在TreeNode中加入一个rank成员，这个变量记录的是该节点的左子树中节点的个数，
 其实就是有多少个节点比该节点小。这样我们就可以用二叉树搜索的方法来解决这个问题了。这个添加rank的操作可以在建树的时候一起完成。
+class Solution(object):
+    def totalnode(self,root):
+        if not root.right and not root.left:
+            return 1
+        else:
+            l,r = 0, 0
+            if node.right:
+                r = self.totalnode(node.right)
+            if node.left:
+                l = self.totalnode(node.left)
+            return 1+l + r
 
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        if k == 0:
+            return root.val
+        l = 0
+        if root.left:
+            l = self.totalnode(l)
+
+        if k ==  l+1:
+            return root.val
+        if k > l+1:
+            return kthSmallest(self, root.right, k-l+1)
+        else:
+            return kthSmallest(self, root.left, k-1)
