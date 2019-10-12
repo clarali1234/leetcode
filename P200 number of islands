@@ -1,5 +1,6 @@
 思路：用dfs去遍历graph, 从1开始，若遇到1则染成0， 数dfs的次数
-# DFS time(h * n^2), h is the depth of recursion
+# DFS time(n^2),因为有剪枝，空间复杂度是递归的深度
+
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         # sanity check
