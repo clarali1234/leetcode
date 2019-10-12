@@ -1,15 +1,41 @@
-优先队列也是可以满足要求的解法。很多语言都有内建优先队列结构，在Python里有Queue.PriorityQueue，也有更高效的heapq（用list模拟heap），
-这里使用heapq。【时间复杂度O(nlogk)】
+1. bucket sort time O(n), space O(n)
+bucket 是frequency:key的字典，key是list
+
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        dic = collections.Counter(nums)
+        
+        bucket = collections.defaultdict(list)
+        for key in dic:
+            freq = dic[key]
+            bucket[freq].append(key)
+            
+        count = len(nums)
+        res = []
+        while len(res) < k:
+            if bucket[count]:
+                res += bucket[count]
+            count -= 1
+        return res[:k]
+                
+2. priority queue
+time O(klgn), space O(n)
+
 注：由于heapq默认是最小堆，代码中在堆的push时给权重加了负号，这样堆顶部对应的实际上是出现次数最多的数。
 
-import heapq
-class Solution:
-    def topKFrequent(self, nums: List[str], k: int) -> List[str]:
+from heapq import *
+class Solution(object):
+    def topKFrequent(self, nums, k):
+
         dic = collections.Counter(nums)
         heap = [(-val, key) for key, val in dic.items()]
-        heapq.heapify(heap)
-        result = []
+        heapify(heap)
+        res = []
         for _ in range(k):
-            result.append(heapq.heappop(heap)[1])
-        return result
+            res.append(heappop(heap)[1])
+        return res
         
+
+3. priority queue
+time O(nlgk), space O(n)
