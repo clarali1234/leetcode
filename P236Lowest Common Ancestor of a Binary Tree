@@ -1,31 +1,16 @@
 # recursion
-# O(n)
-# O(h)
-
-
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+ time O(n), space o(n)
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        # corner case
         if not root:
-            return None
+            return None 
         if root == p or root == q:
             return root
         
-        # divide
         left = self.lowestCommonAncestor(root.left, p, q)
         right = self.lowestCommonAncestor(root.right, p, q)
         
-        #conquer
         if left and right:
             return root
-        if not left:
-            return right
-        if not right:
-            return left
+        return left or right
