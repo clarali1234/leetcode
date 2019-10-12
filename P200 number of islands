@@ -1,7 +1,7 @@
 # BFS time O(r*c), space O(r*c)
 
 
-# DFS
+# DFS time(h * n^2), h is the depth of recursion
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         # sanity check
