@@ -1,31 +1,65 @@
+1. BST in-order traversal 两种实现
+2. follow up
+
+
 # inorder traversal, BST 非减序列
 
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> int:
-        value = []
-        self.dfs(root, value)
-        return value[k - 1]
+class TreeNode(object):
+    def __init__(self, x, left = None, right = None):
+        self.val = x
+        self.left = left
+        self.right = right
+        
+class Solution(object):
     
-    def dfs(self, node, value):
-        if not node:
+    def kthSmallest(self, root, k):
+        self.res = []
+        self.in_order(root)
+        return self.res[k-1]
+    
+    def in_order(self, root):
+        if not root:
             return 
         
-        self.dfs(node.left, value)
-        value.append(node.val)
-        self.dfs(node.right, value)
+        self.in_order(root.left)
+        self.res.append(root.val)
+        self.in_order(root.right)
+        
+        
+if __name__ == '__main__':
+    left = TreeNode(3, None, None)
+    right = TreeNode(5, None, None)
+    root = TreeNode(4, left, right)
+    
+    test = Solution()
+    res = test.kthSmallest(root, 2)
+    print(res)
 
 
 ## 非递归实现中序遍历，防止stack overflow
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        stack = []
+        res = []
+        while root or stack:
+            if root:
+                stack.append(root)
+                root = root.left
+            else:
+                cur = stack.pop()
+                res.append(cur.val)
+                root = cur.right
+                
+        return res[k - 1]
+        
 
 # follow up
-# 在 TreeNode 中增加一个 counter，代表整个树的节点个数
-#在增删查改的过程中记录不断更新受影响节点的 counter
-#在 kthSmallest 的实现中用类似 Quick Select 的算法去找到 kth smallest element 时间复杂度为 O(h)，h 为树的高度。
+如果我们频繁的操作该树，并且频繁的调用kth函数，有什么优化方法使时间复杂度降低至O(h)？
+h是树的高度。根据提示，我们可以在TreeNode中加入一个rank成员，这个变量记录的是该节点的左子树中节点的个数，
+其实就是有多少个节点比该节点小。这样我们就可以用二叉树搜索的方法来解决这个问题了。这个添加rank的操作可以在建树的时候一起完成。
 
