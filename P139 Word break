@@ -1,4 +1,4 @@
-# 记忆化递归
+# sol1: dp
 # time O(n^2)
 # space O(n)
 class Solution:
@@ -16,3 +16,35 @@ class Solution:
                     if s[i:j + 1] in wordDict:
                         dp[j + 1] = True
         return dp[-1]
+
+# sol2 recursion time O(n^2), space O(n)
+
+Say length of the string s = N, when dfs() is called for first time, it takes O(N) to find a valid sub-string t.
+Then, we call dfs(s, i, dict, set) and all invalid index will be kept in set when it returns.
+The remaining loop iterations take O(N), since we simply look up hash tables.
+So, the time complexity = O(N) + O(f(N-i)) + O(N) = O(2N + f(N-1)) = O(2N + 2(N-1) + ... + 1) = O(N^2).
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+        start = 0
+        end = len(s) - 1
+        memo = {}
+        wordDict = set(wordDict)
+        return self.dfs(s, start, end, wordDict, memo)
+    
+    def dfs(self, s, start, end, wordDict, memo):
+        if s[start : end + 1] in memo:
+            return memo[s[start : end + 1]]
+        if s[start : end + 1] in wordDict:
+            memo[s[start : end + 1]] = True
+            return True
+        for i in range(start, end + 1):
+            if s[start : i] in wordDict and self.dfs(s, i, end, wordDict, memo):
+                return True
+        memo[s[start : end + 1]] = False
+        return False
