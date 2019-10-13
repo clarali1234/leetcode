@@ -19,4 +19,33 @@ class Solution(object):
             return self.addBinary(a[:-1], b[:-1]) + '0'
         else:
             return self.addBinary(a[:-1], b[:-1]) + '1'
+            
+            
+            
+  # time O(max(m,n), space O(max(m,n))    
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        m = len(a)
+        n = len(b)
         
+        if m > n:
+            b = '0' * (m - n) + b
+        elif m < n:
+            a = '0' * (n - m) + a 
+            
+        
+        l1 = list(a)
+        l2 = list(b)
+        res = ''
+        carry = '0'
+        while l1 and l2:
+            cur = int(l1.pop()) + int(l2.pop()) + int(carry)
+            if cur >= 2:
+                cur = cur % 2
+                carry = 1
+            else:
+                carry = 0     
+            res = str(cur) + res
+        if carry:
+            res = str(carry) + res
+        return res
