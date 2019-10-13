@@ -1,10 +1,7 @@
 # BFS topo sort
-# Time Complexity: The first step to create a graph takes O(n + alhpa) time where n is number of given words and alpha 
-# is number of characters in given alphabet. The second step is also topological sorting. 
-# Note that there would be alpha vertices and at-most (n-1) edges in the graph. 
-# The time complexity of topological sorting is O(V+E) which is O(n + aplha) here. 
-# So overall time complexity is O(n + aplha) + O(n + aplha) which is O(n + aplha).
-
+# Time Complexity: Say the number of characters in the dictionary (including duplicates) is n. 
+Building the graph takes O(n). 
+Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the overall time complexity is O(n).
 
 
 
