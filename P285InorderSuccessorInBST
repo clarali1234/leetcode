@@ -1,10 +1,5 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+#sol1: recursion
+    time O(n), space O(h)
 class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         if not root:
@@ -15,3 +10,20 @@ class Solution:
         if left:
             return left
         return root
+
+# sol2: non-recursion
+    time O(n), space O(1)
+class Solution:
+    def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
+        if not root or not p:
+            return None
+        
+        successor = None
+        while root:
+            if p.val < root.val:
+                successor = root
+                root = root.left
+            else:
+                root = root.right
+        return successor
+        
