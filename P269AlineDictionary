@@ -6,123 +6,55 @@ Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the o
 
 
 class Solution:
-    """
-    @param words: a list of words
-    @return: a string which is correct order
-    """
-    def alienOrder(self, words):
-        # Write your code here
-        graph = self.build_graph(words)
-        return self.topological_sort(graph)
-        
-        
-    def build_graph(self, words):
-        # key is node, value is neighbors
-        graph = {}
-        
-        # initialize graph
-        for word in words:
-            for char in word:
-                if char not in graph:
-                    graph[char] = set()
-                    
-        # add egdes
-        for i in range(len(words) - 1):
-            first_word = words[i]
-            second_word = words[i + 1]
-            length = min(len(first_word), len(second_word))
-            for j in range(length):
-                if first_word[j] != second_word[j]:
-                    graph[first_word[j]].add(second_word[j])
-                    # break the inner loop
-                    break 
-        return graph
-        
-    def topological_sort(self, graph):
-            
-            # initialize indegree
-        indegree = {node : 0 for node in graph}
-            
-            # calculate indegree
-        for node in graph:
-            for neighbor in graph[node]:
-                indegree[neighbor] += 1
-            
-            # use heapq instead of regular  queue so that we can get the 
-            # smallest order
-        queue = [node for node in graph if indegree[node] == 0]
-        heapq.heapify(queue)
-            
-            # regular bfs algo to do topo sorting
-        order = ""
-        while queue:
-            node = heapq.heappop(queue)
-            order += node
-            for neighbor in graph[node]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    heapq.heappush(queue, neighbor)
-                        
-        if len(order) == len(graph):
-            return order
-        return  ""
-                
-                
-                
- class Solution:
     def alienOrder(self, words):        
         graph = self.build_graph(words)
         return self.bfs(graph)
         
-    def build_graph(self, words):        
+    def build_graph(self, words):
         graph = {}
         
+        # add vertice
         for word in words:
             for char in word:
                 if char not in graph:
                     graph[char] = set()
-        
-        for i in range(len(words) - 1):
-            word_first = words[i]
-            word_second = words[i + 1]
-            length = min(len(word_first), len(word_second))
-            for j in range(length):
-                if word_first[j] != word_second[j]:
-                    graph[word_first[j]].add(word_second[j])
-                    break
+                    
+        # add edges
+        length = len(words)
+        for i in range(length - 1):
+            first = words[i]
+            second = words[i + 1]
+            for j in range(min(len(first), len(second))):
+                if first[j] != second[j]:
+                    graph[first[j]].add(second[j])
+                    break 
                     
         return graph
-        
+    
     def bfs(self, graph):
-        indegree = {node : 0 for node in graph}
+        in_degree = {node : 0 for node in graph}
         
-        for char in graph:
-            for neighbor in graph[char]:
-                indegree[neighbor] += 1
+        for v in graph:
+            for neighbor in graph[v]:
+                in_degree[neighbor] += 1
+        
+        queue  = collections.deque()
+        for v2 in graph:
+            if in_degree[v2] == 0:
+                queue.append(v2)
                 
-        queue = []      
-        for node in graph:
-            if indegree[node] == 0:
-                queue.append(node)
-                    
-                    
-        order = ''                    
-        while len(queue) > 0:
-            node = queue.pop(0)
-            order += node
+    
+        res = '' 
+        while queue:
+            node = queue.popleft()
+            res += node
             for neighbor in graph[node]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
                     queue.append(neighbor)
-                    
-        if len(order) == len(graph):
-            return order
+        
+        if len(res) == len(graph):
+            return res
         else:
-            return ''                
-                         
-                        
-                    
-                    
+            return ''
                 
-             
-                                   
