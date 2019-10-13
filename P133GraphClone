@@ -39,4 +39,22 @@ class Solution:
             if neighbor_copy:
                 node_copy.neighbors.append(neighbor_copy)
         return node_copy
-                    
+
+
+# DFS iterative
+class Solution:
+    def cloneGraph(self, node):
+        visited = {}
+        node_copy = Node(node.val, [])
+        visited[node] = node_copy
+        stack = [node]
+        while stack:
+            cur_node = stack.pop()
+            if cur_node:
+                for neighbor in cur_node.neighbors:
+                    if neighbor not in visited:
+                        visited[neighbor] = Node(neighbor.val, [])
+                        stack.append(neighbor)
+                    visited[cur_node].neighbors.append(visited[neighbor])
+        return node_copy
+                       
