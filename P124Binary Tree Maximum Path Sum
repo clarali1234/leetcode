@@ -1,10 +1,9 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
+# dfs recursion + gloabl variable:
+ 1. 需要一个全局变量去记录最大的路径和
+ 2. 对于任何一个节点，return root.val + max(left, right), 每次递归更新ans = max(ans, left + right + root)
+ 3。我们只取 >0的subtree。
+ time o(n), space o(h)
+ 
 class Solution:
     def maxPathSum(self, root: TreeNode) -> int:
         if not root:
