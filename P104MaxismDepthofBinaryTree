@@ -1,9 +1,4 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+注意对比binary tree traverse and divide conquer 两种方法
 
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
