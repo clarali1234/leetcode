@@ -3,6 +3,8 @@
 # space O(h)
 
 全局变量来更新average
+
+For recursion
 base case: 根结点返回0, 0
 不是base case, recursively 解决，总问题和左右子树的关系。
 
