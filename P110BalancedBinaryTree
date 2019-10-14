@@ -7,15 +7,17 @@
 
 class Solution:
     def isBalanced(self, root: TreeNode) -> bool:
-        if root is None:
+        if not root:
             return True
-        return self.tree_depth(root) != -1
+        self.is_balanced = True
+        self.dfs(root)
+        return self.is_balanced
     
-    def tree_depth(self, root):
-        if root is None:
+    def dfs(self, node):
+        if not node:
             return 0
-        left_depth = self.tree_depth(root.left)
-        right_depth = self.tree_depth(root.right)
-        if left_depth == -1 or right_depth == -1 or abs(left_depth - right_depth) > 1:
-            return -1 
-        return max(left_depth, right_depth) + 1
+        left = self.dfs(node.left)
+        right  = self.dfs(node.right)
+        if abs(left - right) > 1:
+            self.is_balanced = False
+        return max(left, right) + 1
