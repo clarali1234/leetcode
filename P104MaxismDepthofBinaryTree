@@ -7,9 +7,13 @@
 
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
+        
+        # base case 
         if not root:
             return 0
-        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1  
+        
+        # if not base, recursively solve the bigger problem
+        return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
         
  # method 2, traverse
  
@@ -29,6 +33,9 @@ class Solution:
     def traverse(self, current_node, current_depth):
         if not current_node:
             return
+         # base case 
         self.depth = max(self.depth, current_depth)
+        
+        # not 
         self.traverse(current_node.left, current_depth + 1)
         self.traverse(current_node.right, current_depth + 1)
