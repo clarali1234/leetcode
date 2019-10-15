@@ -1,11 +1,8 @@
-用dp存储硬币数量，dp[i] 表示凑齐钱数 i 需要的最少硬币数，那么凑齐钱数 amount 最少硬币数为：
-固定钱数为 coins[j] 一枚硬币，另外的钱数为 amount - coins[j] 
-它的数量为dp[amount - coins[j]]，j 从0遍历到coins.length - 1：
+需要构建一个长度是amount + 1的dp数组，其含义是能够成面额从0到amount + 1需要使用的最少硬币数量
+for each coin, for i in range(amount + 1)
+dp[i] = min(dp[i], dp[i - coin] + 1)
 
-
-# DP[i][j]前i种硬币组成j钱需要最少的数量
-# 转移方程DP[i][j] = min(DP[i][j], DP[i-1][j-k*coin_i] + k) = min(DP[i][j],DP[i-1][j-coin_i]+1)
-# ans = DP[n-1][amount]
+# ans = DP[amount]
 # time O(n*amount)
 # space O(amount)
 
