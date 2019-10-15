@@ -1,6 +1,8 @@
 1. BST in-order traversal 两种实现
 2. follow up
-
+使用 Binary Search Tree Iterator 的方式（可以参考 binary search tree iterator 那个题）
+用 stack，从第一个点开始，走 k-1 步，就是第 k 个点了。
+时间复杂度是 O(h + k)O(h+k) h 是树的高度。
 
 # inorder traversal, BST 非减序列
 
