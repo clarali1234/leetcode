@@ -4,8 +4,8 @@
 用 stack，从第一个点开始，走 k-1 步，就是第 k 个点了。
 时间复杂度是 O(h + k)O(h+k) h 是树的高度。
 
-# inorder traversal, BST 非减序列
-
+#sol1 inorder traversal, BST 非减序列
+# time O(n), space O(h)
 class TreeNode(object):
     def __init__(self, x, left = None, right = None):
         self.val = x
@@ -27,70 +27,68 @@ class Solution(object):
         self.res.append(root.val)
         self.in_order(root.right)
         
-        
-if __name__ == '__main__':
-    left = TreeNode(3, None, None)
-    right = TreeNode(5, None, None)
-    root = TreeNode(4, left, right)
-    
-    test = Solution()
-    res = test.kthSmallest(root, 2)
-    print(res)
-
-
-## 非递归实现中序遍历，防止stack overflow
-class Solution(object):
-    def kthSmallest(self, root, k):
-        """
-        :type root: TreeNode
-        :type k: int
-        :rtype: int
-        """
+ ## 非递归实现中序遍历，防止stack overflow
+ # sol2 : iteration, time O(k), space O(k)
+ 
+class Solution:
+    def kthSmallest(self, root: TreeNode, k: int) -> int:
         stack = []
-        res = []
-        while root or stack:
-            if root:
-                stack.append(root)
-                root = root.left
-            else:
-                cur = stack.pop()
-                res.append(cur.val)
-                root = cur.right
-                
-        return res[k - 1]
+        node = root
+        while node:
+            stack.append(node)
+            node = node.left
         
+        x = 1
+        while stack and x <= k:
+            node = stack.pop()
+            x += 1
+            right = node.right
+            while right:
+                stack.append(right)
+                right = right.left
+        return node.val
 
 # follow up
 如果我们频繁的操作该树，并且频繁的调用kth函数，有什么优化方法使时间复杂度降低至O(h)？
-h是树的高度。根据提示，我们可以在TreeNode中加入一个rank成员，这个变量记录的是该节点的左子树中节点的个数，
-其实就是有多少个节点比该节点小。这样我们就可以用二叉树搜索的方法来解决这个问题了。这个添加rank的操作可以在建树的时候一起完成。
+h是树的高度。根据提示，我们可以在TreeNode中加入一个rank成员，这个变量记录的是该节点的个数
+这样我们就可以用二叉树搜索的方法来解决这个问题了。这个添加rank的操作可以在建树的时候一起完成。
+时间复杂度 O(n)最好最坏都是。
+算法思想类似于 Quick Select。
+这个算法的好处是，如果多次查询的话，给每个节点统计儿子个数这个过程只需要做一次。查询可以很快。
+
 class Solution(object):
-    def totalnode(self,root):
-        if not root.right and not root.left:
-            return 1
-        else:
-            l,r = 0, 0
-            if node.right:
-                r = self.totalnode(node.right)
-            if node.left:
-                l = self.totalnode(node.left)
-            return 1+l + r
-
     def kthSmallest(self, root, k):
-        """
-        :type root: TreeNode
-        :type k: int
-        :rtype: int
-        """
-        if k == 0:
-            return root.val
-        l = 0
-        if root.left:
-            l = self.totalnode(l)
+        # key: node, value: number of children
+        map = {}
+        self.count_node(root, map)
+        return self.quick_select(root, k, map)
+        
+    def count_node(self, node, map):
+        if not node:
+            return 0
+        left = self.count_node(node.left, map)
+        right = self.count_node(node.right, map)
+        map[node] = left + right + 1
+        return left + right + 1
+        
 
-        if k ==  l+1:
-            return root.val
-        if k > l+1:
-            return kthSmallest(self, root.right, k-l+1)
+    def quick_select(self, root, k, map):
+        
+        if not root:
+        return -1
+        
+        l = 0
+        if not root.left:
+            l = 0
         else:
-            return kthSmallest(self, root.left, k-1)
+            l = map[root.left]
+        
+        if k == l+1:
+            return root.val
+        if l >= k:
+            return self.kthSmallest(root.left, k, map)
+        else:
+            return self.kthSmallest(root.righ, k - l - 1, map)
+        
+        
+        
