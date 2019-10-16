@@ -9,24 +9,27 @@
 # time O(n*len(S)), 字典的长度 + 单词的个数 * 单词的长度
 # space O(n) dic:字典的字符数
 
-class Solution(object):
-    def isAlienSorted(self, words, order):
-        """
-        :type words: List[str]
-        :type order: str
-        :rtype: bool
-        """
-        order_map = {c:i for i,c in enumerate(order)}
+class Solution:
+    def isAlienSorted(self, words: List[str], order: str) -> bool:
+        
+        dic = {}
+        for index, value in enumerate(order):
+            dic[value] = index
+            
         for i in range(len(words) - 1):
+            
             word1 = words[i]
             word2 = words[i + 1]
-            for k in range(min(len(word1), len(word2))):
-                if word1[k] != word2[k]:
-                    if order_map[word1[k]] > order_map[word2[k]]:
+            
+            len_first = len(word1)
+            len_second = len(word2)
+            # case for example 3
+            if len_first > len_second and word1[:len_second] == word2:
+                return False
+            for i in range(min(len_first, len_second)):
+                if word1[i] == word2[i]:
+                    continue
+                elif dic[word1[i]] > dic[word2[i]]:
                         return False
-                    break
-                else:
-                    if len(word1) > len(word2):
-                        return False
+                break
         return True
-                        
