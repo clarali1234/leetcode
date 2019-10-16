@@ -6,8 +6,8 @@
 在遍历完所有的字符串之后都没有返回False，说明是有序的，那么返回True.
 
 # hashmap
-# time O(n*len(S))
-# space O(n)
+# time O(n*len(S)), 字典的长度 + 单词的个数 * 单词的长度
+# space O(n) dic:字典的字符数
 
 class Solution(object):
     def isAlienSorted(self, words, order):
