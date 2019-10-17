@@ -1,3 +1,8 @@
+# brute force 
+# for each ele, considering whether to delete time O(n^2)
+# space O(n), copy of original string
+
+
 # time O(n)
 # space O(1)
 
