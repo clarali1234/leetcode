@@ -1,6 +1,33 @@
-# recursion
-# time O(min(m,n) + count(carry))
-# space same
+     
+  # time O(max(m,n), space O(1)    
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        m = len(a)
+        n = len(b)
+        
+        if m > n:
+            b = '0' * (m - n) + b
+        elif m < n:
+            a = '0' * (n - m) + a
+            
+        res = ''
+        carry = 0
+        for i in range(max(m, n) - 1, -1, -1):
+            add = int(a[i]) + int(b[i]) + int(carry)
+            if add >= 2:
+                carry = 1
+                add -= 2
+            else:
+                carry = 0
+            res = str(add) + res
+            
+        if carry:
+            res = str(carry) + res
+        return res
+        
+ # recursion
+# time O(min(m,n)*min(m,n)) since we have to copy each string at each function call
+# space same O(min(m,n)
 
 class Solution(object):
     def addBinary(self, a, b):
@@ -22,30 +49,7 @@ class Solution(object):
             
             
             
-  # time O(max(m,n), space O(max(m,n))    
-class Solution:
-    def addBinary(self, a: str, b: str) -> str:
-        m = len(a)
-        n = len(b)
-        
-        if m > n:
-            b = '0' * (m - n) + b
-        elif m < n:
-            a = '0' * (n - m) + a 
             
         
-        l1 = list(a)
-        l2 = list(b)
-        res = ''
-        carry = '0'
-        while l1 and l2:
-            cur = int(l1.pop()) + int(l2.pop()) + int(carry)
-            if cur >= 2:
-                cur = cur % 2
-                carry = 1
-            else:
-                carry = 0     
-            res = str(cur) + res
-        if carry:
-            res = str(carry) + res
-        return res
+        
+        
