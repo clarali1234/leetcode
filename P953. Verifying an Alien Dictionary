@@ -12,24 +12,23 @@
 class Solution:
     def isAlienSorted(self, words: List[str], order: str) -> bool:
         
+        # dic key:ele, value: index
         dic = {}
-        for index, value in enumerate(order):
-            dic[value] = index
-            
+        for index, ele in enumerate(order):
+            dic[ele] = index
+        
+        # traverse
         for i in range(len(words) - 1):
-            
             word1 = words[i]
             word2 = words[i + 1]
             
-            len_first = len(word1)
-            len_second = len(word2)
-            # case for example 3
-            if len_first > len_second and word1[:len_second] == word2:
+            if len(word1) > len(word2) and word1[:len(word2)] == word2:
                 return False
-            for i in range(min(len_first, len_second)):
-                if word1[i] == word2[i]:
-                    continue
-                elif dic[word1[i]] > dic[word2[i]]:
+            
+            for j in range(min(len(word1), len(word2))):
+                if word1[j] != word2[j]:
+                    if dic[word1[j]] > dic[word2[j]]:
                         return False
-                break
+                    break
+                
         return True
