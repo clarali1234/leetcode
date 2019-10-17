@@ -1,3 +1,8 @@
+# brute-foce
+# time O(nlgn)
+# space O(n)
+
+
 # We keep a min heap of size K.
 # For each item, we insert an item to our heap.
 # If inserting an item makes heap size larger than k, then we immediately pop an item after inserting ( heappushpop ).
