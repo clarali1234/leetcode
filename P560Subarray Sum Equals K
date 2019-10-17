@@ -1,25 +1,65 @@
+follow:如果有负数，则不能用two pointers
+
 # prefix sum + hash table
 # brute-force 遍历i,j , sum O(n), O(n^3), space O(1)
 
 # prefix_sum[i] = sum(nums[0:i-1])
 # time O(n^2), space 0(n)
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return 0
+        
+        count = 0
+        
+        prefix_sum = [0] * (len(nums) + 1)
+
+        for i in range(1, len(prefix_sum)):
+            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1]
+        #print(prefix_sum)
+        
+        for left in range(len(prefix_sum)):
+            for right in range(left + 1, len(prefix_sum)):
+                if prefix_sum[right] - prefix_sum[left] == k:
+                    #print((left, right))
+                    count += 1
+        return count
+
+
+# two pointers
+# time o(n^2)
+# space O(1) 
+class Solution(object):
+    def subarraySum(self, nums, k):
+        if not nums:
+            return 0
+        
+        count = 0
+        
+        for i in range(len(nums)):
+            sum_ = 0
+            for j in range(i, len(nums)):
+                sum_ += nums[j]
+                if sum_ == k:
+                    count += 1
+        return count
 
 # prefix_sum + hash
 # time O(n), space O(n)
 # hash , key: prefix sum, value :count, prefix_sum = current_sum - k
-class Solution(object):
-    def subarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
-        count = {0:1}
-        cur = 0
-        res = 0
-        for num in nums:
-            cur += num
-            res += count.get(cur - k, 0)
-            count[cur] = count.get(cur, 0) + 1
-        return res
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return 0
         
+        res = 0
+        
+        # key = prefix_sum, value = count
+        cur_sum = 0
+        dic = {0:1}
+        for num in nums:
+            cur_sum = cur_sum + num
+            res += dic.get(cur_sum - k, 0)
+            dic[cur_sum] = dic.get(cur_sum, 0) + 1
+            
+        return res
