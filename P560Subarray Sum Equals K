@@ -63,3 +63,30 @@ class Solution:
             dic[cur_sum] = dic.get(cur_sum, 0) + 1
             
         return res
+        
+        
+  # follow-up if all non-negative number
+  # two pointers 
+  # time O(n), space O(1)
+  
+  # 可以用两个index，因为array里面的数都是正的，当current sum小于target的时候，第二个index右移，
+  # 如果current sum > target的时候，第一个index右移。
+  def subarraySum(nums, target):
+    left = 0
+    right = 0
+    sum_ = 0
+    count = 0
+    
+    while right < len(nums):
+        sum_ += nums[right]
+        right += 1
+        
+        while left < right and sum_ >= target:
+            if sum_ == target:
+                count += 1
+            sum_ -= nums[left]
+            left += 1
+    return count
+
+print(subarraySum([1,1,1], 2))
+  
