@@ -54,25 +54,35 @@ print(taskSchedule(tasks, n))
 每次遇到job遍历一遍这个queue就好了，因为cooldown是常数 所以还算是O(N)
 
 记录一个cooldown内做过的任务的时间，然后动态删除已经过期的任务。这样时间复杂度可能会增加到O(kn)，cooldown长度*task个数，但空间复杂度能够降低。
-def taskSchedule(tasks, n):
-    queue = []
+# follow up 2, keep original order and task >> n
+# queue keep the tasks or idle in the last cooldown 
+# the size of queue is n
+def leastInterval2(tasks, n):
     least_time = 0
-    # queue [1 ] [1 2 ] 【1 2 3】 【 1 2 3 - 】 1  【2 3 - 1】  2   3   -  1  [1]  2
-    # time  1     2         3        4                 5     6    7   8     9    10
+    queue = []
     for task in tasks:
         if task not in queue:
             queue.append(task)
+            least_time += 1
             if len(queue) > n:
-                queue.pop()
+                queue.pop(0)
+            
         else:
+            # add queue only len(queue) = n + 1
             while len(queue) <= n:
-                queue.append('#')
+                queue.append('-')
                 least_time += 1
-            while queue.pop() != task:
+            # add queue only when interval between last[task] >= n
+            while queue.pop(0) != task:
+                queue.append('-')
                 least_time += 1
             queue.append(task)
-    return least_time
+            least_time += 1
             
+    return least_time
+
+print(leastInterval2([1, 2, 3, 1, 1, 2], 3))
+                
 tasks = [1, 2, 3, 1, 1, 2]
 # 1 2 3 - 1 - - - 1 2
 n = 3
