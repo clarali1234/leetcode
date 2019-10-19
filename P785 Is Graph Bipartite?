@@ -13,6 +13,26 @@
 # 可以用BFS或DFS来实现, 只需要根据当前节点的颜色设定下一个节点的颜色即可, 如果下一个节点已经被染成了相同的颜色, 说明发生了冲突.
 
 # BFS 时间复杂度是O(E+V)，空间复杂度是O(V).
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        
+        nodes = len(graph)
+        colored = {}
+        queue = collections.deque()
+        
+        for i in range(nodes):
+            if i not in colored and graph[i]:
+                colored[i] = 1
+                queue.append(i)
+                while queue:
+                    cur_node = queue.popleft()
+                    for neighbor in graph[cur_node]:
+                        if neighbor not in colored:
+                            colored[neighbor] = - colored[cur_node]
+                            queue.append(neighbor)
+                        elif colored[neighbor] == colored[cur_node]:
+                            return False
+        return True
 
 #DFS
 class Solution(object):
