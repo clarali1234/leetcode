@@ -1,5 +1,6 @@
 # inorder traversal (因为sorted)
 # 递归 
+time O(n), space O(h)
 
 class Solution(object):
     def treeToDoublyList(self, root):
