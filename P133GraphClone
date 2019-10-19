@@ -21,7 +21,7 @@ class Solution:
         return node_copy
         
 # DFS
-time O(v + e), space 
+time O(v + e), space depends on the depth of the graph
 class Solution:
     def cloneGraph(self, node):
         return self.dfs(node, {})
