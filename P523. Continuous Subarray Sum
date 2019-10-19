@@ -30,26 +30,23 @@ class Solution:
 
 # time O(n)
 # space O(k)
-class Solution(object):
-    def checkSubarraySum(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: bool
-        """
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        
         if k == 0:
             for i in range(len(nums) - 1):
-                if nums[i] == 0 and nums[i + 1] == 0:
+                if nums[i] + nums[i + 1] == 0:
                     return True
             return False
         
-        mod = {0:-1}
-        cum_sum_mode_k = 0
-        
-        for i,n in enumerate(nums):
-            cum_sum_mode_k = ((cum_sum_mode_k) + n) % k
-            if cum_sum_mode_k in mod and i - mod[cum_sum_mode_k] > 1:
+        dic = {0: -1}
+        sum_ = 0
+        for i, num in enumerate(nums):
+            sum_ += num
+            mod = sum_ % k
+            if mod in dic and i - dic[mod] > 1:
                 return True
-            if cum_sum_mode_k not in mod:
-                mod[cum_sum_mode_k] = i
+            elif mod not in dic:
+                dic[mod] = i
         return False
+            
