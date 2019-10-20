@@ -50,6 +50,7 @@ class Solution:
             return self.findKthLargest(nums2, k - (len(nums) - len(nums2)))
         return pivot
 
+time average O(n), worst O(n^2), space average O(lgn)
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
 
