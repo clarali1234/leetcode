@@ -37,3 +37,35 @@ class Solution(object):
                 i += 1
                 j += 1
         return res
+        
+        
+  1. follow up：如果数组一个长一个短怎么办。答：用二分搜索， mlog(n)
+  小array ele m去二分搜索大array n
+  def intersection(A, B):
+    m = len(A)
+    n = len(B)
+    # m << n
+    res = []
+    for i in range(m):
+        left = 0
+        right = len(B)
+        mid = (left + right) // 2
+        while left + 1 < right:
+            if A[i] == B[mid] and not (res and A[i] in res):
+                res.append(A[i])
+            elif A[i] < B[mid]:
+                right = mid
+            else:
+                left = mid + 1
+        if B[left] == A[i] and not (res and A[i] in res):
+            res.append(A[i])
+        elif B[right] == A[i] and not (res and A[i] in res):
+            res.append(A[i])
+    return res
+    
+2. 再follow up： 如果两个数组一样长，且一会儿sparse一会dense怎么办。
+可以在two pointer的扫描中内置一个切换二分搜索的机制，条件应该是什么
+于是说如果找到了，一个元素，那就用这次的index作为下次binary search的开始。可以节约掉之前的东西，不用search了。
+然后问，如果找不到呢，如何优化。尼玛
+折腾了一会儿，说如果找不到，也返回上次search 结束的index，然后下次接着search。终于时间到了。
+感觉要黑也是有操作空间的。
