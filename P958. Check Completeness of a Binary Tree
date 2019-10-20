@@ -1,6 +1,7 @@
 # bfs
 # time O(n)
 # space O(n)
+# len(res)：节点的数量，res[-1]最后一个节点的坐标
 class Solution(object):
     def isCompleteTree(self, root):
         """
@@ -19,3 +20,25 @@ class Solution(object):
             if node.right:
                 queue.append((node.right, coord * 2 + 1))
         return res[-1] == len(res)
+  
+  # dfs
+  # time O(n)
+  # space O(h)
+
+class Solution:
+    def isCompleteTree(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        num, cor =  self.dfs(root, 1)
+        return num == cor
+    
+    # reutrn [0]: num of nodes, [1]:cor of left_right
+    def dfs(self, node, cor):
+        if not node:
+            return 0, 0
+        left = self.dfs(node.left, cor * 2)
+        right = self.dfs(node.right, cor * 2 + 1)
+        num = left[0] + right[0] + 1
+        cor = max(cor, left[1], right[1])
+        return num, cor
+        
