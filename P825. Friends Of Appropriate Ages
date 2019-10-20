@@ -1,6 +1,10 @@
 # map
 # time o(n^2)
 # space O(n)
+思路：
+1. 第二个条件包含第三个条件
+2. For each age a and each age b != a, if request(a, b), we will make count[a] * count[b] requests.
+For each age a, if request(a, a), we will make count[a] * (count[a] - 1) requests.
 
 class Solution(object):
     def numFriendRequests(self, ages):
