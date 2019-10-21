@@ -1,39 +1,55 @@
-class Solution:
+class Solution(object):
     def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        
         if not nums:
             return [-1, -1]
-        first_index = self.binary_search_first(nums, target, 0, len(nums) - 1)
-        last_index = self.binary_search_last(nums, target, 0, len(nums) - 1)
         
-        return [first_index, last_index]
+        left = self.find_left(nums, 0, len(nums) - 1, target)
+        
+        right = 0
+        if left != -1:
+            right = self.find_right(nums, left, len(nums) - 1, target)
+        else:
+            right = -1
+        return [left, right]
     
-    def binary_search_first(self, nums, target, left, right):
+    def find_left(self, nums, left, right, target):
+        
         while left + 1 < right:
-            mid = left + (right - left) // 2
+            mid = (left + right) // 2
             if nums[mid] == target:
                 right = mid
             elif nums[mid] < target:
-                left = mid
+                left = mid + 1
             else:
                 right = mid
+                
         if nums[left] == target:
             return left
         if nums[right] == target:
             return right
-        return -1
-    
-    def binary_search_last(self, nums, target, left, right):
+        else:
+            return -1
+        
+    def find_right(self, nums, left, right, target):
         while left + 1 < right:
-            mid = left + (right - left) // 2
+            mid = (left + right) // 2
             if nums[mid] == target:
                 left = mid
             elif nums[mid] < target:
-                left = mid
+                left = mid + 1
             else:
                 right = mid
+                
         if nums[right] == target:
             return right
         if nums[left] == target:
             return left
-        return -1
- 
+        else:
+            return -1
+            
