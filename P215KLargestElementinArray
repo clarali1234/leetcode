@@ -17,66 +17,49 @@ class Solution(object):
             res = heapq.heappop(nums)
         return -res
 
-Time: O(k) + O((n-k) * logk) | Space: O(K)
-
-import heapq
-class Solution(object):
-    def findKthLargest(self, nums, k):
-        min_heap = [-float('inf')] * k
-        heapq.heapify(min_heap)
-        for num in nums:
-            if num > min_heap[0]:
-                heapq.heappop(min_heap)
-                heapq.heappush(min_heap, num)
-        return min_heap[0]
-        
-# quick select O(n) time average, worst O(n^2)
-import random
-class Solution:
-    # @param {integer[]} nums
-    # @param {integer} k
-    # @return {integer}
-    def findKthLargest(self, nums, k):
-        pivot = random.choice(nums)
-        nums1, nums2 = [], []
-        for num in nums:
-            if num > pivot:
-                nums1.append(num)
-            elif num < pivot:
-                nums2.append(num)
-        if k <= len(nums1):
-            return self.findKthLargest(nums1, k)
-        if k > len(nums) - len(nums2):
-            return self.findKthLargest(nums2, k - (len(nums) - len(nums2)))
-        return pivot
-
-time average O(n), worst O(n^2), space average O(lgn)
+Time:  O(nlogk) | Space: O(K)
+# if n >> k, 使用一个size k 的min heap, 遍历num, 若num > heap[0], 则pop heap[0], push num
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-
-        return self.partition(nums, 0, len(nums)- 1, len(nums) - k)
         
-    # choose the random element as pivot
-    # it considers the last element as pivot and 
-    # moves all smaller element to the left of it 
-    # and greater elements to the right
-    def partition(self, nums, start, end, k):
-        pivot = nums[end]
-        left, right = start, end
+        heap = [-sys.maxsize] * k
+        heapify(heap)
+        
+        for num in nums:
+            if num > heap[0]:
+                heappop(heap)
+                heappush(heap, num)
+                
+        return heap[0]
+# quick select O(n) time average, worst O(n^2)
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return -1
+        return self.quick_select(nums, 0, len(nums) - 1, len(nums) + 1 - k)
+
+    def quick_select(self, nums, start, end, k):
+        if start == end:
+            return nums[start]
+        
+        left = start
+        right = end 
+        pivot = nums[(start + end) // 2]
         while left <= right:
             while left <= right and nums[left] < pivot:
-                left += 1 
+                left += 1
             while left <= right and nums[right] > pivot:
-                right -= 1 
+                right -= 1
+                
             if left <= right:
                 nums[left], nums[right] = nums[right], nums[left]
-                left, right = left + 1, right - 1
-        
-        # left is no bigger than right
-        if k <= right:
-            return self.partition(nums, start, right, k)
-        if k >= left:
-            return self.partition(nums, left, end, k)
-        return nums[k]
-            
+                left += 1
+                right -= 1
+                
+        if start + k - 1 <= right:
+            return self.quick_select(nums, start, right, k)
+        elif start + k - 1 >= left:
+            return self.quick_select(nums, left, end, k - (left - start))
+        else:
+            return nums[right + 1]
         
