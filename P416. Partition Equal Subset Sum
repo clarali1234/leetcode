@@ -1,0 +1,68 @@
+# 0-1背包
+# time O(n * m) n: number of elements, m: total_sum
+# space o(n * m) n: number of elements, m: total_sum
+
+# dp[i][j] if sum j can be abtained by first i items in nums
+# 转移方程
+dp[i][j] = dp[i - 1][j] or dp[i - 1][j - num]
+# 初始化
+# sum 0 可以由任何数量的数字组成
+# dp[i][0] =  True
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        if not nums:
+            return True
+        
+        sum_total  = sum(nums)
+        if sum_total % 2:
+            return False
+        
+        sum_total = sum_total // 2
+        
+        n = len(nums)
+        
+        #dp[i][j] if sum j can be abtained by first i items in nums
+        dp = [[False] * (sum_total + 1) for _ in range(n + 1)]
+        
+        # initialize
+        # sum 0 可以由任何数量的数字组成
+        # dp[i][0] =  True
+        for i in range(n + 1):
+            dp[i][0] = True
+            
+        for i in range(1, n + 1):
+            for j in range(sum_total + 1):
+                num = nums[i - 1]
+                if j >= num:
+                    dp[i][j] = dp[i - 1][j] or dp[i - 1][j - num]
+                else:
+                    dp[i][j] = dp[i - 1][j] 
+          
+        return dp[-1][-1]
+        
+        
+ # 优化空间
+# With space optimization:
+# Time: O(n * sum)  n: number of elements,
+# Space: O(sum) 
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s % 2:
+            return False
+        
+        target = s // 2
+        dp = [False] * (target + 1)
+        
+        dp[0] = True
+    
+        for num in nums:
+            for j in range(target, num - 1, -1):
+                dp[j] = dp[j] or dp[j - num]
+        print(dp)
+        
+        return dp[-1]
+ 
+        
