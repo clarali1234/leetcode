@@ -6,24 +6,19 @@ dp[i] = min(dp[i], dp[i - coin] + 1)
 # time O(n*amount)
 # space O(amount)
 
-class Solution(object):
-    def coinChange(self, coins, amount):
-        """
-        :type coins: List[int]
-        :type amount: int
-        :rtype: int
-        """
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
         
-        dp = [sys.maxsize] * (amount + 1)
+        MAX = sys.maxsize
+        dp = [MAX for i in range(amount + 1)]
         dp[0] = 0
-        for coin in coins:
-            for i in range(coin, amount + 1):
-                if dp[i - coin] != sys.maxsize:
+        for i in range(1, len(dp)):
+            for coin in coins:
+                if i >= coin:
                     dp[i] = min(dp[i], dp[i - coin] + 1)
-        if dp[amount] == sys.maxsize:
-            return -1 
-        else:
-            return dp[amount]
+        if dp[-1] == MAX:
+            return -1
+        return dp[-1]
         
         
         
