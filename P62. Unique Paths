@@ -1,3 +1,6 @@
+# state: dp[i][j],到达i, j的方式数
+# 转移方程: dp[i][j] = dp[i - 1][j] + dp[i][j - 1] 
+
 # dp time O(mn) space O(mn)
 class Solution(object):
     def uniquePaths(self, m, n):
