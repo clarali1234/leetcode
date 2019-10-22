@@ -8,23 +8,20 @@
 # time O(n)
 # space O(1)
 
-class Solution(object):
-    def jump(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-     
-        current = 0
+class Solution:
+    def jump(self, nums: List[int]) -> int:
         count = 0
+        cur_farest = 0
         pos = 0
         
-        while current < len(nums) - 1:
+        while cur_farest < len(nums) - 1:
             count += 1
-            pre = current
-            while pos <= pre:
-                current = max(current, pos + nums[pos])
+            pre_farest = cur_farest
+            while pos <= pre_farest:
+                cur_farest = max(cur_farest, pos + nums[pos])
                 pos += 1
                 
-        return count
+        return count 
+        
+        
             
