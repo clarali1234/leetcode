@@ -1,0 +1,26 @@
+class Solution(object):
+    def multiply(self, num1, num2):
+        """
+        :type num1: str
+        :type num2: str
+        :rtype: str
+        """
+        prod = [0] * (len(num1) + len(num2))
+        pos = len(prod) - 1
+        
+        for i in num1[::-1]:
+            temp_pos = pos
+            for j in num2[::-1]:
+                prod[temp_pos] += int(i) * int(j)
+                prod[temp_pos - 1] += prod[temp_pos] // 10
+                prod[temp_pos] %= 10
+                temp_pos -= 1
+            pos -= 1
+ 
+        pointer = 0
+        while pointer < len(prod)-1 and prod[pointer] == 0:
+            pointer += 1
+            
+        #return ''.join(map(str, prod[pointer : ]))
+        return ''.join(str(x) for x in prod[pointer :])
+        
