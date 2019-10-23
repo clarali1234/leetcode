@@ -1,4 +1,5 @@
-
+# time linear
+# space O(1)
 
 class Solution(object):
     def isOneEditDistance(self, s, t):
