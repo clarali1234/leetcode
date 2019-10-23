@@ -1,28 +1,21 @@
-class Solution:
-    def permute(self, nums: List[int]) -> List[List[int]]:
-        if nums is None:
+class Solution(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
             return []
-        if nums is []:
-            return [[]]
         
-        result = []
-        visited = len(nums) * [False]
-        self.dfs(nums, visited, [], result)
-        return result
+        res = []
+        self.dfs(nums, res, [])
+        return res
+        
     
-    def dfs(self, nums, visited, permutation, result):
-        if len(nums) == len(permutation):
-            result.append(list(permutation))
+    def dfs(self, nums, res, path):
+        if not nums:
+            res.append(path)
             return 
-        
         for i in range(len(nums)):
-            if visited[i]:
-                continue
-            # [] -> [1]
-            permutation.append(nums[i])
-            visited[i] = True
-            self.dfs(nums, visited, permutation, result)
-            # [] ->[2]
-            visited[i] = False
-            permutation.pop()
-                
+            self.dfs(nums[:i] + nums[i + 1:], res, path + [nums[i]])
+        
