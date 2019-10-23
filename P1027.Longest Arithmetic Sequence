@@ -16,3 +16,36 @@ class Solution(object):
             for j in range(i + 1, len(A)):
                 dp[j, A[j] - A[i]] = dp.get((i, A[j] - A[i]), 1) + 1
         return max(dp.values())
+
+# follow up
+# print one sequence 
+import collections
+class Solution(object):
+    def longestArithSeqLength(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        # state: dp[i] = longestArithSeqLength for A[:i] (i: 3, len(A))
+        
+        dp = {}
+        l = collections.defaultdict(list)
+        #seq = {i:[] for i in range(len(A))}
+        
+        for i in range(len(A)):
+            for j in range(i + 1, len(A)):
+                dp[A[j] - A[i], j] = dp.get((A[j] - A[i], i), 1) + 1
+                if not l[A[j] - A[i]]:
+                    l[A[j] - A[i]] += [A[i]]
+                    l[A[j] - A[i]] += [A[j]]
+                else:
+                    l[A[j] - A[i]] += [A[j]]
+               
+        max_diff = max(dp.keys(), key=lambda k: dp[k])[0]
+        seq = l[max_diff]
+        return max_diff, seq
+    
+        #return dp, max(dp.values()), l[max(dp.keys()[1])]
+    
+test = Solution()
+print(test.longestArithSeqLength([2, 4, 5, 6]))
