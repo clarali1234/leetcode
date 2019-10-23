@@ -1,3 +1,8 @@
+# brute-force O(n^3)
+
+
+
+
 ## sort + two sum
 # time O(n^2) （sort: O(nlgn), algo: O(n^2))
 # space O(1)
@@ -30,3 +35,52 @@ class Solution:
                 right -= 1 
             else:
                 left += 1 
+
+# follow up: without duplicate, without sort
+# nums = set(nums)
+# time O(n^2)
+# space O(n)
+hash key:value, value = list of index
+for i in range(len(nums) - 2):
+    for j in range(i+1, len(nums) - 1):
+        if -nums[i] - nums[j] in dic and len(dic.get(-nums[i] - nums[j])) == 1 and  dic.get(-nums[i] - nums[j])> j:
+            res.append(nums[i], nums[j], -nums[i] - nums[j] )
+        elif -nums[i] - nums[j] in dic and len(dic.get(-nums[i] - nums[j])) > 1:
+            for index in dic.get(-nums[i] - nums[j]):
+                if index > j:
+                    res.append(nums[i], nums[j], -nums[i] - nums[j] )
+                
+                
+# follow up time O(n^2lgn), space O(1)
+# fix 1, fix2  + binary search (need sort before)
+
+
+# follow up 
+# follow up问数组里的值能重复使用怎么办？用了类似combination sum的方法递归求解。
+nums = [100, -100, 200]
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
+            return []
+        
+        self.res = []
+        self.dfs(nums, 0, len(nums), 0, 0, [])
+        return self.res
+    
+    def dfs(self, nums, start, end, count, target, path):
+        #print(count, target)
+        if count == 3 and target == 0:
+            self.res.append(path)
+            return 
+        elif count == 3:
+            return 
+        
+        for i in range(start, len(nums)):
+            self.dfs(nums, i, end, count + 1, target - nums[i], path + [nums[i]])
+            
+test = Solution()
+print(test.threeSum(nums))
