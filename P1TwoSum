@@ -1,9 +1,16 @@
+# brute force 
+# time o(n^2)
+# space o(1)
+
+
+
 # dictionary
 # time O(n)
 # space O(n)
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # key: num, value: index
         hash_table = {}
         for i in range(len(nums)):
             second_num = target - nums[i]
@@ -15,5 +22,6 @@ class Solution:
  # two pointers
  # time O(nlgn)
  # space O(1)
+ # is suitable for sorted array
  
  
