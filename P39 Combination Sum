@@ -1,5 +1,12 @@
 # combination dfs recursion'
+- Combination Sum 限制了组合中的数之和
+• 加入一个新的参数来限制
 
+- Subsets 无重复元素，Combination Sum 有重复元素
+• 需要先去重
+
+- Subsets 一个数只能选一次，Combination Sum 一个数可以选很多次
+• 搜索时从 index 开始而不是从 index + 1
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
