@@ -48,3 +48,28 @@ class Solution(object):
                 return True
         memo[s[start : end + 1]] = False
         return False
+        
+        
+  # follow up:return one possible solution
+ class Solution:
+    def wordBreak(self, s, wordDict):
+        dp = [False] * (len(s) + 1)
+        dp[0] = True
+        words = {}
+        words[0] = ''
+        for i in range(len(s)):
+            if dp[i]:
+                words[i] = s[:i]
+                for j in range(i, len(s)):
+                    if s[i : j + 1] in wordDict:
+                        dp[j + 1] = True
+                        if words[i]:
+                            words[j + 1] = words[i] + '' + s[i : j + 1]
+                        else:
+                            words[j + 1] =  s[i : j + 1]
+                        break
+        return words[len(s)]
+    
+    
+test = Solution()
+print(test.wordBreak('leetcode',['leet','code', 'leetcode']))        
