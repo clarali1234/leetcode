@@ -31,5 +31,90 @@ class Solution(object):
                 dp[i] += dp[i - 2]
         return dp[-1]
         
+  # follow up 1:recursion time O(2^n), n = len(string)
+  class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        if not s or s[0] == '0':
+            return 0
+        
+        return self.dfs(0, s)
+    
+    def dfs(self, index, s):
+        if index == len(s):
+            return 1
+        if s[index] == '0':
+            return 0
+        
+        res = self.dfs(index + 1, s)
+        if index < len(s) - 1 and (s[index] == '1' or s[index] == '2' and s[index + 1] < '7'):
+            res += self.dfs(index + 2, s)
+        return res
+test = Solution()
+
+# reucursion + memo
+class Solution(object):
+    def numDecodings(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        n = len(s)
+        mem = {i : -1 for i in range(n + 1)}
+        mem[n] = 1
+        if not s:
+            return 0
+        
+        return self.num(0, s, mem)
+    
+    def num(self, i, s, mem):
+        if mem[i] > -1:
+            return mem[i]
+        if s[i] == '0':
+            mem[i] = 0
+            return 0
+        res = self.num(i + 1, s, mem)
+        if (i < len(s) - 1) and (s[i] == '1' or s[i] == '2' and s[i + 1] < '7'):
+            res += self.num(i + 2, s, mem)
+        mem[i] = res
+        return res
+  
+  # follow up 2:print out all strings
+ dic = {1:'A', 2: "B", 3 : "C", 4 : "D", 5:"E" ,6:  "F", 7: "G", 8:"H", 
+      9:"I", 10: "J", 11:"K", 12:"L",  13 :"M", 14: "N", 15: "O",
+     16: "P", 17: "Q",  18: "R", 19: "S", 20: "T",21: "U", 22: "V", 
+     23: "W", 24: "X",25: "Y", 26: "Z" }
+
+def decode(s):
+    def is_valid(s):
+        if s[0] == '0':
+            return False
+        if 0 < int(s) <= 26:
+            return True
+    
+    def dfs(s, index, cur, res):
+        
+        if index == len(s):
+            res.append(cur)
+            return res
+
+        if is_valid(s[index : index + 1]):
+            num = int(s[index : index + 1])
+            dfs(s, index + 1, cur + dic[num], res)
+        if index + 1 < len(s) and is_valid(s[index : index + 2]):
+            num2 = int(s[index : index + 2])
+            dfs(s, index + 2, cur + dic[num2], res)
+            
+    result = []
+    dfs(s, 0, '', result)
+    return result
+print(decode('12'))
+ 
+  # follow up 3: add * 
   
   
