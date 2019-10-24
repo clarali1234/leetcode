@@ -1,0 +1,58 @@
+# 思路：
+中间截断；后半部分逆序；循环合并两个头部
+# time O(n)
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def reorderList(self, head):
+        """
+        :type head: ListNode
+        :rtype: None Do not return anything, modify head in-place instead.
+        """
+        if not head or not head.next:
+            return head
+            
+        slow = head 
+        fast = head 
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+            
+        head2 = slow.next
+        slow.next = None
+        
+        
+        # reverse the second half
+        dummy = ListNode(0)
+        dummy.next = head2
+        pointer = head2.next
+        head2.next = None
+        while pointer:
+            tmp = pointer
+            pointer = pointer.next
+            tmp.next = dummy.next
+            dummy.next = tmp
+        head2 = dummy.next
+        
+        # merge two linked lists
+        pointer1 = head
+        pointer2 = head2
+        
+        while pointer2:
+            tmp1 = pointer1.next
+            tmp2 = pointer2.next
+            pointer1.next = pointer2
+            pointer2.next = tmp1 
+            pointer1 = tmp1
+            pointer2 = tmp2 
+            
+            
+            
+        
+        
+        
