@@ -1,0 +1,36 @@
+# time O(n)
+# space O(1)
+# 考虑edge cases
+
+class Solution(object):
+    def insert(self, head, insertVal):
+        """
+        :type head: Node
+        :type insertVal: int
+        :rtype: Node
+        """
+        new_node = Node(insertVal, None)
+        
+        if not head:
+            return new_node
+        
+        node = head
+        while True:
+            # case 1
+            if node.val <= insertVal <= node.next.val:
+                break
+            # case2 
+            if node.val > node.next.val and (insertVal >= node.val or insertVal <= node.next.val):
+                break
+            # case 3, 1 1 1 1 
+            if node.next == head:
+                break
+            node = node.next
+        
+        new_node.next = node.next
+        node.next = new_node
+        return head
+            
+    
+        
+        
