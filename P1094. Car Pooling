@@ -1,0 +1,45 @@
+# meeting room swipe line 
+# time O(nlgn)
+# space o(n)
+class Solution(object):
+    def carPooling(self, trips, capacity):
+        """
+        :type trips: List[List[int]]
+        :type capacity: int
+        :rtype: bool
+        """
+        time = []
+        for passenger, start, end in trips:
+            time.append((start, passenger))
+            time.append((end, -passenger))
+        time.sort()
+        
+        cur_people = 0
+        for location, people in time:
+            cur_people += people
+            if cur_people > capacity:
+                return False
+        return True
+        
+# time O(n)
+# space O(n)
+# locations : number of people in the car when passing this location
+class Solution(object):
+    def carPooling(self, trips, capacity):
+        """
+        :type trips: List[List[int]]
+        :type capacity: int
+        :rtype: bool
+        """
+        locations = [0] * 1001
+        for num, start, end in trips:
+            locations[start] += num
+            locations[end] -= num
+           
+        sum_ = 0
+        for loc in locations:
+            sum_ += loc
+            if sum_ > capacity:
+                return False
+        return True
+            
