@@ -5,54 +5,53 @@
   为了使数组删除也能常数级，只需要删除数组的最后一个元素即可, 将要删除的数字和数组的最后一个数字调换个位置，然后修改对应的 HashMap 中的值，
 # 返回随机数： 只要随机生成一个位置，返回该位置上的数字即可
 
-class RandomizedSet:
+
+class RandomizedSet(object):
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
         self.nums = []
+        # key : num, value: pos in nums list
         self.pos = {}
         
 
-    def insert(self, val: int) -> bool:
+    def insert(self, val):
         """
         Inserts a value to the set. Returns true if the set did not already contain the specified element.
+        :type val: int
+        :rtype: bool
         """
         if val in self.pos:
             return False
-            
         self.nums.append(val)
         self.pos[val] = len(self.nums) - 1
         return True
         
+        
 
-    def remove(self, val: int) -> bool:
+    def remove(self, val):
         """
         Removes a value from the set. Returns true if the set contained the specified element.
+        :type val: int
+        :rtype: bool
         """
         if val not in self.pos:
             return False
+        idx = self.pos[val]
+        tail = self.nums.pop()
         
-        index, last = self.pos[val], self.nums[-1]
-        self.nums[index] = last
-        self.pos[last] = index
-        
-        self.nums.pop()
+        if idx < len(self.nums):
+            self.nums[idx] = tail
+            self.pos[tail] = idx
         del self.pos[val]
         return True
-        
 
-    def getRandom(self) -> int:
+    def getRandom(self):
         """
         Get a random element from the set.
+        :rtype: int
         """
-        return self.nums[random.randint(0, len(self.nums) - 1)]
+        return self.nums[random.randint(0, len(self.nums)-1)]
         
-
-
-# Your RandomizedSet object will be instantiated and called as such:
-# obj = RandomizedSet()
-# param_1 = obj.insert(val)
-# param_2 = obj.remove(val)
-# param_3 = obj.getRandom()
