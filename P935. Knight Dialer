@@ -1,0 +1,42 @@
+# time O(N * 10 * 3)
+# space O(1)
+class Solution(object):
+    def knightDialer(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        # 如果只有一位数，共十种情况
+        if N == 1:
+            return 10
+        
+        mod = 10 ** 9 + 7
+        
+        # next number of current digit
+        phone = [[]] * 10
+        phone[0] = [4,6]
+        phone[1] = [6,8]
+        phone[2] = [7,9]
+        phone[3] = [4,8]
+        phone[4] = [3,9,0]
+        phone[5] = []
+        phone[6] = [1,7,0]
+        phone[7] = [2,6]
+        phone[8] = [1,3]
+        phone[9] = [2,4]
+        
+        # res[i] , 在number i 的可能情况
+        # res表示某一步數將走上其索引所在數字的所有情況的總數，new用來更新其總數情況。
+        res = [1] * 10
+        
+        # 对于每一次拨号，十种数字都可能走一遍,下一步的可能性 = 上一步的可能性 + 当前的可能性
+        
+        for _ in range(N-1):
+            new = [0] * 10
+            for number in range(10):
+                for j in phone[number]:
+                    new[j] += res[number]
+                    
+            res = new
+        return sum(res) % mod
+        
