@@ -1,0 +1,21 @@
+# hashtable + two pointers
+# time log(n), space O(1)
+
+class Solution(object):
+    def isStrobogrammatic(self, num):
+        """
+        :type num: str
+        :rtype: bool
+        """
+        #if len(num) <= 1:
+            #return False
+        
+        set_ = set((('0', '0'),('1', '1'), ('8', '8'), ('6', '9'), ('9', '6')))
+        left = 0
+        right = len(num) - 1
+        while left <= right:
+            if (num[left], num[right]) not in set_:
+                return False
+            left += 1
+            right -= 1
+        return True
