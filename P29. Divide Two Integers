@@ -1,7 +1,11 @@
 # bit manipulation
-# a << 1 a向左移动一位，等于a * 2
+# a << 1 a向左移动一位，等于a * 2， 左移n位，相当于 a * 2 ^ n
+# 可以用被除数不断地减除数的1倍、2倍、4倍、8倍...这样就快了
+#  O(log(answer)) = O(log(dividend // divisor)) 
+
 class Solution(object):
     def divide(self, dividend, divisor):
+    
         negative = dividend > 0 and divisor < 0 or dividend < 0 and divisor > 0
         dividend, divisor = abs(dividend), abs(divisor)
         res = 0
@@ -15,3 +19,50 @@ class Solution(object):
         if negative:
             res = -res
         return min(max(-2147483648, res), 2147483647)
+        
+        
+  # binary search
+  class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        sign = 0
+        if dividend > 0 and divisor > 0 or dividend < 0 and divisor < 0:
+            sign = 1
+        else:
+            sign = -1
+        
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+        
+        res = 0
+        sum = 0
+        count = 0
+        
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+        while dividend >= divisor:
+            sum = divisor
+            count = 1
+            while sum + sum <= dividend:
+                sum += sum
+                count += count
+            res += count
+            dividend -= sum
+            
+        
+        if sign == -1:
+            res = - res
+        if res > 2147483647:
+            return 2147483647
+        elif res < -2147483648:
+            return -2147483648
+        else:
+            return res
+        
+        
+                
+        
