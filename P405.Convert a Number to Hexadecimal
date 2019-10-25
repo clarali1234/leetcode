@@ -1,0 +1,21 @@
+class Solution(object):
+    def toHex(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        if num == 0:
+            return '0'
+        if num < 0:
+            num += 2 ** 32
+        
+        res = ''
+        while num != 0:
+            cur = num % 16
+            if cur < 10:
+                res  = str(cur) + res
+            else:
+                res = chr((cur - 10) + ord('a')) + res
+            num = num // 16
+        return res
+            
