@@ -1,0 +1,16 @@
+vowel = 'aeiouAEIOU'
+
+class Solution(object):
+    def toGoatLatin(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        return ' '.join(self.latin(w, i) for i, w in enumerate(S.split()))
+        
+    
+    def latin(self, w, i):
+        if w[0] not in vowel:
+            w = w[1:] + w[0]
+        return w + 'ma' + 'a' * (i + 1)
+    
