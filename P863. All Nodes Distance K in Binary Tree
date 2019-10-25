@@ -1,3 +1,5 @@
+# 树是有向图，不可以反向遍历, children -> parent, 所以我们需要建立无向图
+
 # sol1
 # build graph bds
 # time O(n), space O(n)
@@ -36,7 +38,7 @@ class Solution(object):
     def bfs(self, dic, root, target, K):
         queue = collections.deque([target.val])
         seen = set()
-        
+        # 用bfs遍历图，当node 被pop出来时，才添加到seen里面去，queue里面是未访问过的点
         while K > 0:
             K -= 1
        
