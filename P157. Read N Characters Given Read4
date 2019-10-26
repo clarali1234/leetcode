@@ -15,7 +15,7 @@ class Solution(object):
             count = read4(buf4)
             if not count:
                 break
-             #文件可以继续读出，但是超过n个
+             #文件可以继续读出，但是不能超过n个
             count = min(count, n - i)
             buf[i: ] = buf4[:count]
             i += count
