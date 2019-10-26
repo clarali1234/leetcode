@@ -1,0 +1,21 @@
+# greedy
+# time O(n)
+# space O(1)
+
+# At each digit, if there is a larger digit that occurs later, 
+# we want the swap it with the largest such digit that occurs the latest.
+
+class Solution(object):
+    def maximumSwap(self, num):
+        """
+        :type num: int
+        :rtype: int
+        """
+        nums = map(int, str(num))
+        map_ = {val:index for index, val in enumerate(nums)}
+        for index, val in enumerate(nums):
+            for digit in range(9, val, -1):
+                if map_.get(digit, None) > index:
+                    nums[index], nums[map_[digit]] = nums[map_[digit]], nums[index]
+                    return int(''.join(map(str, nums)))
+        return num
