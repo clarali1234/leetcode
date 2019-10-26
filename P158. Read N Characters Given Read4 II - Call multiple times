@@ -10,6 +10,8 @@
 
 # Continue the process until i equal n, or when there is no more data to read. 
 
+用queue将读取的内容保存下来，直到取出i个值
+
 class Solution(object):
     '''算法思路：
     要将上次 read4 读取后剩余的保存起来
