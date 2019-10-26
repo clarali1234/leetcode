@@ -1,8 +1,8 @@
-这道题类似一种迷宫问题，规定了-1表示墙，0表示门，让求每个点到门的最近的曼哈顿距离，这其实类似于求距离场Distance Map的问题，
-那么我们先考虑用DFS来解，思路是，我们搜索0的位置，每找到一个0，以其周围四个相邻点为起点，开始DFS遍历，
-并带入深度值1，如果遇到的值大于当前深度值，我们将位置值赋为当前深度值，并对当前点的四个相邻点开始DFS遍历，
-注意此时深度值需要加1，这样遍历完成后，所有的位置就被正确地更新了，
+# bfs and dfs
+# worst case O((mn)^2)
+# space O(mn)
 
+# sol1 : bfs
 # bfs start with 0:gates
 class Solution(object):
     def wallsAndGates(self, rooms):
@@ -24,13 +24,49 @@ class Solution(object):
         
         while q:
             row, col = q.popleft()
-            dist = rooms[row][col] + 1
             for x, y in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 new_row = row + x
                 new_col = col + y
                 if 0 <= new_row < m and 0 <= new_col < n and rooms[new_row][new_col] == 2147483647:
-                    rooms[new_row][new_col] = dist
+                    rooms[new_row][new_col] = rooms[row][col] + 1
                     q.append((new_row, new_col))
+ 
+ # sol2:
+ dfs
+                 
+这道题类似一种迷宫问题，规定了-1表示墙，0表示门，让求每个点到门的最近的曼哈顿距离
+那么我们先考虑用DFS来解，思路是，我们搜索0的位置，每找到一个0，以其周围四个相邻点为起点，开始DFS遍历，
+并带入深度值1，如果遇到的值大于当前深度值，我们将位置值赋为当前深度值，并对当前点的四个相邻点开始DFS遍历，
+注意此时深度值需要加1，这样遍历完成后，所有的位置就被正确地更新了，
+
+class Solution(object):
+    def wallsAndGates(self, rooms):
+        """
+        :type rooms: List[List[int]]
+        :rtype: None Do not return anything, modify rooms in-place instead.
+        """
+        if not rooms:
+            return 
+        
+        for i in range(len(rooms)):
+            for j in range(len(rooms[0])):
+                if rooms[i][j] == 0:
+                    self.dfs(rooms, i, j, 0)
+                    
+    
+    def dfs(self, rooms, x, y, dis):
+        # rooms[x][y] < dis代表是墙-1或者是已经找到了最近距离的点
+        if x < 0 or x >= len(rooms) or y < 0 or y >= len(rooms[0]) or rooms[x][y] < dis:
+            return
+        rooms[x][y] = dis
+        self.dfs(rooms, x + 1, y, dis + 1)
+        self.dfs(rooms, x - 1, y, dis + 1)
+        self.dfs(rooms, x, y + 1, dis + 1)
+        self.dfs(rooms, x, y - 1, dis + 1)
+            
+            
+
+
         
                     
         
