@@ -1,0 +1,26 @@
+# 思路：
+two pointers , sliding window, 
+# 维护一个k>0的window
+#time O(n)
+# space O(1)
+
+class Solution(object):
+    def longestOnes(self, A, K):
+        """
+        :type A: List[int]
+        :type K: int
+        :rtype: int
+        """
+        
+        start = 0
+        res = 0
+        for right in range(len(A)):
+            if A[right] == 0 and K > 0:
+                K -= 1
+            elif A[right] == 0:
+                while A[start] != 0:
+                    start += 1
+                start += 1
+            res = max(res, right - start + 1)
+        return res
+                    
