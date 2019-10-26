@@ -1,3 +1,5 @@
+# 目的，把文件内容读在buf里；返回max(len(file, n))
+
 class Solution(object):
     def read(self, buf, n):
         """
@@ -5,12 +7,15 @@ class Solution(object):
         :type n: Number of characters to read (int)
         :rtype: The number of actual characters read (int)
         """
+        # i是下一次开始的坐标
         i = 0
         while i < n:
+            # buf4用来缓存每次读出的内容
             buf4 = [''] * 4
             count = read4(buf4)
             if not count:
                 break
+             #文件可以继续读出，但是超过n个
             count = min(count, n - i)
             buf[i: ] = buf4[:count]
             i += count
