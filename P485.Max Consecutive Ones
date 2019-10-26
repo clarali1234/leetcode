@@ -1,0 +1,19 @@
+# 遍历每一个ele, 如果是0， count = 0; 如果是1，count += 1, 并res = max(res, count)
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        res = 0
+        count = 0
+        for i, ele in enumerate(nums):
+            if ele == 1:
+                count += 1
+                res = max(count, res)
+            else:
+                count = 0
+        return res
