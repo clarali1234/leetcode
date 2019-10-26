@@ -1,0 +1,26 @@
+store the length of previous and current consecutive 1's (separated by the last 0) as pre and curr , respectively.
+
+Whenever we get a new number, update these two variables accordingly. 
+The consecutive length would be pre + 1 + curr, where the 1 is a zero that got flipped to 1. 
+(note that pre is initialized to -1, meaning that we haven't seen any 0 yet)
+
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def findMaxConsecutiveOnes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        pre = -1
+        cur = 0
+        maxLength = 0
+        for num in nums:
+            if num == 0:
+                pre = cur
+                cur = 0
+            else:
+                cur += 1
+            maxLength = max(maxLength, cur + pre + 1)
+        return maxLength
