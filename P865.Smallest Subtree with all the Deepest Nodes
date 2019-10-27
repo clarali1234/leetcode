@@ -21,4 +21,29 @@ class Solution:
             
             
             
+ class Solution(object):
+    def subtreeWithAllDeepest(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if not root:
+            return None
+        return self.dfs(root)[1]
+    
+    def dfs(self, node):
+        if not node:
+            return 0, None
+        
+        left_height, left_node = self.dfs(node.left)
+        right_height, right_node = self.dfs(node.right)
+        if left_height > right_height:
+            return left_height + 1, left_node
+        elif left_height < right_height:
+            return right_height + 1, right_node
+        else:
+            return left_height + 1, node
+            
+            
+            
  
