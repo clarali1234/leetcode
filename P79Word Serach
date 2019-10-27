@@ -1,4 +1,5 @@
-time O(m*n*4^K)
+#time O(m*n*4^K)->upper boundO(mn*mn)
+# space O(mn)
 
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
