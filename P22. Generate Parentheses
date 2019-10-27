@@ -6,25 +6,25 @@
   # 如果左括号多于右括号, 那么此时可以添加一个左括号或右括号, 递归进入下一层
   # 如果左括号 = 右括号, 那么此时只能添加一个左括号, 递归进入下一层
   
- # time O(2^n)
+ # time O(2^(2n))
  # space o(n)
   
-  class Solution(object):
+ class Solution(object):
     def generateParenthesis(self, n):
         """
         :type n: int
         :rtype: List[str]
         """
-        if n == 0:
-            return []
-        self.result = []
-        self.helper('', 0, 0, n)
-        return self.result
+        self.res = []
+        self.dfs(n, n, '')
+        return self.res
     
-    def helper(self, temp, left, right, n):
-        if right == n:
-            self.result.append(temp)
-        if left < n:
-            self.helper(temp + '(', left + 1, right, n)
-        if right < left:
-            self.helper(temp + ')', left, right + 1, n)
+    def dfs(self, left, right, cur):
+        if left == 0 and right == 0:
+            self.res.append(cur)
+            return 
+        
+        if left > 0:
+            self.dfs(left - 1, right, cur + '(')
+        if left < right:
+            self.dfs(left, right - 1, cur + ')')
