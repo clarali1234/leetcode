@@ -37,6 +37,8 @@ class Codec:
             
         return ' '.join(bfs_order)
         
+   
+        
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -117,3 +119,91 @@ class Codec:
             root.left = self.build()
             root.right = self.build()
             return root
+            
+import collections
+
+class TreeNode(object):
+    def __init__(self, x):
+        self.val  = x
+        self.left = None
+        self.right = None
+
+class TreeNode(object):
+    def __init__(self, x):
+        self.val  = x
+        self.left = None
+        self.right = None
+    
+class Solution(object):
+    def serialzie(self, root):
+        if not root:
+            return 
+        
+        self.res = []
+        self.dfs(root)
+        return self.res
+    
+    def dfs(self, node):
+        if not node:
+            self.res.append(None)
+            return 
+        
+        self.res.append(node.val)
+        self.dfs(node.left)
+        self.dfs(node.right)
+    
+    def deserialize(self, data):
+        if not data:
+            return None
+        
+        self.queue = collections.deque(
+                TreeNode(val)
+                if val != None else None
+                for val in data)
+        return self.build_tree()
+    
+    def build_tree(self):
+        if self.queue:
+            node = self.queue.popleft()
+            root = node
+            root.left = self.build_tree()
+            root.right = self.build_tree()
+            return root
+        
+
+    
+class Solution2(object):
+    def serialzie(self, root):
+        if not root:
+            return 
+        
+        self.res = []
+        self.dfs(root)
+        return self.res
+    
+    def dfs(self, node):
+        if not node:
+            self.res.append('#')
+            return 
+        
+        self.res.append(str(node.val))
+        self.dfs(node.left)
+        self.dfs(node.right)
+
+    
+#   1
+#  /  \
+# 2    3    
+#      \
+#       4
+node1 = TreeNode(1)
+node2= TreeNode(2)
+node3 = TreeNode(3)
+node4 = TreeNode(4)
+node1.left = node2
+node1.right = node3
+node3.right = node4
+
+test = Solution()
+print(test.serialzie(node1))
+print(test.deserialize)
