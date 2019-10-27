@@ -92,24 +92,21 @@ class Codec:
     def dfs(self, root):
         if not root:
             self.res.append('#')
-        else:
-            self.res.append(str(root.val))
-            self.dfs(root.left)
-            self.dfs(root.right)
+            return 
+        
+        self.res.append(str(root.val))
+        self.dfs(root.left)
+        self.dfs(root.right)
         
     def deserialize(self, data):
-        """Decodes your encoded data to tree.
         
-        :type data: str
-        :rtype: TreeNode
-        """
         if not data:
             return None
+            
         self.dfs = collections.deque(
             TreeNode(int(val)) if val != '#' else None
             for val in data.split()
         )
-        
         return self.build()
     def build(self):
         if self.dfs:
