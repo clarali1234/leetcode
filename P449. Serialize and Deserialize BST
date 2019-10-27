@@ -1,0 +1,63 @@
+# 重要结论：BST的前序遍历能唯一的确定一颗BST
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return []
+        
+        self.res = []
+        self.dfs(root)
+        return ' '.join(self.res)
+    
+    def dfs(self, node):
+        if not node:
+            self.res.append('#')
+            return 
+        self.res.append(str(node.val))
+        self.dfs(node.left)
+        self.dfs(node.right)
+        
+        
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+        
+        self.queue = collections.deque(
+        TreeNode(int(val))
+        if val != '#' else None
+        for val in data.split()
+        )
+        
+        return self.build_tree()
+        
+    def build_tree(self):
+        if self.queue:
+            node = self.queue.popleft()
+            if not node:
+                return 
+            node.left = self.build_tree()
+            node.right = self.build_tree()
+            return node
+        
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
