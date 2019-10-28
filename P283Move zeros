@@ -24,6 +24,51 @@ class Solution:
                 nums[slow], nums[fast] = nums[fast], nums[slow]
                 slow += 1
             fast += 1
+            
+# in place把非零项都移到左边，
+"""
+class Solution(object):
+    def moveZeroes(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+        slow = 0
+        fast = 0
+        while fast < len(nums):
+            if nums[fast] == 0:
+                nums[fast], nums[slow] = nums[slow], nums[fast]
+                slow += 1
+            fast += 1
+        return slow, nums
+        
+# follow up : minimize the over right
+in place把非零项都移到左边， 感觉两个pointer， 左边找第一个0， 右边找第一个非0， 两边推进
+
+有一点点不同就是要minimize write operations 所以把swap 换成直接将前面的零值赋成后面的非零值，
+而不同再将后面的非零值置零了，因为我们不care之后的那个零值，所以这样就减少了一半的write operation.
+
+
+# Move all the non-zero elements to the beginning
+# 写入次数：  write数是min(0的个数，非0个数)
+    def two_pointers(self, nums):
+        left = 0
+        right = len(nums) - 1
+        count = 0
+        while left < right:
+            while left < right and nums[left] != 0:
+                left += 1
+            while left < right and nums[right] == 0:
+                right -= 1
+            
+            if left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+                count += 1
+                left += 1
+                right -= 1
+        return nums, count
+
+# follow up: 如果数组全是0或者全是非0怎么办
 
 
 
