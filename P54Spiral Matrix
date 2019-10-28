@@ -1,3 +1,7 @@
+simulation
+# direction : 0, 1, 2, 3
+# border: left, right, bottom, top
+
 这是一个使用状态转移的例子。 
 程序逻辑分为4个状态 
 1. 0表示向右边读取 
