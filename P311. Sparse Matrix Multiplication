@@ -1,0 +1,27 @@
+# time O(n^3)
+# time O(m * n * l)
+
+class Solution(object):
+    def multiply(self, A, B):
+        """
+        :type A: List[List[int]]
+        :type B: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        
+        if not A or not B:
+            return None
+        
+        m = len(A)
+        n = len(A[0])
+        l = len(B[0])
+        
+        res = [[0] * l for _ in range(m)]
+        
+        for i, row in enumerate(A):
+            for k, eleA in enumerate(row):
+                if eleA:
+                    for j, eleB in enumerate(B[k]):
+                        if eleB:
+                            res[i][j] += eleA * eleB
+        return res
