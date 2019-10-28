@@ -1,0 +1,80 @@
+1 dfs recursion 
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root: 
+            return 0
+        
+        return self.dfs(root, None, 0)
+        
+    def dfs(self, node, parent, length):
+        if not node:
+            return length
+        
+        if parent and parent.val + 1 == node.val:
+            length += 1
+        else:
+            length = 1
+        
+        return max(length, self.dfs(node.left, node, length), self.dfs(node.right, node, length))
+                   
+    # bfs
+    # time O(n)
+    # space O(n)
+   class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        queue = collections.deque([(root, 1)])
+        ans = 0
+        while queue:
+            node, length = queue.popleft()
+            ans = max(ans, length)
+            for child in [node.left, node.right]:
+                if child:
+                    if node.val + 1 == child.val:
+                        l = length + 1
+                    else:
+                        l = 1
+                    queue.append([child, l])
+        return ans
+        
+        
+    # stack
+    
+    class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        res = 0
+        stack = [(root, 1)]
+        while stack:
+            node, length = stack.pop()
+            res = max(res, length)
+            for child in [node.left, node.right]:
+                if child:
+                    if child.val == node.val + 1:
+                        l = length + 1
+                    else:
+                        l = 1
+                    stack.append((child, l))
+                    
+        return res
+            
+            
