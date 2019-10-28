@@ -9,3 +9,18 @@ class Solution:
         if len(ch) > 0:
             return min(ch)
         return -1
+
+# time O(n)
+# space O(n)
+class Solution(object):
+    def firstUniqChar(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        count = collections.Counter(s)
+        for index, ele in enumerate(s):
+            if count[ele] == 1:
+                return index
+        return -1
+        
