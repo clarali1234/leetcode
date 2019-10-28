@@ -33,6 +33,7 @@ class LRUCache():
         
      
     def get(self, key):
+    #  使用get使要把最近使用的点先remove, 然后放在tail,
         if key in self.dic:
             node = self.dic[key]
             self.remove(node)
