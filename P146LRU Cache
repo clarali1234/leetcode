@@ -1,5 +1,5 @@
 # python dictionary + double linked list + dummy node + dummy tail
-# dictionary, key : key value, value : node(k,v)
+# dictionary, key : key, value : node(k,v)
 # 新节点从尾部加入
 # 老节点从头部移走
 # insert, delete for linked list is O(1), but access and search time is O(n)
