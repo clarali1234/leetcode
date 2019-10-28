@@ -1,0 +1,45 @@
+# dfs recursion
+# time O(n)
+# space O(n)
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        self.res = 1
+        self.dfs(root)
+        return self.res
+    
+    def dfs(self, node):
+        if not node:
+            return [0, 0]
+    
+        ins = 1
+        des = 1
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
+        if node.left:
+            if node.val + 1 == node.left.val:
+                ins = max(ins, left[0] + 1)
+            if node.val - 1 == node.left.val:
+                des = max(ins, left[1] + 1)
+        if node.right:
+            if node.val + 1 == node.right.val:
+                ins = max(ins, right[0] + 1)
+            if node.val - 1 == node.right.val:
+                des = max(des, right[1] + 1)
+        self.res = max(self.res, ins + des - 1)
+        return [ins, des]
+        
