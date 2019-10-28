@@ -1,0 +1,34 @@
+# we can find the sequence of steps: 1,1,2,2,3,3,4,4,5,5....
+
+Generate sequence 1,1,2,2,3,3,4,4,5,5
+# n 转换方向的次数
+Let n be index of this sequence.
+Then A0 = 1, A1 = 1, A2 = 2 ......
+We can find that An = n // 2 + 1
+
+class Solution(object):
+    def spiralMatrixIII(self, R, C, r0, c0):
+        """
+        :type R: int
+        :type C: int
+        :type r0: int
+        :type c0: int
+        :rtype: List[List[int]]
+        """
+        
+        res = []
+        dir = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        d = 0
+        n = 0
+        while len(res) < R * C:
+            for i in range(n//2 + 1):
+                if 0 <= r0 < R and 0 <= c0 < C:
+                    res.append([r0, c0])
+                r0 += dir[d][0]
+                c0 += dir[d][1]
+            n += 1
+            d = (d + 1) % 4
+        return res
+                    
+            
+
