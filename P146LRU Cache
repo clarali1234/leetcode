@@ -1,8 +1,10 @@
 # python dictionary + double linked list + dummy node + dummy tail
-# dictionary, key : key, value : node(k,v)
+# dictionary, key : key, value : linked list node(k,v)
 # 新节点从尾部加入
 # 老节点从头部移走
 # insert, delete for linked list is O(1), but access and search time is O(n)
+
+# add and remove 都是针对linked list的操作
 
 class Node():
     def __init__(self, key, value):
