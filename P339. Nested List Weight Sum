@@ -1,0 +1,35 @@
+# bfs
+# time O(N) time, where NN is the total number of nested elements in the input list. 
+For example, the list [ [[[[1]]]], 2 ] contains 44 nested lists and 22 nested integers (11 and 22), so N=6N=6.
+
+class Solution(object):
+    def depthSum(self, nestedList):
+        """
+        :type nestedList: List[NestedInteger]
+        :rtype: int
+        """
+        res = 0
+        depth = 1
+        while nestedList:
+            res += depth * sum([inter.getInteger() for inter in nestedList if inter.isInteger()])
+            nestedList = sum([l.getList() for l in nestedList if not l.isInteger()], [])
+            depth += 1
+        return res
+        
+        
+ # dfs
+ # Time complexity: O(n), space complexity: O(d)
+ class Solution(object):
+    def depthSum(self, nestedList):
+        
+        self.res = 0
+        self.dfs(nestedList, 1)
+        return self.res
+    
+    def dfs(self, nestedList, depth):
+        for ele in nestedList:
+            if ele.isInteger():
+                self.res += ele.getInteger() * depth
+            else:
+                self.dfs(ele.getList(), depth + 1)
+        
