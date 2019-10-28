@@ -2,6 +2,8 @@ The first loop is to exclude n - 1 labels that are not possible to be a celebrit
 After the first loop, x is the only candidate.
 The second and third loop is to verify x is actually a celebrity by definition.
 
+# time O(n)
+
 # The knows API is already defined for you.
 # @param a, person a
 # @param b, person b
@@ -14,11 +16,13 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
+        # find the candidate of celebrity
         x = 0
         for i in range(n):
-            if knows(x, i) == 1:
+            if knows(x, i):
                 x = i
-        
+                
+        # verify the candidate is celebrity
         for i in range(n):
             if x == i:
                 continue
@@ -27,3 +31,4 @@ class Solution(object):
             if knows(i, x) == 0:
                 return -1
         return x
+        
