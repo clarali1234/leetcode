@@ -5,6 +5,7 @@
 # insert, delete for linked list is O(1), but access and search time is O(n)
 
 # add and remove 都是针对linked list的操作
+# 操作时先操作linked list node,在操作dict
 
 class Node():
     def __init__(self, key, value):
