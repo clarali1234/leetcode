@@ -1,0 +1,81 @@
+# recursion  TLE
+# time O(2^n)
+# space O(n)
+class Solution(object):
+    def findTargetSumWays(self, nums, S):
+        """
+        :type nums: List[int]
+        :type S: int
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        
+        self.res = 0
+        self.dfs(nums, 0, S)
+        return self.res
+        
+    def dfs(self, nums, start, target):
+        if start >= len(nums):
+            if target == 0:
+                self.res += 1
+            return 
+
+        self.dfs(nums, start + 1, target - nums[start])
+        self.dfs(nums, start + 1, target + nums[start])
+        
+        
+# sol2 
+# time O(l *n) l: range of sum, n:nums size
+# space O(n) the depth of recursion
+
+recursion + memo
+class Solution(object):
+    def findTargetSumWays(self, nums, S):
+        """
+        :type nums: List[int]
+        :type S: int
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        
+        # (start index, sum) : start - end 和为sum的数量
+        self.memo = {}
+        return self.dfs(nums, 0, S)
+    
+    def dfs(self, nums, start, target):
+        if (start, target) not in self.memo:
+            res = 0
+            # base case:
+            if start == len(nums):
+                if target == 0:
+                    res = 1
+            else:
+                res = self.dfs(nums, start + 1, target + nums[start]) + self.dfs(nums, start + 1, target - nums[start])
+            self.memo[(start, target)] = res
+        return self.memo[(start, target)]
+            
+           
+
+# dp
+DP: time O(n * S)
+space O(s)
+count key:sum, value:ways
+class Solution(object):
+    def findTargetSumWays(self, nums, S):
+        """
+        :type nums: List[int]
+        :type S: int
+        :rtype: int
+        """
+        count = collections.defaultdict(int)
+        count[0] = 1
+        for num in nums:
+            dic = collections.defaultdict(int)
+            for tmp in count:
+                dic[tmp + num] += count[tmp]
+                dic[tmp - num] += count[tmp]
+            count = dic
+            
+        return count[S]
