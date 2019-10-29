@@ -1,0 +1,55 @@
+思路：
+给出字符串之后，首先分别通过两个分割符”.”和”:”对字符进行分割，然后根据分割的结果进行判断。将分割后的子串通过一个vector存起来，
+这样的话，就得到的两个vector，分别记为ipv4和ipv6
+
+满足以下条件的ipv4有效：
+size为4，并且每一个元素都非空
+ipv4中的每一个元素中的每一个字符都是数字
+ipv4中的每一个元素转换为10进制数后都大于等于0，小于或等于255
+如果ipv4中有元素是0开头的，那么它的size只能为0（不能有多余的0开头）
+
+满足以下条件的ipv6有效:
+size为8，且每一个元素都非空
+每个元素中的每个字符要么是数字，要么是a到f的字母
+每一个元素转换为10进制数后都大于等于0或小于等于65535(216−1)(216−1)
+每一个元素的长度不能超过4
+
+class Solution(object):
+    def validIPAddress(self, IP):
+        """
+        :type IP: str
+        :rtype: str
+        """
+        if '.' in IP and self.check_IPv4(IP):
+            return 'IPv4'
+        elif ':' in IP and self.check_IPv6(IP):
+            return 'IPv6'
+        else:
+            return 'Neither'
+        
+    def check_IPv4(self, IP):
+        nums = IP.split('.')
+        if len(nums) != 4:
+            return False
+        for num in nums:
+            if not num or (not num.isdecimal()) or (num[0] == '0' and len(num) != 1 or int(num) > 255):
+                return False
+        return True
+    
+    def check_IPv6(self, IP):
+        IP = IP.lower()
+        valid16 = "0123456789abcdef"
+        if '::' in IP:
+            return False
+        nums = IP.split(':')
+        if len(nums) > 8:
+            return False
+        for num in nums:
+            if not nums:
+                continue
+            if len(num) >= 5:
+                return False
+            for n in num:
+                if n not in valid16:
+                    return False
+        return True
