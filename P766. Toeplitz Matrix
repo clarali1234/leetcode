@@ -1,0 +1,35 @@
+# time O(mn)
+
+class Solution(object):
+    def isToeplitzMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: bool
+        """
+        for m in range(len(matrix) - 1):
+            for n in range(len(matrix[0]) - 1):
+                if matrix[m][n] != matrix[m + 1][n + 1]:
+                    return False
+        return True
+        
+        
+No online judge for the follow-up questions so let's discuss:
+1. What if the matrix is stored on disk, and the memory is limited such that 
+you can only load at most one row of the matrix into the memory at once?
+
+For the follow-up 1, we are only able to load one row at one time, 
+so we have to use a buffer (1D data structure) to store the row info. 
+When next row comes as a streaming flow, we can compare each value (say, matrix[i][j], i>=1, j>=1) 
+to the "upper-left" value in the buffer (buffer[j - 1]); 
+meanwhile, we update the buffer by inserting the 1st element of the current row (matrix[i][0]) 
+to buffer at position 0 (buffer[0]), and removing the last element in the buffer.
+
+2. What if the matrix is so large that you can only load up a partial row into the memory at once?
+
+For the follow-up 2, we can only load a partial row at one time.
+We could split the whole matrix vertically into several sub-matrices,
+while each sub-matrix should have one column overlapped. 
+We repeat the same method in follow-up 1 for each sub-matrix.
+
+
+https://leetcode.com/problems/toeplitz-matrix/discuss/271388/Java-Solution-for-Follow-Up-1-and-2
