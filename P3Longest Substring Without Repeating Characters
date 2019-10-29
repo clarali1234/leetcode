@@ -1,4 +1,9 @@
-# two pointers 
+# two pointers + hashset (sliding window)
+
+# hashsest the unique char in the sliding window
+
+# sliding windown keep the subtring with unique char
+
 变量start和end分别记录子串的起点和终点
 从左向右逐字符遍历原始字符串，每次将end + 1
 字典countDict存储当前子串中各字符的个数
