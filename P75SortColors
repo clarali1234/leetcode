@@ -1,11 +1,11 @@
 # twice partition, O(n) time 
 
+
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
+        # 000 111222
         index  = self.sort(nums, 0, 0)
+        # 000 111 222 
         self.sort(nums, 1, index)
         
     def sort(self, nums, flag, start):
