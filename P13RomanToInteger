@@ -1,3 +1,10 @@
+hash 
+# time O(n) n is the length of roman number 
+# space O(1)
+The trick is that the last letter is always added. 
+Except the last one, if one letter is less than its latter one, this letter is subtracted.
+
+
 class Solution:
     def romanToInt(self, s: str) -> int:
         dict_roman = {"I":1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
