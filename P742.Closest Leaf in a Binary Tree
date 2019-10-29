@@ -1,0 +1,61 @@
+# dfs build graph + bfs graph traverse
+# time o(n)
+# space O(n)
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def findClosestLeaf(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
+        # build graph
+        self.leaves =  set()
+        self.graph = collections.defaultdict(list)
+        self.build_graph(root)
+        visited = set()
+        return self.bfs(root,k, visited )
+    
+    def build_graph(self, root):
+        if not root:
+            return 
+        
+        if not root.left and not root.right:
+            self.leaves.add(root.val)
+            return 
+            
+        if root.left:
+            self.graph[root.val].append(root.left.val)
+            self.graph[root.left.val].append(root.val)
+            self.build_graph(root.left)
+            
+        if root.right:
+            self.graph[root.val].append(root.right.val)
+            self.graph[root.right.val].append(root.val)
+            self.build_graph(root.right)
+            
+    def bfs(self, root, k, visited):
+        queue = collections.deque([k])
+        visited.add(k)
+        
+        while queue:
+            node = queue.popleft()
+            if node in self.leaves:
+                return node
+            else:
+                for neighbor in self.graph[node]:
+                    if neighbor not in visited:
+                        queue.append(neighbor)
+                        visited.add(neighbor)
+                        
+        
+            
+        
+        
