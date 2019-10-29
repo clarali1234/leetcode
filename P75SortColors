@@ -22,8 +22,14 @@ class Solution:
                 right -= 1
         return left
         
-设置两个头尾指针，头指针p0指向的位置是0该放置的位置，尾指针p2指向的位置是2该放置的位置。
-i用来遍历整个数组，碰到0把它和p0指向的数交换，碰到2把它和p2指向的数交换，碰到1继续向后遍历        
+ # one pass  Three pointers
+ # time O(n)
+ # space O(1)
+ 
+  000 111 222 
+
+i用来遍历整个数组，碰到0把它和p0指向的数交换，碰到2把它和p2指向的数交换，碰到1继续向后遍历
+
 # one time partition
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
@@ -31,11 +37,9 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         # one time partition 
-        # index which is smaller than left is 1
-        # index which is larger than right is 2
-        # traverse the array by index
-        left, index, right = 0, 0, len(nums) - 1
+
         
+        left, index, right = 0, 0, len(nums) - 1
         while index <= right:
             if nums[index] == 0:
                 nums[left], nums[index] = nums[index], nums[left]
@@ -43,6 +47,7 @@ class Solution:
                 left += 1
             elif nums[index] == 2:
                 nums[index], nums[right] = nums[right], nums[index]
+                # 注意右边换过来的需要再查一遍
                 right -= 1
             else:
                 index += 1
