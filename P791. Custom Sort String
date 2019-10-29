@@ -1,0 +1,19 @@
+# 
+统计T中各字符出现的次数
+按照S的顺序将T中字符进行重排，将剩余字符排在末尾。
+
+class Solution(object):
+    def customSortString(self, S, T):
+        """
+        :type S: str
+        :type T: str
+        :rtype: str
+        """
+        count = collections.Counter(T)
+        res = ''
+        for char in S:
+            if char in count:
+                res += char * count[char]
+                del count[char]
+        return res + ''.join(c * ele for ele, c in count.items())
+        
