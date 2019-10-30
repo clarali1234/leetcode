@@ -3,7 +3,7 @@
 
 
 # sol2 sliding window + counter
-# time O(len(s)), space O(len(s))
+# time O(len(s)), space O(len(p))
 
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
