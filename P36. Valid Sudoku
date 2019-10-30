@@ -1,3 +1,8 @@
+我们可以用三个矩阵分别检查三个规则是否有重复数字，比如用row, col, block分别检查行、列、块是否有重复数字，代码如下：
+
+# time O(n^2)
+# space O(n)
+
 class Solution(object):
     def isValidSudoku(self, board):
         """
