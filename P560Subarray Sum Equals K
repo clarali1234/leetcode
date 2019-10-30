@@ -1,17 +1,17 @@
-follow:如果有负数，则不能用two pointers
+sol1: brute-force 遍历i,j,算出sum.
+    time O(n^3), space O(1)
 
-# prefix sum + hash table
-# brute-force 遍历i,j , sum O(n), O(n^3), space O(1)
 
-# prefix_sum[i] = sum(nums[0:i-1])
-# time O(n^2), space 0(n)
+sol2: # prefix sum 
+    # prefix_sum[i] = sum(nums[0:i-1])
+    # time O(n^2), space 0(n)
+    
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
         if not nums:
             return 0
         
         count = 0
-        
         prefix_sum = [0] * (len(nums) + 1)
 
         for i in range(1, len(prefix_sum)):
@@ -35,7 +35,6 @@ class Solution(object):
             return 0
         
         count = 0
-        
         for i in range(len(nums)):
             sum_ = 0
             for j in range(i, len(nums)):
@@ -52,8 +51,7 @@ class Solution:
         if not nums:
             return 0
         
-        res = 0
-        
+        res = 0 
         # key = prefix_sum, value = count
         cur_sum = 0
         dic = {0:1}
