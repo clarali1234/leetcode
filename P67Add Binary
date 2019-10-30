@@ -1,5 +1,7 @@
      
-  # time O(max(m,n), space O(1)    
+  # time O(max(m,n), space O(n)  （we need O(n) to hold our res)
+   Let's consider the numbers bit by bit starting from the lowest one and compute the carry this bit will add.
+   
 class Solution:
     def addBinary(self, a: str, b: str) -> str:
         m = len(a)
