@@ -1,0 +1,43 @@
+# binary search time O(lgn)
+# space O(1)
+
+如果该题存在重复数，只需要跳过首位重复数即可。其他操作同在无重复数的旋转数组中寻找目标值。
+
+class Solution(object):
+    def search(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: bool
+        """
+        A = nums
+        if not A or target is None:
+            return False
+        
+        start, end = 0, len(A)-1
+        while start + 1 < end:
+            
+            while A[start] == A[start+1] and start + 1 < end:
+                start += 1
+            while A[end] == A[end-1] and start + 1 < end:
+                end -= 1
+                
+            mid = start + (end-start)//2
+            
+            if target in [A[start], A[mid], A[end]]:
+                return True
+            
+            #  mid is on the right half
+            if A[mid] < A[end]:
+                if A[mid] < target < A[end]:
+                    start = mid
+                else:
+                    end = mid
+            else:
+                if A[start] < target < A[mid]:
+                    end = mid
+                else:
+                    start = mid
+
+        return target in [A[start], A[end]]
+        
