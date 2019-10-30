@@ -106,4 +106,25 @@ def subarraySum(nums, target):
     return count
 
 
+  # prefix sum + hash 
   
+  class Solution(object):
+    def subarraySum(self, nums, k):
+        if not nums:
+            return 0
+        
+        res = 0 
+        # key = prefix_sum, value = count
+        # sub[j] - sub[i] >= k, sub[j] - k >= sub[i]
+        cur_sum = 0
+        dic = {0:1}
+        for num in nums:
+            cur_sum = cur_sum + num
+            for key in dic.keys():
+                if key <= cur_sum - k:
+                    res += dic.get(key, 0)
+            dic[cur_sum] = dic.get(cur_sum, 0) + 1
+            
+        return res
+    
+    
