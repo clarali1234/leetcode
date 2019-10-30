@@ -12,6 +12,7 @@
     def dfs(self, root, value):
         if not root.left and not root.right:
             self.res += (value * 10 + root.val)
+            return 
         if root.left:
             self.dfs(root.left, value * 10 + root.val)
         if root.right:
