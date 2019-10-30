@@ -1,6 +1,8 @@
 # 二分法的模版
 # 先判断mid在左半段还是右半段,通过middle和left. right的关系判断
 # 在判断target在左半段还是右半段
+# time O(lgn)
+# space O(1)
 
 class Solution(object):
     def search(self, nums, target):
@@ -17,9 +19,10 @@ class Solution(object):
         
         while left + 1 < right:
             mid = (left + right) // 2
-            # mid is on the right half
+            
             if nums[mid] == target:
                 return mid 
+             # mid is on the left half
             if nums[mid] > nums[left]:
                 if nums[left] <= target <= nums[mid]:
                     right = mid
