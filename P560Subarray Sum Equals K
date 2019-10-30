@@ -87,4 +87,23 @@ class Solution:
     return count
 
 print(subarraySum([1,1,1], 2))
+
+
+# follow up sum >= k and no negative integer
+# time O(1)
+def subarraySum(nums, target):
+    left = 0
+    right = 0
+    sum_ = 0
+    count = 0
+    
+    for left in range(len(nums)):
+        while sum_ < target and right < len(nums) - 1:
+            sum_ += nums[right]
+            right += 1  
+        count += len(nums) - right
+        sum_ -= nums[left]
+    return count
+
+
   
