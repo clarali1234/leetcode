@@ -69,6 +69,35 @@ class Solution:
   
   # 可以用两个index，因为array里面的数都是正的，当current sum小于target的时候，第二个index右移，
   # 如果current sum > target的时候，第一个index右移。
+  
+  
+  def subarraySum(nums, k):
+    if not nums:
+        return 0
+    
+    left = 0
+    right = 0
+    sum_ = 0
+    res = 0
+    cond = True
+    while cond:
+        while right < len(nums) and sum_ < k:
+        
+            sum_ += nums[right]
+            right += 1
+            
+        while left <= right and sum_ >= k:
+            if sum_ == k:
+                res += 1
+            left -= 1
+            sum_ -= nums[left]
+            
+        if right == len(nums):
+            cond = False
+    return res
+
+print(subarraySum([1,2,1,1,1], 2))
+        
   def subarraySum(nums, target):
     left = 0
     right = 0
