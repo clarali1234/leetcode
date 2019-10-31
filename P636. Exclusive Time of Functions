@@ -31,3 +31,11 @@ class Solution(object):
                 pre_time = int(time) + 1
         return res
             
+follow up如果invalid log怎么办，input还有哪些可能的format（我写的是list of string），以及multi thread会有什么问题
+
+input我说可以是给file或者是iterator，
+
+multi thread的话会有可能比如两个functions，
+foo和bar， foo calls bar，但是foo returns before bar returns
+就是说本来是foo这个function calls bar这个function嘛，所以肯定是bar return了之后stack frame回到foo，
+foo才会return的，但是multithread的话在thread pool里就有可能foo已经return了，bar才return的
