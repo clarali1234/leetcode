@@ -16,6 +16,7 @@ class Solution:
         
         count = 0
         queue = []
+        # 易错点 range(numCourses)
         for course in range(numCourses):
             if indegree[course] == 0:
                 queue.append(course)
