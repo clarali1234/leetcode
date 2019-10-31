@@ -1,21 +1,7 @@
 维持两个指针，慢的指针始终指向上一个非零数的后面，快指针向后扫描直至找到一个非零数，
 将快指针找到的非零数赋值给慢指针的位置后将慢指针后移一个位置，同时将快指针所在处的数置为0。循环下去即可。
-class Solution(object):
-    def moveZeroes(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        slow = fast = 0
-        while fast < len(nums):
-            if nums[fast] != 0:
-                if slow != fast:
-                    nums[slow] = nums[fast]
-                    nums[fast] = 0
-                slow += 1
-            fast += 1
-
-
+# time O(n) inplace
+# write time o(n) n: num of no-zeros
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         slow, fast = 0, 0
@@ -25,7 +11,7 @@ class Solution:
                 slow += 1
             fast += 1
             
-# in place把非零项都移到左边，
+# in place把零项都移到左边，
 """
 class Solution(object):
     def moveZeroes(self, nums):
@@ -42,8 +28,9 @@ class Solution(object):
             fast += 1
         return slow, nums
         
-# follow up : minimize the over right
-in place把非零项都移到左边， 感觉两个pointer， 左边找第一个0， 右边找第一个非0， 两边推进
+# follow up : minimize the over write
+in place把非零项都移到左边，
+两个pointer， 左边找第一个0， 右边找第一个非0， 两边推进
 
 有一点点不同就是要minimize write operations 所以把swap 换成直接将前面的零值赋成后面的非零值，
 而不同再将后面的非零值置零了，因为我们不care之后的那个零值，所以这样就减少了一半的write operation.
