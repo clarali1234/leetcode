@@ -1,3 +1,23 @@
+# use hashmap of the smaller array
+# interate along the larger array 
+# time O(m)
+# space O(n) m > n
+class Solution:
+    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        if len(nums1) > len(nums2):
+            return self.intersect(nums2, nums1)
+        
+        dic = collections.defaultdict(int)
+        for num in nums1:
+            dic[num] += 1
+        
+        res = []
+        for n in nums2:
+            if dic[n] > 0:
+                res.append(n)
+                dic[n] -= 1
+        return res
+
 # two pointers
 # time O(nlgn)
 # space O(1)
@@ -32,21 +52,6 @@ class Solution:
     put all elements of nums1 into a HashMap, key ele, value: count
     read chunks of array in nums2 that fit into the memory, and record the intersections.
     
-# use hashmap
-class Solution:
-    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        if len(nums1) > len(nums2):
-            return self.intersect(nums2, nums1)
-        
-        dic = collections.defaultdict(int)
-        for num in nums1:
-            dic[num] += 1
-        
-        res = []
-        for n in nums2:
-            if dic[n] > 0:
-                res.append(n)
-                dic[n] -= 1
-        return res
+
         
         
