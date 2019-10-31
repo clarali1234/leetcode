@@ -1,0 +1,59 @@
+class Solution(object):
+    def isValidPalindrome(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: bool
+        """
+        mem = {}
+        return self.f(s,mem) <= k
+    def f(self,s,mem):
+        if s in mem: 
+          return mem[s]
+          
+        i = 0
+        j = len(s) - 1
+        while(i < j):
+            if s[i] == s[j]:
+                i+=1
+                j-=1
+            else:
+                # i : j- 1 or i + 1 : j
+                mem[s] = 1 + min(self.f(s[i:j], mem), self.f(s[i+1:j+1], mem))
+                return mem[s]
+        mem[s] = 0
+        return 0
+
+# dp
+thanks !
+same thoughts
+edit distance where only deletion is allowed between s and reversed(s)
+
+if one of them is empty we have to delete the entire other
+if last character is the same then no need to delete any of these last 2
+if last characters are not the same then delete either or
+
+the distance == total number of deletions in one string + total number of deletions in the other
+implies it has to be <= 2 * k
+(removing at most k in each)
+
+class Solution(object):
+    def isValidPalindrome(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: bool
+        """
+        n = len(s)
+        dp = [[0] * (n + 1) for _ in range(n + 1)] 
+        for i in range(n + 1): 
+            for j in range(n + 1): 
+                if not i or not j: 
+                    dp[i][j] = i or j 
+                elif s[i - 1] == s[n - j]: 
+                    dp[i][j] = dp[i - 1][j - 1] 
+                else: 
+                    dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1])
+        return dp[n][n] <= k * 2
+
+
