@@ -4,7 +4,7 @@
 # lower bound: schedule all tasks without idle
 
 # time O(n)
-# space O(n)
+# space O(1) <= 26
 
   class Solution(object):
     def leastInterval(self, tasks, n):
