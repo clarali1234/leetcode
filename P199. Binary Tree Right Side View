@@ -1,3 +1,29 @@
+# bfs
+ # Traverse the tree level by level and add the last value of each level to the view
+ # time O(n)
+ # space O(n)
+
+class Solution(object):
+    def rightSideView(self, root):
+        res = []
+        
+        if not root:
+            return res
+        
+        queue = collections.deque([root])
+        while queue:
+            level = []
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                level.append(node.val)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            res.append(level[-1])
+        return res
+
+
 # DFS traverse the tree right-to-left, add values to the view whenever we first reach a new record depth. 
 # time O(n)
 # space O(h)
@@ -29,18 +55,3 @@ class Solution(object):
             
   
   
- # Iterative, level-by-level
- # Traverse the tree level by level and add the last value of each level to the view
- # time O(n)
- # space O(n)
-
-Traverse the tree level by level and add the last value of each level to the view. This is O(n).
-  class Solution(object):
-    def rightSideView(self, root):
-        view = []
-        if root:
-            level = [root]
-            while level:
-                view.append(level[-1].val)
-                level = [kid for node in level for kid in (node.left, node.right) if kid]
-        return view
