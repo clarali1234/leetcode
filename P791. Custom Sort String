@@ -1,6 +1,7 @@
 # 
 统计T中各字符出现的次数
 按照S的顺序将T中字符进行重排，将剩余字符排在末尾。
+# time O(length of s + length of t), space O(the length of t)
 
 class Solution(object):
     def customSortString(self, S, T):
