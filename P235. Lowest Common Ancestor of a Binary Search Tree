@@ -4,10 +4,13 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
         while root:
+          # p q are in the left subtree
             if max(p.val, q.val) < root.val:
                 return self.lowestCommonAncestor(root.left, p, q)
+           # p q are in the right subtree
             elif min(p.val, q.val) > root.val:
                 return self.lowestCommonAncestor(root.right, p, q)
+           # p q in different subtree
             else:
                 return root
 2. iteration
