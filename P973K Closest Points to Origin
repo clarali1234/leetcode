@@ -1,6 +1,11 @@
 # brute-foce
 # time O(nlgn)
 # space O(n)
+Sort the points by distance, then take the closest K points.
+class Solution(object):
+    def kClosest(self, points, K):
+        points.sort(key = lambda P: P[0]**2 + P[1]**2)
+        return points[:K]
 
 
 # We keep a min heap of size K.
@@ -23,7 +28,7 @@ class Solution:
         heap = []
         
         for (x, y) in points:
-            dist = -(x *x + y * y)
+            dist = -(x * x + y * y)
             if len(heap) == K:
                 heapq.heappushpop(heap, (dist, x, y))
             else:
