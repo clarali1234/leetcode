@@ -4,18 +4,18 @@ class Solution:
     def strStr(self, haystack: str, needle: str) -> int:
         if not needle:
             return 0
+        n = len(needle)
         for i in range(len(haystack) - len(needle) + 1):
-            if haystack[i] == needle[0]:
-                j = 1
-                while j < len(needle) and haystack[i + j] == needle[j]:
-                    j += 1         
-                if j == len(needle):
-                    return i
-            
+            if haystack[i: i + n] == needle:
+                return i
         return -1
         
 # rabin karp
 # time O(m + n)
+
+# Rabin Karp algorithm via hash functions to reduce time from O(nm) to O(m+n). map string to hash code
+# sliding window + hash table 
+# hash function is  would be "pow(d, M-1)%q" 
 
 class Solution(object):
     def strStr(self, haystack, needle):
@@ -37,6 +37,9 @@ class Solution(object):
         target_hash = 0
         source_hash = 0
         power = 1
+        
+        
+        # compute hash code for needle
         for i in range(m):
             power = (power * 31) % base 
             target_hash = (target_hash * 31 + ord(needle[i])) % base
@@ -44,11 +47,14 @@ class Solution(object):
         
         for j in range(n - m + 1):
             window = j
+            # check if window is equal to needle
             if target_hash == source_hash and self.is_identical(needle, haystack, window, m):
                 return window
+                
              # 当window取到source最后m位, 不能再往后加string,直接返回-1
             if window + m > n - 1:
                 return -1
+             # update window hashcode   
             source_hash = (source_hash * 31 + ord(haystack[window + m])) % base
             source_hash = (source_hash - ord(haystack[window]) * power) % base
             if source_hash < 0:
