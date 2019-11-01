@@ -1,4 +1,20 @@
-# time O(n) n:len(s)
+#  sliding window 
+We keep expanding the window by moving the right pointer. 
+When the window has all the desired characters, we contract (if possible) and save the smallest window till now.
+
+Algorithm
+
+We start with two pointers, leftleft and rightright initially pointing to the first element of the string SS.
+
+We use the rightright pointer to expand the window until we get a desirable window i.e. 
+a window that contains all of the characters of TT.
+
+Once we have a window with all the characters, we can move the left pointer ahead one by one. 
+If the window is still a desirable one we keep on updating the minimum window size.
+
+If the window is not desirable any more, we repeat step \; 2step2 onwards.
+
+# time O(n + m) n:len(s)
 # space O(n + m)
 
 class Solution:
@@ -16,6 +32,7 @@ class Solution:
         min_length = len(s) + 1
         
         for slow in range(len(s)):
+            # expand our right pointer 
             while fast < len(s) and matched_char_num < target_char_num:
                 if s[fast] in target_hash:
                     current_hash[s[fast]] = current_hash.get(s[fast], 0) + 1
@@ -23,10 +40,12 @@ class Solution:
                         matched_char_num += 1
                 fast += 1
                 
+             # check if current is the min_length
             if min_length > fast - slow and matched_char_num == target_char_num:
                 min_length = min(min_length, fast - slow)
                 min_string = s[slow:fast]
             
+            # remove our left pointer
             if s[slow] in target_hash:
                 if current_hash[s[slow]] == target_hash[s[slow]]:
                     matched_char_num -= 1
