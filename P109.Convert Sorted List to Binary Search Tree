@@ -26,6 +26,7 @@ class Solution(object):
         if not head.next:
             return TreeNode(head.val)
         
+        # find the middle node
         slow = head 
         fast = head.next.next
         while fast and fast.next:
@@ -35,12 +36,60 @@ class Solution(object):
         slow.next = None
         right = tmp.next
         
+        # recursively build the BST for two partition
         root = TreeNode(tmp.val)
         left = self.sortedListToBST(head)
         right = self.sortedListToBST(right)
+        
+        # connect to BST with root
         root.left = left
         root.right = right
         return root
-        
+
+# sol2 
+    # convert list to array 
+   # convert array to BST
+   
+   # time O(n) sicne find the middle point for array is O(1)
+   # spcace O(n) 
+   
+class Solution(object):
+    
+    def mapListToValues(self, head):
+            vals = []
+            while head:
+                vals.append(head.val)
+                head = head.next
+            return vals
+  
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
             
+        values = self.mapListToValues(head)
+
+        def convertListToBST(l, r):
+
+            # Invalid case
+            if l > r:
+                return None
+
+            # Middle element forms the root.
+            mid = (l + r) // 2
+            node = TreeNode(values[mid])
+
+            # Base case for when there is only one element left in the array
+            if l == r:
+                return node
+
+            # Recursively form BST on the two halves
+            node.left = convertListToBST(l, mid - 1)
+            node.right = convertListToBST(mid + 1, r)
+            return node
+            
+        return convertListToBST(0, len(values) - 1)
+            
+        
         
