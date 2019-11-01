@@ -1,3 +1,11 @@
+# recursion + memorization
+# input is stirng, memory
+# ouput is the minumum delele times of the string
+# check if it is <= k
+
+# time O(n^2)
+# space O(n)
+
 class Solution(object):
     def isValidPalindrome(self, s, k):
         """
