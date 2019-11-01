@@ -1,4 +1,7 @@
 1. BST in-order traversal 两种实现
+    recurion: time O(n), space O(n) to hold our res
+    iteration: time O(h + k), space O(h + k) since we need to go down into the tree before we start poping
+    
 2. follow up
 使用 Binary Search Tree Iterator 的方式（可以参考 binary search tree iterator 那个题）
 用 stack，从第一个点开始，走 k-1 步，就是第 k 个点了。
@@ -28,30 +31,41 @@ class Solution(object):
         self.in_order(root.right)
         
  ## 非递归实现中序遍历，防止stack overflow
- # sol2 : iteration, time O(k), space O(k)
+ # sol2 : iteration, time O(h + k), space O(h)
  
-class Solution:
-    def kthSmallest(self, root: TreeNode, k: int) -> int:
+class Solution(object):
+    def kthSmallest(self, root, k):
+        """
+        :type root: TreeNode
+        :type k: int
+        :rtype: int
+        """
         stack = []
-        node = root
-        while node:
-            stack.append(node)
-            node = node.left
-        
-        x = 1
-        while stack and x <= k:
-            node = stack.pop()
-            x += 1
-            right = node.right
-            while right:
-                stack.append(right)
-                right = right.left
-        return node.val
+        while True:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            k -= 1
+            if not k:
+                return root.val
+            root = root.right
+            
 
 # follow up
 如果我们频繁的操作该树，并且频繁的调用kth函数，有什么优化方法使时间复杂度降低至O(h)？
 h是树的高度。根据提示，我们可以在TreeNode中加入一个rank成员，这个变量记录的是该节点的个数
 这样我们就可以用二叉树搜索的方法来解决这个问题了。这个添加rank的操作可以在建树的时候一起完成。
+
+
+sol1:
+Insert H
+Delete H 
+Find kth smallest time O(H + K) overall O(2H + K) 
+
+# doubly linked list
+# insert/delete O(H), find O(K)
+
 时间复杂度 O(n)最好最坏都是。
 算法思想类似于 Quick Select。
 这个算法的好处是，如果多次查询的话，给每个节点统计儿子个数这个过程只需要做一次。查询可以很快。
