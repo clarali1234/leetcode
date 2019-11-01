@@ -1,4 +1,6 @@
 # 第一次遍历在结果数组里保存每个数字左边的数字乘积，第二个遍历保存的是左边乘积和这个数字右边的乘积的乘积。
+
+
 # time O(n)
 # space O(1)
 
@@ -8,15 +10,17 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        result = []
-        prod = 1
+        result = [] 
+        prod = 1 # product before the cur value 
         for i in range(len(nums)):
             result.append(prod)
             prod *= nums[i]
         
-        prod = 1
+        prod = 1 # product after the current value 
         for i in range(len(nums) - 1, -1, -1):
+            # update result 
             result[i] *= prod
+            # update product from right
             prod *= nums[i]
         return result
             
