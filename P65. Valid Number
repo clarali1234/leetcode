@@ -1,7 +1,48 @@
+整数部分开头的0
+小数部分结尾的0
+只有小数点和小数部分 (.11)
+只有负号，小数点和小数 (-.11)
+-0
+-0.0
+-
+
 小数点和 e/E 都至多只能出现 1 次
 如果含有小数点, 则小数点前后至少有一个数字, 一个孤立的小数点是非法的.
 如果含有 e/E, 则它的前后必须有数字.
 
+We use three flags: met_dot, met_e, met_digit, mark if we have met ., 
+e or any digit so far. First we strip the string, then go through each char and make sure:
+
+If char == + or char == -, then prev char (if there is) must be e
+. cannot appear twice or after e
+e cannot appear twice, and there must be at least one digit before and after e
+All other non-digit char is invalid
+
+class Solution(object):
+    def isNumber(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        s = s.strip()
+        met_dot = met_e = met_digit = False
+        for i, char in enumerate(s):
+            if char in ['+', '-']:
+                if i > 0 and s[i-1] != 'e':
+                    return False
+            elif char == '.':
+                if met_dot or met_e: return False
+                met_dot = True
+            elif char == 'e':
+                if met_e or not met_digit:
+                    return False
+                met_e, met_digit = True, False
+            elif char.isdigit():
+                met_digit = True
+            else:
+                return False
+        return met_digit
+        
 class Solution(object):
     def isNumber(self, s):
         """
