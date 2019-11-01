@@ -16,10 +16,10 @@
 
 在初始化的过程中，就使用中序遍历，把BST的中序遍历是有序的这个特点用上。再定义hasnext()和next()就很容易了。
 class BSTIterator:
-
+    # Initialize an empty array that will contain the nodes of the binary search tree in the sorted order.
     def __init__(self, root: TreeNode):
         self.stack = []
-        self.push_left(root)
+        self.push_left(root) # function to do the in order traversal to put the node into stack
         
 
     def next(self) -> int:
@@ -36,6 +36,7 @@ class BSTIterator:
         @return whether we have a next smallest number
         """
         return self.stack
+        
     def push_left(self, node):
         while node:
             self.stack.append(node)
