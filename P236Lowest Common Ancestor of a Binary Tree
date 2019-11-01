@@ -14,3 +14,16 @@ class Solution:
         if left and right:
             return root
         return left or right
+
+# follow up
+# LCA of two nodes
+# time o(n)
+# space O(1)
+
+Given a tree, find the lowest common ancestor between two nodes。每个node只有parent pointer.
+
+先计算A，B的depth，如果depth不同的话需要把A或者B的ref向上移动abs{depth(A) - depth(B)}，
+这时两个ref就在同一个level上了，然后两个ref再一起向上移动，碰到的第一个相同node就是LCA，这样可以吧？
+
+def LCA(root, A, B):
+ 
