@@ -1,7 +1,8 @@
 # dfs recursion + gloabl variable:
  1. 需要一个全局变量去记录最大的路径和
- 2. 对于任何一个节点，return root.val + max(left, right), 每次递归更新ans = max(ans, left + right + root)
- 3。我们只取 >0的subtree。
+ 2. For recursion, input is node, ouput is the maximum contribution of this node
+ 3. 对于任何一个节点，return root.val + max(left, right), 每次递归更新ans = max(ans, left + right + root)
+ 
  time o(n), space o(h)
  
 class Solution:
@@ -15,10 +16,15 @@ class Solution:
     def max_path_sum_helper(self, root):
         if not root:
             return 0
+            
+        # max sum on the left and right sub-trees of node
         left = max(0, self.max_path_sum_helper(root.left))
         right = max(0, self.max_path_sum_helper(root.right))
         
+         # check if we start a new path
         self.ans = max(self.ans, root.val + left + right)
+        
+        # return the max gain if continue the same path
         return root.val + max(left, right)
     
     
