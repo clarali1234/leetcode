@@ -63,3 +63,5 @@ class Solution:
     def is_valid(self, grid, x, y, visited):
         n, m = len(grid), len(grid[0])
         return 0 <= x < n and 0 <= y < m and (x, y) not in visited and grid[x][y] == '1'
+        
+    # visited set可以从2d变成1d（用string来表示每个坐标）。
