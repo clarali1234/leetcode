@@ -1,0 +1,62 @@
+# dfs
+#time O(n^2)
+# space O(n) visisted array of size n
+
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        if not M:
+            return 0
+        
+        n = len(M)
+        
+        visited = set()
+        count = 0
+        # check each person
+        for i in range(n):
+            if i not in visited:
+                visited.add(i)
+                # do dfs
+                self.dfs(M,i, visited)
+                count += 1
+        return count
+    
+    
+    def dfs(self, M, i, visited):
+        for j, fri in enumerate(M[i]):
+            if j not in visited and fri == 1:
+                visited.add(j)
+                self.dfs(M, j, visited)
+                
+
+
+# bfs
+#time O(n^2)
+# space O(n) visisted array of size n
+class Solution(object):
+    def findCircleNum(self, M):
+        """
+        :type M: List[List[int]]
+        :rtype: int
+        """
+        visited = set()
+        queue = collections.deque([])
+        
+        n = len(M)
+        count = 0
+        for i in range(n):
+            if i not in visited:
+                queue.append(i)
+                while queue:
+                    node = queue.popleft()
+                    if node not in visited:
+                        visited.add(node)
+                        for j, fri in enumerate(M[node]):
+                            if j not in visited and fri == 1:
+                                queue.append(j)
+            
+                count += 1
+        return count
