@@ -3,7 +3,7 @@
 # ouput is the minumum delele times of the string
 # check if it is <= k
 
-# time O(n^2)
+# time < 2 ^ n
 # space O(n)
 
 class Solution(object):
