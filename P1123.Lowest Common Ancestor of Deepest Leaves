@@ -1,5 +1,9 @@
 # recursion
 time O(n), space O(h)
+
+# the input of the recursion is node
+# the output of the recursion function is height of cur node and lca of current leaves
+
 class Solution:
     def lcaDeepestLeaves(self, root: TreeNode) -> TreeNode:
         if not root:
@@ -12,10 +16,14 @@ class Solution:
             return 0, None
         left = self.helper(node.left)
         right = self.helper(node.right)
+        
+        # height of left is larger, the lca is in the left tree
         if left[0] > right[0]:
             return left[0] + 1, left[1]
+        # height of right is larger, the lca is in the right tree
         elif left[0] < right[0]:
             return right[0] + 1, right[1]
+       # left height == right height, lca is node     
         else:
             return left[0] + 1, node
         
