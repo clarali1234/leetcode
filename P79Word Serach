@@ -2,33 +2,33 @@
 # space O(mn)
 
 class Solution:
-    def exist(self, board: List[List[str]], word: str) -> bool:
-        if len(word) == 0:
-            return True
-        if not board:
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        if not board or not word:
             return False
         
-        visited = {}
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if self.dfs(board, word, 0, i, j, visited):
+        m = len(board)
+        n = len(board[0])
+        
+        for i in range(m):
+            for j in range(n):
+                if self.dfs(board, i, j, 0, word, {}):
                     return True
         return False
     
-    def dfs(self, board, word, index, row, col, visited):
-        if index == len(word):
-            return True
-        
-        if row < 0 or row >= len(board) or col < 0 or col >= len(board[0]):
-            return False
-        if visited.get((row, col)) or board[row][col] != word[index]:
-            return False
-        
-        visited[(row, col)] = True
-        res = self.dfs(board, word, index + 1, row + 1, col, visited) \
-        or self.dfs(board, word, index + 1, row - 1, col, visited) \
-        or self.dfs(board, word, index + 1, row, col + 1, visited) \
-        or self.dfs(board, word, index + 1, row, col - 1, visited) 
-        visited[(row, col)] = False
-        return res
     
+    def dfs(self, board, x, y, index, word, visited):
+        if len(word) == index:
+            return True
+        if x < 0 or y < 0 or x >= len(board) or y >= len(board[0]) or word[index] != board[x][y] or visited.get((x, y)):
+            return False
+        
+        visited[(x, y)] = True
+        if self.dfs(board, x + 1, y, index + 1, word, visited) or self.dfs(board, x - 1, y, index + 1, word, visited) or self.dfs(board, x, y + 1, index + 1, word, visited) or self.dfs(board, x, y - 1, index + 1, word, visited):
+            return True
+        visited[(x, y)] = False # backtracking
+        return False
