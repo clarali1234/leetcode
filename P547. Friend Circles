@@ -50,13 +50,14 @@ class Solution(object):
         for i in range(n):
             if i not in visited:
                 queue.append(i)
+                visited.add(i)
                 while queue:
                     node = queue.popleft()
-                    if node not in visited:
-                        visited.add(node)
-                        for j, fri in enumerate(M[node]):
-                            if j not in visited and fri == 1:
-                                queue.append(j)
+                    for j, fri in enumerate(M[node]):
+                        if j not in visited and fri == 1:
+                            queue.append(j)
+                            visited.add(j)
             
                 count += 1
         return count
+            
