@@ -1,5 +1,5 @@
 # algo: prefix sum + binary search
-# time O(lgw)
+# time O(w) + O(lgw)
 # space o(w)
 
 # step 1: Compute the prefix sum array pp
