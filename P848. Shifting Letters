@@ -1,0 +1,17 @@
+# prefix sum time O(n) n:len(S)
+# space O(n) ans 
+
+class Solution(object):
+    def shiftingLetters(self, S, shifts):
+        """
+        :type S: str
+        :type shifts: List[int]
+        :rtype: str
+        """
+        ans = []
+        total = sum(shifts) % 26
+        for i, c in enumerate(S):
+            diff = ord(c) - ord('a')
+            ans.append(chr(ord('a') + (diff + total) % 26))
+            total = (total - shifts[i]) % 26
+        return ''.join(ans)
