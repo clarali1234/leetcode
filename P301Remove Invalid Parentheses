@@ -1,7 +1,9 @@
-# 对字符串进行从左到右的遍历，如果出现左括号“（”，记录下来，如果右括号在左括号之前出现，加入左括号的count中，
-# 并且把右括号的个数-1,最后return 左右括号的个数。
-
-# 对字符串进行又一次的遍历，如果字符串既不是“（”也不是“）”则跳过，否则选择要还是不要。
+# first, need to find the number of remaining left and right bracket that we need to remove
+# then use dfs recursion, iterate from left most to right for each ele in string
+# for recursion, exit case left == right == 0, and is_valid(s) append to res return 
+                then, iterate each ele, if i > 0 and s[i] == s[i - 1] skip duplicate
+                check left > 0 and cur ele == '(', then call dfs
+                check right > 0 and cur ele == ')', the call dfs
 
 # time O(2^n)
 # space O(n)
