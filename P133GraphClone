@@ -1,5 +1,5 @@
 # DFS
-# time O(N), we need to process each node only once
+# time O(V + E), we need to process each node only once
 # space O(N), O(N) for hash table, O(H) for recursion, H is the height of graph
 
 class Solution:
