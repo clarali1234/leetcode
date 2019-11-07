@@ -1,30 +1,27 @@
 # dfs(backtracking)
+# worst case time O(2^2n) actually, O(2^2n/sqrt(n))
+# space  case time O(2^2n) and O(n) to store the result
 
-# 一个状态需要记录的有: 当前字符串本身, 左括号数量, 右括号数量.
-# 左括号数量等于括号对数 n, 那么当前字符串后续填充满右括号, 即是一种组合
-# 如果当前左括号数量 < n:
-  # 如果左括号多于右括号, 那么此时可以添加一个左括号或右括号, 递归进入下一层
-  # 如果左括号 = 右括号, 那么此时只能添加一个左括号, 递归进入下一层
+# we can reduce the time complexity by adding the brackets when we know they are valid
+# add opening brackets when we still have one of n left to place
+# add closing brackets when it would not exceed the number of the opening brackets
   
- # time O(2^(2n))
- # space o(n)
-  
- class Solution(object):
+class Solution(object):
     def generateParenthesis(self, n):
         """
         :type n: int
         :rtype: List[str]
         """
         self.res = []
-        self.dfs(n, n, '')
+        self.dfs(0, 0, '', n)
         return self.res
     
-    def dfs(self, left, right, cur):
-        if left == 0 and right == 0:
-            self.res.append(cur)
+    def dfs(self, left, right, cur_path, n):
+        if len(cur_path) == 2 * n:
+            self.res.append(cur_path)
             return 
         
-        if left > 0:
-            self.dfs(left - 1, right, cur + '(')
-        if left < right:
-            self.dfs(left, right - 1, cur + ')')
+        if left < n:
+            self.dfs(left + 1, right, cur_path + '(', n)
+        if right < left:
+            self.dfs(left, right + 1, cur_path + ')', n)
