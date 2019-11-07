@@ -25,6 +25,7 @@ class Solution(object):
             second = words[i + 1]
             for j in range(min(len(first), len(second))):
                 if first[j] != second[j]:
+                    # as long as we find the difference, we need to break our loop whether or not they're in order
                     if dic[first[j]] > dic[second[j]]:
                         return False
                     break
