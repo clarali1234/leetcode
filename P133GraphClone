@@ -17,6 +17,7 @@ class Solution:
         visited[node] = node_copy
         for neighbor in node.neighbors:
             neighbor_copy = self.dfs(neighbor, visited)
+            # check if neighbor_copy is None
             if neighbor_copy:
                 node_copy.neighbors.append(neighbor_copy)
         return node_copy
