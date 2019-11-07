@@ -1,27 +1,7 @@
-# BFS
-# time O(v+e)
-# space O(v)
-方法也是使用了字典保存每一个对应关系。当新构造出一个节点之后，必须同时把它放到字典中保存，这个很重要。
-另外就是每遍历到一个节点时，都要把它的所有邻居放到队列中。
-
-class Solution:
-    def cloneGraph(self, node):
-        visited = {}
-        node_copy = Node(node.val, [])
-        visited[node] = node_copy
-        queue = collections.deque([node])
-        
-        while queue:
-            cur_node = queue.popleft()
-            for neighbor in cur_node.neighbors:
-                if neighbor not in visited:
-                    visited[neighbor] = Node(neighbor.val, [])
-                    queue.append(neighbor)
-                visited[cur_node].neighbors.append(visited[neighbor])
-        return node_copy
-        
 # DFS
-time O(v + e), space depends on the depth of the graph
+# time O(N), we need to process each node only once
+# space O(N), O(N) for hash table, O(H) for recursion, H is the height of graph
+
 class Solution:
     def cloneGraph(self, node):
         return self.dfs(node, {})
@@ -33,12 +13,58 @@ class Solution:
             return visited[node]
         
         node_copy = Node(node.val, [])
+        # 注意 1. copy 之后把node_copy放入visited里面
         visited[node] = node_copy
         for neighbor in node.neighbors:
             neighbor_copy = self.dfs(neighbor, visited)
             if neighbor_copy:
                 node_copy.neighbors.append(neighbor_copy)
         return node_copy
+        
+ #    1
+#   /
+#  2 - 3
+
+node1 = Node(1, [])
+node2 = Node(2, [])
+node3 = Node(3, [])
+# 注意2 添加neighbor时是append
+node1.neighbors.append(node2)
+node2.neighbors.append(node1)
+node2.neighbors.append(node3)
+node3.neighbors.append(node2)
+print(node1.val)
+print(node1.neighbors)
+
+test = Solution()
+node1_copy = test.cloneGraph(node1)
+print(node1_copy.neighbors[0].val)
+
+
+# BFS
+# time O(v+e)
+# space O(v)
+方法也是使用了字典保存每一个对应关系。当新构造出一个节点之后，必须同时把它放到字典中保存，这个很重要。
+另外就是每遍历到一个节点时，都要把它的所有邻居放到队列中。
+
+class Solution:
+    def cloneGraph(self, node):
+        visited = {}
+        node_copy = Node(node.val, [])
+        # 注意 初始时，把copy of root 放入visited里
+        visited[node] = node_copy
+        queue = collections.deque([node])
+        
+        while queue:
+            cur_node = queue.popleft()
+            for neighbor in cur_node.neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = Node(neighbor.val, [])
+                    #注意 copy之后将点放入queue里面
+                    queue.append(neighbor)
+                visited[cur_node].neighbors.append(visited[neighbor])
+        return node_copy
+        
 
 
 # DFS iterative
