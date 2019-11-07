@@ -32,10 +32,12 @@ class Solution(object):
             first = words[i]
             second = words[i + 1]
             for j in range(min(len(first), len(second))):
-                # 易错点，first[j] -> second[j]，a->b, a.neighbor.append(b), b的入度+1
+                # 易错点1 ，first[j] -> second[j]，a->b, a.neighbor.append(b), b的入度+1
                 if first[j] != second[j]:
-                    graph[first[j]].add(second[j])
-                    indegrees[second[j]] += 1
+                    # 易错点2 ，if second[j] not in graph[first[j]] 检查second[j]是否已经是在first[j]的邻居里，否则indegree会出错
+                    if second[j] not in graph[first[j]]:
+                        graph[first[j]].add(second[j])
+                        indegrees[second[j]] += 1
                     break
         return graph, indegrees
     
