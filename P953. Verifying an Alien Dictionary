@@ -7,28 +7,30 @@
 
 # hashmap
 # time O(n*len(S)), 字典的长度 + 单词的个数 * 单词的长度
-# space O(n) dic:字典的字符数
+# space O(n) dic:字典的字符数 or O(1)
 
-class Solution:
-    def isAlienSorted(self, words: List[str], order: str) -> bool:
-        
-        # dic key:ele, value: index
+class Solution(object):
+    def isAlienSorted(self, words, order):
+        """
+        :type words: List[str]
+        :type order: str
+        :rtype: bool
+        """
         dic = {}
-        for index, ele in enumerate(order):
-            dic[ele] = index
-        
-        # traverse
+        for index, char in enumerate(order):
+            dic[char] = index
+            
         for i in range(len(words) - 1):
-            word1 = words[i]
-            word2 = words[i + 1]
-            
-            if len(word1) > len(word2) and word1[:len(word2)] == word2:
-                return False
-            
-            for j in range(min(len(word1), len(word2))):
-                if word1[j] != word2[j]:
-                    if dic[word1[j]] > dic[word2[j]]:
+            first = words[i]
+            second = words[i + 1]
+            for j in range(min(len(first), len(second))):
+                if first[j] != second[j]:
+                    if dic[first[j]] > dic[second[j]]:
                         return False
                     break
-                
+            # the else is called if last if is not hit any break
+            else:
+                if len(first) > len(second):
+                    
+                    return False
         return True
