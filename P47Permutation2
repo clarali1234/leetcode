@@ -1,25 +1,31 @@
 分两步：1，对集合进行排序。2，进行剪枝，如果元素重复，直接跳过这一元素，决策树的这一枝被剪掉
+# time O(n!)
+# space O(n!)
 
-class Solution:
-    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+class Solution(object):
+    def permuteUnique(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         if not nums:
-            return 
+            return []
         
         nums.sort()
-        result = []
-        self.dfs(nums, [], result)
-        return result
+        
+        self.res  = []
+        self.dfs(nums, [])
+        return self.res
     
-    def dfs(self, nums, permutation, result):
-        if len(nums) == 0:
-            result.append(list(permutation))
+    def dfs(self, nums, cur_path):
+        if not nums:
+            self.res.append(cur_path)
+            return 
         
         for i in range(len(nums)):
-            if i and nums[i] == nums[i - 1]:
+            if i > 0 and nums[i] == nums[i - 1]:
                 continue
+            self.dfs(nums[:i] + nums[i + 1:], cur_path + [nums[i]])
             
-            permutation.append(nums[i])
-            self.dfs(nums[0 : i] + nums[i + 1 : ], permutation, result)
-            
-            permutation.pop()
+        
         
