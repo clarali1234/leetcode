@@ -1,7 +1,11 @@
 # topological sort by BFS
-# time O(numCourses + len(prerequisities)
+# time O(numCourses + len(prerequisities))
 # space O(numCourses)
 # 思路 queue.pop（0）说明完成了该course, count += 1, 要所有先修课都修完（indegree = 0)时该课程才会上完
+
+  setp  # 1 build graph
+        # 2 indegree
+        # 3 bfs topological sort
 
 
 class Solution:
