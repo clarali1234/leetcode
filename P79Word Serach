@@ -14,9 +14,10 @@ class Solution:
         m = len(board)
         n = len(board[0])
         
+        visited = set()
         for i in range(m):
             for j in range(n):
-                if self.dfs(board, i, j, 0, word, {}):
+                if self.dfs(board, i, j, 0, word, visited):
                     return True
         return False
     
@@ -24,11 +25,11 @@ class Solution:
     def dfs(self, board, x, y, index, word, visited):
         if len(word) == index:
             return True
-        if x < 0 or y < 0 or x >= len(board) or y >= len(board[0]) or word[index] != board[x][y] or visited.get((x, y)):
+        if x < 0 or y < 0 or x >= len(board) or y >= len(board[0]) or word[index] != board[x][y] or (x, y) in visited:
             return False
         
-        visited[(x, y)] = True
+        visited.add((x, y))
         if self.dfs(board, x + 1, y, index + 1, word, visited) or self.dfs(board, x - 1, y, index + 1, word, visited) or self.dfs(board, x, y + 1, index + 1, word, visited) or self.dfs(board, x, y - 1, index + 1, word, visited):
             return True
-        visited[(x, y)] = False # backtracking
+        visited.remove((x, y))
         return False
