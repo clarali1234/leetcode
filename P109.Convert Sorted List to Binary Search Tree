@@ -1,5 +1,5 @@
 # 快慢指针
-# time O(n)
+# time O(nlgn) # find the middle point using O(n/2) time complexity
 # space O(lgn)
 
 # Definition for singly-linked list.
@@ -28,6 +28,7 @@ class Solution(object):
         
         # find the middle node
         slow = head 
+        # 注意易错点，这里fast 初始为fast.next.next
         fast = head.next.next
         while fast and fast.next:
             slow = slow.next
@@ -46,7 +47,7 @@ class Solution(object):
         root.right = right
         return root
 
-# sol2 
+# sol2 用空间换时间
     # convert list to array 
    # convert array to BST
    
@@ -55,41 +56,42 @@ class Solution(object):
    
 class Solution(object):
     
-    def mapListToValues(self, head):
-            vals = []
-            while head:
-                vals.append(head.val)
-                head = head.next
-            return vals
-  
     def sortedListToBST(self, head):
         """
         :type head: ListNode
         :rtype: TreeNode
         """
-            
-        values = self.mapListToValues(head)
-
-        def convertListToBST(l, r):
-
-            # Invalid case
-            if l > r:
-                return None
-
-            # Middle element forms the root.
-            mid = (l + r) // 2
-            node = TreeNode(values[mid])
-
-            # Base case for when there is only one element left in the array
-            if l == r:
-                return node
-
-            # Recursively form BST on the two halves
-            node.left = convertListToBST(l, mid - 1)
-            node.right = convertListToBST(mid + 1, r)
-            return node
-            
-        return convertListToBST(0, len(values) - 1)
-            
+        # find the middle 
         
+        array = []
+        while head:
+            array.append(head.val)
+            head = head.next
+            
+        left = 0
+        right = len(array) - 1
+
+        return self.convert(array, left, right)
         
+    def convert(self, array, left, right):
+        if left > right:
+            return 
+            
+        middle = (left + right) // 2
+        root_val = array[middle]
+        root = TreeNode(root_val)
+        
+        # base case, when there is only one node
+        if left == right:
+            return root
+        
+        root.left  = self.convert(array, left, middle - 1)
+        root.right = self.convert(array, middle + 1, right)
+        return root
+        
+ # sol3: simulate the inorder traversal, find the size first
+ # time O(n)
+ # space O(lgn) 最优的解法
+ 
+ 
+ 
