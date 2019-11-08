@@ -35,25 +35,35 @@ class Solution:
         return True
 
 #DFS
+# time O(V+E) , space O(V)
 class Solution(object):
     def isBipartite(self, graph):
         """
         :type graph: List[List[int]]
         :rtype: bool
         """
-        n = len(graph)
-        self.color = [0] * n
-        for i in range(n):
-            if self.color[i] == 0 and not self.colored(graph, i, 1):
-                return False
+        color = {}
+        
+        for i in range(len(graph)):
+            if i not in color:
+                color[i] = 1
+                if not self.dfs(graph, i, color):
+                    return False
         return True
-    
-    
-    def colored(self, graph, current, color):
-        self.color[current] = color
-        for neighbor in graph[current]:
-            if self.color[neighbor] == 0 and not self.colored(graph, neighbor, -color):
-                return False
-            elif self.color[neighbor] == self.color[current]:
-                return False
+                
+    def dfs(self, graph, node, color):
+        for neighbor in graph[node]:
+            if neighbor in color:
+                if color[neighbor] == color[node]:
+                    return False
+            else:
+                color[neighbor] = -color[node]
+                if not self.dfs(graph, neighbor, color):
+                    return False
         return True
+        
+        
+            
+            
+        
+            
