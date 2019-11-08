@@ -18,7 +18,7 @@ class Solution(object):
         
         
  # dfs
- # Time complexity: O(n), space complexity: O(d)
+ # Time complexity: O(n), total number of interger in the list , space complexity: O(d), depth of this list
  class Solution(object):
     def depthSum(self, nestedList):
         
