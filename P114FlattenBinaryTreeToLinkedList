@@ -1,26 +1,29 @@
 # brute force: pre order traversal
 # sol2 time O(n), space O(h)
 
-class Solution:
-    def flatten(self, root: TreeNode) -> None:
-        """
-        Do not return anything, modify root in-place instead.
-        """
-        # 函数返回fallten之后最右边的node
+class Solution(object):
+    def flatten(self, root):
+        
         if not root:
             return None
+        self.dfs(root)
         
-        left = self.flatten(root.left)
-        right = self.flatten(root.right)
+    def dfs(self, node):
+        if not node:
+            return None
         
+        left = self.dfs(node.left)
+        right = self.dfs(node.right)
         if left:
-            left.right = root.right
-            # 根的右边是根的左边
-            root.right = root.left
-            root.left = None
+            left.right = node.right
+            node.right = node.left
+            node.left = None
             
         if right:
             return right
         if left:
             return left
-        return root
+        return node
+        
+    
+            
