@@ -8,28 +8,21 @@ class Solution(object):
         :type M: List[List[int]]
         :rtype: int
         """
-        if not M:
-            return 0
-        
-        n = len(M)
-        
         visited = set()
         count = 0
-        # check each person
-        for i in range(n):
+        for i in range(len(M)):
             if i not in visited:
                 visited.add(i)
-                # do dfs
-                self.dfs(M,i, visited)
+                self.dfs(M, i, visited)
                 count += 1
         return count
     
-    
     def dfs(self, M, i, visited):
-        for j, fri in enumerate(M[i]):
-            if j not in visited and fri == 1:
+        for j in range(len(M)):
+            if M[i][j] == 1 and j not in visited:
                 visited.add(j)
                 self.dfs(M, j, visited)
+                
                 
 
 
