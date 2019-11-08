@@ -12,25 +12,22 @@ class Solution:
         
  # method 2, traverse
  
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def maxDepth(self, root: TreeNode) -> int:
-        self.depth = 0
-        self.traverse(root, 1)
-        return self.depth
+class Solution(object):
+    def maxDepth(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        self.res = 0
+        self.dfs(root, 0)
+        return self.res
     
-    def traverse(self, current_node, current_depth):
-        if not current_node:
-            return
-         # base case 
-        self.depth = max(self.depth, current_depth)
+    def dfs(self, node, cur_depth):
+        if not node:
+            self.res = max(cur_depth, self.res)
+            return 
         
-        # not 
-        self.traverse(current_node.left, current_depth + 1)
-        self.traverse(current_node.right, current_depth + 1)
+        self.dfs(node.left, cur_depth + 1)
+        self.dfs(node.right, cur_depth + 1)
