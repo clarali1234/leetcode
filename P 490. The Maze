@@ -1,5 +1,5 @@
 # bfs
-# time O(mn)
+# time O(mn * max(m, n)
 # space o(mn)
 
 class Solution(object):
