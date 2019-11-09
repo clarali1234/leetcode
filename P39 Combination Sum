@@ -17,11 +17,33 @@ class Solution:
         return result
     
     def dfs(self, nums, target, index, path, result):
+        # 记得return 
         if target < 0:
             return 
         if target == 0:
             result.append(path)
             return
+         # next dfs call, start index 是 i 而不是index
         for i in range(index, len(nums)):
             self.dfs(nums, target - nums[i], i, path + [nums[i]], result)
         
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        self.res = []
+        self.dfs(candidates, target, 0, 0, [])
+        return self.res
+    
+    def dfs(self, candidates, target, cur_sum, index, cur_path ):
+        if target == cur_sum:
+            self.res.append(cur_path)
+            return 
+        if target < cur_sum:
+            return 
+        
+        for i in range(index, len(candidates)):
+            self.dfs(candidates, target, cur_sum + candidates[i], i, cur_path + [candidates[i]])
