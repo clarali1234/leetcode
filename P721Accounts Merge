@@ -1,5 +1,48 @@
-# dfs
-# 
+# bfs/dfs
+# build graph, first email to each email in the same account
+# hash table key: email, value:name
+# bfs/dfs 寻找联通块
+
+# time O(sum ai log ai), sort email for the last result
+# space O(sum ai)
+
+# ai 每个账户的长度
+
+class Solution(object):
+    def accountsMerge(self, accounts):
+        """
+        :type accounts: List[List[str]]
+        :rtype: List[List[str]]
+        """
+        # build graph
+        em_to_name = {}
+        graph = collections.defaultdict(set)
+        for account in accounts:
+            name = account[0]
+            for em in account[1:]:
+                graph[account[1]].add(em)
+                graph[em].add(account[1])
+                em_to_name[em] = name
+        
+        
+        # bfs traverse
+        res = []
+        visited = set()
+        for em in graph:
+            if em not in visited:  
+                component = []
+                queue = collections.deque([em])
+                visited.add(em)
+                while queue:
+                    node = queue.popleft()
+                    component.append(node)
+                    for nb in graph[node]:
+                        if nb not in visited:
+                            queue.append(nb)
+                            visited.add(nb)
+                res.append([em_to_name[em]] + sorted(component))
+        return res
+                
 
 
 
