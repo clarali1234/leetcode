@@ -92,6 +92,40 @@ class Solution(object):
  # sol3: simulate the inorder traversal, find the size first
  # time O(n)
  # space O(lgn) 最优的解法
- 
- 
- 
+ # 在这个算法中，每当我们构建完二叉搜索树的左半部分时，链表中的头指针将指向根节点或中间节点（它成为根节点）。 
+ # 因此，我们只需使用头指针指向的当前值作为根节点，并将指针后移一位，即 head = head.next。
+class Solution(object):
+    def sortedListToBST(self, head):
+        """
+        :type head: ListNode
+        :rtype: TreeNode
+        """
+        if not head:
+            return None
+        if not head.next:
+            return TreeNode(head.val)
+        
+        count = 0
+        pointer = head
+        while pointer:
+            count += 1
+            pointer = pointer.next
+            
+        self.head = head
+        return self.construct(0, count - 1)
+    
+    def construct(self, left, right):
+        if left > right:
+            return 
+        
+        middle = (left + right) // 2
+        left = self.construct(left, middle - 1)
+        
+        node = TreeNode(self.head.val)
+        node.left = left
+        self.head = self.head.next
+        node.right = self.construct(middle + 1, right)
+        
+        return node
+    
+        
