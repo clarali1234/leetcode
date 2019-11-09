@@ -1,3 +1,40 @@
+# bfs
+# time O(mn)
+# space o(mn)
+
+class Solution(object):
+    def hasPath(self, maze, start, destination):
+        """
+        :type maze: List[List[int]]
+        :type start: List[int]
+        :type destination: List[int]
+        :rtype: bool
+        """
+        queue = collections.deque([start])
+        visited = set()
+        visited.add((start[0], start[1]))
+        
+        while queue:
+            # 注意 1. i, j
+            i, j = queue.popleft()
+            if i == destination[0] and j == destination[1]:
+                return True
+            
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                # 注意 1. 每次方向开始时 x, y 初始值都是i, j
+                x = i
+                y = j
+                while 0 <= x + dx < len(maze) and 0 <= y + dy < len(maze[0]) and maze[x + dx][y + dy] == 0:
+                    x += dx
+                    y += dy
+                if (x, y) not in visited and maze[x][y] == 0:
+                    queue.append((x, y))
+                    visited.add((x, y))
+        return False
+                
+        
+
+
 # dfs
 # time O(mn)
 # space o(mn)
@@ -28,77 +65,4 @@ class Solution(object):
             return False
         visited = set()
         return dfs(start[0], start[1], visited)
-        
-class Solution(object):
-    def hasPath(self, maze, start, destination):
-        """
-        :type maze: List[List[int]]
-        :type start: List[int]
-        :type destination: List[int]
-        :rtype: bool
-        """
-        if not maze:
-            return False
-        
-        m = len(maze)
-        n = len(maze[0])
-        
-        visited = set()
-        queue = collections.deque([start])
-        visited.add((start[0], start[1]))
-        
-        while queue:
-            node = queue.popleft()
-            visietd.add(node)
-            
-            if  node == destination:
-                return True
-            
-            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-                x = node[0]
-                y = node[1]
-                while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] == 0:
-                    x += dx
-                    y += dy
-                
-                if maze[x][y] not in visited:
-                    queue.append((x, y))
-                    visited.add((x, y))
-        return False
-        
- class Solution(object):
-    def hasPath(self, maze, start, destination):
-        """
-        :type maze: List[List[int]]
-        :type start: List[int]
-        :type destination: List[int]
-        :rtype: bool
-        """
-        Q = collections.deque([start])
-        n = len(maze)
-        m = len(maze[0])
-        
-        visited = set()
-        
-        while Q:
-            i, j = Q.popleft()
-            visited.add((i, j))
-
-            if i == destination[0] and j == destination[1]:
-                return True
-            
-            for x, y in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-                row = i 
-                col = j 
-                while 0 <= row + x < n and 0 <= col + y < m and maze[row + x][col + y] == 0:
-                    row += x
-                    col += y
-                
-                if maze[row][col] == 0 and (row, col) not in visited:
-                    Q.append([row, col])
-                    
-        
-        return False
-            
-        
         
