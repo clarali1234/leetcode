@@ -90,6 +90,7 @@ class Solution(object):
         return root
         
  # sol3: simulate the inorder traversal, find the size first
+ # make recursion calls for left half, then move head by one and make it to the root, and then call right half
  # time O(n)
  # space O(lgn) 最优的解法
  # 在这个算法中，每当我们构建完二叉搜索树的左半部分时，链表中的头指针将指向根节点或中间节点（它成为根节点）。 
