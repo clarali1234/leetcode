@@ -1,27 +1,33 @@
-class Solution:
-    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        candidates.sort()
-        result = []
-        self.dfs(candidates, 0, [], result, target)
-        return result
-    
-    def dfs(self, nums, start, path, result, target):
-        if not target:
-            result.append(path)
-            
-        # Very important here! We don't use `i > 0` because we always want 
-        # to count the first element in this recursive step even if it is the same 
-        # as one before. To avoid overcounting, we just ignore the duplicates
-        # after the first element.
-        for i in range(start, len(nums)):
-            if i > start and nums[i] == nums[i - 1]:
-                continue
+# step1 : sort candidates list
+# step2 : do dfs
+# step3 :注意，remove duplidate; if candidates[i] > target, break 省时间
+
+class Solution(object):
+    def combinationSum2(self, candidates, target):
         
-        # If the current element is bigger than the assigned target, there is 
-        # no need to keep searching, since all the numbers are positive
-            if nums[i] > target:
-                break
+        if not candidates:
+            return []
             
-        # We change the start to `i + 1` because one element only could
-        # be used once
-            self.dfs(nums, i + 1, path + [nums[i]], result, target - nums[i])
+        candidates.sort()
+        
+        self.res = []
+        self.dfs(candidates, target,  0, 0, [])
+        return self.res
+    
+    def dfs(self, candidates, target, cur_sum, index, cur_path):
+        if target == cur_sum:
+            self.res.append(cur_path)
+            return 
+        
+        if target < cur_sum:
+            return 
+        
+        for i in range(index, len(candidates)):
+              # 注意1， remove duplicate
+            if i > index and candidates[i] == candidates[i - 1]:
+                continue
+              # 注意2， 省时间提前break
+            if candidates[i] > target:
+                break
+            else:
+                self.dfs(candidates, target, cur_sum + candidates[i], i + 1, cur_path + [candidates[i]] )
