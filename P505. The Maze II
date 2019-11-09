@@ -5,35 +5,24 @@
 directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 class Solution(object):
     def shortestDistance(self, maze, start, destination):
-        """
-        :type maze: List[List[int]]
-        :type start: List[int]
-        :type destination: List[int]
-        :rtype: int
-        """
-        m = len(maze)
-        n = len(maze[0])
-        
-        if m == 0 or n == 0 or start == destination:
-            return 0
-        
-        visited = {(start[0], start[1]) : 0}
+      
+        visited = {}
         queue = collections.deque([(start[0], start[1], 0)])
+        visited[(start[0], start[1])] = 0
         
         while queue:
-            i, j, dis = queue.popleft()
-            
+            i, j, d = queue.popleft()
             for dx, dy in directions:
-                 # use while, search in that direction until find valid node
-                x, y, d = i, j, dis
-                while 0 <= x + dx < m and 0 <= y + dy < n and maze[x + dx][y + dy] == 0:
-                    x = x + dx
-                    y = y + dy
-                    d += 1
-               
-                if (x, y) not in visited or ((x, y) in visited and visited[(x, y)] > d):
-                    visited[(x, y)] = d
+                x = i
+                y = j
+                step = d
+                while 0 <= x + dx < len(maze) and 0 <= y + dy < len(maze[0]) and maze[x + dx][y + dy] == 0:
+                    x += dx
+                    y += dy
+                    step += 1
+                if (x, y) not in visited or (x, y) in visited and visited[(x, y)] > step:
+                    visited[(x, y)] = step
                     if (x, y) != (destination[0], destination[1]) and maze[x][y] == 0:
-                        queue.append((x, y, d))
+                        queue.append((x, y, step))
         return visited.get((destination[0], destination[1]), -1)
-            
+                    
