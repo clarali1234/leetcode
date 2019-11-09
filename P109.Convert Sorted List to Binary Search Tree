@@ -118,13 +118,17 @@ class Solution(object):
     def construct(self, left, right):
         if left > right:
             return 
-        
+            
+        # call the dfs for left half
         middle = (left + right) // 2
         left = self.construct(left, middle - 1)
         
+        # after we're done the left, we create the root, and connect root, left; and then move head
         node = TreeNode(self.head.val)
         node.left = left
         self.head = self.head.next
+        
+        # recursively call the right half
         node.right = self.construct(middle + 1, right)
         
         return node
