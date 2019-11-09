@@ -1,0 +1,62 @@
+# binary search to find the root
+# then recursion
+# time O(n^2), since for each recursion, O(lgn) bisect, O(n) to slice the list, the worst case for slice is O(n)
+# space O(n) keep the entire tree
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+import bisect
+class Solution(object):
+    def bstFromPreorder(self, preorder):
+        """
+        :type preorder: List[int]
+        :rtype: TreeNode
+        """
+        if not preorder:
+            return None
+        
+        root_val = preorder[0]
+        root = TreeNode(root_val)
+        index = bisect.bisect(preorder, root_val)
+        left = self.bstFromPreorder(preorder[1:index])
+        right = self.bstFromPreorder(preorder[index: ])
+        root.left = left
+        root.right = right
+        return root
+        
+# optimal 
+# time O(n)
+# space O(n)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def bstFromPreorder(self, preorder):
+        """
+        :type preorder: List[int]
+        :rtype: TreeNode
+        """
+        if not preorder:
+            return None 
+        
+        root = TreeNode(preorder[0])
+        stack = [root]
+        for val in preorder[1:]:
+            if val < stack[-1].val:
+                stack[-1].left = TreeNode(val)
+                stack.append(stack[-1].left)
+            else:
+                while stack and stack[-1].val < val:
+                    last = stack.pop()
+                last.right = TreeNode(val)
+                stack.append(last.right)
+        return root
+
