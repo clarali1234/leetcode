@@ -1,24 +1,38 @@
 # brute-force method time o(nlgn) space O(n), 思路：hash key: elemts, value: frequency
 
-# optimal, time O(nlgk), space O(n)
-# priority queue: insert lgk, 不断更新heaq，保留k个频率最高的elem, extract min:lg(k), 操作n次，所以是nlg(k)
-# step 1: build a hash table, key: elem, value: frequency O(n)
-# step 2: build a min heap with k most frequency elements O(nlgk)
-# step 3: extract min from the heap and then reverse the result O(nlgk)
+class Solution(object):
+    def topKFrequent(self, words, k):
+        
+        # time O(n)
+        count = collections.Counter(words)
+        # space O(n)
+        word = count.keys()
+        
+        # time O(nlgn)
+        word.sort(key = lambda x : (-count[x], x))
+        return word[:k]
 
+# heap size(n)
+# time O(n + klgn)
+# space O(n)
 
-
-
-# heapify O(n)
-
-import heapq
-class Solution:
-    def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        dic = collections.Counter(words)
-        heap = [(-val, key) for key, val in dic.items()]
-        heapq.heapify(heap)
-        result = []
+from heapq import *
+class Solution(object):
+    def topKFrequent(self, words, k):
+        """
+        :type words: List[str]
+        :type k: int
+        :rtype: List[str]
+        """
+        count = collections.Counter(words)
+        heap = [(-freq, word) for word, freq in count.items()]
+        heapify(heap)
+        res = []
         for _ in range(k):
-            result.append(heapq.heappop(heap)[1])
-        return result
+            res.append(heappop(heap)[1])
+        return res
+        
+
+
+
                              
