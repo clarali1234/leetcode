@@ -47,7 +47,7 @@ class Solution(object):
             self.res.append(word)
             cur_node.is_word = False
             
-        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or not cur_node:
+        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
             return
         
             
