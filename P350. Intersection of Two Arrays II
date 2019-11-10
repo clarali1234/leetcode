@@ -20,6 +20,7 @@ class Solution:
 
 # two pointers
 # time O(nlgn)
+# search O(m + n) 
 # space O(1)
 
 class Solution:
