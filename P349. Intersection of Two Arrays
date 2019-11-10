@@ -14,6 +14,7 @@ class Solution(object):
         
 # sol2 two pointers
 # time O(nlgn)
+# search O(m + n) 
 # space O(1)
 class Solution(object):
     def intersection(self, nums1, nums2):
@@ -22,50 +23,52 @@ class Solution(object):
         :type nums2: List[int]
         :rtype: List[int]
         """
-        res = []
         nums1.sort()
         nums2.sort()
+        
         i = j = 0
-        while (i < len(nums1) and j < len(nums2)):
-            if nums1[i] > nums2[j]:
-                j += 1
-            elif nums1[i] < nums2[j]:
+        res = []
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] < nums2[j]:
                 i += 1
+            elif nums1[i] > nums2[j]:
+                j += 1
             else:
-                if not (len(res) and nums1[i] == res[-1]):
+                if not res or (not nums1[i] == res[-1]):
                     res.append(nums1[i])
                 i += 1
                 j += 1
         return res
         
-        
   1. follow up：如果数组一个长一个短怎么办。答：用二分搜索， mlog(n)
   小array ele m去二分搜索大array n
-  def intersection(A, B):
-    m = len(A)
-    n = len(B)
-    # m << n
+ def intersection(nums1, nums2):
+    # len(nums1) < len(nums2)
+    nums1.sort()
+    nums2.sort()
     res = []
-    for i in range(m):
+    
+    for i in range(len(nums1)):
+        ele = nums1[i]
         left = 0
-        right = len(B)
-        mid = (left + right) // 2
+        right = len(nums2)
         while left + 1 < right:
-            if A[i] == B[mid] and not (res and A[i] in res):
-                res.append(A[i])
-            elif A[i] < B[mid]:
-                right = mid
+            middle = (left + right) // 2
+            if nums2[middle] == ele and (not res or (res and res[-1] != ele)):
+                res.append(ele)
+            elif nums2[middle] < ele:
+                left = middle + 1
             else:
-                left = mid + 1
-        if B[left] == A[i] and not (res and A[i] in res):
-            res.append(A[i])
-        elif B[right] == A[i] and not (res and A[i] in res):
-            res.append(A[i])
+                right = middle - 1
+        if nums2[left] == ele and (not res or (res and res[-1] != ele)):
+            res.append(ele)
+        if nums2[right] == ele and (not res or (res and res[-1] != ele)):
+            res.append(ele)
+            
     return res
     
 2. 再follow up： 如果两个数组一样长，且一会儿sparse一会dense怎么办。
 可以在two pointer的扫描中内置一个切换二分搜索的机制，条件应该是什么
 于是说如果找到了，一个元素，那就用这次的index作为下次binary search的开始。可以节约掉之前的东西，不用search了。
-然后问，如果找不到呢，如何优化。尼玛
+然后问，如果找不到呢，如何优化。
 折腾了一会儿，说如果找不到，也返回上次search 结束的index，然后下次接着search。终于时间到了。
-感觉要黑也是有操作空间的。
