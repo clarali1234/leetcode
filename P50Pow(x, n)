@@ -1,3 +1,27 @@
+ # expand the x by x^2, n-> n //2
+ # n is odd, res * tmp
+ # until n == 0
+ 
+ # time lgn
+ # space O(1)
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if x == 1 or n == 0:
+            return 1
+        if n < 0:
+            x = 1 / x
+            n = -n
+            
+        result = 1
+        temp = x
+        while n != 0:
+            if n % 2 == 1:
+                result = result * temp
+            temp = temp * temp
+            n = n // 2
+        return  result
+
+
 # recursion
 # time lg(n)
 # space O(lgn)
@@ -18,21 +42,3 @@ class Solution(object):
             return x * self.myPow(x, n - 1)
         return self.myPow(x * x, n // 2)
  
- # time lgn
- # space O(1)
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
-        if x == 1 or n == 0:
-            return 1
-        if n < 0:
-            x = 1 / x
-            n = -n
-            
-        result = 1
-        temp = x
-        while n != 0:
-            if n % 2 == 1:
-                result = result * temp
-            temp = temp * temp
-            n = n // 2
-        return  result
