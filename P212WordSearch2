@@ -1,47 +1,61 @@
 # 首先建立字典树，字典树从root开始。利用字母的公共前缀建树。
 # 遍历字母矩阵，将字母矩阵的每个字母，从root开始dfs搜索，搜索到底部时，将字符串存入答案返回即可。
+1. time complexity 
+      construct trie:O(len(words) * max(len(word))
+      dfs search: O(mn * 4 * 3^(l-1), l is the max length of word) -> upper bound to (mn * mn)
+2. space complextiy
+      trie O(trie node)
+      dfs O(mn)
 
 
-class Node:
+class TrieNode(object):
     def __init__(self):
-        self.chars = {}
-        self.word = False
-
-class Trie:
+        self.children  = {}
+        self.is_word = False
+        
+class Trie(object):
     def __init__(self):
-        self.node = Node()
-
-    def add_word(self, word):
-        node = self.node
-        for c in word:
-            if c not in node.chars:
-                node.chars[c] = Node()
-            node = node.chars[c]
-        node.word = True
-
-class Solution:
+        self.root = TrieNode()
+        
+    def addWord(self, word):
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                current.children[char] = TrieNode()
+            current = current.children[char]
+        current.is_word = True
+        
+class Solution(object):
     def findWords(self, board, words):
-        res = []
         trie = Trie()
+        
+        # construct prefix trie for words
         for word in words:
-            trie.add_word(word)
+            trie.addWord(word)
+            
+        #root = trie.root
+        # dfs search
+        self.res = []
+        #visited = set()
         for i in range(len(board)):
             for j in range(len(board[0])):
-                self.dfs(board, trie.node, res, "", i, j)
-        return res
+                self.dfs(board, trie.root,  "", i, j)
+        return self.res
 
-    def dfs(self, board, trie, res, word, i, j):
-        if trie.word:
-            res.append(word)
-            trie.word = False
-        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
+    def dfs(self, board, cur_node,  word, i, j):
+        if cur_node.is_word:
+            self.res.append(word)
+            cur_node.is_word = False
+            
+        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or not cur_node:
             return
-        if not trie:
-            return 
+        
+            
         char = board[i][j]
-        if char in trie.chars:
+        if char in cur_node.children:
             board[i][j] = '#'
-            trie = trie.chars[char]
             for x, y in [[-1, 0], [0, -1], [0, 1], [1, 0]]:
-                self.dfs(board, trie, res, word + char, i + x, y + j)
+                self.dfs(board, cur_node.children[char],  word + char, i + x, y + j)
             board[i][j] = char
+
+        
