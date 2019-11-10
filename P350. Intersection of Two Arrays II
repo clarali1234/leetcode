@@ -2,22 +2,23 @@
 # interate along the larger array 
 # time O(m)
 # space O(n) m > n
-class Solution:
-    def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        if len(nums1) > len(nums2):
-            return self.intersect(nums2, nums1)
+class Solution(object):
+    def intersect(self, nums1, nums2):
         
-        dic = collections.defaultdict(int)
-        for num in nums1:
-            dic[num] += 1
+        if len(nums1) > len(nums2):
+            self.intersect(nums2, nums1)
+            
+        lookup = collections.Counter(nums1)
         
         res = []
-        for n in nums2:
-            if dic[n] > 0:
-                res.append(n)
-                dic[n] -= 1
+        for num in nums2:
+            if lookup[num] > 0:
+                res.append(num)
+                lookup[num] -= 1
+                if lookup[num] == 0:
+                    del lookup[num]
         return res
-
+        
 # two pointers
 # time O(nlgn)
 # search O(m + n) 
