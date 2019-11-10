@@ -43,6 +43,7 @@ class WordDictionary(object):
         if index == len(word):
             return root.is_word
         if word[index] != '.':
+        # 注意 这里要return
             return self.helper(word, root.children.get(word[index]), index + 1)
         else:
             for child in root.children.values():
