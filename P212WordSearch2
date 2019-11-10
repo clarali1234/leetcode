@@ -51,6 +51,7 @@ class Solution(object):
             return
         
             
+        #这里预先判断char是否在prefix内，prune 节省时间
         char = board[i][j]
         if char in cur_node.children:
             board[i][j] = '#'
