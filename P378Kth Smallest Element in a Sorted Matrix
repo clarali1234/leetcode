@@ -5,25 +5,79 @@
 
 # time O(klgk)
 # space O(k)
+ 缺点，当k -> n ^2, time complexity很大
 
 
-class Solution:
-    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        result, heap = None, []
+        heapq.heappush(heap, (matrix[0][0], 0, 0))
+        while k > 0:
+            result, i, j = heapq.heappop(heap)
+            # we go right only in the first row, 因为一个元素不能重复入堆
+        
+            if i == 0 and j + 1 < len(matrix):
+                heapq.heappush(heap, (matrix[i][j + 1], i, j + 1))
+            if i + 1 < len(matrix):
+                heapq.heappush(heap, (matrix[i + 1][j], i + 1, j))
+            k -= 1
+        return result
+        
+        
+# binary search
+# time O(Nlg(max - min))
+二分过程查找区间中点 mid 在矩阵中的排名, 假设为 t , since the array is sorted, we can do it in O(N)
+若 t == k, 该点即是结果
+若 t > k, 区间变成 [l, mid - 1]
+若 t < k, 区间变成 [mid + 1, r]
+
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        left = matrix[0][0]
+        right = matrix[-1][-1]
+        
+        while left < right:
+            mid = (left + right) // 2
+            smaller = matrix[0][0]
+            larger = matrix[-1][-1]
+            count, smaller, larger = self.count_less_equal(mid, smaller, larger, matrix)
+            
+            if count == k:
+                return smaller
+            elif count < k:
+                left = larger
+            else:
+                right = smaller
+        return left
+    
+    def count_less_equal(self, mid, smaller, larger, matrix):
         n = len(matrix)
-        m = len(matrix[0])
-        if m == 0 or n == 0:
-            return None
-        
-        heapmin = [(matrix[0][0], 0, 0)]
-        visited = set([])
-        num = None
-        
-        for _ in range(k):
-            num, x, y = heapq.heappop(heapmin)
-            if x + 1 < n and (x + 1) * m + y not in visited:
-                heapq.heappush(heapmin, (matrix[x + 1][y], x + 1, y))
-                visited.add((x + 1) * m + y)
-            if y + 1 < m and x * m + y + 1 not in visited:
-                heapq.heappush(heapmin, (matrix[x][y + 1], x, y + 1))
-                visited.add(x * m + y + 1)
-        return num
+        row = n - 1
+        col = 0
+        count = 0
+        while row >= 0 and col < n:
+            # find the smallest larger than mid
+            if matrix[row][col] > mid:
+                larger = min(larger, matrix[row][col])
+                row -= 1
+            else:
+                # find the largest value smaller/equal to mid, and track count
+                smaller = max(smaller, matrix[row][col])
+                count += row + 1
+                col += 1
+        return count, smaller, larger
+                
+            
+            
+            
+
