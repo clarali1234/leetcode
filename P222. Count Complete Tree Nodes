@@ -47,4 +47,65 @@ class Solution(object):
             return 0
         return 1 + self.get_height(node.left)
       
+  
+# binary search 
+# 思路
+1. complete binary tree, 高度为h,  节点总数 = 最后一层节点数 + 2^h - 1
+2. 最后一层节点数 可以用binary search求出, 求最后一个非空的节点 k, 就是叶子总数
+3. 判断最后一层节点k是否为空，binary search, 0-2^d - 1, 每次从root出发选择一条path,知道找到k node
+
+# time O(lgn * lgn) 
+# space O(1)
+class Solution(object):
+    def countNodes(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        if not root:
+            return 0
+        
+        h = self.get_height(root)
+        
+        # perform binary search to find number of last level leaves 
+        # the index of first None Node
+        left = 0
+        right = 2 ** h - 1
+        last_number = 0
+        
+        # last non None node
+        # 1 1 1 0
+        while left + 1 < right:
+            mid = (left+right)//2
+            if self.getK(root, mid, h):
+                left = mid 
+            else:
+                right = mid - 1
+        if self.getK(root, right, h):
+            last_level = right + 1
+        else:
+            last_level = left + 1
+        return last_level + 2**h - 1
+            
+        
+    def get_height(self, node):
+        c = 0
+        while node.left:
+            c += 1
+            node = node.left
+        return c
     
+    def getK(self, root, k, h):
+        left = 0
+        right = 2 ** h - 1
+        for _ in range(h):
+            mid = (left + right) // 2
+            if k <= mid:
+                root = root.left
+                right = mid
+            else:
+                root = root.right
+                left = mid + 1
+                
+        return root
+            
