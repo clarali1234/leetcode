@@ -1,6 +1,7 @@
 # time O(m+n)
-# 从矩阵的右上角(屏幕坐标系）开始，执行两重循环
+# 从矩阵的右上(屏幕坐标系）开始，执行两重循环
 # 外循环递增枚举每行，内循环递减枚举列
+
 class Solution(object):
     def searchMatrix(self, matrix, target):
         """
@@ -8,13 +9,67 @@ class Solution(object):
         :type target: int
         :rtype: bool
         """
-        if len(matrix) == 0 or len(matrix[0]) == 0:
+        if not matrix:
+            return False
+        
+        if len(matrix[0]) == 0 or len(matrix) == 0:
             return False
         
         j = len(matrix[0]) - 1
         for i in range(len(matrix)):
-            while j and matrix[i][j] > target:
-                j -= 1 
+            while j > 0 and matrix[i][j] > target:
+                j -= 1
             if matrix[i][j] == target:
                 return True
         return False
+        
+# bianry serach 
+# time O(nlgn)
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        if not matrix:
+            return False
+        if len(matrix[0]) == 0 or len(matrix) == 0:
+            return False
+        
+        for i in range(min(len(matrix[0]), len(matrix))):
+            find_row = self.find_row(matrix, i, 0, len(matrix[0]) - 1, target)
+            find_col = self.find_col(matrix, i, 0, len(matrix) - 1, target)
+            if find_row or find_col:
+                return True
+        return False
+    
+    def find_row(self, matrix, i, left, right, target):
+        
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if matrix[i][mid] == target:
+                return True
+            elif matrix[i][mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+                
+        if matrix[i][left] == target or matrix[i][right] == target:
+            return True
+        else:
+            return False
+    def find_col(self, matrix, i, left, right, target):
+        while left + 1 < right:
+            mid = (left + right) // 2
+            if matrix[mid][i] == target:
+                return True
+            elif matrix[mid][i] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        if matrix[left][i] == target or matrix[right][i] == target:
+            return True
+        else:
+            return False
+            
