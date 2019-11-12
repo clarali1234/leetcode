@@ -1,0 +1,43 @@
+# two heap 
+# small : 前k个最小值
+# large: 后k/k + 1个最大值
+# add O(lg)
+# find median O(1)
+
+# find O(1)
+# add O(lgn)
+
+
+from heapq import *
+class MedianFinder(object):
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.small = []
+        self.large = []
+        
+    
+    # small k, large k/k + 1
+    def addNum(self, num):
+        """
+        :type num: int
+        :rtype: None
+        """
+        if len(self.small) == len(self.large):
+            # keep all value in small < large
+            heappush(self.large,  -heappushpop(self.small, - num))
+        else:
+            heappush(self.small, -heappushpop(self.large, num))
+        
+
+    def findMedian(self):
+        """
+        :rtype: float
+        """
+        if len(self.small) == len(self.large):
+            return (-self.small[0] + self.large[0]) / 2.0
+        else:
+            return self.large[0]
+        
