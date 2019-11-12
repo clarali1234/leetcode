@@ -1,0 +1,45 @@
+# idea, obtain the freq of s, then put in the max heap with [(3,a), (2,b), (2,c), (1,d)]. 
+pop one by one from max heap, and reduce each count by 1 and append to cache queue. 
+
+if queue size is less than k, continue. 
+push back to heap if its front cnt > 0. 
+add letter to res, when reaches lens, return res otherwise ''.
+
+Time O(nlog26), Space O(26).
+
+from heapq import *
+class Solution(object):
+    def rearrangeString(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: str
+        """
+        if k == 0:
+            return s
+        
+        res = ''
+        count = collections.Counter(s)
+        heap = []
+        for ele, c in count.items():
+            heappush(heap, (-c, ele))
+        
+        queue = collections.deque([])
+        while heap:
+            c, ele = heappop(heap)
+            res += ele
+            c += 1
+            queue.append((c, ele))
+            if len(queue) < k:
+                continue
+            c, ele = queue.popleft()
+            if c < 0:
+                heappush(heap, (c, ele))
+                
+        if len(res) == len(s):
+            return res
+        return ''
+            
+            
+        
+        
