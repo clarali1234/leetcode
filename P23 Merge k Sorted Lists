@@ -1,59 +1,102 @@
+# brute force
+# traverse all list -> array 
+# sort
+# construct new list
+# time O(nlgn), space O(n)
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        # convert k lists to arrat
+        vals = []
+        for l in lists:
+            while l:
+                vals.append(l.val)
+                l = l.next
+        
+        # construct new nodes
+        head = pointer = ListNode(0)
+        for v in sorted(vals):
+            new_node = ListNode(v)
+            pointer.next = new_node
+            pointer = pointer.next
+        return head.next
+
 # method 1: priority queue
 # 遍历所有的node, 每次从长度为k的priority queue里面取出最小的
-# time O(nklgk)， space O(k)
+# time O(nlgk)， space O(k)
 
-from queue import PriorityQueue
-
-class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        dummy = ListNode(0)
+# priority queue 本质上是list，但是给val 赋予了priority， 每次都会pop出priority最小的值，因为size为k，所以time, space complexity会减少
+from Queue import PriorityQueue
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
         q = PriorityQueue()
+        for l in lists:
+            if l:
+                q.put((l.val, l))
         
-        for node in lists:
-            current = node
-            while current:
-                q.put(current.val)
-                current = current.next
-                
-        current = dummy 
+        dummy = head = ListNode(0)
         while not q.empty():
-            current.next = ListNode(q.get())
-            current = current.next
-        
+            val, node = q.get()
+            new_node = ListNode(val)
+            head.next = new_node
+            head = head.next
+            node = node.next
+            if node:
+                q.put((node.val, node))
         return dummy.next
-
-
-
-
+            
+           
 
 # method 2: divide and conquer
-# time O(nklgk), space O(lgk) -> O(1)
+# time O(nlgk), space O(lgk) -> O(1)
 
-class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
         if not lists:
             return None
-        dummy = ListNode(0)
-        while len(lists) > 1:
-            merged = []
-            while len(lists) > 1:
-                merged.append(self.merge_two(lists.pop(), lists.pop(), dummy))
-            lists += merged
+        start = 0
+        end = len(lists) - 1
+        while start != end or end != 0:
+            if start >= end:
+                start = 0
+            else:
+                lists[start] = self.merge2Lists(lists[start], lists[end])
+                start += 1
+                end -= 1
         return lists[0]
-    
+
+    def merge2Lists(self, l1, l2):
         
-    def merge_two(self, l1, l2, dummy):
-        current = dummy
+        head = point = ListNode(0)
         while l1 and l2:
             if l1.val <= l2.val:
-                current.next = l1
+                point.next = l1
                 l1 = l1.next
             else:
-                current.next = l2
-                l2 = l2.next
-            current = current.next
-        current.next = l1 or l2
-        return dummy.next
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        point.next = l1 or l2
+        return head.next
                 
         
 
