@@ -15,42 +15,48 @@ class Solution(object):
         """
         A = nums1
         B = nums2
-        m, n = len(A), len(B)
-        if m > n:
-            A, B, m, n = B, A, n, m
+        m = len(A)
+        n = len(B)
         
-        imin, imax, half_len = 0, m, (m + n + 1) // 2
+        if m > n:
+            return self.findMedianSortedArrays(B, A)
+        
+        imin = 0
+        imax = m
+        len_half = (m + n + 1) // 2
+        
         while imin <= imax:
             i = (imin + imax) // 2
-            j = half_len - i
-            if i < m and B[j-1] > A[i]:
-                # i is too small, must increase it
+            j = len_half - i
+            if i < m and A[i] < B[j - 1]:
+                # shift right
                 imin = i + 1
-            elif i > 0 and A[i-1] > B[j]:
-                # i is too big, must decrease it
+            elif i > 0 and A[i - 1] > B[j]:
+                # shif left
                 imax = i - 1
             else:
-                # i is perfect
-
-                if i == 0: 
-                    max_of_left = B[j-1]
-                elif j == 0: 
-                    max_of_left = A[i-1]
-                else: 
-                    max_of_left = max(A[i-1], B[j-1])
-
-                if (m + n) % 2 == 1:
-                    return max_of_left
-
-                if i == m: 
-                    min_of_right = B[j]
-                elif j == n: 
-                    min_of_right = A[i]
-                else: 
-                    min_of_right = min(A[i], B[j])
-
-                return (max_of_left + min_of_right) / 2.0
-        
+                # perfect i 
+                
+                if i == 0:
+                    left_max = B[j - 1]
+                elif j == 0:
+                    left_max = A[i - 1]
+                else:
+                    left_max = max(A[i - 1], B[j - 1])
+                
+                if (m + n) % 2:
+                    return left_max
+                
+                if i == m:
+                    right_min = B[j]
+                elif j == n:
+                    right_min = A[i]
+                    
+                else:
+                    right_min = min(A[i], B[j])
+                    
+                return (left_max + right_min) / 2.0
+                
 
 
 
