@@ -1,5 +1,5 @@
 # greedy
-# time O(n + AlgA) A:size of alphebet
+# time O(nAlgA) A:size of alphebet
 # space O(n)
 
 将字母按照出现次数从大到小排序。
@@ -11,17 +11,19 @@ class Solution(object):
         :type S: str
         :rtype: str
         """
-        count = collections.Counter(S)
         res = '#'
+        count = collections.Counter(S)
         
+        if count.most_common(1)[0][1] > (len(S) + 1) / 2:
+            return ''
+                    
         while True:
             stop = True
             for ele, c in count.most_common():
-                if c > (len(S) + 1)/2:
-                    return ''
-                if res[-1] != ele:
-                    res += ele
+                
+                if ele != res[-1]:
                     count[ele] -= 1
+                    res += ele
                     if count[ele] == 0:
                         del count[ele]
                     stop = False
@@ -32,48 +34,50 @@ class Solution(object):
             return res[1:]
         else:
             return ''
-            
 
 # counter 
 # max counter * 2 - 1 > len(s)
 # heap reorganize
-# time O(nlgA) = O(n)
+# time O(nlgA) 
 # space O(A)
 
-# 可以用
+# 可以用heap加速
+# 每次选取次数最多的char去添加到新的res里面
+# time O(nAlgA) -> O(nlgA)
+
 from collections import Counter
 from heapq import * 
+from heapq import *
 class Solution(object):
     def reorganizeString(self, S):
         """
         :type S: str
         :rtype: str
         """
-        counter = Counter(S)
-        max_common = counter.most_common(1)[0][1]
-        if max_common * 2 - 1 > len(S):
+        res = '#'
+        count = collections.Counter(S)
+        
+        if count.most_common(1)[0][1] > (len(S) + 1) / 2:
             return ''
-            
+        
         heap = []
-        for char, times in counter.items():
-            heappush(heap, (-times, char))
+        for ele,c in count.items():        
+            heappush(heap, (-c, ele))
             
         res = ''
-        
-        new_times = 0
-        new_char = ''
+        prev_c = 0
+        prev_char = ''
         while heap:
-            neg_times, char = heappop(heap)
-            res += char
-            if new_times < 0:
-                heappush(heap, (new_times, new_char))
-            # this make sure same chars are not adjacent to each other
-            neg_times += 1
-            new_times = neg_times
-            new_char = char
-        
+            c, ele = heappop(heap)
+            res += ele
+            if prev_c < 0:
+                heappush(heap, (prev_c, prev_char))
+            c += 1
+            prev_c = c
+            prev_char = ele
         return res
-        
+            
+            
         
         
      
