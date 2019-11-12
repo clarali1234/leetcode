@@ -1,3 +1,72 @@
+1. brute force counter, sort, top k
+# time O(nlgn)
+# space O(n)
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        count = collections.Counter(nums)
+        res = []
+        most_common = count.most_common(k)
+        for i in range(k):
+            res.append(most_common[i][0])
+        return res
+        
+
+2. priority queue
+time O(klgn), space O(n)
+
+注：由于heapq默认是最小堆，代码中在堆的push时给权重加了负号，这样堆顶部对应的实际上是出现次数最多的数。
+
+from heapq import *
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        count = collections.Counter(nums)
+        heap = []
+        heap = [(-c, ele) for (ele,c) in count.items()]
+        heapify(heap)
+   
+        
+        res = []
+        for i in range(k):
+            c, ele = heappop(heap)
+            res.append(ele)
+        return res
+            
+
+3. priority queue
+time O(nlgk), space O(n)
+from heapq import *
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        count = collections.Counter(nums)
+        heap = []
+        
+        for ele, c in count.items():
+            if len(heap) < k:
+                heappush(heap, (c, ele))
+            else:
+                heappushpop(heap, (c, ele))
+        
+        return [ele for (c, ele) in heap]
+        
+
+
+
 1. bucket sort time O(n), space O(n)
 bucket 是frequency:key的字典，key是list
 
@@ -19,23 +88,3 @@ class Solution(object):
             count -= 1
         return res[:k]
                 
-2. priority queue
-time O(klgn), space O(n)
-
-注：由于heapq默认是最小堆，代码中在堆的push时给权重加了负号，这样堆顶部对应的实际上是出现次数最多的数。
-
-from heapq import *
-class Solution(object):
-    def topKFrequent(self, nums, k):
-
-        dic = collections.Counter(nums)
-        heap = [(-val, key) for key, val in dic.items()]
-        heapify(heap)
-        res = []
-        for _ in range(k):
-            res.append(heappop(heap)[1])
-        return res
-        
-
-3. priority queue
-time O(nlgk), space O(n)
