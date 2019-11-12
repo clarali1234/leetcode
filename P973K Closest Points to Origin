@@ -35,3 +35,24 @@ class Solution:
                 heapq.heappush(heap, (dist, x, y))
                 
         return [(x, y) for (dist, x, y) in heap]
+    
+# heap size n
+# time O(n + klgn)
+# space O(n)
+from heapq import *
+class Solution(object):
+    def kClosest(self, points, K):
+        """
+        :type points: List[List[int]]
+        :type K: int
+        :rtype: List[List[int]]
+        """
+        
+        # heap size n
+        heap = [(x ** 2 + y ** 2, x, y) for x, y in points]
+        heapify(heap)
+        res = []
+        for _ in range(K):
+            dis, x, y = heappop(heap)
+            res.append((x, y))
+        return res
