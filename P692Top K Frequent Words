@@ -25,14 +25,16 @@ class Solution(object):
         :rtype: List[str]
         """
         count = collections.Counter(words)
-        heap = [(-freq, word) for word, freq in count.items()]
+        heap = [(-c, ele) for ele, c in count.items()]
+        
         heapify(heap)
+        
         res = []
         for _ in range(k):
-            res.append(heappop(heap)[1])
+            c, ele = heappop(heap)
+            res.append(ele)
         return res
-        
-
+            
 
 
                              
