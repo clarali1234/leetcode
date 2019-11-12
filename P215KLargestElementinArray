@@ -22,15 +22,15 @@ Time:  O(nlogk) | Space: O(K)
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
         
-        heap = [-sys.maxsize] * k
-        heapify(heap)
-        
+        heap = []
         for num in nums:
-            if num > heap[0]:
-                heappop(heap)
+            if len(heap) == k:
+                heappushpop(heap, num)
+            else:
                 heappush(heap, num)
                 
         return heap[0]
+        
 # quick select O(n) time average, worst O(n^2)
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
