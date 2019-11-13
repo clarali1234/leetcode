@@ -4,25 +4,25 @@
 若最大堆堆顶元素的右边界 <= 当前边界值，将其出堆；
 取堆顶元素的建筑物高，若其不等于前一次的关键点，则说明该点与上一次的点不在一条水平线上，为一个“关键点”。
 
-
-import heapq
+from heapq import *
 class Solution():
     def getSkyline(self, buildings):
-        borders = sorted([i[0] for i in buildings] + [i[1] for i in buildings])
-        index = 0
         heap = []
-        res = [[0, 0]]
-        for border in borders:
+        res = [[0, -1]]
+        nodes = sorted([i[0] for i in buildings] + [i[1] for i in buildings])
+        index = 0
+        for node in nodes:
             # 用while in case buidling more than one with the same left border
-            while index < len(buildings) and buildings[index][0] == border:
-                heapq.heappush(heap, [-buildings[index][2], buildings[index][1]])
+            while index < len(buildings) and buildings[index][0] == node:
+                heappush(heap, (-buildings[index][2], buildings[index][1]))
                 index += 1
             
             # current location not in 建筑物不在range
-            while heap and heap[0][1] <= border:
-                heapq.heappop(heap)
-             
-            heigh = -heap[0][0] if heap else 0
-            if heigh != res[-1][1]:
-                res.append([border, heigh])
+            while heap and heap[0][1] <= node:
+                heappop(heap)
+                
+            h = -heap[0][0] if heap else 0
+            if h != res[-1][1]:
+                res.append((node, h))
         return res[1:]
+
