@@ -17,18 +17,20 @@ class Solution(object):
         """
         res = [0] * n
         stack = []
-        pre_time = 0
+        prev_time = 0
         for log in logs:
-            index, wtype, time = log.split(':')
+            func, wtype, time = log.split(':')
+            cur_time = int(time)
+            func = int(func)
             if wtype == 'start':
                 if stack:
-                    res[stack[-1]] += int(time) - pre_time
-                stack.append(int(index))
-                pre_time = int(time)
+                    res[stack[-1]] += cur_time - prev_time
+                stack.append(func)
+                prev_time = cur_time
             else:
-                res[stack[-1]]  += int(time) - pre_time + 1
+                res[stack[-1]] += cur_time - prev_time + 1
+                prev_time = cur_time + 1
                 stack.pop()
-                pre_time = int(time) + 1
         return res
             
 follow up如果invalid log怎么办，input还有哪些可能的format（我写的是list of string），以及multi thread会有什么问题
