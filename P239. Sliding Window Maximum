@@ -1,6 +1,21 @@
 # burte force
 # time O(n * k)
+# space O(n)
 
+from heapq import * 
+
+class Solution(object):
+    def maxSlidingWindow(self, nums, k):
+        if not nums:
+            return []
+        res = []
+        # k size 
+        for i in range(len(nums) - k + 1):
+            res.append(max(nums[i:i + k]))
+                       
+        return res
+            
+            
 # priority queue
 # time O(nlgk)
 
