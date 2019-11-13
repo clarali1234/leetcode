@@ -8,33 +8,38 @@
  缺点，当k -> n ^2, time complexity很大
 
 
+from heapq import * 
 class Solution(object):
     def kthSmallest(self, matrix, k):
-        """
-        :type matrix: List[List[int]]
-        :type k: int
-        :rtype: int
-        """
-        result, heap = None, []
-        heapq.heappush(heap, (matrix[0][0], 0, 0))
-        while k > 0:
-            result, i, j = heapq.heappop(heap)
-            # we go right only in the first row, 因为一个元素不能重复入堆
         
-            if i == 0 and j + 1 < len(matrix):
-                heapq.heappush(heap, (matrix[i][j + 1], i, j + 1))
-            if i + 1 < len(matrix):
-                heapq.heappush(heap, (matrix[i + 1][j], i + 1, j))
-            k -= 1
-        return result
+        heap = []
+        heappush(heap, (matrix[0][0], 0, 0))
+        
+        res = None
+        for _ in range(k):
+            val, x, y = heappop(heap)
+            if x == 0 and y + 1 < len(matrix[0]):
+                heappush(heap, (matrix[x][y + 1], x, y + 1))
+            if x + 1 < len(matrix):
+                heappush(heap, (matrix[x + 1][y], x + 1, y))
+        return val
+        
         
         
 # binary search
 # time O(Nlg(max - min))
 二分过程查找区间中点 mid 在矩阵中的排名, 假设为 t , since the array is sorted, we can do it in O(N)
-若 t == k, 该点即是结果
-若 t > k, 区间变成 [l, mid - 1]
-若 t < k, 区间变成 [mid + 1, r]
+then find the count that <= mid, and smaller: largest value <= mid, lagest: smallest value > mid
+
+# count the value that <= mid,
+# start from the left bottom row compare with mid
+# >, row -= 1
+# <= col += 1, c += row + 1
+
+若 c == k, return smaller
+若 c > k, 区间变成 right = smaller
+若 c < k, 区间变成 left = larger
+
 
 class Solution(object):
     def kthSmallest(self, matrix, k):
@@ -50,7 +55,7 @@ class Solution(object):
             mid = (left + right) // 2
             smaller = matrix[0][0]
             larger = matrix[-1][-1]
-            count, smaller, larger = self.count_less_equal(mid, smaller, larger, matrix)
+            count, smaller, larger = self.count_less_equal(matrix, mid, smaller, larger)
             
             if count == k:
                 return smaller
@@ -58,26 +63,25 @@ class Solution(object):
                 left = larger
             else:
                 right = smaller
+                
         return left
+      
     
-    def count_less_equal(self, mid, smaller, larger, matrix):
-        n = len(matrix)
-        row = n - 1
-        col = 0
+    def count_less_equal(self, matrix, mid, smaller, larger):
         count = 0
-        while row >= 0 and col < n:
-            # find the smallest larger than mid
+        row = len(matrix) - 1
+        col = 0
+        
+        while row >= 0 and col < len(matrix[0]):
             if matrix[row][col] > mid:
                 larger = min(larger, matrix[row][col])
                 row -= 1
             else:
-                # find the largest value smaller/equal to mid, and track count
                 smaller = max(smaller, matrix[row][col])
                 count += row + 1
                 col += 1
         return count, smaller, larger
                 
-            
-            
+                            
             
 
