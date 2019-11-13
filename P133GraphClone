@@ -15,9 +15,10 @@ class Solution:
         node_copy = Node(node.val, [])
         # 注意 1. copy 之后把node_copy放入visited里面
         visited[node] = node_copy
+        # 2.对每个邻居调用dfs函数
         for neighbor in node.neighbors:
             neighbor_copy = self.dfs(neighbor, visited)
-            # check if neighbor_copy is None
+            # 3.check if neighbor_copy is None
             if neighbor_copy:
                 node_copy.neighbors.append(neighbor_copy)
         return node_copy
@@ -63,6 +64,7 @@ class Solution:
                     visited[neighbor] = Node(neighbor.val, [])
                     #注意 copy之后将点放入queue里面
                     queue.append(neighbor)
+                 1. 注意，把当前点邻居的copy放到当前点的copy的neighbors list里面
                 visited[cur_node].neighbors.append(visited[neighbor])
         return node_copy
         
