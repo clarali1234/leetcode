@@ -10,18 +10,15 @@ space O(m + n)
 # max stack
 class Solution(object):
     def nextGreaterElement(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: List[int]
-        """
-        stack = []
-        # key:num , value: next greater num
-        dic = {}
         
+        # key : num, value: next greater num
+        dic = {}
+        # space O(n), time O(n)
+        stack = []
         for num in nums2:
             while stack and stack[-1] < num:
                 dic[stack.pop()] = num
             stack.append(num)
-        return [dic.get(x, -1) for x in nums1]
-        
+            
+        # time O(m), space O(m)
+        return [dic.get(num, -1) for num in nums1]
