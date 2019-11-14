@@ -1,0 +1,21 @@
+# time O(n)
+# sppace O(n)
+
+class Solution(object):
+    def removeOuterParentheses(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        res = ''
+        prev = 0
+        count = 0
+        for i, char in enumerate(S):
+            if char == '(':
+                count += 1
+            else:
+                count -= 1
+            if count == 0:
+                res += S[prev + 1:i]
+                prev = i + 1
+        return res
