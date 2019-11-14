@@ -2,14 +2,17 @@
 将快指针找到的非零数赋值给慢指针的位置后将慢指针后移一个位置，同时将快指针所在处的数置为0。循环下去即可。
 # time O(n) inplace
 # write time o(n) n: num of no-zeros
-class Solution:
-    def moveZeroes(self, nums: List[int]) -> None:
-        slow, fast = 0, 0
-        while fast < len(nums):
+class Solution(object):
+    def moveZeroes(self, nums):
+  
+        slow = 0
+        fast = 0
+        for fast in range(len(nums)):
             if nums[fast] != 0:
                 nums[slow], nums[fast] = nums[fast], nums[slow]
                 slow += 1
-            fast += 1
+        return nums
+    
             
 # in place把零项都移到左边，
 """
