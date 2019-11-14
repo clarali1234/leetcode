@@ -35,7 +35,36 @@ class Solution:
                 right -= 1 
             else:
                 left += 1 
-
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        if not nums:
+            return []
+        
+        dic = {}
+        self.res = []
+        for i in range(len(nums) - 2):
+            dic[nums[i]] = i
+            self.two_sum(nums, i + 1, len(nums), -nums[i], dic)
+            
+    def two_sum(self, nums, start, end, target, dic):
+        # key num value index
+        
+        for i in range(start, end):
+            num = nums[i]
+            if num in dic:
+                continue
+            else:
+                second = target - num
+                if second in dic:
+                    self.res.append([-target, nums[i], second])
+                else:
+                    dic[num] = i
+        
+        
 # follow up: without duplicate, without sort
 # nums = set(nums)
 # time O(n^2)
