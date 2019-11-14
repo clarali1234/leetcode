@@ -11,7 +11,7 @@ A在B后面或者B在A后面, 此时我们需要把处在后面的区间的指�
 # increment the index of the lesser interval
 
 # time o(m + n)
-# space o(1)
+# space o(m + n)
 
 class Solution(object):
     def intervalIntersection(self, A, B):
