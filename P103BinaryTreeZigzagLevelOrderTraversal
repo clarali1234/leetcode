@@ -6,13 +6,15 @@
 
 from collections import deque
 
-class Solution:
-    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+class Solution(object):
+    def zigzagLevelOrder(self, root):
         if not root:
             return []
         
+        res =[]
+        depth = 0
+        
         queue = collections.deque([root])
-        result = []
         while queue:
             level = []
             for _ in range(len(queue)):
@@ -22,14 +24,15 @@ class Solution:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-                    
-            # if len(result) is odd, r; else r[::-1]
-            level = level[::-1] if len(result) % 2 else level
-            result.append(level)
-        return result
-                    
-
-
+            if depth % 2:
+                res.append(level[::-1])
+            else:
+                res.append(level)
+            depth += 1
+        return res
+                
+        
+               
 
 # Definition for a binary tree node.
 # class TreeNode:
