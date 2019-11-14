@@ -4,8 +4,8 @@
 
 
 2. stack + hashmap
-time O(n)
-space O(n)
+time O(m + n)
+space O(m + n)
 
 # max stack
 class Solution(object):
