@@ -9,21 +9,23 @@ class NestedIterator(object):
         :type nestedList: List[NestedInteger]
         """
         self.stack = nestedList[::-1]
-        
+
     def next(self):
         """
         :rtype: int
         """
         return self.stack.pop().getInteger()
         
+
     def hasNext(self):
-        """
-        :rtype: bool
-        """
+        
         while self.stack:
-            top = self.stack[-1]
-            if top.isInteger():
+            if self.stack[-1].isInteger():
                 return True
-            self.stack = self.stack[:-1] + top.getList()[::-1]
+            self.stack = self.stack[:-1] + self.stack[-1].getList()[::-1]
         return False
-    
+        
+
+# Your NestedIterator object will be instantiated and called as such:
+# i, v = NestedIterator(nestedList), []
+# while i.hasNext(): v.append(i.next())
