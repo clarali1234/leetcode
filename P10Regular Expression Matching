@@ -10,7 +10,7 @@
     # a) we eliminate p[j - 2], = dp[i][j-2]
     #  b) didnt work = dp[i][j-1]
     # j-1 repeate more than once 
-    # = dp[i][j - 1] and (s[i - 1] == p[j -2 ] or p[j - 2] == '.')
+    # = dp[i-1][j] and (s[i - 1] == p[j -2 ] or p[j - 2] == '.')
 # 3. not 1 and 2  = dp[i - 1][j - 1] and s[i - 1] == p[j -1]
 
 # time O(len(s) * len(p))
