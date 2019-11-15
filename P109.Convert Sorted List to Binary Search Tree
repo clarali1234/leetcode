@@ -76,18 +76,14 @@ class Solution(object):
     def convert(self, array, left, right):
         if left > right:
             return 
-            
+        
         middle = (left + right) // 2
-        root_val = array[middle]
-        root = TreeNode(root_val)
+        root = TreeNode(array[middle])
         
-        # base case, when there is only one node
-        if left == right:
-            return root
-        
-        root.left  = self.convert(array, left, middle - 1)
-        root.right = self.convert(array, middle + 1, right)
+        root.left = self.construct(array, left, middle - 1)
+        root.right = self.construct(array, middle + 1, right)
         return root
+
         
  # sol3: simulate the inorder traversal, find the size first
  # make recursion calls for left half, then move head by one and make it to the root, and then call right half
