@@ -27,7 +27,7 @@ class Solution(object):
             if i > index and candidates[i] == candidates[i - 1]:
                 continue
               # 注意2， 省时间提前break
-            if candidates[i] > target:
-                break
+            #if candidates[i] > target:
+                #break
             else:
                 self.dfs(candidates, target, cur_sum + candidates[i], i + 1, cur_path + [candidates[i]] )
