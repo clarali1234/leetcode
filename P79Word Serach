@@ -23,6 +23,7 @@ class Solution:
     
     
     def dfs(self, board, x, y, index, word, visited):
+        注意1. if cur index == len(word), we return True,说明我们找到了单词
         if len(word) == index:
             return True
         if x < 0 or y < 0 or x >= len(board) or y >= len(board[0]) or word[index] != board[x][y] or (x, y) in visited:
@@ -31,5 +32,7 @@ class Solution:
         visited.add((x, y))
         if self.dfs(board, x + 1, y, index + 1, word, visited) or self.dfs(board, x - 1, y, index + 1, word, visited) or self.dfs(board, x, y + 1, index + 1, word, visited) or self.dfs(board, x, y - 1, index + 1, word, visited):
             return True
+            
+        注意2. backtracking, 把当前的char 从visited remove  之后说明没找到，我们return False
         visited.remove((x, y))
         return False
