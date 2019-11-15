@@ -50,9 +50,12 @@ class Solution(object):
             if nest.isInteger():
                 res += nest.getInteger()
             else:
+            #   注意这里是+=, append又多了一个list层级关系
                 nest_list += nest.getList()
-        res += 0 if len(nest_list) == 0 else self.dfs(nest_list, res)
-        return res
+                
+        if len(cur_lists) > 0:
+            self.res += self.dfs(cur_lists)
+        return self.res
         
         
    # bfs
