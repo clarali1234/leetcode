@@ -91,6 +91,12 @@ class Solution(object):
         
  # sol3: simulate the inorder traversal, find the size first
  # make recursion calls for left half, then move head by one and make it to the root, and then call right half
+ 这个递归的唯一难点在于：如何能够在每次递归调用中，用O(1)时间内获得链表中部的节点？这也是此题和Convert Array to BST的最大不同之处。
+在一般情况下，这点本来是做不到的，但是在这里我们可以通过递归“累积”的方式来实现。
+设想，我们维护一个全局变量h，最初指向左半链表的头。我们每处理一个左链表的节点，h就向后移动一位。
+这样，当我们处理完左半链表时，h正好处于左半链表尾的下一个元素，这个元素恰好是整个树的root，
+所以我们才使用h.val来初始化root。之所以递归必须是中序，是因为h只有在左半链表都处理完毕后才能获得。
+
  # time O(n)
  # space O(lgn) 最优的解法
  # 在这个算法中，每当我们构建完二叉搜索树的左半部分时，链表中的头指针将指向根节点或中间节点（它成为根节点）。 
