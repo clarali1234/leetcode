@@ -1,30 +1,5 @@
 sol1: brute-force 遍历i,j,算出sum.
-    time O(n^3), space O(1)
-
-
-sol2: # prefix sum 
-    # prefix_sum[i] = sum(nums[0:i-1])
-    # time O(n^2), space 0(n)
-    
-class Solution:
-    def subarraySum(self, nums: List[int], k: int) -> int:
-        if not nums:
-            return 0
-        
-        count = 0
-        prefix_sum = [0] * (len(nums) + 1)
-
-        for i in range(1, len(prefix_sum)):
-            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1]
-        #print(prefix_sum)
-        
-        for left in range(len(prefix_sum)):
-            for right in range(left + 1, len(prefix_sum)):
-                if prefix_sum[right] - prefix_sum[left] == k:
-                    #print((left, right))
-                    count += 1
-        return count
-
+time O(n^3), space O(1)
 
 # two pointers
 # time o(n^2)
@@ -70,34 +45,7 @@ class Solution:
   # 可以用两个index，因为array里面的数都是正的，当current sum小于target的时候，第二个index右移，
   # 如果current sum > target的时候，第一个index右移。
   
-  
-  def subarraySum(nums, k):
-    if not nums:
-        return 0
-    
-    left = 0
-    right = 0
-    sum_ = 0
-    res = 0
-    cond = True
-    while cond:
-        while right < len(nums) and sum_ < k:
-        
-            sum_ += nums[right]
-            right += 1
-            
-        while left <= right and sum_ >= k:
-            if sum_ == k:
-                res += 1
-            left -= 1
-            sum_ -= nums[left]
-            
-        if right == len(nums):
-            cond = False
-    return res
 
-print(subarraySum([1,2,1,1,1], 2))
-        
   def subarraySum(nums, target):
     left = 0
     right = 0
@@ -111,6 +59,7 @@ print(subarraySum([1,2,1,1,1], 2))
         while left < right and sum_ >= target:
             if sum_ == target:
                 count += 1
+             # 注意 sum_是否==target，都要-nums[left]
             sum_ -= nums[left]
             left += 1
     return count
@@ -156,4 +105,26 @@ def subarraySum(nums, target):
             
         return res
     
+ sol2: # prefix sum 
+    # prefix_sum[i] = sum(nums[0:i-1])
+    # time O(n^2), space 0(n)
+    
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        if not nums:
+            return 0
+        
+        count = 0
+        prefix_sum = [0] * (len(nums) + 1)
+
+        for i in range(1, len(prefix_sum)):
+            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1]
+        #print(prefix_sum)
+        
+        for left in range(len(prefix_sum)):
+            for right in range(left + 1, len(prefix_sum)):
+                if prefix_sum[right] - prefix_sum[left] == k:
+                    #print((left, right))
+                    count += 1
+        return count
     
