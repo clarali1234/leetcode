@@ -76,11 +76,13 @@ def subarraySum(nums, target):
     count = 0
     
     for left in range(len(nums)):
-        while sum_ < target and right < len(nums) - 1:
+        while sum_ < k and right < len(nums):
             sum_ += nums[right]
-            right += 1  
-        count += len(nums) - right
+            right += 1
+        if sum_ >= k:
+            count += len(nums) - right + 1
         sum_ -= nums[left]
+        
     return count
 
 
