@@ -33,6 +33,6 @@ class Solution:
         if self.dfs(board, x + 1, y, index + 1, word, visited) or self.dfs(board, x - 1, y, index + 1, word, visited) or self.dfs(board, x, y + 1, index + 1, word, visited) or self.dfs(board, x, y - 1, index + 1, word, visited):
             return True
             
-        注意2. backtracking, 把当前的char 从visited remove  之后说明没找到，我们return False
+        注意2. backtracking, 把当前的char 从visited remove  
         visited.remove((x, y))
-        return False
+        
