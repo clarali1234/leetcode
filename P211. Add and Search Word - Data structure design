@@ -41,6 +41,7 @@ class WordDictionary(object):
         if root == None:
             return False
         if index == len(word):
+        #这里要return is_word
             return root.is_word
         if word[index] != '.':
         # 注意 这里要return
