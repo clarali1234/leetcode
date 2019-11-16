@@ -28,6 +28,8 @@ class Solution(object):
 # sol2 
 # time O(l *n) l: range of sum, n:nums size，since the memomemo array of size l*nl∗n has been filled just once. 
 # space O(n) the depth of recursion
+ # dic key (index, sum) value:counts from this index, cur_sum to target
+        
 
 recursion + memo
 class Solution(object):
