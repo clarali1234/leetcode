@@ -1,0 +1,46 @@
+class Solution(object):
+    def fractionToDecimal(self, numerator, denominator):
+        """
+        :type numerator: int
+        :type denominator: int
+        :rtype: str
+        """
+        if numerator % denominator == 0:
+            return str(numerator / denominator)
+        
+        res = ''
+        if numerator / denominator < 0:
+            res += '-'
+         
+        numerator = abs(numerator)
+        denominator = abs(denominator)
+        
+        # integer part
+        
+        res += str(numerator//denominator)
+        res += '.'
+        
+        numerator = numerator % denominator
+        i = len(res)
+        
+        # key reminder value index
+        dic = {}
+        while numerator:
+            if numerator not in dic:
+                dic[numerator] = i
+            else:
+                i = dic[numerator]
+                res = res[:i] + '(' + res[i:] + ')'
+                return res
+            
+            res += str(numerator * 10 //denominator)
+            numerator = numerator * 10 % denominator
+            i += 1
+        return res
+            
+                
+            
+        
+        
+        
+        
