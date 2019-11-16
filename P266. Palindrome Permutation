@@ -1,0 +1,23 @@
+
+# hashtable 
+# time O(n)
+# space O(n)
+
+只能最多有一个odd个的char
+class Solution(object):
+    def canPermutePalindrome(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        
+        count = collections.Counter(s)
+        res = 0
+        for ele, c in count.items():
+            if c % 2:
+                res += 1
+        
+        if res >= 2:
+            return False
+        return True
+        
