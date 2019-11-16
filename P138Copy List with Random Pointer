@@ -6,20 +6,23 @@
 """
 class Solution(object):
     def copyRandomList(self, head):
-        m = {}
-        cur = head
-        dummy = prev = Node(0, None, None)
-        while cur:
-            clone = Node(cur.val, None, None)
-            m[cur] = clone
-            prev.next = clone 
-            prev = clone
-            cur = cur.next
-        for node, clone in m.items():
-            if node.random: # random可能是none
-                clone.random = m[node.random]
-        return dummy.next
+        if not head:
+            return None
         
+        dic = {}
+        pointer = head
+        while pointer:
+            dic[pointer] = Node(pointer.val, None, None)
+            pointer = pointer.next
+            
+        p2 = head
+        while p2:
+            if p2.next:
+                dic[p2].next = dic[p2.next]
+            if p2.random:
+                dic[p2].random = dic[p2.random]
+            p2 = p2.next
+        return dic[head]
         
 # Definition for a Node.
 class Node:
