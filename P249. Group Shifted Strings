@@ -1,0 +1,23 @@
+# hashtable
+# key : differenct between adjacent chars % 26, value:string
+
+# 遍历string, 求出k,( differenct between adjacent chars % 26), 添加到dict里面
+# return dic[k]
+
+# time O(len(strings) * max(len(string))
+# space number of keys in dic
+class Solution(object):
+    def groupStrings(self, strings):
+        """
+        :type strings: List[str]
+        :rtype: List[List[str]]
+        """
+        dic = collections.defaultdict(list)
+        for s in strings:
+            k = ''
+            for i in range(len(s) - 1):
+                k = k + str((ord(s[i + 1]) - ord(s[i])) % 26)
+                
+            dic[k].append(s)
+        return [dic[k] for k in dic.keys()]
+                
