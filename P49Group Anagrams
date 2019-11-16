@@ -1,10 +1,12 @@
 # time O(n)
 # space O(n)
 
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        dic = {}
-        for item in strs:
-            sortedItem = ''.join(sorted(item)) # string is hashable, list is not hashable
-            dic[sortedItem] = dic.get(sortedItem, []) + [item]
+class Solution(object):
+    def groupAnagrams(self, strs):
+       
+        # key: sorted items, values:strings
+        dic = collections.defaultdict(list)
+        for str in strs:
+            sorteditems = ''.join(sorted(str))
+            dic[sorteditems].append(str)
         return dic.values()
