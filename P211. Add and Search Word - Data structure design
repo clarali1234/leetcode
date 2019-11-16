@@ -38,13 +38,14 @@ class WordDictionary(object):
         return self.helper(word, self.root, 0)
         
     def helper(self, word, root, index):
+        # 1.先检查cur_node
         if root == None:
             return False
         if index == len(word):
-        #这里要return is_word
+        #2.这里要return is_word
             return root.is_word
         if word[index] != '.':
-        # 注意 这里要return
+        # 3.注意 这里要return
             return self.helper(word, root.children.get(word[index]), index + 1)
         else:
             for child in root.children.values():
