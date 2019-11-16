@@ -4,6 +4,23 @@
 # time o(n)
 # space o(n)
 """
+class Solution(object):
+    def copyRandomList(self, head):
+        m = {}
+        cur = head
+        dummy = prev = Node(0, None, None)
+        while cur:
+            clone = Node(cur.val, None, None)
+            m[cur] = clone
+            prev.next = clone 
+            prev = clone
+            cur = cur.next
+        for node, clone in m.items():
+            if node.random: # random可能是none
+                clone.random = m[node.random]
+        return dummy.next
+        
+        
 # Definition for a Node.
 class Node:
     def __init__(self, val, next, random):
