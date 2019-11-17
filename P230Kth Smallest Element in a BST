@@ -41,15 +41,18 @@ class Solution(object):
         :rtype: int
         """
         stack = []
-        while True:
-            while root:
+        while stack or root:
+            if root:
                 stack.append(root)
                 root = root.left
-            root = stack.pop()
-            k -= 1
-            if not k:
-                return root.val
-            root = root.right
+            else:
+                k -= 1    
+                node = stack.pop()
+                if k == 0:
+                    return node.val
+                    break
+                root = node.right
+                
             
 
 # follow up
