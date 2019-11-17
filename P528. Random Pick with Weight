@@ -10,33 +10,34 @@ w : [1, 3, 2], prefix sum[1, 4, 6] p[i - 1] <= v < p[i] -> i
 For some index i, all integers v where p[i] - w[i] ≤ v < p[i] map to this index. 
 Therefore, indexes will be sampled proportionally to the index weights.
 
+# prefix[i - 1] + w[i] = prefix[i]
+# prefix[i-1] <= val < prefix[i] w[i]
 class Solution(object):
 
     def __init__(self, w):
         """
         :type w: List[int]
         """
-        self.prefix_sum = w
-        for i in range(1, len(self.prefix_sum)):
-            self.prefix_sum[i] = self.prefix_sum[i - 1] + w[i]
-            
+        self.prefix = w
+        for i in range(1, len(w)):
+            self.prefix[i] = self.prefix[i - 1] + w[i]
 
     def pickIndex(self):
         """
         :rtype: int
         """
+        target = random.randint(0, self.prefix[-1] - 1)
         # find the first ele > target
-        target = random.randint(0, self.prefix_sum[-1] - 1)
         left = 0
-        right = len(self.prefix_sum) - 1
-        while left + 1 < right:
+        right = len(self.prefix ) - 1
+        while left < right:
             mid = (left + right) // 2
-            if self.prefix_sum[mid] <= target:
+            if self.prefix[mid] <= target:
                 left = mid + 1
             else:
-                right = mid
-        if self.prefix_sum[left] > target:
-            return left
-        return right
+                right = mid 
+        if self.prefix[left] < target:
+            return right
+        return left
                 
-                
+        
