@@ -11,22 +11,24 @@ space O(1)
 
 class Solution(object):
     def missingElement(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
+        
         missing_counts = nums[-1] - nums[0] + 1 - len(nums)
         if missing_counts < k:
-            return nums[-1] + k - missing_counts
+            return nums[-1] + k - (nums[-1] - nums[0] + 1 - len(nums))
         
         left = 0
         right = len(nums) - 1
+        
         while left + 1 < right:
             mid = (left + right) // 2
+            # missing counts for left half is nums[mid] - nums[left] - (mid - left)
             if nums[mid] - nums[left] - (mid - left) < k:
+                # missing in right half
                 k = k - (nums[mid] - nums[left] - (mid - left))
-                left = mid
+                left = mid 
             else:
-                right = mid
+                # missing in the left half
+                right = mid 
+                
         return nums[left] + k
+            
