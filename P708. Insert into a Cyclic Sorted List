@@ -16,13 +16,13 @@ class Solution(object):
         
         node = head
         while True:
-            # case 1
+            # case 1 the insert val in the range (minimum, maximum) (not included)
             if node.val <= insertVal <= node.next.val:
                 break
-            # case2 
+            # case2 the insert val go beyond the range either >= maximum or <= minimum
             if node.val > node.next.val and (insertVal >= node.val or insertVal <= node.next.val):
                 break
-            # case 3, 1 1 1 1 
+            # case 3 edge case, the list contains uniform values
             if node.next == head:
                 break
             node = node.next
