@@ -14,11 +14,12 @@ class Solution(object):
         :type head: ListNode
         :rtype: None Do not return anything, modify head in-place instead.
         """
+        # reverse the second halp
         if not head or not head.next:
             return head
-            
+        
         slow = head 
-        fast = head 
+        fast = head
         while fast.next and fast.next.next:
             slow = slow.next
             fast = fast.next.next
@@ -26,33 +27,23 @@ class Solution(object):
         head2 = slow.next
         slow.next = None
         
-        
-        # reverse the second half
-        dummy = ListNode(0)
-        dummy.next = head2
-        pointer = head2.next
-        head2.next = None
-        while pointer:
-            tmp = pointer
-            pointer = pointer.next
-            tmp.next = dummy.next
-            dummy.next = tmp
-        head2 = dummy.next
-        
-        # merge two linked lists
+        # reverse 
+        prev = None
+        current = head2
+        while(current is not None): 
+            next = current.next
+            current.next = prev 
+            prev = current 
+            current = next
+        head2 = prev 
+            
+        # merge
         pointer1 = head
-        pointer2 = head2
-        
+        pointer2= head2
         while pointer2:
             tmp1 = pointer1.next
             tmp2 = pointer2.next
             pointer1.next = pointer2
-            pointer2.next = tmp1 
+            pointer2.next = tmp1
             pointer1 = tmp1
-            pointer2 = tmp2 
-            
-            
-            
-        
-        
-        
+            pointer2 = tmp2
