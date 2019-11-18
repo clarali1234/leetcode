@@ -23,11 +23,12 @@ class Codec:
     def dfs(self, node):
         if not node:
             self.res.append('#')
+            return 
         else:
             self.res.append(str(node.val))
             self.dfs(node.left)
             self.dfs(node.right)
-            
+                           
         
 
     def deserialize(self, data):
@@ -39,26 +40,27 @@ class Codec:
         if not data:
             return None
         
-        self.dfs = collections.deque(
-            TreeNode(int(val)) 
+        self.queue = collections.deque([
+            TreeNode(val)
             if val != '#' else None
             for val in data.split()
-        )
-        
+        ])
         
         return self.build()
-        
+    
     def build(self):
-        if self.dfs:
-            node = self.dfs.popleft()
+        if self.queue:
+            node = self.queue.popleft()
             if not node:
-                return 
+                return None
             else:
                 root = node
                 root.left = self.build()
                 root.right = self.build()
-            return root
+                return root
         
+
+# bfs
 
 # Definition for a binary tree node.
 # class TreeNode(object):
