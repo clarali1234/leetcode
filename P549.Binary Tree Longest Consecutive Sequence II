@@ -15,31 +15,36 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
+         
         if not root:
             return 0
         
-        self.res = 1
+        self.res = -sys.maxsize
         self.dfs(root)
-        return self.res
+        return self.res 
     
     def dfs(self, node):
         if not node:
             return [0, 0]
-    
-        ins = 1
-        des = 1
-        left = self.dfs(node.left)
-        right = self.dfs(node.right)
+        
+        inc = 1
+        dec = 1
+        
+        left_inc, left_dec = self.dfs(node.left)
+        right_inc, right_dec = self.dfs(node.right)
+        
         if node.left:
-            if node.val + 1 == node.left.val:
-                ins = max(ins, left[0] + 1)
-            if node.val - 1 == node.left.val:
-                des = max(ins, left[1] + 1)
+            if node.left.val + 1 == node.val:
+                dec = max(dec, left_dec + 1)
+            elif node.left.val - 1 == node.val:
+                inc = max(inc, left_inc + 1)
+                
         if node.right:
-            if node.val + 1 == node.right.val:
-                ins = max(ins, right[0] + 1)
-            if node.val - 1 == node.right.val:
-                des = max(des, right[1] + 1)
-        self.res = max(self.res, ins + des - 1)
-        return [ins, des]
+            if node.right.val + 1 == node.val:
+                dec = max(dec, right_dec + 1)
+            elif node.right.val - 1 == node.val:
+                inc = max(inc, right_inc + 1)
+                
+        self.res = max(self.res, (inc + dec - 1))
+        return [inc, dec]
         
