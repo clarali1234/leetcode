@@ -1,3 +1,43 @@
+# counter 
+# max counter * 2 - 1 > len(s)
+# heap reorganize
+# time O(nlgA) 
+# space O(A)
+
+# 可以用heap加速
+# 每次选取次数最多的char去添加到新的res里面
+# time O(nAlgA) -> O(nlgA)
+
+from heapq import *
+class Solution(object):
+    def reorganizeString(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        counter = collections.Counter(S)
+        if counter.most_common()[0][1] > (len(S) + 1) // 2:
+            return ''
+        
+        heap = []
+        
+        for ele, c in counter.items():
+            heappush(heap, (-c, ele))
+            
+        res = ''
+        prev_char = ''
+        prev_count = 0
+        while heap:
+            c, ele = heappop(heap)
+            res += ele
+            c += 1
+            if prev_count < 0:
+                heappush(heap, (prev_count, prev_char))
+            prev_char = ele
+            prev_count = c
+        return res
+        
+
 # greedy
 # time O(nAlgA) A:size of alphebet
 # space O(n)
@@ -35,49 +75,6 @@ class Solution(object):
         else:
             return ''
 
-# counter 
-# max counter * 2 - 1 > len(s)
-# heap reorganize
-# time O(nlgA) 
-# space O(A)
 
-# 可以用heap加速
-# 每次选取次数最多的char去添加到新的res里面
-# time O(nAlgA) -> O(nlgA)
-
-from collections import Counter
-from heapq import * 
-from heapq import *
-class Solution(object):
-    def reorganizeString(self, S):
-        """
-        :type S: str
-        :rtype: str
-        """
-        res = '#'
-        count = collections.Counter(S)
-        
-        if count.most_common(1)[0][1] > (len(S) + 1) / 2:
-            return ''
-        
-        heap = []
-        for ele,c in count.items():        
-            heappush(heap, (-c, ele))
-            
-        res = ''
-        prev_c = 0
-        prev_char = ''
-        while heap:
-            c, ele = heappop(heap)
-            res += ele
-            if prev_c < 0:
-                heappush(heap, (prev_c, prev_char))
-            c += 1
-            prev_c = c
-            prev_char = ele
-        return res
-            
-            
-        
         
      
