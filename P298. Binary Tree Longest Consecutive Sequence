@@ -8,6 +8,33 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
+        if not root:
+            return 0
+        
+        self.maxLength = -sys.maxsize
+        self.dfs(root, 1)
+        return self.maxLength
+    
+    def dfs(self, node, cur_length):
+        self.maxLength = max(self.maxLength, cur_length)
+        
+        if node.left and node.val + 1 == node.left.val:
+            self.dfs(node.left, cur_length + 1)
+        elif node.left:
+            self.dfs(node.left, 1)
+            
+        if node.right and node.val + 1 == node.right.val:
+            self.dfs(node.right, cur_length + 1) 
+        elif node.right:
+            self.dfs(node.right, 1)
+            
+
+class Solution(object):
+    def longestConsecutive(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
         if not root: 
             return 0
         
