@@ -36,6 +36,7 @@ class Solution(object):
 # time O(nlgk)， space O(k)
 
 # priority queue 本质上是list，但是给val 赋予了priority， 每次都会pop出priority最小的值，因为size为k，所以time, space complexity会减少
+
 from Queue import PriorityQueue
 class Solution(object):
     def mergeKLists(self, lists):
@@ -48,15 +49,17 @@ class Solution(object):
             if l:
                 q.put((l.val, l))
         
-        dummy = head = ListNode(0)
+        dummy = ListNode(0)
+        p = dummy
+        
         while not q.empty():
             val, node = q.get()
             new_node = ListNode(val)
-            head.next = new_node
-            head = head.next
-            node = node.next
-            if node:
-                q.put((node.val, node))
+            p.next = new_node
+            p = p.next
+            if node.next:
+                q.put((node.next.val, node.next))
+            
         return dummy.next
             
            
