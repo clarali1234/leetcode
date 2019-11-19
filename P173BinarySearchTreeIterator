@@ -6,7 +6,8 @@
  为了能够快速定位到父节点，我们可以用栈将遍历路径暂存起来，当进行next()操作时，我们弹出栈顶元素并进行访问，
  如果它有右子树的话就遍历它的右子树；如果没有右子树，当下次出栈操作时就是访问当前节点的父节点了。
 
-
+# average time O(1)
+# space o(h) use stack to simulate inorder traversal
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -21,7 +22,7 @@ class BSTIterator:
         self.stack = []
         self.push_left(root) # function to do the in order traversal to put the node into stack
         
-
+    # average time for next is O(1), put left operation O(n)
     def next(self) -> int:
         """
         @return the next smallest number
