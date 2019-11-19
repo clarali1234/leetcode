@@ -1,0 +1,76 @@
+# dfs
+# time O(n)
+# space O(n)
+ 
+# serialize 1 3 5 # 6 # # 2 # 4 # #
+
+"""
+# Definition for a Node.
+class Node(object):
+    def __init__(self, val, children):
+        self.val = val
+        self.children = children
+"""
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+        
+        :type root: Node
+        :rtype: str
+        """
+        if not root:
+            return []
+        
+        self.res = []
+        self.dfs(root)
+        return ' '.join(self.res)
+    
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        self.res.append(str(node.val))
+        
+        for child in node.children:
+            self.dfs(child)
+            
+        self.res.append('#')
+        
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+        
+        :type data: str
+        :rtype: Node
+        """
+        if not data:
+            return None
+        
+        self.queue = collections.deque(
+            data.split()
+        )
+        
+        root = Node(int(self.queue.popleft()), [])
+        
+        self.build(root)
+        return root
+    
+    def build(self,node):
+        if not self.queue:
+            return 
+        
+        # add child nodes with the subtree
+        while self.queue[0] != '#':
+            val = self.queue.popleft()
+            child = Node(int(val), [])
+            node.children.append(child)
+            self.build(child)
+            
+        self.queue.popleft()
+        
+        
+
+# Your Codec object will be instantiated and called as such:
+# codec = Codec()
+# codec.deserialize(codec.serialize(root))
