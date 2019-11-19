@@ -1,4 +1,6 @@
 # time O(n), space O(n),扫描
+# for each element, the traped water is the difference bewteen the minumum of left max and right max height to it's current
+# height
 
 # 每个位置上的盛水数目 = min(左侧最高，右侧最高) - 当前高度
 # 从左到右扫描一边数组，获得每个位置往左这一段的最大值，再从右到左扫描一次获得每个位置向右的最大值。
