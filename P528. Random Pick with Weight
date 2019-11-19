@@ -27,17 +27,18 @@ class Solution(object):
         :rtype: int
         """
         target = random.randint(0, self.prefix[-1] - 1)
-        # find the first ele > target
         left = 0
-        right = len(self.prefix ) - 1
-        while left < right:
+        right = len(self.prefix) - 1
+        
+        while left + 1 < right:
             mid = (left + right) // 2
-            if self.prefix[mid] <= target:
+            # find first > target in the right half
+            if target >= self.prefix[mid]:
                 left = mid + 1
             else:
-                right = mid 
-        if self.prefix[left] < target:
-            return right
-        return left
+                right = mid
+        if self.prefix[left] > target:
+            return left
+        return right
                 
         
