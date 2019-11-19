@@ -1,6 +1,6 @@
 # use hashmap of the smaller array
 # interate along the larger array 
-# time O(m)
+# time O(m + n)
 # space O(n) m > n
 class Solution(object):
     def intersect(self, nums1, nums2):
