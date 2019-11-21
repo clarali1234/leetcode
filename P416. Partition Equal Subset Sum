@@ -1,3 +1,59 @@
+# time O(n * 2^n)
+  # space O(n * 2^n)
+  class Solution(object):
+    def canPartition(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        self.cache = {}
+        if sum(nums) % 2:
+            return False
+        
+        return self.dfs(nums, 0, sum(nums) / 2)
+    
+    def dfs(self, nums, start, target):
+        if (start, target) in self.cache:
+            return self.cache[(start, target)]
+        
+        if target < 0:
+            return 
+        
+        if target == 0:
+            return True
+        
+        for i in range(start, len(nums)):
+            if self.dfs(nums, i + 1, target - nums[i]):
+                self.cache[(start, target)] = True
+                return True
+            
+        self.cache[(start, target)] = False
+        return False
+ 
+# 优化空间
+# With space optimization:
+# Time: O(n * sum)  n: number of elements,
+# Space: O(sum) 
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s % 2:
+            return False
+        
+        target = s // 2
+        dp = [False] * (target + 1)
+        
+        dp[0] = True
+    
+        for num in nums:
+            for j in range(target, num - 1, -1):
+                dp[j] = dp[j] or dp[j - num]
+        print(dp)
+        
+        return dp[-1]
+      
+      
 # 0-1背包
 # time O(n * m) n: number of elements, m: total_sum
 # space o(n * m) n: number of elements, m: total_sum
@@ -42,52 +98,5 @@ class Solution:
         return dp[-1][-1]
         
         
- # 优化空间
-# With space optimization:
-# Time: O(n * sum)  n: number of elements,
-# Space: O(sum) 
-
-class Solution:
-    def canPartition(self, nums: List[int]) -> bool:
-        s = sum(nums)
-        if s % 2:
-            return False
-        
-        target = s // 2
-        dp = [False] * (target + 1)
-        
-        dp[0] = True
-    
-        for num in nums:
-            for j in range(target, num - 1, -1):
-                dp[j] = dp[j] or dp[j - num]
-        print(dp)
-        
-        return dp[-1]
-      
-  # time O(n * 2^n)
-  # space O(n * 2^n)
-  # class Solution:
-    def canPartition(self, nums):
-        
-        self.cache = {}
-        if sum(nums) % 2:
-            return False
-        else:
-            return self.helper(0, sum(nums)/2, nums)
-    
-    def helper(self, start, target, nums):
-        # Here path is not needed
-            if (start, target) in self.cache:
-                return self.cache[(start, target)]
-            if target < 0:
-                return
-            elif target == 0:
-                return True
-            for i in range(start, len(nums)):
-                if self.helper(i+1, target-nums[i],  nums):
-                    return True
-            self.cache[(start, target)] = False
-            return False
  
-        
+  
