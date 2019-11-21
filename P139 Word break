@@ -1,75 +1,81 @@
-# sol1: dp
+# brute force 
+# time (n^n)
+# spce O(n)
+
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        return self.word_break(s, set(wordDict), 0)
+    
+    def word_break(self, s, wordDict, start):
+        if start == len(s):
+            return True
+        
+        for i in range(start, len(s)):
+            if s[start : i + 1] in wordDict and self.word_break(s, wordDict, i + 1):
+                    return True
+            
+        return False
+        
+# sol2 recursion time O(n^2), space O(n)
+ # memo if s[start:end] can be segmented into a space-separated sequence of one or more dictionary words.
+ 
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        return self.dfs(s, 0, len(s), set(wordDict), {})
+    
+    def dfs(self, s, start, end, wordDict, memo):
+        if (start, end) in memo:
+            return memo[(start, end)]
+        if s[start:end] in wordDict:
+            memo[(start, end)] = True
+            return True
+        for j in range(start, end):
+            if s[start : j + 1] in wordDict and self.dfs(s, j + 1, end, wordDict, memo):
+                memo[(start, end)] = True
+                return True
+                
+        memo[(start, end)] = False
+        return False
+
+# sol3: dp
+# dp[i] means s[:i+1] can be segmented into words in the wordDicts
 # time O(n^2)
 # space O(n)
+
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        if len(wordDict) == 0:
-            return len(s) == 0
-        
-        # dp[i] means s[:i+1] can be segmented into words in the wordDicts
+       
         dp = [False] * (len(s) + 1)
         dp[0] = True
         
         for i in range(len(s)):
             if dp[i]:  
-                for j in range(i, len(s)):
-                    if s[i:j + 1] in wordDict:
-                        dp[j + 1] = True
+                for j in range(i + 1, len(dp)):
+                    if s[i:j] in wordDict:
+                        dp[j] = True
         return dp[-1]
-
-# sol2 recursion time O(n^2), space O(n)
-
-Say length of the string s = N, when dfs() is called for first time, it takes O(N) to find a valid sub-string t.
-Then, we call dfs(s, i, dict, set) and all invalid index will be kept in set when it returns.
-The remaining loop iterations take O(N), since we simply look up hash tables.
-So, the time complexity = O(N) + O(f(N-i)) + O(N) = O(2N + f(N-1)) = O(2N + 2(N-1) + ... + 1) = O(N^2).
-
-class Solution(object):
-    def wordBreak(self, s, wordDict):
-        """
-        :type s: str
-        :type wordDict: List[str]
-        :rtype: bool
-        """
-        start = 0
-        end = len(s) - 1
-        memo = {}
-        wordDict = set(wordDict)
-        return self.dfs(s, start, end, wordDict, memo)
-    
-    def dfs(self, s, start, end, wordDict, memo):
-        if s[start : end + 1] in memo:
-            return memo[s[start : end + 1]]
-        if s[start : end + 1] in wordDict:
-            memo[s[start : end + 1]] = True
-            return True
-        for i in range(start, end + 1):
-            if s[start : i] in wordDict and self.dfs(s, i, end, wordDict, memo):
-                return True
-        memo[s[start : end + 1]] = False
-        return False
         
         
   # follow up:return one possible solution
  class Solution:
     def wordBreak(self, s, wordDict):
+    
         dp = [False] * (len(s) + 1)
         dp[0] = True
-        words = {}
-        words[0] = ''
+        word = ''
         for i in range(len(s)):
             if dp[i]:
-                words[i] = s[:i]
-                for j in range(i, len(s)):
-                    if s[i : j + 1] in wordDict:
-                        dp[j + 1] = True
-                        if words[i]:
-                            words[j + 1] = words[i] + '' + s[i : j + 1]
-                        else:
-                            words[j + 1] =  s[i : j + 1]
+                word += s[:i]
+                for j in range(i + 1, len(dp)):
+                    if s[i : j] in wordDict:
+                        dp[j] = True
+                        if word:
+                            word = word + ',' + s[i : j]
                         break
-        return words[len(s)]
+        return word
     
     
 test = Solution()
 print(test.wordBreak('leetcode',['leet','code', 'leetcode']))        
+
+       
