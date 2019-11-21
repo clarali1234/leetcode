@@ -38,6 +38,8 @@
 1.如果dp数组中已经记录了可以凑成j，那肯定没问题；
 2.如果当前的大小j，减去当前这个数字，还能够凑成的话，那么加上当前数字，肯定也可以凑成，所以这时候也能凑成j。
 
+因为如果从 nums[i] 遍历到 target 的话，假如 nums[i]=1 的话，那么 [1, target] 中所有的 dp 值都是 true，
+
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         s = sum(nums)
