@@ -3,25 +3,21 @@
 
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        # length < 2
-        if len(nums) < 2:
-            return False 
-        
-        # sum_ = 0
-        for i in range(len(nums) - 1):
-            if nums[i] + nums[i + 1] == 0:
-                return True
-        
-        for left in range(len(nums)):
-            # length of numbers >= 2
-            sum_ = nums[left]
-            for right in range(left + 1, len(nums)):
-                sum_ += nums[right]
-                # k != 0
-                if k != 0 and sum_ % k == 0:
+        if k == 0:
+            for i in range(len(nums) - 1):
+                if nums[i] + nums[i + 1] == 0:
                     return True
-        return False
-
+        
+        else:
+            
+            for i in range(len(nums) - 1):
+                sum_ = nums[i]
+                for j in range(i + 1, len(nums)):
+                    sum_ += nums[j]
+                    if sum_ % k == 0 and j - i >= 1:
+                        return True
+                    
+            return False
 
 # If k == 0, then search for any consecutive pair of 0s.
 # Else, dict key:prefix sum mod by k, value :index 
@@ -30,23 +26,28 @@ class Solution:
 
 # time O(n)
 # space O(k)
-class Solution:
-    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        
+class Solution(object):
+    def checkSubarraySum(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: bool
+        """
         if k == 0:
             for i in range(len(nums) - 1):
                 if nums[i] + nums[i + 1] == 0:
                     return True
-            return False
         
-        dic = {0: -1}
-        sum_ = 0
-        for i, num in enumerate(nums):
-            sum_ += num
-            mod = sum_ % k
-            if mod in dic and i - dic[mod] > 1:
-                return True
-            elif mod not in dic:
-                dic[mod] = i
-        return False
+        else:
+            # key: sum_ % k
+            # value: index
+            dic = {0:-1}
+            sum_ = 0
+            for i in range(len(nums)):
+                sum_ = sum_ + nums[i]
+                if sum_ % k in dic and i - dic[sum_% k] > 1:
+                    return True
+                elif sum_ % k not in dic:
+                    dic[sum_ % k] = i
+            return False
             
