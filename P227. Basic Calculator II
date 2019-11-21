@@ -22,31 +22,31 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        if not s:
-            return 0
+        num = 0
+        prev_ope = '+'
         
         stack = []
-        ope = '+'
-        num = 0
-        
         for i, ele in enumerate(s):
+            if not ele:
+                continue
             if ele.isdigit():
                 num = num * 10 + int(ele)
             if i == len(s) - 1 or ele in '+-*/':
-                if ope == '+':
+                if prev_ope == '+':
                     stack.append(num)
-                elif ope == '-':
+                elif prev_ope == '-':
                     stack.append(-num)
-                elif ope == '*':
-                    stack.append(stack.pop() * num)
-                elif ope == '/':
-                    top = stack.pop()
-                    if top < 0:
-                        stack.append(-(-top / num))
+                elif prev_ope == '*':
+                    val = stack.pop()
+                    stack.append(val * num)
+                elif prev_ope == '/':
+                    val = stack.pop()
+                    if val < 0:
+                        stack.append(-(-val//num))
                     else:
-                        stack.append(top // num)
+                        stack.append(val//num)
                 num = 0
-                ope = ele
+                prev_ope = ele
+                
         return sum(stack)
-        
-        
+            
