@@ -1,3 +1,5 @@
+return index, two pointers不能用，因为index 会打乱顺序 
+
 # brute force 
 # time o(n^2)
 # space o(1)
