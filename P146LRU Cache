@@ -7,43 +7,59 @@
 # add and remove 都是针对linked list的操作
 # 操作时先操作linked list node,在操作dict
 
-class Node():
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
+class Node(object):
+    def __init__(self, key, val):
         self.prev = None
         self.next = None
-    
-class LRUCache():
-    def __init__(self, capacity):
-        self.capacity = capacity
+        self.key = key
+        self.val = val
+        
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        # key: key, value:node
         self.dic = {}
+        self.capacity = capacity
         self.dummy_head = Node(0, 0)
         self.dummy_tail = Node(0, 0)
-        self.dummy_head.next = self.dummy_tail
+        self.dummy_head.next = self.dummy_tail 
         self.dummy_tail.prev = self.dummy_head
         
-    def put(self, key, value):
-        if key in self.dic:
-            self.remove(self.dic[key])
-        elif len(self.dic) == self.capacity:
-            head = self.dummy_head.next
-            self.remove(head)
-            del self.dic[head.key]
-        node = Node(key, value)   
-        self.add(node)
-        self.dic[key] = node  
-        
-     
-    def get(self, key):
-    #  使用get使要把最近使用的点先remove, 然后放在tail,
+
+    def get(self, key: int) -> int:
+        # remove the node and add it from the tail to linked list
         if key in self.dic:
             node = self.dic[key]
             self.remove(node)
             self.add(node)
-            return node.value
-        return -1
+            return node.val
+        else:
+            return -1
+        
+        
+
+    def put(self, key: int, value: int) -> None:
+        # first check if the ky in dic
+        # else: check the capacity, remove head
+        # insert 
+        if key in self.dic:
+            self.remove(self.dic[key])
+        else:
+            if self.capacity == len(self.dic):
+                head = self.dummy_head.next
+                self.remove(head)
+                del self.dic[head.key]
+        node = Node(key, value)
+        self.add(node)
+        self.dic[key] = node
             
+            
+    def remove(self, node):
+        node_prev = node.prev
+        node_next = node.next
+        node_prev.next = node.next
+        node.next.prev = node_prev
+        
     def add(self, node):
         tail = self.dummy_tail.prev
         tail.next = node
@@ -51,16 +67,10 @@ class LRUCache():
         node.next = self.dummy_tail
         self.dummy_tail.prev = node
         
-    def remove(self, node):
-        prev_node = node.prev
-        next_node = node.next
-        prev_node.next = next_node
-        next_node.prev = prev_node
-            
-    
         
-            
-    
+        
+
+
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
