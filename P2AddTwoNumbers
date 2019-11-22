@@ -1,34 +1,32 @@
 # time O(max(m,n))
 # space O(max(m,n))
 
-
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-class Solution(object):
-    def addTwoNumbers(self, l1, l2):
-        
-        carry = 0
+class Solution:
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         head = ListNode(0)
-        
         cur = head
-        while True:
+        carry = 0
+        
+        while l1 or l2 or carry:
             if l1:
                 carry += l1.val
                 l1 = l1.next
             if l2:
                 carry += l2.val
                 l2 = l2.next
+            
             cur.val = carry % 10
             carry = carry // 10
             
             if l1 or l2 or carry:
                 cur.next = ListNode(0)
                 cur = cur.next
-            else:
-                break
+            
         return head
         
