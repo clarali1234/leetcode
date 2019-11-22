@@ -1,0 +1,50 @@
+# dfs
+# time O(v+e)
+# space O(v)
+
+In DFS tree an edge (u, v) (u is parent of v in DFS tree) is bridge 
+if there does not exist any other alternative to reach u or an ancestor of u from subtree rooted with v.
+value low[v] indicates earliest visited vertex reachable from subtree rooted with v. 
+The condition for an edge (u, v) to be a bridge is, “low[v] > disc[u]”. (disc Stores discovery times of visited vertices)
+
+
+
+class Solution:
+    def criticalConnections(self, n, connections):
+        adj=collections.defaultdict(set)
+        for a,b in connections:
+            adj[a].add(b)
+            adj[b].add(a)
+        
+        vis=[False]*n
+        time = [0]
+        dfn = [0]*n
+        low = [0]*n
+        parent = [-1]*n
+        res=[]
+        
+        def tarjan(u):
+            vis[u]=True
+            time[0]+=1
+            dfn[u]=low[u]=time[0]
+            
+            for v in adj[u]:
+                if not vis[v]:
+                    parent[v] = u
+                    tarjan(v)
+                    low[u] = min(low[u], low[v])
+                    
+                    if low[v]>dfn[u]:
+                        res.append([u,v])
+                elif v!=parent[u]:
+                    low[u] = min(low[u], dfn[v])
+            
+        for root in range(n):
+            if not vis[root]:
+                tarjan(root)
+        return res
+        
+        
+        
+        
+
