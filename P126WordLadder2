@@ -1,60 +1,48 @@
   # time O(n*m) n: wordlist length, m:word length
   # space O(n*m^2) distance or O(m)???
 
-from collections import defaultdict
-from  collections import deque
-class Solution:
-    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
-        if endWord not in wordList:
-            return []
-        wordList.append(beginWord)
-        indexes = self.build_indexes(wordList)
-        distance = self.bfs(endWord, indexes)
+class Solution(object):
+    def findLadders(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        wordSet = set(wordList)
+        neighbor = collections.defaultdict(list)
+        distance = collections.defaultdict(int)
+        res = []
         
-        result = []
-        self.dfs(beginWord, endWord, distance, indexes, [beginWord], result)
+        def get_similar_words(word):
+            similar_words = []
+            for char in string.ascii_lowercase:
+                for i in range(len(word)):
+                    temp = word[:i] + char + word[i+1:]
+                    if temp != word and temp in wordSet:
+                        similar_words.append(temp)
+            return similar_words
         
-        return result
-    
-    def build_indexes(self, wordList):
-        indexes = {}
-        for word in wordList:
-            for i in range(len(word)):
-                key = word[:i] + '_' + word[i + 1:]
-                if key in indexes:
-                    indexes[key].add(word)
-                else:
-                    indexes[key]  = set([word])
-        return indexes
-    
-    def bfs(self, end, indexes):
-        distance = {end: 0}
-        queue = deque([end])
-        while queue:
-            word = queue.popleft()
-            for next_word in self.get_next_words(word, indexes):
-                if next_word not in distance:
-                    distance[next_word] = distance[word]  + 1
-                    queue.append(next_word)
-        return distance
-    
-    def get_next_words(self, word, indexes):
-        words = []
-        for i in range(len(word)):
-            key = word[:i] + '_' + word[i+1:]
-            for w in indexes.get(key, []):
-                words.append(w)
-        return words
-    
-    def dfs(self, curt, target, distance, indexes, path, result):
-        if curt == target:
-            result.append(list(path))
-            return 
+        def bfs():  # Populate neighbor and distance
+            dq = collections.deque([(beginWord, 0)])
+            distance[beginWord] = 0
+            while dq:
+                word, dist = dq.popleft()
+                for similar_word in get_similar_words(word):
+                    neighbor[word].append(similar_word)
+                    if similar_word not in distance:
+                        dq.append((similar_word, dist+1))
+                        distance[similar_word] = dist + 1
         
-        for word in self.get_next_words(curt, indexes):
-            if curt not in distance or word not in distance or distance[word] != distance[curt] - 1:
-                continue
-            path.append(word)
-            self.dfs(word, target,  distance, indexes, path, result)
-            path.pop()
+        def dfs(temp, word):    # Find sequences based on neighbor and distance
+            if word == endWord:
+                res.append(temp + [word])
+                return
+            for next_word in neighbor[word]:
+                if distance[next_word] == distance[word] + 1:
+                    dfs(temp + [word], next_word)
+       
+        bfs()
+        dfs([], beginWord)
+        return res
         
