@@ -10,10 +10,14 @@ class Solution(object):
         :rtype: List[List[str]]
         """
         wordSet = set(wordList)
+        # get adjacent node in word list
         neighbor = collections.defaultdict(list)
+        
+        # the shortest distance bewtween current word to begin word
         distance = collections.defaultdict(int)
         res = []
         
+        # get adjacent node in word list
         def get_similar_words(word):
             similar_words = []
             for char in string.ascii_lowercase:
@@ -34,7 +38,9 @@ class Solution(object):
                         dq.append((similar_word, dist+1))
                         distance[similar_word] = dist + 1
         
-        def dfs(temp, word):    # Find sequences based on neighbor and distance
+        # Find sequences based on neighbor and distance
+        def dfs(temp, word):    
+      
             if word == endWord:
                 res.append(temp + [word])
                 return
