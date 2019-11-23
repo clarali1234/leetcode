@@ -15,11 +15,10 @@ class Solution(object):
         return res
             
             
-# priority queue
-# time O(nlgk)
-
 # monotonic queue
 # time linear
+# space O(n)
+# maintain the index of decreasing values of windown k 
 单调递减双端队列
 
 逻辑怎么写清楚？要把不同的事分开，相同的事合并。请看这循环里的4件事：
