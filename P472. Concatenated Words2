@@ -1,3 +1,24 @@
+# dfs
+# time m * n^n
+# space O(n)
+
+class Solution(object):
+    def findAllConcatenatedWordsInADict(self, words):
+        """
+        :type words: List[str]
+        :rtype: List[str]
+        """
+        words = set(words)
+        
+        def isConcad(word):
+            for i in range(1, len(word)):
+                if word[:i] in words and (word[i:] in words or isConcad(word[i:])):                 
+                                          return True
+            return False
+                                          
+        return [word for word in words if isConcad(word)]    
+        
+
 class Solution(object):
    
     def findAllConcatenatedWordsInADict(self, words):
