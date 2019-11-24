@@ -52,43 +52,38 @@ class Solution(object):
 
 # method2, emumeration, O(n^2) from middle to two ends
 # 中心线枚举, 每个点作为中心线时找到的最长的回文串
-class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        if not s:
-            return ''
-        
-        longest = ''
-        for middle in range(len(s)):
-            # case: aba
-            sub = self.find_palindrome_from(s, middle, middle)
-            if len(sub) > len(longest):
-                longest = sub
-             # case: abba
-            sub = self.find_palindrome_from(s, middle, middle + 1)
-            if len(sub) > len(longest):
-                longest = sub
-        return longest
-    
-    def find_palindrome_from(self, string, left, right):
-        while left >= 0 and right < len(string) and string[left] == string[right]:
-            left -= 1
-            right += 1
-        return string[left + 1 : right]
-        
 class Solution(object):
     def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
         if not s:
             return ''
         
-        res = ''
+        long_sub = ''
+        max_length = 0
         for i in range(len(s)):
-            res = max(self.helper(s, i, i), self.helper(s, i, i + 1), res, key = len)
-        return res
+            # case 1
+            sub = self.find_palindrom_substring(s, i, i)
+            length = len(sub)
+            if length > max_length:
+                max_length = length
+                long_sub = sub
+                
+            # case 2
+            sub = self.find_palindrom_substring(s, i, i + 1)
+            length = len(sub)
+            if length > max_length:
+                max_length = length
+                long_sub = sub
+        return long_sub
     
-    def helper(self, s, left, right):
+    
+    def find_palindrom_substring(self, s, left, right):
+        
         while left >= 0 and right < len(s) and s[left] == s[right]:
             left -= 1
             right += 1
-        return s[left + 1 : right]
-            
-            
+        return s[left + 1: right]
+                
