@@ -1,12 +1,14 @@
 # dp[i][j] = max(dp[i][j], nums[i] * nums[k] * nums[j] + dp[i][k] + dp[k][j]) # i < k < j
+# 扎破 i+1 ～ j-1中气球获得最大的金币数量
+
+We also need to start at one end, say from right side. 
+We keep on increasing interval by considering one more element from left side at each iteration. 
+This way, the max value in intervals are calculated before using it.
+
 # time O(n^3), space O(n^2)
 
 class Solution(object):
-    def maxCoins(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+    def maxCoins(self, nums)：
         
         if not nums:
             return 0
