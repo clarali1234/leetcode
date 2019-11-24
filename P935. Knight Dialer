@@ -1,5 +1,9 @@
 # time O(N)
 # space O(1)
+
+# dp[i]: how may ways we can reach i
+# iterate each dial 0 to n - 1
+
 # f(1, n) = f(6, n-1) + f(8, n-1).
 #  dp[start] = f(start, n), and update it for each n from 1, 2, ..., N.
 #  f(0, N) + f(1, N) + ... + f(9, N) = sum(dp)
