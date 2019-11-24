@@ -1,0 +1,32 @@
+class Solution(object):
+    def maxProfit(self, k, prices):
+        """
+        :type k: int
+        :type prices: List[int]
+        :rtype: int
+        """
+        n = len(prices)
+        if not prices:
+            return 0
+        
+        if k >= n:
+            res = 0
+            for i in range(1, n):
+                if prices[i] > prices[i - 1]:
+                    res += prices[i] - prices[i - 1]
+            return res
+        
+        
+        else:
+            
+            g = [[0] * (k + 1) for i in range(n)]
+            l = [[0] * (k + 1) for j in range(n)]
+            
+            for i in range(1, n):
+                diff = prices[i] - prices[i - 1]
+                for j in range(1, k + 1):
+                    l[i][j] = max(g[i-1][j-1], l[i - 1][j]) + diff
+                    g[i][j] = max(g[i - 1][j], l[i][j])
+            return g[-1][-1]
+                    
+                
