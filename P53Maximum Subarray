@@ -1,3 +1,77 @@
+# greedy
+# time O(n)
+# space O(1)
+iterate through each element, cur_sum is either stick on the current path or start the path
+max_sum is max(max_sum, cur_sum
+
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        n = len(nums)
+        cur_sum = max_sum = nums[0]
+        for i in range(1, len(nums)):
+            cur_sum = max(cur_sum + nums[i], nums[i])
+            max_sum = max(max_sum, cur_sum)
+        return max_sum
+
+# divide and conquer
+# time O(nlgn)
+# space O(lgn)
+Let's follow here a solution template for the divide and conquer problems :
+
+step1: Define the base case(s).
+step2: Split the problem into subproblems and solve them recursively.
+step3: Merge the solutions for the subproblems to obtain the solution for the original problem.
+
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return self.recursion(nums, 0, len(nums) -1)
+    
+    
+    def recursion(self, nums, left, right):
+        
+        # base case 
+        if left == right:
+            return nums[left]
+        
+        # subproblem
+        middle = (left + right) // 2
+        left = self.recursion(nums, left, middle)
+        right = self.recursion(nums, middle + 1, right)
+        cross = self.cross(nums, left, middle, right)
+        
+        return max(left, right, cross)
+    
+    
+    def cross(self, nums, left, middle, right):
+        if left == right:
+            return nums[left]
+        
+        # subproblems
+        # start from middle to left 
+        left_max = -sys.maxsize
+        cur_sum = 0
+        for i in range(middle, left - 1, -1):
+            cur_sum += nums[i]
+            left_max = max(cur_sum, left_max)
+        
+        # start from middle to right
+        right_max = -sys.maxsize
+        cur_sum = 0
+        for j in range(middle + 1, right + 1):
+            cur_sum += nums[j]
+            right_max = max(right_max, cur_sum)
+        
+        return left_max + right_max
+
 # dp[i] 前i个数的和 max subarry of nums[:i]
 # 转移方程：dp[i] = num[i] if dp[i-1]< 0 else dp[i-1] + num[i]
 # 如果前n-1的数和<0， 当前的数不加dp[n-1]
