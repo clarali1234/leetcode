@@ -1,9 +1,7 @@
 # DP
 # 设定状态: f[i] 表示字符串前i - 1位有多少种解码方案
-# f[i]=f[i-1]|S[i-1]对应一个字母+f[i-2]|S[i-2]S[i-1]对应一个字母
-l  s[i-2]和s[i-1] 两个字符是10----26之间但不包括10和20这两个数时，有两种编码方式，比如23------>[“BC”，“W”]，所以dp[i] = dp[i-1]+dp[i-2]
-l  s[i-2]和s[i-1] 两个字符10或20这两个数时，有一种编码方式，比如10------>[“J”], 所以dp[i] = dp[i-2]
-l  s[i-2]和s[i-1] 两个字符不在上述两种范围时，编码方式为零，比如27，比如01，所以dp[i] = dp[i-1]
+# one step jump dp[i] = dp[i - 1] if s[i - 1] > 0
+# two step jump dp[i] += dp[i - 1] if 10 <= int(s[i - 2:i]) <= 26
 
 # time O(n)
 # space O(n)
@@ -20,8 +18,7 @@ class Solution(object):
         dp = [0] * (len(s) + 1)
         dp[0] = 1
         dp[1] = 1
-        
-        
+      
         for i in range(2, len(dp)):
             # One step jump
             if 0 < int(s[i - 1:i]):
@@ -34,14 +31,9 @@ class Solution(object):
   # follow up 1:recursion time O(2^n), n = len(string)
   class Solution(object):
     def numDecodings(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
         
         if not s or s[0] == '0':
             return 0
-        
         return self.dfs(0, s)
     
     def dfs(self, index, s):
@@ -54,6 +46,7 @@ class Solution(object):
         if index < len(s) - 1 and (s[index] == '1' or s[index] == '2' and s[index + 1] < '7'):
             res += self.dfs(index + 2, s)
         return res
+        
 test = Solution()
 
 # reucursion + memo
@@ -90,31 +83,46 @@ class Solution(object):
      16: "P", 17: "Q",  18: "R", 19: "S", 20: "T",21: "U", 22: "V", 
      23: "W", 24: "X",25: "Y", 26: "Z" }
 
-def decode(s):
-    def is_valid(s):
+class Solution(object):
+    
+    def decode(self, s):
+        if not s or  s[0] == '0':
+            return ''
+        
+        self.res = []
+        self.dfs(s, 0, '')
+        return self.res
+    
+    def dfs(self, s, i, cur_path):
+        
+        if i == len(s):
+            self.res.append(cur_path)
+            return 
+        
+        if self.is_valid(s[i:i + 1]):
+            self.dfs(s, i + 1, cur_path + dic[int(s[i:i + 1])])
+            
+        if i + 1 < len(s) and self.is_valid(s[i:i + 2]):
+            self.dfs(s, i + 2, cur_path + dic[int(s[i:i + 2])])
+    
+    
+    def is_valid(self, s):
         if s[0] == '0':
             return False
         if 0 < int(s) <= 26:
             return True
-    
-    def dfs(s, index, cur, res):
-        
-        if index == len(s):
-            res.append(cur)
-            return res
-
-        if is_valid(s[index : index + 1]):
-            num = int(s[index : index + 1])
-            dfs(s, index + 1, cur + dic[num], res)
-        if index + 1 < len(s) and is_valid(s[index : index + 2]):
-            num2 = int(s[index : index + 2])
-            dfs(s, index + 2, cur + dic[num2], res)
             
-    result = []
-    dfs(s, 0, '', result)
-    return result
+test = Solution()
+print(test.decode('121'))
+    
 print(decode('12'))
  
   # follow up 3: add * 
+  但是input String可以包含 *
+    比如 1*2，可以有  102 （1），112 （3）， 122（3），132(2), 142(2), 152(2), 162(2), 172(2) 182(2) 192 (2)  一共 21种解法。
+    返回多少解, 刚开始想还挺简单的，写起来并不简单，比如 1**1 ，两个*都要判断。。
+    
+    
+
   
   
