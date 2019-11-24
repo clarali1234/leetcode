@@ -23,17 +23,30 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        res = 0
         n = len(s)
+        res = 0
         for i in range(n):
-            for j in range(2):
-                left = i
-                right = left + j
-                while left >= 0 and right < n and s[left] == s[right]:
-                    res += 1
-                    left -= 1
-                    right += 1
+            left = i
+            right = i
+            
+            res += self.count(s, left, right)
+            
+            right = i + 1
+            res += self.count(s, left ,right)
+            
         return res
+    
+    def count(self, s, left, right):
+        res = 0
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            res += 1
+            left -= 1
+            right += 1
+            
+        return res
+            
+                
+        
  
  # 动态规划的思想是，类似中心线两边枚举
  # 我们先确定所有的回文，即 string[start:end]是回文. 
