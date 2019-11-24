@@ -3,83 +3,68 @@
 # space O(n)
 class Solution(object):
     def findTargetSumWays(self, nums, S):
-        """
-        :type nums: List[int]
-        :type S: int
-        :rtype: int
-        """
-        if not nums:
-            return 0
-        
+       
         self.res = 0
-        self.dfs(nums, 0, S)
+        self.dfs(nums, S, 0, 0)
         return self.res
         
-    def dfs(self, nums, start, target):
-        if start >= len(nums):
-            if target == 0:
+    def dfs(self, nums, target, index, cur_sum):
+        if index == len(nums):
+            if cur_sum == target:
                 self.res += 1
             return 
-
-        self.dfs(nums, start + 1, target - nums[start])
-        self.dfs(nums, start + 1, target + nums[start])
+                
+        self.dfs(nums, target, index + 1, cur_sum + nums[index])
+        self.dfs(nums, target, index + 1, cur_sum - nums[index])
         
         
 # sol2 
-# time O(l *n) l: range of sum, n:nums size，since the memomemo array of size l*nl∗n has been filled just once. 
+# time O(l * n) l: range of sum, n:nums size，since the memo array of size l*n has been filled just once. 
 # space O(n) the depth of recursion
- # dic key (index, sum) value:counts from this index, cur_sum to target
+# dic key (index, sum) value: counts from this index, cur_sum to target
         
-
 recursion + memo
 class Solution(object):
     def findTargetSumWays(self, nums, S):
-       
+  
+        # dfs + memo
+        # memo key index, cur_sum , value;  count
         if not nums:
             return 0
         
-        # key: start (index, sum), value = count 从start
-        self.dic = collections.defaultdict(int)
-        return self.dfs(nums, 0, 0, S)
+        return self.dfs(nums, S, 0, 0, {})
     
-    def dfs(self, nums, start_index, cur_sum, target):
-        if (start_index, cur_sum) not in self.dic:
+    def dfs(self, nums, target, cur_sum, index, memo):
+        if (index, cur_sum) not in memo:
             res = 0
             
-            # base case
-            if start_index == len(nums):
+            if index == len(nums):
                 if cur_sum == target:
-                    return 1
+                    res = 1
+                return res
             else:
-                res = self.dfs(nums, start_index + 1, cur_sum + nums[start_index], target) + self.dfs(nums, start_index + 1, cur_sum - nums[start_index], target)
+                res = self.dfs(nums, target, cur_sum + nums[index], index + 1, memo) + self.dfs(nums, target, cur_sum - nums[index], index + 1, memo)
                 
-            self.dic[(start_index, cur_sum)]  = res
-        return self.dic[(start_index, cur_sum)]
-        
-            
+            memo[(index,  cur_sum)] = res
+        return memo[(index,  cur_sum)] 
            
 
 # dp
 DP: time O(n * S)
 space O(s)
-count key:sum, value:ways
+count key:sum, value:count
+
 class Solution(object):
     def findTargetSumWays(self, nums, S):
-        """
-        :type nums: List[int]
-        :type S: int
-        :rtype: int
-        """
         # key:sum, value:count
-        count = collections.defaultdict(int)
-        count[0] = 1
+        dp = collections.defaultdict(int)
         
+        dp[0] = 1
         for num in nums:
-            # key: current sum, value:current count
-            dic = collections.defaultdict(int)
-            for tmp in count:
-                dic[tmp + num] += count[tmp]
-                dic[tmp - num] += count[tmp]
-            count = dic
-            
-        return count[S]
+            dp2 = collections.defaultdict(int)
+            for sum_, c in dp.items():
+                dp2[sum_ + num] += c
+                dp2[sum_ - num] += c
+                
+            dp = dp2
+        return dp[S]
