@@ -3,34 +3,36 @@
 # ouput is the minumum delele times of the string
 # check if it is <= k
 
-# time < 2 ^ n
+# time O(n^2)
 # space O(n)
 
 class Solution(object):
     def isValidPalindrome(self, s, k):
-        """
-        :type s: str
-        :type k: int
-        :rtype: bool
-        """
-        mem = {}
-        return self.f(s,mem) <= k
-    def f(self,s,mem):
-        if s in mem: 
-          return mem[s]
-          
-        i = 0
-        j = len(s) - 1
-        while(i < j):
-            if s[i] == s[j]:
-                i+=1
-                j-=1
+        return self.dfs(s, {}) <= k
+    
+    def dfs(self, s, memo):
+        if s in memo:
+            return memo[s]
+        
+        if not s:
+            return 0
+        
+        left = 0
+        right = len(s) - 1
+        res = 0
+        while left < right:
+            if s[left] == s[right]:
+                left += 1
+                right -= 1
+                
             else:
-                # i : j- 1 or i + 1 : j
-                mem[s] = 1 + min(self.f(s[i:j], mem), self.f(s[i+1:j+1], mem))
-                return mem[s]
-        mem[s] = 0
-        return 0
+                # choose delete left or right
+                res = 1 + min(self.dfs(s[left + 1 : right + 1], memo), self.dfs(s[left : right], memo))
+                memo[s] = res
+                return res
+        memo[s] = res
+        return res
+                
 
 # dp
 thanks !
