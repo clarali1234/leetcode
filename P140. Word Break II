@@ -10,24 +10,23 @@ class Solution(object):
         """
         
         return self.dfs(s, wordDict, {})
-        
     
     def dfs(self, s, wordDict, memo):
         if s in memo:
             return memo[s]
-        if not s:
-            return []
         
         res = []
         for word in wordDict:
             if not s.startswith(word):
                 continue
+            
             if len(s) == len(word):
                 res.append(word)
+                    
             else:
-                rest_res = self.dfs(s[len(word):], wordDict, memo)
-                for rest in rest_res:
+                rests = self.dfs(s[len(word):], wordDict, memo)
+                for rest in rests:
                     res.append(word + ' ' + rest)
         memo[s] = res
         return res
-                
+                    
