@@ -61,26 +61,5 @@ class Solution:
         return dp[-1]
         
         
-  # follow up:return one possible solution
- class Solution:
-    def wordBreak(self, s, wordDict):
-    
-        dp = [False] * (len(s) + 1)
-        dp[0] = True
-        word = ''
-        for i in range(len(s)):
-            if dp[i]:
-                word += s[:i]
-                for j in range(i + 1, len(dp)):
-                    if s[i : j] in wordDict:
-                        dp[j] = True
-                        if word:
-                            word = word + ',' + s[i : j]
-                        break
-        return word
-    
-    
-test = Solution()
-print(test.wordBreak('leetcode',['leet','code', 'leetcode']))        
-
+  
        
