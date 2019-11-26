@@ -1,4 +1,5 @@
-# recursive time O(1)
+# recursive time O(n)
+# space O(1)
 
 class Solution(object):
     def numberToWords(self, num):
