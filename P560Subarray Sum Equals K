@@ -46,30 +46,8 @@ class Solution:
   # 如果current sum > target的时候，第一个index右移。
   
 
-  def subarraySum(nums, target):
-    left = 0
-    right = 0
-    sum_ = 0
-    count = 0
+ def subarSum(nums, k):
     
-    while right < len(nums):
-        sum_ += nums[right]
-        right += 1
-        
-        while left < right and sum_ >= target:
-            if sum_ == target:
-                count += 1
-             # 注意 sum_是否==target，都要-nums[left]
-            sum_ -= nums[left]
-            left += 1
-    return count
-
-print(subarraySum([1,1,1], 2))
-
-
-# follow up sum >= k and no negative integer
-# time O(1)
-def subarraySum(nums, target):
     left = 0
     right = 0
     sum_ = 0
@@ -79,11 +57,43 @@ def subarraySum(nums, target):
         while sum_ < k and right < len(nums):
             sum_ += nums[right]
             right += 1
-        if sum_ >= k:
-            count += len(nums) - right + 1
-        sum_ -= nums[left]
         
+        # sum_ >= k:
+        if sum_ == k:
+            count += 1
+            print(left, right)
+        sum_ -= nums[left]
+            
     return count
+
+# follow up sum >= k and no negative integer
+# time O(n)
+def subarSum(nums, k):
+    
+    left = 0
+    right = 0
+    sum_ = 0
+    count = 0
+    
+    for left in range(len(nums)):
+       
+        while sum_ < k and right < len(nums):
+            sum_ += nums[right]
+            right += 1
+        
+        # sum_ >= k:
+        if sum_ == k:
+            count += 1
+            print(left, right)
+    
+        sum_ -= nums[left]
+            
+    return count
+
+nums = [1,1,1] 
+k = 2
+print(subarSum(nums, k))
+            
 
 
   # prefix sum + hash 
