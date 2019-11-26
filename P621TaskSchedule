@@ -1,7 +1,8 @@
 # freq(A) = k
 # task分成k-1组， 每组n + 1个
 # (k - 1) * (n + 1) + p (和A有相同frequency任务的数量，如果没有则为1）
-# lower bound: schedule all tasks without idle
+# coner case : (n + 1) < num of tasks
+# A B C D E A  n = 2, 3 * 1 + 1 = 4, but acutally we need 6
 
 # time O(n)
 # space O(1) <= 26
@@ -20,8 +21,6 @@
         for count in counts:
             if count == max_count:
                 res += 1
-            else:
-                res += 0
         return max(len(tasks), res)
         
 # in order, task << cooldown
@@ -29,18 +28,18 @@
 import collections
 def taskSchedule(tasks, n):
     
-    last_time = collections.defaultdict(int)
-    least_time = 0
-    
+    # key: task, value:least time that the task done
+    task_time = collections.defaultdict(int)
+    cur_time = 1
     for task in tasks:
-        if task not in last_time or last_time[task] + n < least_time:
-            least_time += 1
-            last_time[task] = least_time
+        if task not in task_time or task_time[task] + n < cur_time:
+            task_time[task] = cur_time
+            cur_time += 1
         else:
-            least_time = last_time[task] + n 
-            least_time += 1
-            last_time[task] = least_time
-    return least_time
+            cur_time = task_time[task] + n + 1
+            task_time[task] = cur_time
+            cur_time += 1
+    return cur_time - 1
             
 tasks = [1, 2, 3, 1, 1, 2]
 # 1 2 3 - 1 - - - 1 2
@@ -57,29 +56,32 @@ print(taskSchedule(tasks, n))
 # follow up 2, keep original order and task >> n
 # queue keep the tasks or idle in the last cooldown 
 # the size of queue is n
+import collections
 def leastInterval2(tasks, n):
-    least_time = 0
-    queue = []
+    # len(queue) 'n + 1'
+    queue = collections.deque([])
+    cur_time = 1
     for task in tasks:
         if task not in queue:
             queue.append(task)
-            least_time += 1
-            if len(queue) > n:
-                queue.pop(0)
-            
+            cur_time += 1
+            if len(queue) > n + 1:
+                queue.popleft()
+                
         else:
-            # add queue only len(queue) = n + 1
-            while len(queue) <= n:
+            # we can only add the task if len(queue) == n + 1 and first ele is task
+            while len(queue) < n + 1:
                 queue.append('-')
-                least_time += 1
-            # add queue only when interval between last[task] >= n
-            while queue.pop(0) != task:
-                queue.append('-')
-                least_time += 1
-            queue.append(task)
-            least_time += 1
+                cur_time += 1
             
-    return least_time
+            while queue.popleft() != task:
+                queue.append('-')
+                cur_time += 1
+            
+            queue.append(task)
+            cur_time += 1
+    return cur_time - 1
+            
 
 print(leastInterval2([1, 2, 3, 1, 1, 2], 3))
                 
