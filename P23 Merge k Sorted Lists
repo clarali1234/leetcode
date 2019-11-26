@@ -67,37 +67,37 @@ class Solution(object):
 # method 2: divide and conquer
 # time O(nlgk), space O(lgk) -> O(1)
 
-class Solution(object):
-    def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        if not lists:
-            return None 
+if not lists or lists == []:
+            return None
+        
         start = 0
         end = len(lists) - 1
-        while start != end or end != 0:
+         
+        while end != 0:
             if start >= end:
                 start = 0
             else:
-                lists[start] = self.merge_two(lists[start], lists[end])
+                lists[start] = self.merge_two(lists, start, end)
                 start += 1
                 end -= 1
                 
         return lists[0]
     
-    def merge_two(self, l1, l2):
+    def merge_two(self, lists, start, end):
         dummy = ListNode(0)
-        head = dummy
+        p = dummy
+        l1 = lists[start]
+        l2 = lists[end]
         while l1 and l2:
-            if l1.val <= l2.val:
-                head.next = l1
+            if l1.val < l2.val:
+                p.next = l1
                 l1 = l1.next
             else:
-                head.next = l2
+                p.next = l2
                 l2 = l2.next
-                
-            head = head.next
-        head.next = l1 or l2
+            p = p.next
+        p.next = l1 or l2
         return dummy.next
+    
+    
+            
