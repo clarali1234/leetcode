@@ -1,13 +1,18 @@
 # recursive time O(1)
-class Solution:
-    def numberToWords(self, num: int) -> str:
-        self.to19 = 'One Two Three Four Five Six Seven Eight Nine Ten Eleven Twelve Thirteen Fourteen Fifteen Sixteen Seventeen Eighteen Nineteen'.split()
-        self.tens = 'Twenty Thirty Forty Fifty Sixty Seventy Eighty Ninety'.split()
-        return ' '.join(self.words(num)) or 'Zero'
+
+class Solution(object):
+    def numberToWords(self, num):
+        
+        if num == 0:
+            return 'Zero'
+        
+        self.to19 = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
+        self.tens = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
+        return ' '.join(self.words(num)) 
         
     def words(self, n):
         if n < 20:
-            return self.to19[n - 1:n]
+            return self.to19[n - 1 : n]
         if n < 100:
             return [self.tens[n // 10 - 2]] + self.words(n % 10)
         if n < 1000:
