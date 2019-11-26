@@ -1,62 +1,37 @@
-#  sliding window 
-We keep expanding the window by moving the right pointer. 
-When the window has all the desired characters, we contract (if possible) and save the smallest window till now.
-
-Algorithm
-
-We start with two pointers, leftleft and rightright initially pointing to the first element of the string SS.
-
-We use the rightright pointer to expand the window until we get a desirable window i.e. 
-a window that contains all of the characters of TT.
-
-Once we have a window with all the characters, we can move the left pointer ahead one by one. 
-If the window is still a desirable one we keep on updating the minimum window size.
-
-If the window is not desirable any more, we repeat step \; 2step2 onwards.
+#  sliding window
 
 # time O(n + m) n:len(s)
 # space O(n + m)
 
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        if not s:
-            return ''
+from collections import *
+class Solution(object):
+    def minWindow(self, s, t):
         
-        target_hash = self.get_target_hash(t)
-        current_hash = {}
-        target_char_num = len(target_hash)
-        matched_char_num = 0
+        cT = collections.Counter(t)
+        cS = collections.defaultdict(int)
+        need_match = len(cT)
+        cur_match = 0
+        i_start = 0
+        res = ''
+        min_length = sys.maxsize
         
-        fast = 0
-        min_string = ''
-        min_length = len(s) + 1
-        
-        for slow in range(len(s)):
-            # expand our right pointer 
-            while fast < len(s) and matched_char_num < target_char_num:
-                if s[fast] in target_hash:
-                    current_hash[s[fast]] = current_hash.get(s[fast], 0) + 1
-                    if current_hash[s[fast]] == target_hash[s[fast]]:
-                        matched_char_num += 1
-                fast += 1
+        for i, char in enumerate(s):
+            cS[char] += 1
+            if cS[char] == cT[char]:
+                cur_match += 1
+            if cur_match == need_match:
+                while cur_match == need_match:
+                    if cS[s[i_start]] == cT[s[i_start]]:
+                        cur_match -=1
+                    cS[s[i_start]] -= 1
+                    i_start += 1
+                    
+                if i - i_start + 2 < min_length:
+                    min_length = i - i_start + 2
+                    res = s[i_start - 1 : i + 1]
+                    
+        return res
+                        
+                        
+                    
                 
-             # check if current is the min_length
-            if min_length > fast - slow and matched_char_num == target_char_num:
-                min_length = min(min_length, fast - slow)
-                min_string = s[slow:fast]
-            
-            # remove our left pointer
-            if s[slow] in target_hash:
-                if current_hash[s[slow]] == target_hash[s[slow]]:
-                    matched_char_num -= 1
-                current_hash[s[slow]] -= 1
-        return min_string
-                
-    def get_target_hash(self, target):
-        target_hash = {}
-        for c in target:
-            target_hash[c] = target_hash.get(c, 0) + 1
-        return target_hash
-        
-            
-        
