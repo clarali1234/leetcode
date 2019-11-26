@@ -5,18 +5,31 @@
 # sol2 sliding window + counter
 # time O(len(s)), space O(len(p))
 
-class Solution:
-    def findAnagrams(self, s: str, p: str) -> List[int]:
+class Solution(object):
+    def findAnagrams(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: List[int]
+        """
+        m = len(s)
+        n = len(p)
+        if m < n:
+            return []
+        
         res = []
-        pCounter = collections.Counter(p)
-        sCounter = collections.Counter(s[:len(p) - 1])
-        for i in range(len(p) - 1, len(s)):
-            sCounter[s[i]] += 1
-            if sCounter == pCounter:
-                res.append(i - len(p) + 1)
-            sCounter[s[i - len(p) + 1]] -= 1
-            if sCounter[s[i - len(p) + 1]] == 0:
-                del sCounter[s[i - len(p) + 1]]
-        return res
+        i_start = 0
+        cp = collections.Counter(p)
+        cs = collections.Counter(s[:n - 1])
+    
+        for j in range(n - 1, m):
+            cur_char = s[j]
+            cs[cur_char] += 1
+            if cs == cp:
+                res.append(i_start)
+            cs[s[i_start]] -= 1
+            if cs[s[i_start]] == 0:
+                del cs[s[i_start]]
+            i_start += 1
             
-      
+        return res
