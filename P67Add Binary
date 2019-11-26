@@ -2,31 +2,35 @@
   # time O(max(m,n), space O(max(m,n))  （we need O(n) to hold our res)
    Let's consider the numbers bit by bit starting from the lowest one and compute the carry this bit will add.
    
-class Solution:
-    def addBinary(self, a: str, b: str) -> str:
+class Solution(object):
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
         m = len(a)
         n = len(b)
         
         if m > n:
-            b = '0' * (m - n) + b
-        elif m < n:
-            a = '0' * (n - m) + a
+            return self.addBinary(b, a)
             
-        res = ''
+        # m < n
+        a =  '0' * (n - m) + a
         carry = 0
-        for i in range(max(m, n) - 1, -1, -1):
-            add = int(a[i]) + int(b[i]) + int(carry)
-            if add >= 2:
-                carry = 1
-                add -= 2
-            else:
-                carry = 0
-            res = str(add) + res
-            
-        if carry:
-            res = str(carry) + res
-        return res
         
+        res = ''
+        for i in range(n - 1, -1, -1):
+            cur = int(a[i]) + int(b[i]) + carry
+            carry = cur // 2
+            cur = cur % 2
+            res = str(cur) + res
+        
+        if carry != 0:
+            res = str(carry) + res
+        
+        return res
+            
  # recursion
 # time O(min(m,n)*min(m,n)) since we have to copy each string at each function call
 # space same O(min(m,n)
