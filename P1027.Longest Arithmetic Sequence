@@ -22,30 +22,26 @@ class Solution(object):
 import collections
 class Solution(object):
     def longestArithSeqLength(self, A):
-        """
-        :type A: List[int]
-        :rtype: int
-        """
-        # state: dp[i] = longestArithSeqLength for A[:i] (i: 3, len(A))
         
-        dp = {}
-        l = collections.defaultdict(list)
-        #seq = {i:[] for i in range(len(A))}
+        # dp[i][j] i : diff, j index
+        
+        dp = collections.defaultdict(int)
+        l = collections.defaultdict(list) # key : diff, value : sequence
         
         for i in range(len(A)):
             for j in range(i + 1, len(A)):
-                dp[A[j] - A[i], j] = dp.get((A[j] - A[i], i), 1) + 1
-                if not l[A[j] - A[i]]:
-                    l[A[j] - A[i]] += [A[i]]
-                    l[A[j] - A[i]] += [A[j]]
+                diff = A[j] - A[i]
+                dp[(diff, j)] = dp.get((diff, i), 1) + 1
+                if not l[diff]:
+                    l[diff].append(A[i])
+                    l[diff].append(A[j])
                 else:
-                    l[A[j] - A[i]] += [A[j]]
-               
-        max_diff = max(dp.keys(), key=lambda k: dp[k])[0]
-        seq = l[max_diff]
-        return max_diff, seq
+                    l[diff].append(A[j])
+        
+        max_diff = max(dp.values())
+        return l[max_diff]
+
     
-        #return dp, max(dp.values()), l[max(dp.keys()[1])]
-    
+A = [9,4,7,2,10]
 test = Solution()
-print(test.longestArithSeqLength([2, 4, 5, 6]))
+print(test.longestArithSeqLength(A))
