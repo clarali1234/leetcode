@@ -13,9 +13,8 @@ class RandomizedSet(object):
         Initialize your data structure here.
         """
         self.nums = []
-        # key : num, value: pos in nums list
-        self.pos = {}
-        
+        # key ele, value:index
+        self.dic = {}
 
     def insert(self, val):
         """
@@ -23,35 +22,44 @@ class RandomizedSet(object):
         :type val: int
         :rtype: bool
         """
-        if val in self.pos:
+        if val in self.dic:
             return False
-        self.nums.append(val)
-        self.pos[val] = len(self.nums) - 1
-        return True
+        else:
+            self.nums.append(val)
+            self.dic[val] = len(self.nums) - 1
+            return True
         
-        
-
     def remove(self, val):
         """
         Removes a value from the set. Returns true if the set contained the specified element.
         :type val: int
         :rtype: bool
         """
-        if val not in self.pos:
+        if val not in self.dic:
             return False
-        idx = self.pos[val]
-        tail = self.nums.pop()
+        else:
+            if val == self.nums[-1]:
+                del self.dic[val]
+                self.nums.pop()
+            else:
+                index = self.dic[val]
+                # 删除tail, 把nums[index]改成tail
+                tail = self.nums.pop()
+                self.nums[index] = tail
+                self.dic[tail] = index
+                
+                # del val in dic
+                del self.dic[val]
+            return True
         
-        if idx < len(self.nums):
-            self.nums[idx] = tail
-            self.pos[tail] = idx
-        del self.pos[val]
-        return True
 
     def getRandom(self):
         """
         Get a random element from the set.
         :rtype: int
         """
-        return self.nums[random.randint(0, len(self.nums)-1)]
         
+        rand = random.randint(0, len(self.nums) -1)
+        return self.nums[rand]
+        
+          
