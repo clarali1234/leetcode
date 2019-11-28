@@ -31,19 +31,21 @@ class Solution(object):
             else:
                 res.append((large_heap[0][0] - small_heap[0][0])/2.)
         
+        
             if n >= large_heap[0][0]:
                 heappush(large_heap,(n,i+k))        # large_heap +1
-                if nums[i] <= large_heap[0][0]:     # small_heap-1, unbalanced
+                if nums[i] <= large_heap[0][0]:     # small_heap-1, unbalanced ->small_heap + 1
                     heappush(small_heap, (-large_heap[0][0], large_heap[0][1]))
                     heappop(large_heap)
                 # else: pass                # large_heap-1, balanced
             else:
-                heappush(small_heap,(-n,i+k))        # large_heap +1
-                if nums[i] >= large_heap[0][0]:     # large_heap-1, unbalanced
+                heappush(small_heap,(-n,i+k))        # small_heap +1
+                if nums[i] >= large_heap[0][0]:     # large_heap-1, unbalanced -> large_heap + 1
                     heappush(large_heap, (-small_heap[0][0], small_heap[0][1]))
                     heappop(small_heap)
                     
                 # else: pass                # small_heap-1, balanced
+                
             while(small_heap and small_heap[0][1] <= i): 
                 heappop(small_heap)  # lazy-deletion
             while(large_heap and large_heap[0][1] <= i): 
