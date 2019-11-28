@@ -31,7 +31,7 @@ class Solution(object):
         else:
             nums = list('018')
         
-        while n > 1:
+        while n >= 2:
             n -= 2
             nums = [a + num + b for num in nums for a, b in '00 11 88 69 96'.split()[n < 2:]]
             
