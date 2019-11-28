@@ -31,7 +31,7 @@ class Solution:
         
         
 # combination 
-# time O(n * 2^n)
+# time O(2^n)
 # space o(n)
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
