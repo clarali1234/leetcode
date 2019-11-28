@@ -1,3 +1,27 @@
+class Solution(object):
+    def generateParenthesis(self, n):
+        """
+        :type n: int
+        :rtype: List[str]
+        """
+        self.res = []
+        self.dfs(n, n, '')
+        return self.res
+        
+    def dfs(self, left, right, cur_path):
+        if left == 0 and right == 0:
+            self.res.append(cur_path)
+            return 
+        
+        if left > 0:
+            self.dfs(left - 1, right, cur_path + '(')
+        
+        if right > left:
+            self.dfs(left, right - 1, cur_path + ')')
+            
+        
+
+
 # dfs(backtracking)
 # worst case time O(2^2n) actually, O(2^2n/sqrt(n))
 # space  case time O(2^2n) and O(n) to store the result
