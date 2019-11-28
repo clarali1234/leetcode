@@ -1,29 +1,56 @@
 # time O(nlgk)
+# space O(k)
 
 from heapq import *
-class Solution:
+class Solution(object):
     def medianSlidingWindow(self, nums, k):
-        lh,rh,rv = [],[],[]
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[float]
+        """
+        small_heap = []
+        large_heap = []
+        res = []
+        
+        # size of small k//2, large k//2 + 1
+        # large heap (val)
+        # small heap (-val)
+        
         # create the initial left and right heap
-        for i,n in enumerate(nums[:k]): heappush(lh, (-n,i))
+        for i,n in enumerate(nums[:k]): 
+            heappush(small_heap, (-n,i))
+            
         for i in range(k - k // 2):
-            heappush(rh, (-lh[0][0], lh[0][1]))
-            heappop(lh)
+            heappush(large_heap, (-small_heap[0][0], small_heap[0][1]))
+            heappop(small_heap)
+            
         for i,n in enumerate(nums[k:]):
-            rv.append(rh[0][0]/1. if k%2 else (rh[0][0] - lh[0][0])/2.)
-            if n >= rh[0][0]:
-                heappush(rh,(n,i+k))        # rh +1
-                if nums[i] <= rh[0][0]:     # lh-1, unbalanced
-                    heappush(lh, (-rh[0][0], rh[0][1]))
-                    heappop(rh)
-                # else: pass                # rh-1, balanced
+            if k%2:
+                res.append(large_heap[0][0]/1.)  
             else:
-                heappush(lh,(-n,i+k))        # rh +1
-                if nums[i] >= rh[0][0]:     # rh-1, unbalanced
-                    heappush(rh, (-lh[0][0], lh[0][1]))
-                    heappop(lh)
-                # else: pass                # lh-1, balanced
-            while(lh and lh[0][1] <= i): heappop(lh)  # lazy-deletion
-            while(rh and rh[0][1] <= i): heappop(rh)  # lazy-deletion
-        rv.append(rh[0][0]/1. if k%2 else (rh[0][0] - lh[0][0])/2.)
-        return rv
+                res.append((large_heap[0][0] - small_heap[0][0])/2.)
+        
+            if n >= large_heap[0][0]:
+                heappush(large_heap,(n,i+k))        # large_heap +1
+                if nums[i] <= large_heap[0][0]:     # small_heap-1, unbalanced
+                    heappush(small_heap, (-large_heap[0][0], large_heap[0][1]))
+                    heappop(large_heap)
+                # else: pass                # large_heap-1, balanced
+            else:
+                heappush(small_heap,(-n,i+k))        # large_heap +1
+                if nums[i] >= large_heap[0][0]:     # large_heap-1, unbalanced
+                    heappush(large_heap, (-small_heap[0][0], small_heap[0][1]))
+                    heappop(small_heap)
+                    
+                # else: pass                # small_heap-1, balanced
+            while(small_heap and small_heap[0][1] <= i): 
+                heappop(small_heap)  # lazy-deletion
+            while(large_heap and large_heap[0][1] <= i): 
+                heappop(large_heap)  # lazy-deletion
+                
+        if k%2:
+            res.append(large_heap[0][0]/1.)  
+        else:
+            res.append((large_heap[0][0] - small_heap[0][0])/2.)
+        return res
