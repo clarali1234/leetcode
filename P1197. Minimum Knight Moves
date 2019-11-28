@@ -1,0 +1,33 @@
+# 
+
+class Solution(object):
+    def minKnightMoves(self, x, y):
+        """
+        :type x: int
+        :type y: int
+        :rtype: int
+        """
+        a = x
+        b = y
+        dx_ = [2, 2, -2, -2, 1, 1, -1, -1] 
+        dy_ = [1, -1, 1, -1, 2, -2, 2, -2] 
+        
+        queue = collections.deque([(0, 0, 0)])
+        visited = set()
+        visited.add((0, 0))
+        while queue:
+            x, y, step = queue.popleft()
+            if x == a and y == b:
+                return step
+            for i in range(8):
+                dx = dx_[i]
+                dy = dy_[i]
+                new_x = x + dx
+                new_y = y + dy
+                new_step = step + 1
+                if (new_x, new_y) not in visited:
+                    queue.append((new_x, new_y, new_step))
+                    visited.add((new_x, new_y))
+        
+            
+        
