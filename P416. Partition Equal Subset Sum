@@ -1,5 +1,5 @@
-# time O(n * 2^n)
-  # space O(n * 2^n)
+# time O(n * sum)
+  # space O(n)
   class Solution(object):
     def canPartition(self, nums):
         """
