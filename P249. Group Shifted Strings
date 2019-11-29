@@ -1,5 +1,5 @@
 # hashtable
-# key : differenct between adjacent chars % 26, value:string
+# key : difference between adjacent chars % 26, value:string
 
 # 遍历string, 求出k,( differenct between adjacent chars % 26), 添加到dict里面
 # return dic[k]
