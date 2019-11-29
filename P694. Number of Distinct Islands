@@ -8,11 +8,10 @@ class Solution(object):
         :rtype: int
         """
         shapes = set([])
-        
+        visited = set([])
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if grid[i][j] == 1:
-                    visited = set([])
+                if grid[i][j] == 1 and (i, j) not in visited:
                     self.shape = []
                     self.dfs(grid,i, j, (0, 0),visited)
                     shapes.add(tuple(self.shape))
@@ -28,4 +27,4 @@ class Solution(object):
                     new_rela = (relative[0] + dx, relative[1] + dy)
                     self.shape.append(new_rela)
                     visited.add((new_x, new_y))
-                    self.dfs(grid,new_x, new_y, new_rela)
+                    self.dfs(grid,new_x, new_y, new_rela, visited)
