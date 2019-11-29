@@ -9,27 +9,23 @@ class Solution(object):
         """
         shapes = set([])
         
-        def dfs(i, j, relative):
-            grid[i][j] = -1
-            
-            for dx, dy in [(0, 1), (0, -1), (1,0), (-1, 0)]:
-                new_x = i + dx
-                new_y = j + dy
-                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1:
-                    new_rela = (relative[0] + dx, relative[1] + dy)
-                    shape.append(new_rela)
-                    dfs(new_x, new_y, new_rela)
-            
-            
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 1:
-                    shape = []
-                    dfs(i, j, (0, 0))
-                    shapes.add(tuple(shape))
+                    visited = set([])
+                    self.shape = []
+                    self.dfs(grid,i, j, (0, 0),visited)
+                    shapes.add(tuple(self.shape))
         return len(shapes)
-        
-            
-       
-        
-        
+    
+    def dfs(self,grid, i, j, relative,visited):
+            grid[i][j] = -1
+            visited.add((i,j))
+            for dx, dy in [(0, 1), (0, -1), (1,0), (-1, 0)]:
+                new_x = i + dx
+                new_y = j + dy
+                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1 and (new_x, new_y) not in visited:
+                    new_rela = (relative[0] + dx, relative[1] + dy)
+                    self.shape.append(new_rela)
+                    visited.add((new_x, new_y))
+                    self.dfs(grid,new_x, new_y, new_rela)
