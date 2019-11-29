@@ -1,0 +1,54 @@
+# time O(n^2)
+
+每次从最大值开始翻转，把最大值翻转到最前面，然后，在总体翻转，把最大值翻转到最后一位，很显然现在归位一个元素了。现在来看A的总长度已经减一了。
+重复上述过程，直到所有元素都归位，即可。
+其中，在代码实现中，可以获取列表A从大到小的排序后在原列表中的下标索引(从1开始的)，然后依次遍历这个索引顺序进行翻转。
+特别注意的地方，每翻转一次，之前的元素位置会发生改变，这个是可以计算出来的。
+例如，前一次翻转的长度为f，当前翻转为i，其i<=f，那么要重新计算i的值为 = f + 1 - i，这个很好理解，不解释。
+
+Input: [3,2,4,1]
+Output: [4,2,4,3]
+B = [3, 1, 2, 4]
+i = 3 [4 2 3 1] 
+i = N [1 3 2 4]
+i = 1, i = 3 + 1 - 1  = 3
+f = 4 
+
+Approach 1: Sort Largest to Smallest
+Intuition
+
+Place the largest element (in location i, 1-indexed) by flipping i to move the element to the first position, 
+then A.length to move it to the last position. 
+Afterwards, the largest element is in the correct position, so we no longer need to pancake-flip by A.length or more.
+We can repeat this process until the array is sorted. Each move will use 2 flips per element.
+
+Algorithm
+
+First, sort the locations from largest value of A to smallest value of A.
+For each element (from largest to smallest) with location i, 
+we will first simulate where this element actually is, 
+based on the pancake flips we have done. For a pancake flip f, if i <= f, 
+then the element has moved from location i to f+1 - i.
+
+After, we flip by i then N-- to put this element in the correct position.
+
+
+class Solution(object):
+    def pancakeSort(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[int]
+        """
+        res = []
+        N = len(A)
+        B = sorted(range(1, N+1), key=lambda i: -A[i-1])  # 获取列表 A 从大到小的排序后在原列表中的下标索引(从1开始的)
+                                                           # 功能类似于 numpy.argsort
+        print(B)
+        for i in B:
+            for f in res:  # 重新计算出当前值的新位置
+                if i <= f:
+                    i = f+1 - i
+            res.extend([i, N])  # 进行一趟翻转
+            N -= 1
+
+        return res
