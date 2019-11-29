@@ -1,9 +1,19 @@
-# dp[i][j] = max(dp[i][j], nums[i] * nums[k] * nums[j] + dp[i][k] + dp[k][j]) # i < k < j
+
+We define a function dp to return the maximum number of coins obtainable on the open interval (left, right). 
+Our base case is if there are no integers on our interval (left + 1 == right), 
+and therefore there are no more balloons that can be added. 
+
+#dp[i][j] = max(dp[i][j], nums[i] * nums[k] * nums[j] + dp[i][k] + dp[k][j]) # i < k < j
 # 扎破 i+1 ～ j-1中气球获得最大的金币数量
+
+nums[left] * nums[k] * nums[right] is the number of coins obtained from adding the kth balloon, 
+and dp(i, k) + dp(k, j) are the maximum number of coins obtained from solving the 
+i and j sides of that balloon respectively.
 
 We also need to start at one end, say from right side. 
 We keep on increasing interval by considering one more element from left side at each iteration. 
 This way, the max value in intervals are calculated before using it.
+
 
 # time O(n^3), space O(n^2)
 
@@ -13,6 +23,8 @@ class Solution(object):
         if not nums:
             return 0
         
+        
+        # [ 1 3,1,5,8 1]
         nums = [1] + nums + [1]
         n = len(nums)
         dp = [[0] * n for i in range(n)]
