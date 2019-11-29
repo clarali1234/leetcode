@@ -17,15 +17,18 @@ class Solution(object):
         """
         
         res = []
+        # right, down, left, up
         dir = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         d = 0
         n = 0
         while len(res) < R * C:
+            # steps in current dir
             for i in range(n//2 + 1):
                 if 0 <= r0 < R and 0 <= c0 < C:
                     res.append([r0, c0])
                 r0 += dir[d][0]
                 c0 += dir[d][1]
+            # change direc
             n += 1
             d = (d + 1) % 4
         return res
