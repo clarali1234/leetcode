@@ -22,7 +22,7 @@ class Solution(object):
         
         
 # 遍历数组，index increase by 2
-# time O(lgn)
+# time O(n/2)
 class Solution(object):
     def singleNonDuplicate(self, nums):
         """
