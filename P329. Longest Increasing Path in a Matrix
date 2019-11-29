@@ -6,7 +6,10 @@
 # 因为每个点都只访问了一遍
 class Solution(object):
     def longestIncreasingPath(self, matrix):
-        
+        """
+        :type matrix: List[List[int]]
+        :rtype: int
+        """
         if len(matrix) == 0 or len(matrix[0]) == 0:
             return 0
     
@@ -28,7 +31,6 @@ class Solution(object):
             if x < 0 or x >= len(matrix) or y < 0 or y >= len(matrix[0]) or matrix[x][y] <= matrix[i][j]:
                 continue
             path = self.dfs(matrix, x, y, memo)
-            memo[(x, y)] = path
             res = max(res, path + 1)
-            
+        memo[(i, j)] = res
         return res
