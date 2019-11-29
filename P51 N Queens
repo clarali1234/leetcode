@@ -1,6 +1,8 @@
 # worst case time O(n!)
 # using backtracking O(n!)
 
+There could be the only one queen in a row and the only one queen in a column.
+That means that there is no need to consider all squares on the board. One could just iterate over the columns.
 
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
@@ -8,11 +10,9 @@ class Solution:
         self.dfs([-1] * n, 0, [], res)
         return res
     
-    # nums is a one-dimension array, like [1, 3, 0, 2] means
-    # first queen is placed in column 1, second queen is placed
-    # in column 3, etc.
+    # nums is a one-dimension array, like [1, 3, 0, 2] means the index of column that queen placed
     
-    # index 代表第几个棋
+    # index 代表第几个棋(代表第几row）
     
     def dfs(self, nums, index, path, res):
         if index == len(nums):
@@ -23,8 +23,7 @@ class Solution:
         for i in range(len(nums)):
             nums[index] = i
             # pruning
-            
-            # 检查这里第index个棋的位置是否和前面的冲突
+            # if current column is not under attack
             if self.valid(nums, index):
                 tmp = '.' * len(nums)
                 self.dfs(nums,index + 1, path + [tmp[:i] + "Q" + tmp[i+1:]], res)
@@ -32,7 +31,7 @@ class Solution:
     # check whether nth queen can be placed in that column
     def valid(self, nums, n):
         for i in range(n):
-    # check if the nth queen and each of the previous queen are in the same diagonal OR same column
+        # check if the nth queen and each of the previous queen are in the same diagonal OR same column
             if abs(nums[i] - nums[n]) == n - i or nums[i] == nums[n]:
                 return False
         return True
