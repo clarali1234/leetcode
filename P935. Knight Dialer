@@ -25,5 +25,4 @@ class Solution(object):
                     dp2[nei] %= MOD
             dp = dp2
         return sum(dp) % MOD
-        return sum(res) % mod
         
