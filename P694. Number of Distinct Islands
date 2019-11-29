@@ -1,6 +1,15 @@
 # distinct islands can be represented by relative coordinate to the leftmost cell on the top row
 # travserse by dfs
 
+At the beginning, we need to find every island, which we can do using a straightforward depth-first search.
+The hard part is deciding whether two islands are the same.
+
+Since two islands are the same if one can be translated to match another, 
+let's translate every island so the top-left corner is (0, 0) 
+For example, if an island is made from squares [(2, 3), (2, 4), (3, 4)], 
+we can think of this shape as [(0, 0), (0, 1), (1, 1)] when anchored at the top-left corner.
+
+
 class Solution(object):
     def numDistinctIslands(self, grid):
         """
