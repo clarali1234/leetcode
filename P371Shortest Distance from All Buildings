@@ -1,3 +1,58 @@
+class Solution(object):
+    def shortestDistance(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    grid[i][j] = -1
+                    count += 1
+        
+        min_dis = sys.maxsize
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    self.reach = 0
+                    self.dis = 0
+                    visited = set()
+                    self.bfs(grid, i, j, 0, visited) 
+                    print(self.reach)
+                    print(count)
+                    if self.reach == count:
+                        min_dis = self.dis
+                        
+        if min_dis == sys.maxsize:
+            return -1
+        return min_dis
+    
+    def bfs(self, grid, x, y, step, visited):
+        queue = collections.deque([(x, y, step)])
+        visited.add((x, y))
+        while queue:
+            x, y, step = queue.popleft()
+            for dx, dy in [(1, 0), (-1, 0), (0,1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                new_step = step + 1
+                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and (new_x, new_y) not in visited:
+                    if grid[new_x][new_y] == 0:
+                        queue.append([new_x,new_y, new_step])
+                        visited.add((new_x, new_y))
+                    elif grid[new_x][new_y] == -1:
+                        visited.add((new_x, new_y))
+                        self.reach += 1
+                        self.dis += step
+                        
+                    
+            
+                        
+                    
+                    
+                
+
 # 无向图最短距离 BFS
 # node ：所有的1都要被访问到
 
