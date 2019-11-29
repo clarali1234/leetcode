@@ -7,6 +7,7 @@ class Trie():
     def __init__(self):
         self.root = TrieNode()
         
+     # insert input is sentence, at the end the sentence, build a '#' for the sentence 
     def insert(self, word):
         cur = self.root
         for c in word:
@@ -14,7 +15,8 @@ class Trie():
                 cur.children[c] = TrieNode()
             cur = cur.children[c]
         cur.children['#'] = word
-        
+      
+    # input, ''/lower case char/'#'
     def search(self, prefix, cur = None):
         if not cur:
             cur = self.root
@@ -23,11 +25,14 @@ class Trie():
                 return []
             cur = cur.children[c]
         
+        # reach to the end the prefix
         res = []
         for ele in cur.children:
+             # met a sentence
             if ele == '#':
                 res.append(cur.children['#'])
             else:
+                # search for empty char until 
                 res += self.search('', cur.children[ele])
         return res
                 
@@ -39,10 +44,12 @@ class AutocompleteSystem(object):
         :type sentences: List[str]
         :type times: List[int]
         """
+        # key:sentence, value:time
         self.track_times = collections.defaultdict()
         for i, s in enumerate(sentences):
             self.track_times[s] = times[i]
         
+        # build trie for sentence
         self.trie = Trie()
         for s in sentences:
             self.trie.insert(s)
@@ -55,14 +62,16 @@ class AutocompleteSystem(object):
         :type c: str
         :rtype: List[str]
         """
+        
         if c == '#':
             self.track_times[self.keyword] = self.track_times.get(self.keyword, 0) + 1
             self.trie.insert(self.keyword)
             self.keyword = ""
             return []
-            
+         
         self.keyword += c
         res = self.trie.search(self.keyword)
+        # sort res by times and ascii value
         res.sort(key = lambda x: (- self.track_times[x], x))
         return res[:3]
             
