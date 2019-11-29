@@ -1,3 +1,7 @@
+https://leetcode.com/problems/sparse-matrix-multiplication/discuss/76151/54ms-Detailed-Summary-of-Easiest-JAVA-solutions-Beating-99.9
+
+The key part of the smart solution is to switch the order of iterations over j and k compared to the brute force one.
+
 # time O(n^3)
 # time O(m * n * l)
 
@@ -25,3 +29,10 @@ class Solution(object):
                         if eleB:
                             res[i][j] += eleA * eleB
         return res
+
+
+有两个很大的稀疏向量，问怎么存储和算他们的dot product. 只存储非零元素和他的index
+，如果压缩后的向量大小为m,n, O(m+n)和O(mlogn)方法都不难想到。他问有没有更好
+，提示divide and conquer，我就说先取一个向量的中间元素，然后搜索他在另一个向
+量中对应元素的位置，这样就把两个矩阵都分别分为两半。他问复杂度，我说我要算一
+下才知道，然后他说他也不知道，不过平均情况应该比前面的好。
