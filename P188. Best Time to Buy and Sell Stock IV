@@ -1,18 +1,20 @@
 https://www.cnblogs.com/grandyang/p/4295761.html
 
-1. 今天刚买的
-那么 Local(i, j) = Global(i-1, j-1)
+1. 今天刚买的 the ith stock buy at today
+那么 Local(i, j) = Global(i-1, j-1) -> dp1[i][j] = dp2[i-1][j-1]
 相当于啥都没干
 
-2. 昨天买的
-那么 Local(i, j) = Global(i-1, j-1) + diff
+2. 昨天买的 the ith stock buy at yesterday
+那么 Local(i, j) = Global(i-1, j-1) + diff -> dp1[i][j] = dp2[i-1][j-1]
 等于Global(i-1, j-1) 中的交易，加上今天干的那一票
 
-3. 更早之前买的
-那么 Local(i, j) = Local(i-1, j) + diff
+3. 更早之前买的 the ith stock buy at earlier
+那么 Local(i, j) = Local(i-1, j) + diff -> dp1[i][j] = dp2[i-1][j] + diff
 昨天别卖了，留到今天卖
 
 我们定义local[i][j]为在到达第i天时最多可进行j次交易并且最后一次交易在最后一天卖出的最大利润，此为局部最优。
+Let dp1[i][j] represents maximum profit we can get from at most i transactions at day j and the last transactions is done at j.
+Let dp2[i][j] represents maximum profit we can get from at most i transactions until vector A[j].
 然后我们定义global[i][j]为在到达第i天时最多可进行j次交易的最大利润，此为全局最优
 
 local[i][j] = max(global[i - 1][j - 1] + max(diff, 0), local[i - 1][j] + diff)
@@ -40,14 +42,14 @@ class Solution(object):
         
         else:
             
-            g = [[0] * (k + 1) for i in range(n)]
-            l = [[0] * (k + 1) for j in range(n)]
+            dp2 = [[0] * (k + 1) for i in range(n)]
+            dp1 = [[0] * (k + 1) for j in range(n)]
             
             for i in range(1, n):
                 diff = prices[i] - prices[i - 1]
                 for j in range(1, k + 1):
-                    l[i][j] = max(g[i-1][j-1], l[i - 1][j]) + diff
-                    g[i][j] = max(g[i - 1][j], l[i][j])
-            return g[-1][-1]
+                    dp1[i][j] = max(dp2[i-1][j-1], dp1[i - 1][j]) + diff
+                    dp2[i][j] = max(dp2[i - 1][j], dp1[i][j])
+            return dp2[-1][-1]
                     
                 
