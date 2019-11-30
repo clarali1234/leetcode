@@ -1,0 +1,72 @@
+
+class MyCircularQueue(object):
+
+    def __init__(self, k):
+        """
+        Initialize your data structure here. Set the size of the queue to be k.
+        :type k: int
+        """
+        self.queue = []
+        self.size = 0
+        self.capacity = k
+
+    def enQueue(self, value):
+        """
+        Insert an element into the circular queue. Return true if the operation is successful.
+        :type value: int
+        :rtype: bool
+        """
+        if not self.isFull():
+            self.queue.append(value)
+            self.size += 1
+            return True
+        return False
+        
+
+    def deQueue(self):
+        """
+        Delete an element from the circular queue. Return true if the operation is successful.
+        :rtype: bool
+        """
+        if not self.isEmpty():
+            self.queue.pop(0)
+            self.size -= 1
+            return True
+        return False
+
+    def Front(self):
+        """
+        Get the front item from the queue.
+        :rtype: int
+        """
+        if not self.isEmpty():
+            return self.queue[0]
+        return -1
+
+    def Rear(self):
+        """
+        Get the last item from the queue.
+        :rtype: int
+        """
+        if not self.isEmpty():
+            return self.queue[self.size - 1]
+        return -1
+
+    def isEmpty(self):
+        """
+        Checks whether the circular queue is empty or not.
+        :rtype: bool
+        """
+        if self.size == 0:
+            return True
+        return False
+
+    def isFull(self):
+        """
+        Checks whether the circular queue is full or not.
+        :rtype: bool
+        """
+        if self.size == self.capacity:
+            return True
+        return False
+        
