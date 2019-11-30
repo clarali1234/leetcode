@@ -1,0 +1,51 @@
+# modify the board value
+# one pass
+# time O(mnmn)
+# space O(mn)
+
+class Solution(object):
+    def countBattleships(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: int
+        """
+        count = 0
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'X':
+                    self.dfs(board, i, j)
+                    count += 1
+        return count
+    
+    
+    def dfs(self, board, x, y):
+        if x < 0 or y < 0 or x >= len(board) or y >= len(board[0]) or board[x][y] == '.':
+            return 
+        
+        board[x][y] = '.'
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+            self.dfs(board, new_x, new_y)
+            
+# one pass, constant space, without modify board
+# time O(mn)
+# space O(1)
+We can count battleships by counting their top-left corner's 'X'.
+That is, board[i][j]=='X' and (not i or board[i-1][j]=='.') and (not j or board[i][j-1]=='.')).
+If a board[i][j] == 'X' but its either left or above cell is also an 'X', 
+then it must be a part of a battleship that we have already counted by counting its top-left 'X'.
+So we don't count this kind of 'X'.
+class Solution(object):
+    def countBattleships(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: int
+        """
+        count = 0
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'X' and (not i or board[i-1][j] == '.') and (not j or board[i][j - 1] == '.'):
+                    count += 1
+        return count
+ 
