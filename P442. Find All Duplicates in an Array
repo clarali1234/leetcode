@@ -1,0 +1,18 @@
+遍历nums，记当前数字为n（取绝对值），将数字n视为下标（因为a[i]∈[1, n]）
+
+当n首次出现时，nums[n - 1]乘以-1
+当n再次出现时，则nums[n - 1]一定＜0，将n加入答案
+
+class Solution(object):
+    def findDuplicates(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        res = []
+        for num in nums:
+            if nums[abs(num) - 1] < 0:
+                res.append(abs(num))
+            else:
+                nums[abs(num) - 1] *= -1
+        return res
