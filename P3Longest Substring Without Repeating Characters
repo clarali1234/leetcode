@@ -12,19 +12,24 @@
 
 # time O(n), space O(k) (k is the length of set)
 
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
-
-        length = 0
-        fast = 0
-        unique_char = set([])
-        
-        for slow in range(len(s)):
-            while fast < len(s) and s[fast] not in unique_char:
-                unique_char.add(s[fast])
-                fast += 1
-            length = max(length, fast - slow)
-            unique_char.remove(s[slow])
-                
-        return length
-                
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        count = collections.defaultdict(int)
+        res = 0
+        j = 0
+        for i in range(len(s)):
+            while j < len(s) and s[j] not in count:
+                count[s[j]] = 1
+                j += 1
+            # exit when j == len(s) or s[j] in count (i, j - 1)
+            res = max(res, j - i)
+            if count[s[i]] == 1:
+                count[s[i]] -= 1
+                del count[s[i]]
+            else:
+                count[s[i]] -= 1
+        return res
