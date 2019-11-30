@@ -5,16 +5,26 @@ class Solution(object):
         :rtype: int
         """
         res = 0
-        # current maximum path length through that level:current level
+       
+        # levels, key: current key; value : max length paht through that level
         # begin with "-1 level" of 0 length
         levels = {-1 : 0}
         # each file/directory is token 
         for token in input.split('\n'):
-            # print(token)
+           
             level = token.count('\t')
-            # len(token) - lab is the length of string in current level
+            # length of string in current level = len(token) - tab(\t)   
             levels[level] = levels[level - 1] + len(token) - level
             
             if '.' in token:
-                # levels[level] + level, length of string + backslash
+                # length of absolute path = length of string + backslash = levels[level] + level, 
                 res = max(res, levels[level] + level)
+        return res
+        
+
+
+lengthLongestPath("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext")
+# token dir
+# token \tsubdir1 = tab + 'subdir1', len
+# level = 0 levels[0] = 0 + 3 - 0 = 3
+# \tsubdir1 level = 1, levels[1] = 3 + 8 - 1 = 10
