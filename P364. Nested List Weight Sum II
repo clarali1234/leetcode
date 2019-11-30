@@ -6,19 +6,17 @@ class Solution(object):
         """
         if not nestedList:
             return 0
-        res = 0
-        return self.dfs(nestedList, res)
-        
+        self.res = 0
+        self.dfs(nestedList)
+        return self.res
     
-    def dfs(self, nestedList, res):
-        nest_list = []
-        for nest in nestedList:
-            if nest.isInteger():
-                res += nest.getInteger()
+    def dfs(self, lists):
+        cur_lists = []
+        for ele in lists:
+            if ele.isInteger():
+                self.res += ele.getInteger()
             else:
-            #   注意这里是+=, append又多了一个list层级关系
-                nest_list += nest.getList()
-                
+                cur_lists += ele.getList()
         if len(cur_lists) > 0:
             self.res += self.dfs(cur_lists)
         return self.res
