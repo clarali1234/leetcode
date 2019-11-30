@@ -1,5 +1,7 @@
 # time O(n)
 # space O(1)
+保存的first small and second small num
+
 class Solution(object):
     def increasingTriplet(self, nums):
         first = second = sys.maxsize
