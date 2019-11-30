@@ -1,33 +1,49 @@
+# sort then enumerate
+# time O(nlgn)
+# space O(1)
+
+class Solution(object):
+    def longestConsecutive(self, nums):
+       
+        if not nums:
+            return 0
+        
+        
+        nums.sort()
+        cur = 1
+        longest = 1
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i - 1]:
+                if nums[i] == nums[i - 1] + 1:
+                    cur += 1
+                    longest = max(longest, cur)
+                else:
+                    cur = 1
+        return longest
+
 # time O(n)
 # space O(n)
-# hashtable
+# hashset
 哈希表，遍历每个数，从中间扩展左右两边，不断刷新最长长度
+
 class Solution(object):
     def longestConsecutive(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        dic = {}
-        for x in nums:
-            dic[x] = 1
-        
-        ans = 0
-        for x in nums:
-            if x in dic:
-                length = 1
-                del dic[x]
-                l = x - 1
-                r = x + 1
-                while l in dic:
-                    length += 1
-                    del dic[l]
-                    l = l - 1
-                while r in dic:
-                    length += 1
-                    del dic[r]
-                    r = r + 1
-                if ans < length:
-                    ans = length
-        return ans
+        longest = 0
+        nums_set = set(nums)
+        cur_num = 0
+        cur_length = 0
+        for num in nums_set:
+            if num - 1 not in nums_set:
+                cur_num = num
+                cur_length = 1
                 
+            while cur_num + 1 in nums_set:
+                cur_num += 1
+                cur_length += 1
+            
+            longest = max(longest, cur_length)
+        return longest
