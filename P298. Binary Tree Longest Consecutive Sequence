@@ -11,23 +11,28 @@ class Solution(object):
         if not root:
             return 0
         
-        self.maxLength = -sys.maxsize
+        self.res = 0
         self.dfs(root, 1)
-        return self.maxLength
+        return self.res
     
-    def dfs(self, node, cur_length):
-        self.maxLength = max(self.maxLength, cur_length)
+    def dfs(self, node, cur_path):
+        self.res = max(self.res, cur_path)
         
-        if node.left and node.val + 1 == node.left.val:
-            self.dfs(node.left, cur_length + 1)
-        elif node.left:
-            self.dfs(node.left, 1)
-            
-        if node.right and node.val + 1 == node.right.val:
-            self.dfs(node.right, cur_length + 1) 
-        elif node.right:
-            self.dfs(node.right, 1)
-            
+        if node.left:
+            if node.left.val - 1 == node.val:
+                self.dfs(node.left, cur_path + 1)
+            else:
+                self.dfs(node.left, 1)
+                
+        if node.right:
+            if node.right.val -1 == node.val:
+                self.dfs(node.right, cur_path + 1)
+            else:
+                self.dfs(node.right, 1)
+                
+                
+                
+                
 
 class Solution(object):
     def longestConsecutive(self, root):
