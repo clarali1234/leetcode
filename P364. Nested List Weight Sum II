@@ -1,8 +1,39 @@
+class Solution(object):
+    def depthSumInverse(self, nestedList):
+        """
+        :type nestedList: List[NestedInteger]
+        :rtype: int
+        """
+        if not nestedList:
+            return 0
+        res = 0
+        return self.dfs(nestedList, res)
+        
+    
+    def dfs(self, nestedList, res):
+        nest_list = []
+        for nest in nestedList:
+            if nest.isInteger():
+                res += nest.getInteger()
+            else:
+            #   注意这里是+=, append又多了一个list层级关系
+                nest_list += nest.getList()
+                
+        if len(cur_lists) > 0:
+            self.res += self.dfs(cur_lists)
+        return self.res
+        
+
 但是解题思路没有变，还可以用 DFS 来做，由于遍历的时候不知道最终的 depth 有多深，则不能遍历的时候就直接累加结果，
 博主最开始的想法是在遍历的过程中建立一个二维数组，把每层的数字都保存起来，然后最后知道了 depth 后，再来计算权重和，
 # dfs
 # The recursion is obvious - traverse the list and if there is any nestedList, find its depth. 
 # The final depth is the maximum depth from any nestedList.
+
+
+
+
+
 
 class Solution(object):
     def depthSumInverse(self, nestedList):
@@ -30,33 +61,7 @@ class Solution(object):
                 self.helper(x.getList(), level+1, max_depth)
         return
     
-    
-
-class Solution(object):
-    def depthSumInverse(self, nestedList):
-        """
-        :type nestedList: List[NestedInteger]
-        :rtype: int
-        """
-        if not nestedList:
-            return 0
-        res = 0
-        return self.dfs(nestedList, res)
-        
-    
-    def dfs(self, nestedList, res):
-        nest_list = []
-        for nest in nestedList:
-            if nest.isInteger():
-                res += nest.getInteger()
-            else:
-            #   注意这里是+=, append又多了一个list层级关系
-                nest_list += nest.getList()
-                
-        if len(cur_lists) > 0:
-            self.res += self.dfs(cur_lists)
-        return self.res
-        
+   
         
    # bfs
    
