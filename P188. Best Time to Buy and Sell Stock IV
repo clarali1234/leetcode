@@ -5,7 +5,7 @@ https://www.cnblogs.com/grandyang/p/4295761.html
 相当于啥都没干
 
 2. 昨天买的 the ith stock buy at yesterday
-那么 Local(i, j) = Global(i-1, j-1) + diff -> dp1[i][j] = dp2[i-1][j-1]
+那么 Local(i, j) = Global(i-1, j-1) + diff -> dp1[i][j] = dp2[i-1][j-1] + diff
 等于Global(i-1, j-1) 中的交易，加上今天干的那一票
 
 3. 更早之前买的 the ith stock buy at earlier
