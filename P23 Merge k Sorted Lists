@@ -67,6 +67,13 @@ class Solution(object):
 # method 2: divide and conquer
 # time O(nlgk), space O(lgk) -> O(1)
 
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+
 class Solution(object):
     def mergeKLists(self, lists):
         """
@@ -76,9 +83,12 @@ class Solution(object):
         if not lists or lists == []:
             return None
                 
-            
+        # l0 l1 l2 l3 l4 l5 inter 1   amount 6 amount-in = 5 
+        # l0 l2 l4          inter 2      6       4 
+        # l0 l2             inter 4      6       2
+        # l0                    8
         amount = len(lists)
-        interval = 1
+        interval = 1 # merge link distance
         while interval < amount:
             for i in range(0, amount - interval, interval * 2):
                 lists[i] = self.merge2Lists(lists[i], lists[i + interval])
@@ -103,9 +113,3 @@ class Solution(object):
             point.next=l1
         return head.next
         
-    
-    
-    
-            
-    
-            
