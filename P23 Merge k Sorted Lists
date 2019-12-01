@@ -73,38 +73,37 @@ class Solution(object):
         :type lists: List[ListNode]
         :rtype: ListNode
         """
-        
         if not lists or lists == []:
             return None
-        
-        start = 0
-        end = len(lists) - 1
-         
-        while end != 0:
-            if start >= end:
-                start = 0
-            else:
-                lists[start] = self.merge_two(lists, start, end)
-                start += 1
-                end -= 1
                 
-        return lists[0]
+            
+        amount = len(lists)
+        interval = 1
+        while interval < amount:
+            for i in range(0, amount - interval, interval * 2):
+                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+            interval *= 2
+        return lists[0] if amount > 0 else lists
+
     
-    def merge_two(self, lists, start, end):
-        dummy = ListNode(0)
-        p = dummy
-        l1 = lists[start]
-        l2 = lists[end]
+    def merge2Lists(self, l1, l2):
+        head = point = ListNode(0)
         while l1 and l2:
-            if l1.val < l2.val:
-                p.next = l1
+            if l1.val <= l2.val:
+                point.next = l1
                 l1 = l1.next
             else:
-                p.next = l2
-                l2 = l2.next
-            p = p.next
-        p.next = l1 or l2
-        return dummy.next
+                point.next = l2
+                l2 = l1
+                l1 = point.next.next
+            point = point.next
+        if not l1:
+            point.next=l2
+        else:
+            point.next=l1
+        return head.next
+        
+    
     
     
             
