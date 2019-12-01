@@ -1,5 +1,5 @@
 # dfs 
-# time O(n*4^(n-1))
+# time O(4^n))
 # space O(n)
 
 class Solution(object):
