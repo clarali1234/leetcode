@@ -4,6 +4,8 @@ The key part of the smart solution is to switch the order of iterations over j a
 
 # time O(n^3)
 # time O(m * n * l)
+# A [2 3  B [1 2        # row = 0, k = 0 , A[0][0] 与B的第一行相乘，
+    4 5]     2 3]                  k = 1, A[0][1] 与B的第二行相乘，   都写在prod[0]第一行
 
 class Solution(object):
     def multiply(self, A, B):
