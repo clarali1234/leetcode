@@ -67,7 +67,14 @@ class Solution(object):
 # method 2: divide and conquer
 # time O(nlgk), space O(lgk) -> O(1)
 
-if not lists or lists == []:
+class Solution(object):
+    def mergeKLists(self, lists):
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        
+        if not lists or lists == []:
             return None
         
         start = 0
@@ -99,5 +106,7 @@ if not lists or lists == []:
         p.next = l1 or l2
         return dummy.next
     
+    
+            
     
             
