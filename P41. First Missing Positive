@@ -1,6 +1,8 @@
-# 尽可能地把数组中不大于n（n为数组长度）的正整数放置到下标+1与其数值相同的位置上
-# 第一个下标+1与数值不同的数字，即为所求。
-# 例如数组nums = [3,4,-1,1]，调整位置后的结果为：[1,-1,3,4]
+# Index as a hash key.
+
+# data preparation: we put 0 < ele <= n to the index: ele - 1
+# travse: first ele which index + 1 != ele 
+# 例如数组nums = [3,4,-1,1]，调整位置后的结果为：[1,-1,3,4] # [-1, 4, 3, 1], [-1, 1, 3, 4], [1, -1, 3, 4]
 # 除第二个数字外，其余数字均满足nums[i] = i + 1，因此返回2
 # time O(n)
 # space O(1)
