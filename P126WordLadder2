@@ -27,7 +27,7 @@ class Solution(object):
                         similar_words.append(temp)
             return similar_words
         
-        def bfs():  # Populate neighbor and distance
+        def bfs():  # Populate neighbor and distance (dis to begin word)
             dq = collections.deque([(beginWord, 0)])
             distance[beginWord] = 0
             while dq:
