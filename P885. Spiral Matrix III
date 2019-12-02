@@ -1,6 +1,4 @@
-# we can find the sequence of steps: 1,1,2,2,3,3,4,4,5,5....
 
-Generate sequence 1,1,2,2,3,3,4,4,5,5
 # n 转换方向的次数
 Let n be index of this sequence.
 Then A0 = 1, A1 = 1, A2 = 2 ......
