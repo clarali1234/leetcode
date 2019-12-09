@@ -2,36 +2,62 @@
 # time O(n^3)
 # space O(1)
 
-class Solution:
-    """
-    @param numbers: Give an array
-    @param target: An integer
-    @return: Find all unique quadruplets in the array which gives the sum of zero
-    """
-    def fourSum(self, numbers, target):
-        # write your code here
-        numbers.sort()
-        res = []
-        length = len(numbers)
-        for i in range(0, length - 3):
-            if i and numbers[i] == numbers[i - 1]:
+class Solution(object):
+    def fourSum(self, nums, target):
+        nums.sort()
+        n = len(nums)
+        self.res = []
+        for i in range(n - 3):
+            if i > 0 and nums[i] == nums[i - 1]:
                 continue
-            for j in range(i + 1, length - 2):
-                if j != i + 1 and numbers[j] == numbers[j - 1]:
+            for j in range(i + 1, n - 2):
+                if j > i + 1 and nums[j] == nums[j - 1]:
                     continue
-                sum_ = target - numbers[i] - numbers[j]
-                left, right = j + 1, length - 1 
-                while left < right:
-                    if numbers[left] + numbers[right] == sum_:
-                        res.append([numbers[i], numbers[j], numbers[left], numbers[right]])
-                        left += 1 
-                        right -= 1 
-                        while left < right and numbers[left] == numbers[left - 1]:
-                            left += 1 
-                        while left < right and numbers[right] == numbers[right + 1]:
-                            right -= 1 
-                    elif numbers[left] + numbers[right] < sum_:
-                        left += 1 
-                    else:
-                        right -= 1 
+                self.find_two(nums, j + 1, n - 1, target - nums[i] - nums[j], nums[i], nums[j])
+        return self.res
+               
+    def find_two(self, nums, i, j, target, n1, n2):
+        while i < j:
+            if nums[i] + nums[j] == target:
+                self.res.append((n1, n2, nums[i], nums[j]))
+                i += 1
+                j -= 1
+                while i < j and nums[i] == nums[i - 1]:
+                    i += 1
+                while i < j and nums[j] == nums[j + 1]:
+                    j -= 1
+            elif nums[i] + nums[j] < target:
+                i += 1
+            else:
+                j -= 1
+
+
+# time O(n^3)
+
+class Solution(object):
+    def fourSum(self, nums, target):
+        nums.sort()
+        res = []
+        self.findNsum(nums, 0, len(nums)-1, target, 4, [], res)
         return res
+
+    def findNsum(self, nums, left, right, target, N, tmp_res, res):
+            if right-left+1 < N or N < 2 or target < nums[left]*N or target > nums[right]*N:  # early termination
+                return
+            if N == 2: # 2数和
+                while left < right:
+                    total = nums[left] + nums[right]
+                    if total == target:
+                        res.append(tmp_res + [nums[left], nums[right]])
+                        left += 1
+                        while left < right and nums[left] == nums[left-1]:
+                            left += 1
+                    elif total < target:
+                        left += 1
+                    else:
+                        right -= 1
+            else: # 递归
+                for i in range(left, right+1):
+                    if i == left or (i > left and nums[i-1] != nums[i]):
+                        self.findNsum(nums, i+1, right, target-nums[i], N-1, tmp_res+[nums[i]], res)
+    
