@@ -1,27 +1,51 @@
 # twice partition, O(n) time 
 
 
-class Solution:
-    def sortColors(self, nums: List[int]) -> None:
-        # 000 111222
-        index  = self.sort(nums, 0, 0)
-        # 000 111 222 
-        self.sort(nums, 1, index)
+class Solution(object):
+    def sortColors(self, nums):
+        n = len(nums)
+        index = self.sort_two(nums, 0, n - 1, 0)
+        self.sort_two(nums, index, n - 1, 1)
         
-    def sort(self, nums, flag, start):
-        left = start
-        right = len(nums) - 1 
-        while left <= right:
-            while left <= right and nums[left] == flag:
-                left += 1
-            while left <= right and nums[right] != flag:
-                right -= 1
-            if left <= right:
-                nums[left], nums[right] = nums[right], nums[left]
-                left += 1
-                right -= 1
-        return left
         
+    def sort_two(self, nums, i, j, flag):
+        while i <= j:
+            while i <= j and nums[i] == flag:
+                i += 1
+            while i <= j and nums[j] != flag:
+                j -= 1
+            
+            if i <= j:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j -= 1
+        return i
+                
+
+class Solution(object):
+    def sortColors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+        
+        n = len(nums)
+        index = self.sort_two(nums, 0, 0, 0)
+        self.sort_two(nums, index, index, 1)
+        
+        
+    def sort_two(self, nums, i, j, flag):
+        while j < len(nums):
+            if nums[j] == flag:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j += 1
+            else:
+                j += 1
+        return i
+                
+                
+                
  # one pass  Three pointers
  # time O(n)
  # space O(1)
@@ -33,21 +57,18 @@ i用来遍历整个数组，碰到0把它和p0指向的数交换，碰到2把它
 # one time partition
 class Solution:
     def sortColors(self, nums: List[int]) -> None:
-        """
-        Do not return anything, modify nums in-place instead.
-        """
-        # one time partition 
 
+        i = 0
+        j = len(nums) - 1
+        index = 0
         
-        left, index, right = 0, 0, len(nums) - 1
-        while index <= right:
+        while index <= j:
             if nums[index] == 0:
-                nums[left], nums[index] = nums[index], nums[left]
+                nums[i], nums[index] = nums[index], nums[i]
+                i += 1
                 index += 1
-                left += 1
             elif nums[index] == 2:
-                nums[index], nums[right] = nums[right], nums[index]
-                # 注意右边换过来的需要再查一遍
-                right -= 1
+                nums[index], nums[j] = nums[j], nums[index]
+                j -= 1
             else:
                 index += 1
