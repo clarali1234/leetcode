@@ -3,7 +3,7 @@
 
 
 
-## sort + two sum
+## sort + two pointers
 # time O(n^2) （sort: O(nlgn), algo: O(n^2))
 # space O(1)
 # 思路： 枚举第一个数，然后进行two sum, 若第一个数和前一个数相同则跳过
