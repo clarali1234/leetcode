@@ -1,0 +1,62 @@
+# brute force
+# travse two trees + hashset
+# time O(m + n)
+# space O(m + n)
+
+class Solution(object):
+    def twoSumBSTs(self, root1, root2, target):
+        
+        set1 = set()
+        set2 = set()
+        set1 = self.dfs(root1, set1)
+        set2 = self.dfs(root2,set2)
+        
+        for val in set1:
+            if target - val in set2:
+                return True
+        return False
+        
+    def dfs(self, node, set_):
+        if not node:
+            return 
+        
+        set_.add((node.val))
+        if node.left:
+            self.dfs(node.left, set_)
+        if node.right:
+            self.dfs(node.right, set_)
+        return set_
+        
+       
+ # recursion 
+ # divide and conquer
+ # time o(mlgn) m: root2, n: root1
+ # space O(m)
+ 
+ class Solution(object):
+    def twoSumBSTs(self, root1, root2, target):
+        """
+        :type root1: TreeNode
+        :type root2: TreeNode
+        :type target: int
+        :rtype: bool
+        """
+        if not root2:
+            return False
+        
+        return self.find_target(root1, target - root2.val) or self.twoSumBSTs(root1, root2.left, target) or self.twoSumBSTs(root1, root2.right, target)
+    
+    def find_target(self, node, target):
+        while node:
+            if node.val == target:
+                return True
+            elif node.val < target:
+                node = node.right
+            else:
+                node = node.left
+        return False
+
+            
+        
+            
+ 
