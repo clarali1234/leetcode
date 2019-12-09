@@ -1,13 +1,25 @@
-class Solution:
-    def twoSumLessThanK(self, A: List[int], K: int) -> int:
+# sort + two pointers
+# sort O(nlgn), two pointers O(n) -> total O(nlgn)
+
+class Solution(object):
+    def twoSumLessThanK(self, A, K):
+        """
+        :type A: List[int]
+        :type K: int
+        :rtype: int
+        """
         A.sort()
-        left, right = 0, len(A) - 1 
-        ans = - 1
-        while left < right:
-            s_cur = A[left] + A[right]
-            if s_cur < K:
-                ans = max(ans, s_cur)
-                left += 1
+        i = 0
+        j = len(A) -1
+        target = K
+        max_sum = - sys.maxsize
+        while i < j:
+            if A[i] + A[j] < target:
+                max_sum = max(max_sum, A[i] + A[j])
+                i += 1
             else:
-                right -= 1
-        return ans
+                j -= 1
+        if max_sum == - sys.maxsize:
+            return -1
+        else:
+            return max_sum
