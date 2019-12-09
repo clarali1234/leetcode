@@ -3,7 +3,13 @@ return index, two pointers不能用，因为index 会打乱顺序
 # brute force 
 # time o(n^2)
 # space o(1)
-
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        n = len(nums)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
 
 
 # dictionary
@@ -12,15 +18,14 @@ return index, two pointers不能用，因为index 会打乱顺序
 
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        # key: num, value: index
-        hash_table = {}
-        for i in range(len(nums)):
-            second_num = target - nums[i]
-            if second_num in hash_table:
-                return [i, hash_table[second_num]]
-            else:
-                hash_table[nums[i]] = i
-                
+        dic = {}
+        for i, ele in enumerate(nums):
+            if target - ele in dic:
+                return [dic[target - ele], i]
+            elif ele not in dic:
+                dic[ele] = i
+            
+        
  # two pointers
  # time O(nlgn)
  # space O(1)
