@@ -1,0 +1,30 @@
+# dfs travsesal
+# two pointers
+# time o(n)
+# space o(n)
+
+
+
+
+# dfs + hashtable
+# time o(n)
+# space O(n)
+class Solution(object):
+    def findTarget(self, root, k):
+        
+        self.values = set()
+        self.res = False
+        self.dfs(root, k)
+        return self.res
+    
+    def dfs(self, node, k):
+        if k - node.val in self.values:
+            self.res = True
+        else:
+            self.values.add(node.val)
+            
+        if node.left:
+            self.dfs(node.left, k)
+        if node.right:
+            self.dfs(node.right, k)
+            
