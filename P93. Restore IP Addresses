@@ -27,7 +27,31 @@ class Solution(object):
             if s and s[0] == '0':
                 break
                 
-
+# check if input can construct valid ip address
+class Solution():
+    def is_valid(self, s):
+        if not s:
+            return False
+        
+        self.res = False
+        self.dfs(s, 0)
+        return self.res
+    
+    def dfs(self, s, num_part):
+        if num_part == 4:
+            if not s:
+                self.res = True
+            return 
+        
+        for i in range(1, 4):
+            if i <= len(s):
+                if int(s[:i]) <= 255:
+                    self.dfs(s[i:], num_part + 1)
+            if s and s[0] == '0':
+                break
+test = Solution()
+print(test.is_valid('1000000000000234'))
+                
 
 # follow up
 # check the current input is valid ip
