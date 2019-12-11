@@ -1,0 +1,53 @@
+# dfs + constraint
+# for parts + if not s
+# time O(3^3), three dots and each has 3 ways to put, 0, 12, 123
+class Solution(object):
+    def restoreIpAddresses(self, s):
+        """
+        :type s: str
+        :rtype: List[str]
+        """
+        if not s:
+            return []
+        self.res = []
+        self.dfs(s, 0, '')
+        return self.res 
+    
+    def dfs(self, s, num_part, cur_path):
+        if num_part == 4:
+            if not s:
+                self.res.append(cur_path[1:])
+            return 
+        
+        for i in range(1, 4):
+            # index to put dot
+            if i <= len(s):
+                if int(s[:i]) <= 255:
+                    self.dfs(s[i:], num_part + 1, cur_path + '.' + s[:i])
+            if s and s[0] == '0':
+                break
+                
+
+
+# follow up
+# check the current input is valid ip
+
+“12.123.1.213” true
+"0..12.324" false
+
+def isValid(s):
+    s = s.split('.')
+    if len(s) != 4:
+        return False
+    
+    for char in s:
+        if not char:
+            return False
+        
+        if char[0] == 0 and not len(char) == 1:
+            return False
+        
+        if int(char[0]) > 255:
+            return False
+        
+    return True
