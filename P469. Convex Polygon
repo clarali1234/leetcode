@@ -1,0 +1,32 @@
+# 遍历每个点
+# check相邻三个点组成的两个向量内积是否同号 
+# A * B = abs(A) * abs(B) * sin(angle)
+# A * B = B_y * A_x - A_x * B_y
+
+class Solution(object):
+    def isConvex(self, points):
+        
+        res = set()
+        for i in range(len(points)):
+            a = points[i]
+            b = points[i - 1]
+            c = points[i - 2]
+            cp = self.cross_product(a, b, c)
+            if cp != 0:
+                res.add(cp)
+        return len(res) == 1  
+        
+    def cross_product(self, a, b, c):
+        # ba, bc
+        # AB = B.y * A.x - B.x * A.y
+        ba_x = a[0] - b[0]
+        ba_y = a[1] - b[1]
+        bc_x = c[0] - b[0]
+        bc_y = c[1] - b[1]
+        cross_product = ba_y * bc_x - ba_x * bc_y
+        tmp = 0
+        if cross_product > 0:
+            tmp = 1
+        elif cross_product < 0:
+            tmp = -1
+        return tmp
