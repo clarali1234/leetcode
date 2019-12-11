@@ -34,8 +34,10 @@ class Solution(object):
                 return False
             return o_count == x_count
         
-        if self.check_win_positions(board, 'X') and x_count!=o_count+1:
-            return False
+        if self.check_win_positions(board, 'X'):
+            if self.check_win_positions(board, '0'):
+                return False
+            return x_count == o_count+1
         return True
         
     def check_win_positions(self, board, player):
