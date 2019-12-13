@@ -1,0 +1,233 @@
+class Solution(object):
+    def decodeWays(self, s):
+        """
+        :type points: List[List[int]]
+        :rtype: bool
+        """
+        self.num_char = {1:'A', 2: "B", 3 : "C", 4 : "D", 5:"E" ,6:  "F", 7: "G",     8:"H", 
+      9:"I", 10: "J", 11:"K", 12:"L",  13 :"M", 14: "N", 15: "O",
+     16: "P", 17: "Q",  18: "R", 19: "S", 20: "T",21: "U", 22: "V", 
+     23: "W", 24: "X",25: "Y", 26: "Z" }
+        
+        self.res = []
+        self.dfs(s, 0, '')
+        return self.res
+    
+    def dfs(self, s, index, cur_path):
+        if index == len(s):
+            self.res.append(cur_path)
+            return 
+        
+        if s[index] != '0':
+            self.dfs(s, index + 1, cur_path + self.num_char[int(s[index])])
+        if 10 <= int(s[index: index + 2]) <= 26:
+            self.dfs(s, index + 2, cur_path + self.num_char[int(s[index : index + 2])])
+            
+                     
+test = Solution()
+print(test.decodeWays("226"))
+
+
+
+'''
+class Solution(object):
+    def isConvex(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: bool
+        """
+        def getdir(i):
+            x0,y0 = points[i-2]
+            x1,y1 = points[i-1]
+            x2,y2 = points[i]
+            tmp = (y1-y0) * (x2-x1) - (x1-x0) * (y2-y1)
+            
+            if tmp > 0:
+                return 1
+            elif tmp < 0:
+                return -1
+            else:
+                return 0
+            
+        res = [getdir(i) for i in range(len(points))]
+        print(res)
+        set_ = set(getdir(i) for i in range(len(points)) if getdir(i))
+        
+        return len(set_) == 1             
+                            
+test = Solution()
+print(test.isConvex([[0,0],[0,1],[1,1],[1,0]]))
+
+'''
+
+# “12.123.1.213” true
+# "0..12.324" false
+'''
+s = '0..12.324'
+print(s.split('.'))
+    
+'''
+class Solution(object):
+    def validTicTacToe(self, board):
+        """
+        :type board: List[str]
+        :rtype: bool
+        """
+        # count_x , count_ o
+        # count_x == count_o or count_x == count_o + 1
+        
+        # check win
+        # if o win, x can't win and count_x == count_o
+        # if x win, o can't win and count_x == count_o + 1
+        
+        count_x = 0
+        count_o = 0
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == "X":
+                    count_x += 1
+                elif  board[i][j] == "O":
+                    count_o += 1
+        
+        if count_o > count_x or count_x - count_o>1:
+            return False
+        
+        if self.check_win(board, '0'):
+            if self.check_win(board, 'X'):
+                return False
+            return count_x == count_o
+        
+        if self.check_win(board, 'X') and count_x != count_o +1:
+            return False
+        return True
+    
+        #if self.check_win(board, 'X'):
+            #if self.check_win(board, '0'):
+                #return False
+            #return count_x == count_o + 1
+        
+        
+    def check_win(self, board, player):
+        # check row
+        for i in range(len(board)):
+            if board[i][0] == board[i][1] == board[i][2] == player:
+                return True                        
+
+        #Check the columns
+        for i in range(len(board)):
+            if board[0][i] == board[1][i] == board[2][i] == player:
+                return True 
+                                        
+        #Check the diagonals
+        if board[0][0] == board[1][1] == board[2][2]  == player or \
+               board[0][2] == board[1][1] == board[2][0] == player:
+            return True
+                        
+        return False
+        
+        
+            
+    
+'''  
+def isValid(s):
+    if not s:
+        return False
+    
+    res = False
+    
+    def dfs(s, num_part):
+        if num_part == 4:
+            if not s:
+                res = True
+            return
+        
+        for i in range(1, 4):
+            if i < len(s):
+                if int(s[:i]) <= 255:
+                    dfs(s[i:], num_part + 1)
+            if s and s[0] == '0':
+                break
+                
+        #return False
+                       
+    dfs(s,0)
+    return res
+
+print(isValid('10000'))
+'''
+'''
+问如果给一个现在棋盘的state （state就是棋盘上现在所有棋的位置和轮到哪个玩家）， 返回all possible moves。
+'''
+class Solution(object):
+    def checker(self, board, player):
+        
+        visited = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if not board[i][j]:
+                    visited.add([i, j])
+        if player == 1:
+            offset = 1
+        else:
+            offset = -1           
+        
+        res = []
+        for i in range(len(board)):
+            for j in range(len(board[0])):           
+                if board[i][j] == player:
+                    for dx, dy in [(1, offset), (-1, offset)]:
+                        x = dx + i
+                        y = dy + j
+                        if [x, y] not in visited and 0 <= x <  len(board) and 0 <= y < len(board[0]):
+                            res.append([x, y])
+                        # eat opponent
+                        if  [x, y] in visited and board[x][y] != player:
+                            board[x][y] = player
+                            res.append([x, y])
+                        
+                        # add king
+            
+# "let us go to the supermarket to get the to go bundle" 
+# n = 5
+# Every word is picked randomly after the last occurrence, if it is the end of the string next round back to first one. First word is picked randomly from any of the words.
+
+# "go bundle let us go" 
+import random
+import collections
+class Solution2(object):
+    def generate_sent(self, s, n):
+        self.words = s.split()
+        # dic : key word, value: next index
+        self.dic = collections.defaultdict(list)
+        self.m = len(self.words)
+        for i, word in enumerate(self.words):
+            if i == self.m - 1:
+                self.dic[word].append(0)
+            else:
+                self.dic[word].append(i + 1)
+        #print(self.dic)
+        cur = random.randint(0, self.m - 1)
+        #res.append(words[cur])
+        res = []
+        self.get_next(cur, res)
+        return ' '.join(res)
+        
+        
+        
+    def get_next(self, cur, res):
+        if len(res) == 5:
+            return 
+        
+        res.append(self.words[cur])
+        next_ = random.choice(self.dic[self.words[cur]]) 
+        self.get_next(next_, res)
+                
+test = Solution2()
+print(test.generate_sent("let us go to the supermarket to get the to go bundle" , 5))
+            
+            
+        
+        
+        
+                    
+                    
