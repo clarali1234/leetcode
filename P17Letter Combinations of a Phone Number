@@ -40,3 +40,40 @@ class Solution(object):
         for char in self.keyboard[digits[index]]:
             self.dfs(digits, index + 1, cur_path + char)
             
+# follow up
+
+class Solution2(object):
+    def phoneCombina(self,digits):
+        self.keyboard = {
+            '2':'abc',
+        '3':'def',
+        '4':'ghi',
+        '5':'jkl',
+        '6':'mno',
+        '7':'pqrs',
+        '8':'tuv',
+        '9':'wxyz',
+        '23':'qwert'
+        }
+        
+        
+        self.res = []
+        self.dfs(digits, 0, '')
+        return self.res
+    
+    def dfs(self,digits, cur_index, cur_path):
+        if cur_index == len(digits):
+            self.res.append(cur_path)
+            return 
+        
+        if digits[cur_index] in self.keyboard:
+            for char in self.keyboard[digits[cur_index]]:
+                self.dfs(digits, cur_index + 1, cur_path + char)
+        if cur_index + 1 < len(digits) and digits[cur_index : cur_index + 2] in self.keyboard:
+            for char in self.keyboard[digits[cur_index : cur_index + 2]]:
+                self.dfs(digits, cur_index + 2, cur_path + char)
+                           
+test = Solution2()
+print(test.phoneCombina('23'))
+
+            
