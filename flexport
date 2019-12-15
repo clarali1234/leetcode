@@ -284,7 +284,116 @@ print(test.generate_sent("let us go to the supermarket to get the to go bundle" 
             
             
         
+# push
+# begin : begin new transaction
+# commit : end current transaction, 结束transaction并保留所有ele
+
+# rollback : remove 删掉当前transaction的所有元素
+
+
+
+class stackWithATransaction(object):
+    def __init__(self):
+        self.transactions = []
+        self.stack = []
+        #self._commit = []
         
+    def push(self,val):
+        if not self.transactions:
+            self.stack.append(val)
+            return
+        else:
+            self.transactions[-1].append(val)
+            
+            
+    def pop(self):
+        if not self.transactions():
+            self.stack.pop()
+            return 
+        else:
+            self.transactions[-1].pop()
+            
+    def top(self):
+        
+        if not self.transactions:
+            return self.stack[-1]
+        else:
+            return self.transactions[-1]
+        
+    def begin(self):
+        self.transactions.append([])
+    
+    def rollback(self):
+        if not self.transactions:
+            return False
+        else:
+            self.transactions.pop()
+  
+        return True
+        
+    def commit(self): # end current trans, store all ele
+        if not self.transactions:
+            return False
+        tran = self.transactions[-1]
+        #self._commit.append(tran)
+        #print('_commit',self._commit)
+        self.transactions.pop()
+
+        if not self.transactions:
+            self.stack.append(self.reverse(tran))
+        else:
+            reverse = self.reverse(tran)
+            self.transactions[-1] += reverse
+            #self.transactions[-1].append(self.reverse(tran))
+                #self.transactions[-1].append(self.reverse(tran))
+            #inner_tran = self.stack
+        #else:
+            #inner_tran = self.transactions[-1]
+            
+        #self.transactions[-1].append(
+        #self._append(self.reverse(tran), inner_tran)
+        return True
+    
+        
+    def _append(self, source, new):
+        while source:
+            new.append(source.pop())
+        
+            
+    def reverse(self, stack):
+        s = []
+        while stack:
+            s.append(stack.pop())
+        return s
+            
+            
+    
+test = stackWithATransaction()
+test.push(4)
+print('trans', test.transactions)
+print('stack', test.stack)
+test.begin()
+test.push(7)
+print('trans', test.transactions)
+print('stack', test.stack)
+test.begin()
+test.push(2)
+print('trans', test.transactions)
+print('stack', test.stack)
+test.rollback()
+print('after rollback 2, trans: ', test.transactions)
+print('stack', test.stack)
+test.begin()
+test.push(10)
+print('after push trans 10, trans:', test.transactions)
+print('stack', test.stack)
+test.commit()
+print('after commit, trans:', test.transactions)
+print('stack', test.stack)
+print('top', test.top())
+test.rollback()
+print(test.top())
+print(test.commit())        
         
                     
                     
