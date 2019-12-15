@@ -158,34 +158,91 @@ print(isValid('10000'))
 '''
 问如果给一个现在棋盘的state （state就是棋盘上现在所有棋的位置和轮到哪个玩家）， 返回all possible moves。
 '''
+import collections
 class Solution(object):
     def checker(self, board, player):
         
         visited = set()
         for i in range(len(board)):
             for j in range(len(board[0])):
-                if not board[i][j]:
-                    visited.add([i, j])
+                if board[i][j]:
+                    visited.add((i, j))
+                    
+        #print(visited)
+        if player == 'x':
+            offset = 1
+        elif player == 'o':
+            offset = -1     
+            
+        
+        if player in ['x', 'o']:
+            direction = [[offset, 1], [offset, -1]]
+        else:
+            direction = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1,-1]]
+        
+        res = collections.defaultdict(list)
+        for i in range(len(board)):
+            for j in range(len(board[0])):           
+                if board[i][j] == player:
+                    #print((i, j))
+                    for dx, dy in direction:
+                        x = dx + i
+                        y = dy + j
+                        #print((i, j), (x, y))
+                        if (x, y) not in visited and 0 <= x < len(board) and 0 <= y < len(board[0]):
+                            res[(i, j)].append([x, y])
+                        # eat opponent
+                        if (x, y) in visited and board[x][y] != player:
+                            #board[x][y] = player
+                            res[(i, j)].append([x, y])
+                        # add king
+                
+                        
+        return res              
+                        
+        
+
+test = Solution()
+board = [['x', 'x', 'k', 'x'], ['', '', '', ''], ['', '', '', ''],['o', 'o', 'ok', 'o']]
+print(test.checker(board, 'ok'))
+
+
+class Solution2(object):
+    def checker(self, board, player):
+        
+        visited = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j]:
+                    visited.add((i, j))
+                    
+        #print(visited)
         if player == 1:
             offset = 1
         else:
             offset = -1           
         
-        res = []
+        res = collections.defaultdict(list)
         for i in range(len(board)):
             for j in range(len(board[0])):           
                 if board[i][j] == player:
-                    for dx, dy in [(1, offset), (-1, offset)]:
+                    #print((i, j))
+                    for dx, dy in [[offset, 1], [offset, -1]]:
                         x = dx + i
                         y = dy + j
-                        if [x, y] not in visited and 0 <= x <  len(board) and 0 <= y < len(board[0]):
-                            res.append([x, y])
+                        #print((i, j), (x, y))
+                        if (x, y) not in visited and 0 <= x < len(board) and 0 <= y < len(board[0]):
+                            res[(i, j)].append([x, y])
                         # eat opponent
-                        if  [x, y] in visited and board[x][y] != player:
-                            board[x][y] = player
-                            res.append([x, y])
-                        
+                        if (x, y) in visited and board[x][y] != player:
+                            #board[x][y] = player
+                            res[(i, j)].append(((i, j), (x, y)))
                         # add king
+                
+                        
+        return res              
+                        
+        
             
 # "let us go to the supermarket to get the to go bundle" 
 # n = 5
