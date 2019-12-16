@@ -445,6 +445,49 @@ dis = {'a':1, 'b':2, 'c':3}
 print(test.rank([['a', 'b','c'], ['c','b'], ['c']]))
 print(test.add_rank(favo2))
 
+'''
+一轮地里的换卡的那个题 eg：  钱包里有2个红色 2个绿色. 想买黑色已知黑色可以用2个红色买   问能不能买。   follow up 是discount。   这个题当时就没太明白 所以我也说不太明白
+'''
 
+colors = ['black', 'blue', 'green', 'white']
+
+class Card(object):
+    def __init__(self, color, value):
+        self.color = color
+        # value is a dictionary, {}
+        # key: exchange color, value: exchange count
+        self.value = value
+
+class Game(object):
+    def __init__(self, cards, card):
+        # cards {} key:color, value: counts
+        self.cur_cards = cards
+        self.card_purchase = card
+        self.discount = {}
+        
+    def canPurchase(self):
+        for card in self.cur_cards:
+            if card_purchase.value[card] <= self.cards[card]:
+                return True
+        return False
+                 
+    def add_discount(self):
+        for card in self.cur_cards:
+            self.discount[card] = 0.1 * self.cur_cards[card]
+    
+    def purchase(self):
+        for card in self.cur_cards:
+            if card_purchase in self.cur_cards:
+                dis = 0.1* self.cur_cards[card_purchase]:
+            else:
+                dis = 0
+            if cur_cards[card] >= self.card_purchase.value[card] * (1-dis):
+                self.cur_cards[card] -= self.card_purchase.value[card] * (1-dis):
+                self.cur_cards[card_purchase] += 1
+    
+    
+                
+                    
+                    
 
                         
