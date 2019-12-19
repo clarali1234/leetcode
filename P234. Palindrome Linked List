@@ -4,6 +4,12 @@
 #         self.val = x
 #         self.next = None
 
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
 class Solution(object):
     def isPalindrome(self, head):
         """
@@ -14,36 +20,34 @@ class Solution(object):
         if not head or not head.next:
             return True
         
-        fast = slow = head
+        # when fast, slow initialize to 0, first n//2 or n//2 + 1
+        fast = head
+        slow = head
         while fast.next and fast.next.next:
+            slow = slow.next
             fast = fast.next.next
-            slow = slow.next
-    
-        slow = slow.next
-        slow = self.reverse(slow)
+            
+        second = slow.next
+        slow.next = None
+        second = self.reverse(second)
         
-        while slow:
-            if head.val != slow.val:
+        while second:
+            if second.val != head.val:
                 return False
+            second = second.next
             head = head.next
-            slow = slow.next
         return True
+        
+        
     
     def reverse(self, head):
-        current = head
-        pre = None
+        cur = head
+        prev = None
         nxt = None
-        while current:
-            nxt = current.next
-            current.next = pre
-            pre = current
-            current = nxt
-        return pre
         
-            
-        
-        
-        
-        
-        
-        
+        while cur:
+            nxt = cur.next 
+            cur.next = prev
+            prev = cur
+            cur = nxt
+        return prev
