@@ -1,0 +1,47 @@
+idea: sliding window + hashtable, enumerate each possible window in s and 
+keep track of cur word dic and compare with original word_dic, 
+for each cur_word if not in dic or > dic, break, else count += 1, 
+if matched count == words count needed, append to res
+- time O(len(s) + counts(words)), space  O(counts(words))
+
+
+class Solution(object):
+    def findSubstring(self, s, words):
+        """
+        :type s: str
+        :type words: List[str]
+        :rtype: List[int]
+        """
+        if not words or not s:
+            return []
+        
+        res = []
+        words_c = len(words)
+        word_len = len(words[0])
+        # counter of words
+        words_dic = collections.defaultdict(int)
+        for word in words:
+            words_dic[word] += 1
+        
+        for i in range(len(s) - word_len * words_c + 1):
+            cur_dic = collections.defaultdict(int)
+            cur_words_c = 0
+            
+            while cur_words_c < words_c:
+                cur_word = s[i + cur_words_c * word_len: i + cur_words_c * word_len + word_len]
+                if cur_word not in words_dic:
+                    break
+                else:
+                    cur_dic[cur_word] += 1
+                    if cur_dic[cur_word] > words_dic[cur_word]:
+                        break
+                cur_words_c += 1
+                
+            if cur_words_c == words_c:
+                res.append(i)
+        return res
+            
+                    
+                    
+            
+        
