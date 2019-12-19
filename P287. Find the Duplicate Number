@@ -1,3 +1,38 @@
+1) sort time O(nlgn), space O(1)
+class Solution(object):
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        for i in range(len(nums) - 1):
+            if nums[i] == nums[i + 1]:
+                return nums[i]
+
+2) binary search
+假设枚举的数字为 n / 2：
+遍历数组，若数组中不大于n / 2的数字个数超过n / 2，则可以确定[1, n /2]范围内一定有解，
+否则可以确定解落在(n / 2, n]范围内。
+
+sol2: piginhole principle + binary search
+# time O(nlgn)
+# space O(1)
+class Solution(object):
+    def findDuplicate(self, nums):
+        
+        left = 1
+        right = len(nums) - 1 #n
+        
+        while left < right:
+            mid = (left + right) // 2
+            count = sum(1 for num in nums if num <= mid)
+            if count > mid:
+                right = mid
+            else:
+                left = mid + 1
+        return left
+                
 (1) 两者一定会相遇 (2) 它们会在环的入口相遇。 要理解这两点，我们注意由于slow位于x_{l'}，如果我们向前走c步，
 那么slow会到达位置x_{l' + c}。由于l'是环长度的倍数，相当于向前走了c步，然后绕环几圈回到原位。
 换言之，x_{l' + c} = x_c。另外，考虑finder变量在行进c步之后的位置。 
@@ -30,26 +65,4 @@ class Solution(object):
                 return finder
 根据鸽笼原理，给定n + 1个范围[1, n]的整数，其中一定存在数字出现至少两次。
 
-假设枚举的数字为 n / 2：
-遍历数组，若数组中不大于n / 2的数字个数超过n / 2，则可以确定[1, n /2]范围内一定有解，
-否则可以确定解落在(n / 2, n]范围内。
 
-sol2: piginhole principle + binary search
-# time O(nlgn)
-# space O(1)
-class Solution(object):
-    def findDuplicate(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        low = 0
-        high = len(nums) - 1 
-        while low < high:
-            mid = (low + high) // 2
-            count = sum(1 for n in nums if n <= mid)
-            if count > mid:
-                high = mid
-            else:
-                low = mid + 1
-        return low
