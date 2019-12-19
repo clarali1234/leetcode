@@ -1,0 +1,21 @@
+class Solution(object):
+    def reverseVowels(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        index = []
+        for i, char in enumerate(s):
+            if char in 'aeiouAEIOU':
+                index.append(i)
+                
+        s = list(s)    
+        left = 0
+        right = len(index) - 1
+        while left < right:
+            s[index[left]], s[index[right]] = s[index[right]], s[index[left]]
+            left += 1
+            right -= 1
+        return ''.join(s)
+        
