@@ -1,0 +1,32 @@
+# - idea: sliding window, iterate each item, add to hashtable, 
+# maintain subarray with k different elements with far and near points; 
+# if len(counter) > k, delete near ele counter, set near = near + 1, far = near
+
+# time O(n)
+# space O(K)
+
+class Solution(object):
+    def subarraysWithKDistinct(self, A, K):
+       
+        far = 0
+        near = 0
+        res = 0
+        hash_table = {}
+        
+        for item in A:
+            hash_table[item] = hash_table.get(item, 0) + 1
+            
+            if len(hash_table) > K:
+                del hash_table[A[near]]
+                near = near + 1
+                far = near
+                
+            if len(hash_table) == K:
+                while hash_table[A[near]] > 1:
+                    hash_table[A[near]] -= 1
+                    near += 1
+                res = res + near - far + 1
+        return res
+        
+        
+ 
