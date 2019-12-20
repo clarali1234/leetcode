@@ -487,7 +487,102 @@ class Game(object):
     
     
                 
+3.     OpenTable
+感觉更像在考database schema design
+1)    怎么存interval. 例如我要预定6pm, 用餐时间两小时，那么被我reserve的位子在6pm-8pm之间不可以被其他人reserve.
+How to know if a table is open for reservation for a timeslot? 
+
+ 
+2)怎样avoid double booking, etc, 怎么解决同时book conflict, 设计怎么存储interval
+# If the table has been reserved, it could not be assigned to another party.
+
+函数 search and book
+设计餐厅搜索有空的时间 还有预定 这两个函数 包括桌子结构
+user interface steps: party size, date, and location ==click search==> A list of restarant, each of which shows list of time available ==click the time==> review of reservation and confirm button to reserve
+
+1)    Contract
+Search crieteria : party size, date, and location 
+List: result: A list of restarant, each of which shows list of time available
+Book: review of reservation and confirm button to reserve
+
+Question: table size
+FindTableForReservation(input, party, date, location)->time abavilable
+ConfimeReservation(table, timeslot)
+
+
+'''
+
+# 需要完善 table class reverve for date(date)function
+class Table(object):
+    def __init__(self, id, capacity, reservation):
+        self.id = id
+        self.maxCapacity = capacity
+        self.reservation = reservation # list of dates
+        self.addReservation = False
+        
+        
+    def getID(self):
+        return self.id
+    
+    def getNumSeats(self):
+        return self.numSeats
+    
+    def getReservation(self):
+        return self.reservation
+    
+    def reserveForDate(self,date):
+        
+    
+    
+    
+    
+class Restaurant(object):
+    def __init__(self, tables, name, location):
+        self.tables = tables # list of tables
+        self.name = name
+        self.location = location
+        self.max_dinhour = 2
+        
+        
+    def findTableForReservation(self, part_size, date):
+        for table in self.tables:
+            if table.getCapacity >= part_size:
+                if table.reserveForDate(date):
+                    reservation = Reservation(self.name, table, date)
+                    return reservation
+        return None
+        
+        
+        
+class Restaurants(object):
+    def __init__(self, rests):
+        self.restaurants = rests
+        
+    def findRestaurant(self, part_size, date, location):
+        for restaurant in self.restaurants:
+            if restaurant.location = location:
+                if restaurant.findTableForReservation(part_size, date):
                     
+        
+        
+class Reservation(object):
+    def __init__(self, restaurant, table, date):
+        self.restaurant = restaurant
+        self.table = table
+        self.date = date
+        
+    def getTable(self):
+        return self.table
+    
+    def getDate(self):
+        return self.date
+    
+    def getRest(self):
+        return self.restaurant
+    
+        
+        
+                   
                     
 
                         
