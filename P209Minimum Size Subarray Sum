@@ -1,23 +1,23 @@
+#two pointers, iterate each j pointer, add to sum, while sum >= s, 
+# compare min_len with j – I + 1,  contract pointer I and update sum
 # two pointers
 # time O(n)
 # space O(1)
 
-class Solution:
-    def minSubArrayLen(self, s: int, nums: List[int]) -> int:
-        if not nums:
-            return 0
+class Solution(object):
+    def minSubArrayLen(self, s, nums):
         
-        fast = 0
-        sum = 0
-        min_length = len(nums) + 1
-        for slow in range(len(nums)):
-            while fast < len(nums) and sum < s:
-                sum = sum + nums[fast]
-                fast += 1
-            if sum >= s:
-                min_length = min(min_length, fast - slow)
-            sum = sum - nums[slow]
-            
-        if min_length == len(nums) + 1:
+        min_len = sys.maxsize
+        
+        i = 0
+        sum_ = 0
+        for j in range(len(nums)):
+            sum_ += nums[j]
+            while sum_ >= s:
+                min_len = min(j - i + 1, min_len)
+                sum_ -= nums[i]
+                i += 1
+                
+        if min_len == sys.maxsize:
             return 0
-        return min_length
+        return min_len
