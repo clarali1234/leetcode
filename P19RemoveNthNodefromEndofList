@@ -1,9 +1,40 @@
-用两个指针，一个指针p从前到后扫描整个链表，一个指针q慢指针p的步数为n+1，那么当p指向尾部的Null时，
-指针q恰好指向要删除节点的前一个节点。由于可能删除头部节点，伪装一个新的头部方便操作。
+# brute force O(n)
+# two pass
+# one pass find total number of nodes
+# second pass remove n - k + 1 the node
+# need to add dummy node, to take care of [1], 1 situation
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        dummy = ListNode(0)
+        dummy.next = head
+        
+        c = 0
+        cur = head
+        while cur:
+            c += 1
+            cur = cur.next
+            
+        m = c - n
+        c2 = m
+    
+        cur2 = dummy
+        while c2 > 0:
+            c2 -= 1
+            cur2 = cur2.next
+        cur2.next = cur2.next.next
+        return dummy.next
+
+# optimal method
+# two pointers
+# move fast to n steps, then move fast and slow together until fast to the end, 
+# fast: m steps (m total num of node)
+# slow: m - n steps slow.next is the node that we should delete.
+
 class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
         dummy = ListNode(0)
         dummy.next = head
+        
         fast = dummy
         slow = dummy
         
