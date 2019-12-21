@@ -7,21 +7,17 @@
 
 class Solution(object):
     def hasCycle(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
-        dic = {}
-        index = 0
+        
+        # dic key:node
+        hashset = set()
         while head:
-            dic[head] = index
-            head = head.next
-            index += 1
-            if head in dic:
+            if head in hashset:
                 return True
+            else:
+                hashset.add(head)
+                head = head.next
         return False
             
-        
         
 # Definition for singly-linked list.
 # class ListNode(object):
@@ -31,10 +27,7 @@ class Solution(object):
 
 class Solution(object):
     def hasCycle(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
+        
         slow = fast = head
         while fast and fast.next:
             slow = slow.next
