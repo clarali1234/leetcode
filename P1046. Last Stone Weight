@@ -1,0 +1,36 @@
+# heap
+# time: O(nlgn)
+# space O(n)
+
+from heapq import * 
+class Solution(object):
+    def lastStoneWeight(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: int
+        """
+        if not stones:
+            return 0
+        
+        heap = [-x for x in stones]
+        heapify(heap)
+        
+        while heap and len(heap) >= 2:
+            heap = self.smash(heap)
+        
+        if not heap:
+            return 0
+        else:
+            return -heap[0]
+            
+    def smash(self, heap):
+        first = -heappop(heap)
+        second = -heappop(heap)
+        if first == second:
+            return heap
+        elif first > second:
+            first = first - second
+            heappush(heap, -first)
+            return heap
+            
+        
