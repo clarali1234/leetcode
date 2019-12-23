@@ -31,16 +31,17 @@ class Solution(object):
     def maxSlidingWindow(self, nums, k):
         
         queue = collections.deque([])
-        
         res = []
-        for i in range(len(nums)):
-            while queue and nums[i] >= nums[queue[-1]]:
+        for j, num in enumerate(nums):
+            while queue and nums[queue[-1]] < num:
                 queue.pop()
-            queue.append(i)
-             
-            if i >= k - 1:
+            queue.append(j)
+            
+            if j >= k - 1:
                 res.append(nums[queue[0]])
-            if i - k + 1 >= queue[0]:
+            
+            # check if the current window size is k
+            if j - queue[0] + 1 == k:
                 queue.popleft()
         return res
-            
+                
