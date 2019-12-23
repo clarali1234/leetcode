@@ -11,33 +11,30 @@
 from heapq import *
 class Solution(object):
     def reorganizeString(self, S):
-        """
-        :type S: str
-        :rtype: str
-        """
+        
+        n = len(S)
         counter = collections.Counter(S)
-        if counter.most_common()[0][1] > (len(S) + 1) // 2:
+        if counter.most_common()[0][1] > n//2 + 1:
             return ''
         
-        heap = []
+        heap = [(-c, ele) for ele,c in counter.items()]
+        heapify(heap)
         
-        for ele, c in counter.items():
-            heappush(heap, (-c, ele))
-            
         res = ''
+        prev_c = 0
         prev_char = ''
-        prev_count = 0
         while heap:
             c, ele = heappop(heap)
-            res += ele
             c += 1
-            if prev_count < 0:
-                heappush(heap, (prev_count, prev_char))
+            res = res + ele
+            if prev_c < 0:
+                heappush(heap, (prev_c, prev_char))
+            prev_c = c
             prev_char = ele
-            prev_count = c
-        return res
-        
-
+        if len(res) == len(S):
+            return res
+        return ''
+            
 # greedy
 # time O(nAlgA) A:size of alphebet
 # space O(n)
