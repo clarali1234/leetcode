@@ -1,5 +1,5 @@
-# time O(n)
-# space O(n)
+# time O(nklgk)
+# space O(nk)
 
 class Solution(object):
     def groupAnagrams(self, strs):
@@ -9,4 +9,18 @@ class Solution(object):
         for str in strs:
             sorteditems = ''.join(sorted(str))
             dic[sorteditems].append(str)
+        return dic.values()
+
+# time O(nk)
+# space O(nk)
+class Solution(object):
+    def groupAnagrams(self, strs):
+        
+        # key:anagram, value strings
+        dic = collections.defaultdict(list)
+        for string in strs:
+            count = [0] * 26
+            for c in string:
+                count[ord(c) - ord('a')] += 1
+            dic[tuple(count)].append(string)
         return dic.values()
