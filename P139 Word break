@@ -9,23 +9,24 @@ T(n) = 2T(n-1) = 2 * 2 * T(n-2) = ... 2^k * T(n-k) = ... = 2^(n-1) T(1)
 
 class Solution(object):
     def wordBreak(self, s, wordDict):
-        wordDict = set(wordDict)
-        return self.dfs(s, wordDict, 0)
+        word_dic = set(wordDict)
+        return self.dfs(s, word_dic, 0)
     
-    def dfs(self, s, wordDict, i):
-        if i == len(s):
+    def dfs(self, s, word_dic, start):
+        if start == len(s):
             return True
         
-        for j in range(i, len(s)):
-            if s[i:j + 1] in wordDict and self.dfs(s, wordDict, j + 1):
+        for end in range(start + 1, len(s) + 1):
+            if s[start : end] in word_dic and self.dfs(s, word_dic, end):
                 return True
-            
         return False
+    
         
 # sol2 recursion time O(n^2), space O(n) (memo O(n), max depth of recursion is O(n))
 class Solution(object):
+
     def wordBreak(self, s, wordDict):
-        
+        # s = "leetcode", wordDict = ["leet", "code"]
         word_dic = set(wordDict)
         return self.dfs(s, 0, {}, word_dic)
     
@@ -56,10 +57,9 @@ class Solution:
         dp = [False] * (len(s) + 1)
         dp[0] = True
         
-        for i in range(len(s)):
+        for i in range(len(dp)):
             # 前i个数 s[:i]
             if dp[i]:  
-                # s[i: ]
                 for j in range(i + 1, len(dp)):
                     if s[i:j] in wordDict:
                         dp[j] = True
