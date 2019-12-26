@@ -1,14 +1,12 @@
 思路：用dfs去遍历graph, 从1开始，若遇到1则染成0， 数dfs的次数
-# DFS time(n^2),因为有剪枝，空间复杂度是递归的深度
+# DFS time(n^2),graph traverse, time (num of node + num of edges(less than m*n*4)), so total is O(MN)
+# space, 因为有剪枝，空间复杂度是递归的深度 + visited set O(MN)
 # worst case O(M * N) in case that the grid map is filled with 
-lands where DFS goes by M×N deep.
+lands where DFS goes by M×N deep. 
 
 class Solution(object):
     def numIslands(self, grid):
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
+        
         if not grid:
             return 0
         
