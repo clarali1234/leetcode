@@ -1,6 +1,11 @@
 # brute force 
-# time (n^n)
-# spce O(n)
+# time (2^n)
+推到：
+T(n) = T(1) + T(2) + ... + T(n-2) + T(n-1)
+T(n+1) = [ T(1) + T(2) + ... + T(n-2) + T(n-1) ] + T(n) = = T(n) + T(n) = 2T(n)
+T(n) = 2T(n-1) = 2 * 2 * T(n-2) = ... 2^k * T(n-k) = ... = 2^(n-1) T(1)
+因此T(n) ~ O(2^n)
+# spce O(n)，递归的深度,递归在内存中同时存在的最大次数
 
 class Solution(object):
     def wordBreak(self, s, wordDict):
@@ -17,28 +22,28 @@ class Solution(object):
             
         return False
         
-# sol2 recursion time O(n^2), space O(n)
- # memo if s[start:end] can be segmented into a space-separated sequence of one or more dictionary words.
- 
+# sol2 recursion time O(n^2), space O(n) (memo O(n), max depth of recursion is O(n))
 class Solution(object):
     def wordBreak(self, s, wordDict):
-        return self.dfs(s, 0, len(s), set(wordDict), {})
+        
+        word_dic = set(wordDict)
+        return self.dfs(s, 0, {}, word_dic)
     
-    def dfs(self, s, start, end, wordDict, memo):
-        if (start, end) in memo:
-            return memo[(start, end)]
-            
-         #不要遗忘
-        if s[start:end] in wordDict:
-            memo[(start, end)] = True
+    def dfs(self, s, start, memo, word_dic):
+        if start in memo:
+            return memo[start]
+        
+        if start == len(s):
+            memo[start] = True
             return True
-        for j in range(start, end):
-            if s[start : j + 1] in wordDict and self.dfs(s, j + 1, end, wordDict, memo):
-                memo[(start, end)] = True
-                return True
-                
-        memo[(start, end)] = False
-        return False
+        
+        for end in range(start + 1, len(s) + 1):
+            if s[start : end] in word_dic and self.dfs(s, end, memo, word_dic):
+                memo[start] = True
+                return memo[start]
+        memo[start] = False
+        return memo[start]
+        
 
 # sol3: dp
 # dp[i] means s[:i] can be segmented into words in the wordDicts
