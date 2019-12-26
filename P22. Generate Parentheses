@@ -1,9 +1,49 @@
+# time O(2^2n)
+# space O(2^2n)
+
 class Solution(object):
     def generateParenthesis(self, n):
         """
         :type n: int
         :rtype: List[str]
         """
+        self.res = []
+        self.dfs(n, n, '')
+        return self.res
+    
+    def dfs(self, left, right, cur_path):
+        if left == 0 and right == 0:
+            if self.isvalid(cur_path):
+                self.res.append(cur_path)
+            return 
+        
+        if left > 0:
+            self.dfs(left - 1, right, cur_path + '(')
+        if right > 0:
+            self.dfs(left, right - 1, cur_path + ')')
+        
+    
+    def isvalid(self, s):
+        left = 0
+        right = 0
+        for char in s:
+            if char == '(':
+                left += 1
+            else:
+                if left:
+                    left -= 1
+                else:
+                    right += 1
+                    
+        return left == 0 and right == 0
+                
+                
+sol2:  reduce the time complexity,  let's only add them when we know it will remain a valid sequence.       
+        
+
+class Solution(object):
+    def generateParenthesis(self, n):
+        
         self.res = []
         self.dfs(n, n, '')
         return self.res
