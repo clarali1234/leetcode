@@ -7,29 +7,27 @@
 
 class Solution(object):
     def findAnagrams(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: List[int]
-        """
+       
         m = len(s)
         n = len(p)
         if m < n:
             return []
         
+        # key:char in p, vlaue:count
+        c_p = collections.Counter(p)
+        c_s = collections.Counter(s[:n - 1]) # n - 2 - 0 + 1 = n - 1
+        i = 0
         res = []
-        i_start = 0
-        cp = collections.Counter(p)
-        cs = collections.Counter(s[:n - 1])
-    
-        for j in range(n - 1, m):
-            cur_char = s[j]
-            cs[cur_char] += 1
-            if cs == cp:
-                res.append(i_start)
-            cs[s[i_start]] -= 1
-            if cs[s[i_start]] == 0:
-                del cs[s[i_start]]
-            i_start += 1
+        for j, char in enumerate(s[n - 1:]):
+            c_s[char] += 1
+            if c_s == c_p:
+                res.append(i)
             
+            if c_s[s[i]] == 1:
+                del c_s[s[i]]
+            else:
+                c_s[s[i]] -= 1
+            i += 1
+                
         return res
+                
