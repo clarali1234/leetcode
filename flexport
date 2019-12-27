@@ -281,7 +281,49 @@ class Solution2(object):
                 
 test = Solution2()
 print(test.generate_sent("let us go to the supermarket to get the to go bundle" , 5))
+
+# follow up
+import collections
+import random
+class Solution(object):
+    def generateSentence(self, s, n, k):
+        s = s.split()
+        # key k word, value:possible next index 
+        self.m = len(s)
+        self.dic = collections.defaultdict(list)
+        double_s = s + s
+        # key is 
+        for i in range(self.m):
+            # current three words i
+            cur_word=double_s[i : i + k]
+            key = ' '.join(cur_word)
+            self.dic[key].append((i + k) % self.m)
             
+        #print(self.dic)
+        
+        res = []
+        start_i = random.randint(0, self.m - 1)
+        cur = double_s[start_i:start_i + k]
+        res += cur
+        
+        # res first k
+        for i in range(k, n):
+            nxt_index = random.choice(self.dic[' '.join(cur)])
+            nxt_word = [s[nxt_index]]
+            res += nxt_word
+            cur = res[len(res) - k:]
+        #print(res)
+        return ' '.join(res)
+        
+
+test = Solution()
+s = 'he is a boy she is a girl is a god'
+k = 2
+n = 5
+print(test.generateSentence(s, n, k))
+
+
+        
             
         
 # push
