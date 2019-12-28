@@ -491,42 +491,91 @@ print(test.add_rank(favo2))
 一轮地里的换卡的那个题 eg：  钱包里有2个红色 2个绿色. 想买黑色已知黑色可以用2个红色买   问能不能买。   follow up 是discount。   这个题当时就没太明白 所以我也说不太明白
 '''
 
-colors = ['black', 'blue', 'green', 'white']
-
+class Color():
+    black, blue, red, green = 0, 1, 2, 3
+    
 class Card(object):
-    def __init__(self, color, value):
-        self.color = color
-        # value is a dictionary, {}
-        # key: exchange color, value: exchange count
-        self.value = value
-
-class Game(object):
-    def __init__(self, cards, card):
-        # cards {} key:color, value: counts
-        self.cur_cards = cards
-        self.card_purchase = card
-        self.discount = {}
+    def __init__(self, color, exchanged_value):
+        self.__color = color
+        # exchange value is a dictionary, {}
+        # key: exchanged color, value: num of excha color
+        # needed to buy this color 
+        self.__exchange_value = exchanged_value
         
-    def canPurchase(self):
-        for card in self.cur_cards:
-            if card_purchase.value[card] <= self.cards[card]:
+    def get_color(self):
+        return self.__color
+    
+    def get_exchange_value(self):
+        return self.__exchange_value
+        
+    
+class Game(object):
+    def __init__(self, cards):
+        # money {} key:color, value:count
+        self.money = cards
+        
+    def canPurchase(self, card):
+        for cur_card in self.money:
+            value = card.get_exchange_value()
+            if value[cur_card] <= self.money.get(cur_card, 0):
                 return True
         return False
                  
-    def add_discount(self):
-        for card in self.cur_cards:
-            self.discount[card] = 0.1 * self.cur_cards[card]
+    def purchase(self, card):
+        for cur_card in self.money:
+            value = card.get_exchange_value()
+            if value[cur_card] > self.money.get(cur_card, 0):
+                continue
+            self.money[cur_card] -= value[cur_card]
+            self.money[card] = self.money.get(card, 0) + 1
+            break
+            
+    # assume 
+    def get_discount(self, card):
+        discount = 0.05 * self.money[card]
+        if discount >= 0.5:
+            return 0.5
+        return  discount
     
-    def purchase(self):
-        for card in self.cur_cards:
-            if card_purchase in self.cur_cards:
-                dis = 0.1* self.cur_cards[card_purchase]:
-            else:
-                dis = 0
-            if cur_cards[card] >= self.card_purchase.value[card] * (1-dis):
-                self.cur_cards[card] -= self.card_purchase.value[card] * (1-dis):
-                self.cur_cards[card_purchase] += 1
+    def can_purchase_with_dis(self, card):
+        discount = self.get_discount(card)
+        for cur_card in self.money:
+            value = card.get_exchange_value()
+            if value[cur_card] * (1 - discount) <= self.money.get(cur_card, 0):
+                return True
+        return False
+       
+    def purchase_with_dis(self, card):
+        discount = self.get_discount(card)
+        for cur_card in self.money:
+            value = card.get_exchange_value()
+            if value[cur_card] * (1 - discount) > self.money.get(cur_card, 0):
+                continue
+            self.money[cur_card] -= value[cur_card] * (1 - discount)
+            self.money[card] = self.money.get(card, 0) + 1
+            break
     
+    def get_money(self):
+        return self.money
+
+red = Card(2, {})
+green = Card(3,{})
+black =  Card(0, {red : 2})
+
+game = Game({red:2, green:2, black:1})
+print(game.canPurchase(black))
+print(game.get_money())
+print(game.purchase(black))
+print(game.get_money())
+
+red = Card(2, {})
+green = Card(3,{})
+black =  Card(0, {red : 2})
+game = Game({red:2, green:2, black:1})
+print(game.can_purchase_with_dis(black))
+print(game.get_money())
+print(game.purchase_with_dis(black))
+print(game.get_money())
     
                 
 3.     OpenTable
