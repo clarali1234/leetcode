@@ -512,51 +512,73 @@ class Card(object):
 class Game(object):
     def __init__(self, cards):
         # money {} key:color, value:count
-        self.money = cards
+        self.__money = cards
         
     def canPurchase(self, card):
-        for cur_card in self.money:
+        for cur_card in self.__money:
             value = card.get_exchange_value()
-            if value[cur_card] <= self.money.get(cur_card, 0):
+            if value[cur_card] <= self.__money.get(cur_card, 0):
                 return True
         return False
                  
     def purchase(self, card):
-        for cur_card in self.money:
+        for cur_card in self.__money:
             value = card.get_exchange_value()
-            if value[cur_card] > self.money.get(cur_card, 0):
+            if value[cur_card] > self.__money.get(cur_card, 0):
                 continue
-            self.money[cur_card] -= value[cur_card]
-            self.money[card] = self.money.get(card, 0) + 1
+            self.__money[cur_card] -= value[cur_card]
+            self.__money[card] = self.__money.get(card, 0) + 1
             break
             
     # assume 
     def get_discount(self, card):
-        discount = 0.05 * self.money[card]
+        discount = 0.05 * self.__money[card]
         if discount >= 0.5:
             return 0.5
         return  discount
     
     def can_purchase_with_dis(self, card):
         discount = self.get_discount(card)
-        for cur_card in self.money:
+        for cur_card in self.__money:
             value = card.get_exchange_value()
-            if value[cur_card] * (1 - discount) <= self.money.get(cur_card, 0):
+            if value[cur_card] * (1 - discount) <= self.__money.get(cur_card, 0):
                 return True
         return False
-       
+        
+        
+    
     def purchase_with_dis(self, card):
         discount = self.get_discount(card)
-        for cur_card in self.money:
+        for cur_card in self.__money:
             value = card.get_exchange_value()
-            if value[cur_card] * (1 - discount) > self.money.get(cur_card, 0):
+            if value[cur_card] * (1 - discount) > self.__money.get(cur_card, 0):
                 continue
-            self.money[cur_card] -= value[cur_card] * (1 - discount)
-            self.money[card] = self.money.get(card, 0) + 1
+            self.__money[cur_card] -= value[cur_card] * (1 - discount)
+            self.__money[card] = self.__money.get(card, 0) + 1
             break
     
     def get_money(self):
-        return self.money
+        return self.__money
+
+red = Card(2, {})
+green = Card(3,{})
+black =  Card(0, {red : 2})
+
+game = Game({red:2, green:2, black:1})
+print(game.canPurchase(black))
+print(game.get_money())
+print(game.purchase(black))
+print(game.get_money())
+
+red = Card(2, {})
+green = Card(3,{})
+black =  Card(0, {red : 2})
+game = Game({red:2, green:2, black:1})
+print(game.can_purchase_with_dis(black))
+print(game.get_money())
+print(game.purchase_with_dis(black))
+print(game.get_money())
+
 
 red = Card(2, {})
 green = Card(3,{})
