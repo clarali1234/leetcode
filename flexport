@@ -65,7 +65,35 @@ print(test.isConvex([[0,0],[0,1],[1,1],[1,0]]))
 '''
 s = '0..12.324'
 print(s.split('.'))
+
+'''  
+def isValid(s):
+    if not s:
+        return False
     
+    res = False
+    
+    def dfs(s, num_part):
+        if num_part == 4:
+            if not s:
+                res = True
+            return
+        
+        for i in range(1, 4):
+            if i < len(s):
+                if int(s[:i]) <= 255:
+                    dfs(s[i:], num_part + 1)
+            if s and s[0] == '0':
+                break
+                
+        #return False
+                       
+    dfs(s,0)
+    return res
+
+print(isValid('10000'))
+'''
+
 '''
 class Solution(object):
     def validTicTacToe(self, board):
@@ -125,36 +153,43 @@ class Solution(object):
                         
         return False
         
+ # design tic-tac-toe, use scanner input and print result each move
+ class TicTacToe(object):
+
+    def __init__(self, n):
+        
+        self.board = [[0] * n for _ in range(n)]
+        self.n = n
+
+    def move(self):
+        row = int(input('Please input your row:'))
+        col = int(input('Please input your col:'))
+        player = int(input('Please input the current player:'))
+        offset = 0
+        if player == 1:
+            offset = 1
+        else:
+            offset = -1
+            
+        self.board[row][col] = offset
+        # check win
+        check_row = sum(self.board[row][c] == offset for c in range(self.n))
+        check_col = sum(self.board[r][col] == offset for r in range(self.n))
+        check_diag = sum(self.board[i][i] == offset for i in range(self.n))
+        check_anti_diag = sum(self.board[j][self.n - 1- j] == offset for j in range(self.n))
+        
+        print(self.board)
+        if self.n in [check_row, check_col, check_diag, check_anti_diag]:
+            return player
+        return 0
+            
+        
+game = TicTacToe(3)
+print(game.move())
+print(game.move())
+print(game.move())
         
             
-    
-'''  
-def isValid(s):
-    if not s:
-        return False
-    
-    res = False
-    
-    def dfs(s, num_part):
-        if num_part == 4:
-            if not s:
-                res = True
-            return
-        
-        for i in range(1, 4):
-            if i < len(s):
-                if int(s[:i]) <= 255:
-                    dfs(s[i:], num_part + 1)
-            if s and s[0] == '0':
-                break
-                
-        #return False
-                       
-    dfs(s,0)
-    return res
-
-print(isValid('10000'))
-'''
 '''
 问如果给一个现在棋盘的state （state就是棋盘上现在所有棋的位置和轮到哪个玩家）， 返回all possible moves。
 '''
