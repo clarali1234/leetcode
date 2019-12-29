@@ -555,44 +555,51 @@ print(test.commit())
 楼主怎么做，return 次数最多无疑是O(n * n)遍历list求top k，followup1是类似协同过滤实现推荐top k吗，还有followup2完全没有思路
 
 '''
-
-# [[a, b,c], [c,b], [c]]
-import collections
 class Solution(object):
-    def rank(self, favo):
-        dic = collections.defaultdict(int)
-        for team in favo:
-            for res in team:
-                dic[res] += 1
-        sort_dic = sorted(dic.items(), key = lambda x:-x[1])
-        return sort_dic[0][0]
-    
-    def add_rank(self, favo2):
-        # key:res, value: rank
-        dic2 = collections.defaultdict(int)
-        for team in favo2:
-            for p in team:
-                for rank, res in enumerate(p):
-                    dic2[res] += rank
-        sort_dic2 = sorted(dic2.items(), key = lambda x:x[1])
-        print(dic2)
-        return sort_dic2[0][0]
-    
-    # give the propotion to dis
-    def add_distance(self, dis):
-        # dis dic
-        # total rank
+    def __init__(self):
+        self.dic = {}
         
+    def favo(self, prefs):
+        # key: res, value:count
+        for pref in prefs:
+            for res in pref:
+                self.dic[res] = self.dic.get(res, 0) + 1
+        restaurants = list(self.dic.keys())
+        restaurants.sort(key = lambda x: -self.dic[x])
+        return restaurants[0]
     
+    def add_order(self, prefs):
+        # add weight in each person, can be 
+        for pref in prefs:
+            for rank, res in enumerate(pref):
+                self.dic[res] = self.dic.get(res, 0) + rank   
+        
+    def add_dis(self, distance):
+        # rank of near to far 
+        for rank, res in enumerate(distance):
+            self.dic[res] = self.dic.get(res, 0) + rank
+          
+    # return res, with smallest rank
+    def get_favo(self):
+    
+        restaurants = list(self.dic.keys())
+        restaurants.sort(key = lambda x: self.dic[x])
+        return restaurants[0]
+        
+    def get_ranks(self):
+        return self.dic
+        
+        
 test = Solution()
+prefs = [['B', 'C'], ['B', 'A'], ['C', 'A']]
+distance = ['A', 'B', 'C']
+test.add_order(prefs)
+test.add_dis(distance)
 
-
-# three res a b c
-favo2 = [['abc', 'bca','cab'], ['cba','bac'], ['abc']]
-dis = {'a':1, 'b':2, 'c':3}
-
-print(test.rank([['a', 'b','c'], ['c','b'], ['c']]))
-print(test.add_rank(favo2))
+print(test.get_favo())
+print(test.get_ranks())
+                           
+       
 
 '''
 一轮地里的换卡的那个题 eg：  钱包里有2个红色 2个绿色. 想买黑色已知黑色可以用2个红色买   问能不能买。   follow up 是discount。   这个题当时就没太明白 所以我也说不太明白
