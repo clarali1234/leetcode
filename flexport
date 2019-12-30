@@ -500,114 +500,85 @@ print(acc.get_member_balance())
 # push
 # begin : begin new transaction
 # commit : end current transaction, 结束transaction并保留所有ele
-
 # rollback : remove 删掉当前transaction的所有元素
+'''
+12.    一个stack
+可以begin, commit, rollback, push, pop
 
+例子：
+push 1
+begin
+push 2   
+push 3
+rollback
+pop1
 
-
-class stackWithATransaction(object):
+最后是空的
+begin, commit, rollback 可以无限nesting
+'''
+class TransactionStack(object):
     def __init__(self):
-        self.transactions = []
         self.stack = []
-        #self._commit = []
+        self.transactions = []
         
-    def push(self,val):
+    
+    def push(self, num):
         if not self.transactions:
-            self.stack.append(val)
-            return
+            self.stack.append(num)
         else:
-            self.transactions[-1].append(val)
-            
+            self.transactions[-1].append(num)
             
     def pop(self):
-        if not self.transactions():
-            self.stack.pop()
-            return 
+        if not self.transactions:
+            if self.stack:
+                self.stack.pop()
         else:
             self.transactions[-1].pop()
             
-    def top(self):
-        
-        if not self.transactions:
-            return self.stack[-1]
-        else:
-            return self.transactions[-1]
-        
+            
     def begin(self):
         self.transactions.append([])
-    
+        
     def rollback(self):
-        if not self.transactions:
-            return False
-        else:
+        if self.transactions:
             self.transactions.pop()
-  
-        return True
-        
-    def commit(self): # end current trans, store all ele
-        if not self.transactions:
-            return False
-        tran = self.transactions[-1]
-        #self._commit.append(tran)
-        #print('_commit',self._commit)
-        self.transactions.pop()
-
-        if not self.transactions:
-            self.stack.append(self.reverse(tran))
-        else:
-            reverse = self.reverse(tran)
-            self.transactions[-1] += reverse
-            #self.transactions[-1].append(self.reverse(tran))
-                #self.transactions[-1].append(self.reverse(tran))
-            #inner_tran = self.stack
-        #else:
-            #inner_tran = self.transactions[-1]
-            
-        #self.transactions[-1].append(
-        #self._append(self.reverse(tran), inner_tran)
-        return True
-    
-        
-    def _append(self, source, new):
-        while source:
-            new.append(source.pop())
-        
-            
-    def reverse(self, stack):
-        s = []
-        while stack:
-            s.append(stack.pop())
-        return s
-            
-            
-    
-test = stackWithATransaction()
-test.push(4)
-print('trans', test.transactions)
-print('stack', test.stack)
-test.begin()
-test.push(7)
-print('trans', test.transactions)
-print('stack', test.stack)
+       
+    def commit(self):
+        if self.transactions:
+            # [2,]
+            # [2, [3, 5])
+            # tmp [5, 3]
+            cur_trans = self.transactions.pop()
+            tmp = []
+            while cur_trans:
+                n = cur_trans.pop()
+                tmp.append(n)
+            while tmp:
+                n = tmp.pop()
+                self.stack.append(n)
+'''
+push 1
+begin
+push 2   
+push 3
+rollback
+pop1
+'''
+test =  TransactionStack()
+test.push(1)
 test.begin()
 test.push(2)
-print('trans', test.transactions)
-print('stack', test.stack)
+test.push(3)
+#print(test.transactions)
 test.rollback()
-print('after rollback 2, trans: ', test.transactions)
-print('stack', test.stack)
-test.begin()
-test.push(10)
-print('after push trans 10, trans:', test.transactions)
-print('stack', test.stack)
-test.commit()
-print('after commit, trans:', test.transactions)
-print('stack', test.stack)
-print('top', test.top())
-test.rollback()
-print(test.top())
-print(test.commit())        
-        
+print(test.transactions)
+print(test.stack)
+test.pop()
+print(test.transactions)
+print(test.stack)
+                
+            
+           
                     
 1.    第一轮：面试就一个小时，前5分钟聊了下简历和公司，然后就开始用coderpad做题。
                 -题目给了 List<List<String>> prefs, 记录了一个team里面每个人喜欢吃的餐馆。
