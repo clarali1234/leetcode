@@ -469,14 +469,12 @@ class Receipt(object):
 class Account(object):
     
     def __init__(self):
-        self.__total = 0
-        self.__average = 0
+    
         self.__member_bal = collections.defaultdict(int)
             
     # ave - act: > 0, need to send, < 0: need money back
     def calculate_balance(self, receipts):
         for recei in receipts:
-            self.__total +=  recei.get_total()
             average = recei.get_average()
             payer = recei.get_payer()
             for p, value in payer.items():
