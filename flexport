@@ -430,6 +430,72 @@ n = 5
 print(test.generateSentence(s, n, k))
 
 
+'''
+design一个朋友们一起出游的时候，记账的app 。就是途中可能有人支付了油费，有人买了饭。在旅途结束的时候，你的app 能不能算出每个人的balance。就是每个人是欠别人钱，还是别人欠他钱。
+
+大概就是用几个class variable 记下已经发生的开销吧，然后有一个算账的function可以随时根据这些class variable 算钱。
+
+
+'''
+import collections
+class Receipt(object):
+    def __init__(self, id, money, date, members, payer, other_mamber):
+        self.__id = id
+        self.__money = money
+        self.__date = date
+        self.__members = members
+        self.__payer = payer
+        self.__other_member = other_mamber
+     
+    def get_id(self):
+        return self.__id
+    
+    def get_total(self):
+        return self.__money
+    
+    def get_date(self):
+        return self.__date
+    
+    def get_payer(self):
+        return self.__payer
+    
+    def get_member(self):
+        return self.__other_member
+    
+    def get_average(self):
+        return self.__money/len(self.__members)
+        
+        
+class Account(object):
+    
+    def __init__(self):
+        self.__total = 0
+        self.__average = 0
+        self.__member_bal = collections.defaultdict(int)
+            
+    # ave - act: > 0, need to send, < 0: need money back
+    def calculate_balance(self, receipts):
+        for recei in receipts:
+            self.__total +=  recei.get_total()
+            average = recei.get_average()
+            payer = recei.get_payer()
+            for p, value in payer.items():
+                self.__member_bal[p] += average - value
+            
+            others = recei.get_member()
+            for other in others:
+                self.__member_bal[other] += average 
+            
+    def get_member_balance(self):
+        return self.__member_bal
+        
+        
+receipt1 = Receipt(1, 600, '1/1/2019/', ['A', 'B', 'C'], {'A':600}, ['B', 'C'])
+receipt2 = Receipt(2, 300, '1/1/2019/', ['A', 'B', 'C'], {'A':300}, ['B', 'C'])
+receipts = [receipt1, receipt2]
+acc = Account()
+acc.calculate_balance(receipts)
+print(acc.get_member_balance())
         
             
         
