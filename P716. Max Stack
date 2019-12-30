@@ -1,3 +1,71 @@
+class MaxStack(object):
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.max_stack = []
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: None
+        """
+        self.stack.append(x)
+        if not self.max_stack or x >= self.max_stack[-1]:
+            self.max_stack.append(x)
+        
+        
+    def pop(self):
+        """
+        :rtype: int
+        """
+        if self.stack:
+            node = self.stack.pop()
+            if node == self.max_stack[-1]:
+                self.max_stack.pop()
+            return node
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        if self.stack:
+            return self.stack[-1]
+
+    def peekMax(self):
+        """
+        :rtype: int
+        """
+        if self.max_stack:
+            return self.max_stack[-1]
+    # stack [5, 1]
+    # max stack [5]
+    # popped [1, 2]
+    def popMax(self):
+        """
+        :rtype: int
+        """
+        if self.max_stack:
+            node = self.max_stack.pop()
+            popped = []
+            # 
+            while node != self.stack[-1]:
+                popped.append(self.stack.pop())
+            self.stack.pop()
+            
+            while popped:
+                n = popped.pop()
+                self.stack.append(n)
+                if not self.max_stack or n > self.max_stack[-1]:
+                    self.max_stack.append(n)
+            return node
+        
+        
+
+
+
 # can't be O(lgn) using python
 # can't be O(1)
 
@@ -65,7 +133,7 @@ class MaxStack(object):
             self.push(n)
         return num_max
             
-        
+       
 
 
 # Your MaxStack object will be instantiated and called as such:
@@ -75,5 +143,6 @@ class MaxStack(object):
 # param_3 = obj.top()
 # param_4 = obj.peekMax()
 # param_5 = obj.popMax()
+
 
 
