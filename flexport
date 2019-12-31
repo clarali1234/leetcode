@@ -771,17 +771,52 @@ Question: table size
 FindTableForReservation(input, party, date, location)->time abavilable
 ConfimeReservation(table, timeslot)
 
-
 '''
-
-# 需要完善 table class reverve for date(date)function
+class Reservation(object):
+    def __init__(self, table, date, customer):
+        self.table = table
+        self.date = date
+        self.customer = customer
+        
 class Table(object):
-    def __init__(self, id, capacity, reservation):
+    def __init__(self, id, capacity, reservations):
         self.id = id
         self.maxCapacity = capacity
-        self.reservation = reservation # list of dates
+        self.reservations = reservations # list of dates
         self.addReservation = False
+    
+    def check_avail(self, date):
         
+        index = self.find_date_position(self, date)
+        if index == 0:
+            return True
+        elif index == len(self.reservations):
+            prev = self.reservations[index - 1]
+            if prev + 2 <= date:
+                return True
+        else:
+            prev = self.reservations[index - 1]
+            after = self.reservations[index + 1]
+            if prev + 2 <= date and date + 2 <= after:
+                return True
+        return False
+        
+    def reserve(self, date, customer_id):
+        index = self.find_date_position(self, date)
+        self.reservations.insert(index, date)
+        return Reservation(self.id, date, customer_id)
+        
+    def find_date_position(self, date):
+        length = len(self.reservations)
+        if length == 0:
+            return 0
+        if date >= self.reservations[-1]:
+            return length
+        
+        for i in range(1, length - 2):
+            if date >= self.reservations[i]:
+                return i + 1
+            
         
     def getID(self):
         return self.id
@@ -790,57 +825,49 @@ class Table(object):
         return self.numSeats
     
     def getReservation(self):
-        return self.reservation
+        return self.reservations
     
-    def reserveForDate(self,date):
-        
-    
-    
-    
-    
+
 class Restaurant(object):
     def __init__(self, tables, name, location):
         self.tables = tables # list of tables
         self.name = name
         self.location = location
+        self.availability = {} # key: date time, value:tables lists
+        self.reservations = []
         self.max_dinhour = 2
         
         
-    def findTableForReservation(self, part_size, date):
+    def search_availability(self, part_size, date):
         for table in self.tables:
             if table.getCapacity >= part_size:
-                if table.reserveForDate(date):
-                    reservation = Reservation(self.name, table, date)
-                    return reservation
-        return None
-        
-        
-        
-class Restaurants(object):
+                if table.check_avail(date):
+                    self.availability[date].append(table)
+                    
+        return self.availability.keys()
+    
+    def make_reserve(self, date, customer_id):
+        table = self.availability[date].pop()
+        reservation = table.reserve(date, customer_id)
+        self.reservations.append(reservation)
+    
+    
+class ReserveSystem(object):
     def __init__(self, rests):
         self.restaurants = rests
         
-    def findRestaurant(self, part_size, date, location):
-        for restaurant in self.restaurants:
-            if restaurant.location = location:
-                if restaurant.findTableForReservation(part_size, date):
+    def search(self, part_size, date, location):
+        res = []
+        for rest in self.restaurants:
+            if rest.location == location:
+                times = rest.search_availability(part_size, date)
+                res.append(rest, times)
+        return times
                     
+    def reserve(restaurant, date, customer_id):
+        restaurant.make_reserve(date, customer_id)
+
         
-        
-class Reservation(object):
-    def __init__(self, restaurant, table, date):
-        self.restaurant = restaurant
-        self.table = table
-        self.date = date
-        
-    def getTable(self):
-        return self.table
-    
-    def getDate(self):
-        return self.date
-    
-    def getRest(self):
-        return self.restaurant
     
         
         
