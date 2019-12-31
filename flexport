@@ -1,3 +1,39 @@
+# letter of combination 
+'''
+LC17 phone combination, Follow up: multiple digits to character eg "1 -> abc, 2 -> def, 23 -> qwert”
+'''
+
+class Solution(object):
+    def letterCombinations(self, digits):
+        
+        if not digits:
+            return []
+        
+        self.dic = {'2':'abc', '3':'def', '23':'qwert', '4':'ghi', '5':'jkl', '6':'mno', '7':'pqrs', 
+                '8':'tuv', '9':'wxyz'}
+        
+        self.res = []
+        self.dfs(digits, 0, '')
+        return self.res
+    
+    def dfs(self, digits, index, cur_path):
+        if index == len(digits):
+            self.res.append(cur_path)
+            return 
+        
+        for char in self.dic[digits[index]]:
+            self.dfs(digits, index + 1, cur_path + char)
+            
+        if index + 1 < len(digits) and digits[index : index + 2] in self.dic:
+            for char in self.dic[digits[index:index + 2]]:
+                self.dfs(digits, index + 2, cur_path + char)
+            
+        
+test = Solution()
+digits = '23'
+print(test.letterCombinations(digits))                                 
+                            
+
 class Solution(object):
     def decodeWays(self, s):
         """
