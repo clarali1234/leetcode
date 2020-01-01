@@ -392,6 +392,39 @@ class Solution2(object):
 test = Solution2()
 print(test.generate_sent("let us go to the supermarket to get the to go bundle" , 5))
 
+# use for loop
+import random
+import collections
+class Solution(object):
+    def geneSent(self, words, n):
+        words = words.split(' ')
+        m = len(words)
+        
+        # key: word, value: possible adj idnexes
+        dic = collections.defaultdict(list)
+        for i, word in enumerate(words):
+            if i == m - 1:  
+                dic[word].append(0)
+            else:
+                dic[word].append(i + 1)
+                
+        # gene first word
+        first = words[random.randint(0, m - 1)]
+        res = []
+        res.append(first)
+        cur_word = first
+        for j in range(1, n):
+            nxt_index = random.choice(dic[cur_word])
+            nxt_word = words[nxt_index]
+            res.append(nxt_word)
+            cur_word = nxt_word
+        return ' '.join(res)
+            
+test = Solution()
+words = 'he is a boy she is a girl is a god'
+print(test.geneSent(words, 4))
+
+
 # follow up
 import collections
 import random
