@@ -253,11 +253,7 @@ print(game.move())
 class Solution(object):
     def Checker(self, board, player):
         
-        visited = set([])
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j]:
-                    visited.add((i, j))
+ 
         if player == 'X': # move download
             offset = 1
         else:
@@ -271,7 +267,7 @@ class Solution(object):
                         x = i + dx
                         y = j + dy
                         #print((i, j), (x, y))
-                        if 0 <= x < len(board) and 0 <= y < len(board[0]) and board[x][y] not in visited:
+                        if 0 <= x < len(board) and 0 <= y < len(board[0]) and not board[x][y]:
                             res.append(((i, j), (x, y)))
         return res
                     
@@ -285,33 +281,31 @@ print(test.Checker(board, player))
  class Solution(object):
     def Checker(self, board, player):
         
-        visited = set([])
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j]:
-                    visited.add((i, j))
-                    
+     
         if player == 'X': # move download
             offset = 1
         elif player == 'O':
             offset = -1 # move up
+            
+            
+        directions = [(offset, 1), (offset, -1)]
+        dir_kings = [(1, -1), (1, 1), (-1, 1), (-1, -1)]
         
         res = []
         for i in range(len(board)):
             for j in range(len(board[0])):
                 
                 if board[i][j] == player:
-                    directions = [(offset, -1), (offset, 1)]
+                    cur_dirs = directions
                 elif board[i][j].startswith(player) and board[i][j] != player:
-                    directions = [(1, -1), (1, 1), (-1, -1), (-1, 1)]
+                    directions = dir_kings
                 else:
                     continue
-                #print((i,j), 'dir:', directions)
+                
                 for dx, dy in directions:
                     x = i + dx
                     y = j + dy
-                        #print((i, j), (x, y))
-                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) not in visited:
+                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and not board[x][y]:
                         res.append(((i, j), (x, y)))
         return res
                     
@@ -326,84 +320,37 @@ print(test.Checker(board, player))
  class Solution(object):
     def Checker(self, board, player):
         
-        visited = set([])
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j]:
-                    visited.add((i, j))
                     
         if player == 'X': # move download
             offset = 1
         elif player == 'O':
             offset = -1 # move up
+            
+        directions = [(offset, 1), (offset, -1)]
+        dir_kings = [(1, -1), (1, 1), (-1, 1), (-1, -1)]
         
         res = []
         for i in range(len(board)):
             for j in range(len(board[0])):
                 
                 if board[i][j] == player:
-                    directions = [(offset, -1), (offset, 1)]
+                    cur_dirs = directions
                 elif board[i][j].startswith(player) and board[i][j] != player:
-                    directions = [(1, -1), (1, 1), (-1, -1), (-1, 1)]
+                    cur_dirs = dir_kings
                 else:
                     continue
                 
-                for dx, dy in directions:
+                for dx, dy in cur_dirs:
                     x = i + dx
                     y = j + dy
-                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) not in visited:
+                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and not board[x][y]:
                         res.append(((i, j), (x, y)))
-                    elif 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) in visited and not board[x][y].startswith(player):
+                    elif 0 <= x < len(board) and 0 <= y < len(board[0]) not board[x][y].startswith(player):
+                        # eat componnet 1, eat directly res.append(((i, j), (x, y)))
                         # eat component, jump over
-                        if 0 <= i + 2 * dx < len(board) and 0 <= j + 2 * dy < len(board[0]):
+                        if 0 <= i + 2 * dx < len(board) and 0 <= j + 2 * dy < len(board[0]) and not board[x][y]:
                             res.append(((i,j), (i + 2 * dx, j + 2 * dy)))
-                        # eat component, not jump over
-                        # not need the visited set, just check if in range and not the same player
-                        
         return res
-
-
-# eat component directly
-class Solution(object):
-    def Checker(self, board, player):
-        
-        visited = set([])
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j]:
-                    visited.add((i, j))
-                    
-        if player == 'X': # move download
-            offset = 1
-        elif player == 'O':
-            offset = -1 # move up
-        
-        res = []
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                
-                if board[i][j] == player:
-                    directions = [(offset, -1), (offset, 1)]
-                elif board[i][j].startswith(player) and board[i][j] != player:
-                    directions = [(1, -1), (1, 1), (-1, -1), (-1, 1)]
-                else:
-                    continue
-                
-                for dx, dy in directions:
-                    x = i + dx
-                    y = j + dy
-                    if 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) not in visited:
-                        res.append(((i, j), (x, y)))
-                    elif 0 <= x < len(board) and 0 <= y < len(board[0]) and (x, y) in visited and not board[x][y].startswith(player):
-                        res.append(((i,j), (x, y)))
-                        
-        return res
-                    
-        
-test = Solution()
-board = board = [['X', 'X', '', 'X'], ['XK', 'O', '', ''], ['', '', 'OK', ''],['O', 'O', '', 'O']]
-player = 'X'
-print(test.Checker(board, player))
                            
                              
         
