@@ -698,6 +698,14 @@ print(game.can_purchase_with_disc(black))
 game.purchase_with_disc(black)
 print(game.get_money())
 
+'''
+15.	记账app: 
+design一个朋友们一起出游的时候，记账的app 。就是途中可能有人支付了油费，有人买了饭。
+在旅途结束的时候，你的app 能不能算出每个人的balance。就是每个人是欠别人钱，还是别人欠他钱。
+
+大概就是用几个class variable 记下已经发生的开销吧，然后有一个算账的function可以随时根据这些class variable 算钱。
+'''
+
 class Receipt(object):
     def __init__(self, id, money, date, payer, others):
         self.__id = id
@@ -719,22 +727,25 @@ class Receipt(object):
         total_members = len(list(self.__payer.keys())) + len(self.__others)
         average = self.__money / total_members
         return average
-
+    
     
 class Account(object):
-    def __init__(self):
+    def __init__(self, receipts):
         self.__group_balance = {}
+        self.__receipts = receipts
         
-    def calculate_balance(self, receipt):
-        payer = receipt.get_payer()
-        members = receipt.get_others()
-        average = receipt.get_average()
-      
-        for p in payer.keys():
-            self.__group_balance[p] = self.__group_balance.get(p, 0) + average - payer[p]
+    def calculate_balance(self):
+        for receipt in self.__receipts:
             
-        for p in members:
-            self.__group_balance[p] = self.__group_balance.get(p, 0) +  average
+            payer = receipt.get_payer()
+            members = receipt.get_others()
+            average = receipt.get_average()
+      
+            for p in payer.keys():
+                self.__group_balance[p] = self.__group_balance.get(p, 0) + average - payer[p]
+            
+            for p in members:
+                self.__group_balance[p] = self.__group_balance.get(p, 0) +  average
             
     def get_balance(self):
         return self.__group_balance
@@ -744,11 +755,12 @@ class Account(object):
 r1 = Receipt(1, 600, '1/1/2019/',  {'A':600}, ['B', 'C']) 
 # A :  -400, B: 200, C: 200
 r2 = Receipt(2, 300, '1/1/2019/',  {'A':300}, ['B', 'C'])
+receipts = [r1, r2]
 # A: -600, B:300, C:300
-acc = Account()
-acc.calculate_balance(r1)
-acc.calculate_balance(r2)
+acc = Account(receipts)
+acc.calculate_balance()
 print(acc.get_balance())
+          
             
         
           
