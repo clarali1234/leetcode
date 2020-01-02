@@ -5,29 +5,30 @@
 # sol2 sliding window + counter
 # time O(len(s)), space O(len(p))
 
+import collections
 class Solution(object):
     def findAnagrams(self, s, p):
-       
+        
         m = len(s)
         n = len(p)
+        
         if m < n:
             return []
         
-        # key:char in p, vlaue:count
-        c_p = collections.Counter(p)
-        c_s = collections.Counter(s[:n - 1]) # n - 2 - 0 + 1 = n - 1
-        i = 0
         res = []
-        for j, char in enumerate(s[n - 1:]):
-            c_s[char] += 1
-            if c_s == c_p:
-                res.append(i)
+        c_p = collections.Counter(p)
+        c_s = collections.Counter(s[:n])
+        if c_s == c_p:
+            res.append(0)
             
+        i = 0
+        for j in range(n, m):
+            c_s[s[j]] = c_s.get(s[j], 0) + 1
             if c_s[s[i]] == 1:
                 del c_s[s[i]]
             else:
                 c_s[s[i]] -= 1
             i += 1
-                
+            if c_s == c_p:
+                res.append(i)
         return res
-                
