@@ -473,63 +473,7 @@ design一个朋友们一起出游的时候，记账的app 。就是途中可能�
 
 
 '''
-import collections
-class Receipt(object):
-    def __init__(self, id, money, date, members, payer, other_mamber):
-        self.__id = id
-        self.__money = money
-        self.__date = date
-        self.__members = members
-        self.__payer = payer
-        self.__other_member = other_mamber
-     
-    def get_id(self):
-        return self.__id
-    
-    def get_total(self):
-        return self.__money
-    
-    def get_date(self):
-        return self.__date
-    
-    def get_payer(self):
-        return self.__payer
-    
-    def get_member(self):
-        return self.__other_member
-    
-    def get_average(self):
-        return self.__money/len(self.__members)
-        
-        
-class Account(object):
-    
-    def __init__(self):
-    
-        self.__member_bal = collections.defaultdict(int)
-            
-    # ave - act: > 0, need to send, < 0: need money back
-    def calculate_balance(self, receipts):
-        for recei in receipts:
-            average = recei.get_average()
-            payer = recei.get_payer()
-            for p, value in payer.items():
-                self.__member_bal[p] += average - value
-            
-            others = recei.get_member()
-            for other in others:
-                self.__member_bal[other] += average 
-            
-    def get_member_balance(self):
-        return self.__member_bal
-        
-        
-receipt1 = Receipt(1, 600, '1/1/2019/', ['A', 'B', 'C'], {'A':600}, ['B', 'C'])
-receipt2 = Receipt(2, 300, '1/1/2019/', ['A', 'B', 'C'], {'A':300}, ['B', 'C'])
-receipts = [receipt1, receipt2]
-acc = Account()
-acc.calculate_balance(receipts)
-print(acc.get_member_balance())
+
         
             
         
@@ -754,7 +698,60 @@ print(game.can_purchase_with_disc(black))
 game.purchase_with_disc(black)
 print(game.get_money())
 
+class Receipt(object):
+    def __init__(self, id, money, date, payer, others):
+        self.__id = id
+        self.__money = money
+        self.__date = date
+        # {group_member: $payment}
+        self.__payer = payer
+        self.__others = others # list of members didn't 
+        
     
+    def get_payer(self):
+        return self.__payer
+    
+    def get_others(self):
+        return self.__others
+    
+    
+    def get_average(self):
+        total_members = len(list(self.__payer.keys())) + len(self.__others)
+        average = self.__money / total_members
+        return average
+
+    
+class Account(object):
+    def __init__(self):
+        self.__group_balance = {}
+        
+    def calculate_balance(self, receipt):
+        payer = receipt.get_payer()
+        members = receipt.get_others()
+        average = receipt.get_average()
+      
+        for p in payer.keys():
+            self.__group_balance[p] = self.__group_balance.get(p, 0) + average - payer[p]
+            
+        for p in members:
+            self.__group_balance[p] = self.__group_balance.get(p, 0) +  average
+            
+    def get_balance(self):
+        return self.__group_balance
+    
+    
+    
+r1 = Receipt(1, 600, '1/1/2019/',  {'A':600}, ['B', 'C']) 
+# A :  -400, B: 200, C: 200
+r2 = Receipt(2, 300, '1/1/2019/',  {'A':300}, ['B', 'C'])
+# A: -600, B:300, C:300
+acc = Account()
+acc.calculate_balance(r1)
+acc.calculate_balance(r2)
+print(acc.get_balance())
+            
+        
+          
                 
 3.     OpenTable
 感觉更像在考database schema design
