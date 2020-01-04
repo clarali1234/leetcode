@@ -4,23 +4,23 @@ class Solution(object):
         :type grid: List[List[int]]
         :rtype: int
         """
-        m = len(grid)
-        n = len(grid[0])
-        if len(grid) == 0 or len(grid[0]) == 0:
+        n = len(grid)
+        if not grid[0][0] == 0 or not grid[n - 1][n - 1] == 0:
             return -1
         
-        queue = collections.deque([(0, 0, 1)])
-        visited = set([])
-        visited.add((0, 0))
+        queue = collections.deque([])
+        queue.append([0, 0, 1])
+        visited = set([(0, 0)])
         while queue:
             x, y, step = queue.popleft()
-            if x == m - 1 and y == n - 1:
-                return step 
-            for dx, dy in [(1, 0), (-1, 0), (0,1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)]:
-                new_x  = x + dx
-                new_y = y + dy
-                new_step = step + 1
-                if 0 <= new_x < m and 0 <= new_y < n and grid[new_x][new_y] == 0 and (new_x, new_y) not in visited:
-                    queue.append((new_x, new_y, new_step))
-                    visited.add((new_x, new_y))
+            if x == n - 1 and y == n - 1:
+                return step
+            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]:
+                i = x + dx
+                j = y + dy
+                if 0 <= i < n and 0 <= j < n and grid[i][j] == 0 and (i, j) not in visited:
+                    queue.append((i, j, step + 1))
+                    visited.add((i, j))
+                
         return -1
+            
