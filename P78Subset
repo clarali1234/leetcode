@@ -1,6 +1,6 @@
 # dfs + recursiom
 # time  O(n*2^n)
-# space O(n)
+# space O(2 ^ n)
 
 # 【1，2， 3】
 # 遍历每一个elem 选与不选它，两种结果，相当于二叉树
