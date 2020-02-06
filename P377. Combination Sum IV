@@ -1,0 +1,23 @@
+class Solution(object):
+    def combinationSum4(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        nums.sort()
+        self.res = 0
+        self.target = target
+        self.dfs(nums, 0, 0)
+        return self.res
+    
+    def dfs(self, nums, cur_index, cur_sum):
+        if cur_sum == self.target:
+            self.res += 1
+            return 
+        
+        if cur_index >= len(nums) or cur_sum > self.target:
+            return
+        
+        for i in range(len(nums)):
+            self.dfs(nums, i, cur_sum + nums[i])
