@@ -1,0 +1,23 @@
+class Solution(object):
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        self.res = []
+        self.n = k
+        self.target_sum = n
+        self.dfs(1, 0, [], 0)
+        return self.res
+    
+    def dfs(self, cur_index, cur_sum, cur_path, cur_length):
+        if cur_sum == self.target_sum and cur_length == self.n:
+            self.res.append(cur_path[:])
+            return 
+        
+        if cur_sum >= self.target_sum or cur_length >= self.n:
+            return 
+        
+        for i in range(cur_index, 10):
+            self.dfs(i + 1, cur_sum + i, cur_path + [i], cur_length + 1)
