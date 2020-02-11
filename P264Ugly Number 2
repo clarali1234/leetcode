@@ -1,12 +1,30 @@
 # bruce-force method: 找到N个丑数<1690, then排序找到nth最小的
 # time O(NlgN), space O(N)
 
-
+sol1: dynamic programming
+# time O(1) 
+# space O(1) 
+class Solution(object):
+    def nthUglyNumber(self, n):
+        nums = [1]
+        i2 = 0
+        i3 = 0
+        i5 = 0
+        
+        for i in range(1690):
+            ugly = min(2 * nums[i2], 3 * nums[i3], 5 * nums[i5])
+            if ugly == 2 * nums[i2]:
+                i2 += 1
+            if ugly == 3 * nums[i3]:
+                i3 += 1
+            if ugly == 5 * nums[i5]:
+                i5 += 1
+            nums.append(ugly)     
+        return nums[n - 1]
+            
 
 # time O(n), space O(n)
-
 import heapq
-
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
         heap = [1]
