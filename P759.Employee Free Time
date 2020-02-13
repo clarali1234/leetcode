@@ -1,0 +1,25 @@
+-sol1: create start point lists and end points lists sort separately
+		Traverse each s[i] and e[i – 1], if >, append interval which is common free time
+	-time O(nlgn), space O(n)
+
+
+class Solution(object):
+    def employeeFreeTime(self, schedule):
+        
+        starts = []
+        ends = []
+        for employee in schedule:
+            for interval in employee:
+                starts.append(interval.start)
+                ends.append(interval.end)
+        
+        starts.sort()
+        ends.sort()
+        
+        res = []
+        for i in range(len(ends) - 1):
+            if starts[i + 1] > ends[i]:
+                res.append([ends[i], starts[i + 1]])
+        return res
+        
+   
