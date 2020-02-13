@@ -1,16 +1,11 @@
-# sort O(nlgn)
+sol1 # sort O(nlgn)
 from heapq import * 
 class Solution(object):
     def findKthLargest(self, nums, k):
-      
-        nums.sort()
-        return nums[len(nums) - k]
-        
-https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/301338/Python-or-tm-215
-根据Max Heap数据结构来解
-你要第Kth大的元素，那我就Heapify一个Max Heap，然后既然是要找第K个大的元素，Max Heap顶端是最大的，
-第k个大的就是从最底层向上的第k个元素，实现方法从最底下一个一个pop
-
+        nums.sort(key = lambda x: - x)
+        return nums[k - 1]
+  
+sol2 max heap: 
 Time Complexity：Heapify用了O(N)，然后一共pop了k个元素，每个元素使用logn的时间复杂，所以一共是O(n + klog(n))
 #Time: O(n + klog(n)) | Space: O(n)
 import heapq
@@ -25,7 +20,8 @@ class Solution(object):
             ele = heappop(nums)
             res = - ele
         return res
-            
+     
+ sol3: min heap
 Time:  O(nlogk) | Space: O(K)
 # if n >> k, 使用一个size k 的min heap, 遍历num, 若num > heap[0], 则pop heap[0], push num
 class Solution:
