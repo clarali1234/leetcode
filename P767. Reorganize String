@@ -14,26 +14,26 @@ class Solution(object):
         
         n = len(S)
         counter = collections.Counter(S)
-        if counter.most_common()[0][1] > n//2 + 1:
+        if counter.most_common()[0][1] > (len(S) + 1) / 2 :
             return ''
         
-        heap = [(-c, ele) for ele,c in counter.items()]
-        heapify(heap)
-        
         res = ''
+        heap = []
+        for ele, count in counter.items():
+            heappush(heap, (-count, ele))
+            
         prev_c = 0
         prev_char = ''
         while heap:
-            c, ele = heappop(heap)
-            c += 1
-            res = res + ele
+            count, ele = heappop(heap)
+            res += ele
+            count += 1
             if prev_c < 0:
                 heappush(heap, (prev_c, prev_char))
-            prev_c = c
             prev_char = ele
-        if len(res) == len(S):
-            return res
-        return ''
+            prev_c = count
+                
+        return res
             
 # greedy
 # time O(nAlgA) A:size of alphebet
