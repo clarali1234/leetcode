@@ -5,7 +5,11 @@
 
 class Solution(object):
     def employeeFreeTime(self, schedule):
-        
+        """
+        :type schedule: [[Interval]]
+        :rtype: [Interval]
+        """
+
         starts = []
         ends = []
         for employee in schedule:
@@ -17,9 +21,8 @@ class Solution(object):
         ends.sort()
         
         res = []
-        for i in range(len(ends) - 1):
+        for i in range(len(starts) - 1):
             if starts[i + 1] > ends[i]:
-                res.append([ends[i], starts[i + 1]])
+                res.append(Interval(ends[i], starts[i + 1]))
         return res
-        
    
