@@ -1,0 +1,23 @@
+# heap
+# time O(nlgn)
+# space O(n)
+
+from heapq import * 
+class Solution(object):
+    def frequencySort(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        res = ''
+        counter = collections.Counter(s)
+        heap = []
+        for char, c in counter.items():
+            heappush(heap, (-c, char))
+        
+        while heap:
+            c, char = heappop(heap)
+            res = res + char * (-c)
+            
+        return res
+        
