@@ -12,29 +12,33 @@
 取堆顶元素的建筑物高，若其不等于前一次的关键点，则说明该点与上一次的点不在一条水平线上，为一个“关键点”。
 
 from heapq import *
-class Solution():
+class Solution(object):
     def getSkyline(self, buildings):
     
-        # use heap to represent the height of current buildings.
-        heap = []
         res = [[0, -1]]
-        nodes = sorted([i[0] for i in buildings] + [i[1] for i in buildings])
+        heap = []
         index = 0
+        points = []
+        for building in buildings:
+            points.append(building[0])
+            points.append(building[1])
+        points.sort()
         
-        # traverse each point, if it is the start point, we add (-hight, right) to heap
-        for node in nodes:
-            # 用while in case buidling more than one with the same left border
-            while index < len(buildings) and buildings[index][0] == node:
+        for point in points:
+            while index < len(buildings) and point == buildings[index][0]:
                 heappush(heap, (-buildings[index][2], buildings[index][1]))
                 index += 1
             
-            # if the highest building is passed by, we pop it out from the heap
-            while heap and heap[0][1] <= node:
+            while heap and heap[0][1] <= point:
                 heappop(heap)
-               
-            # check if current node changes the contour
-            h = -heap[0][0] if heap else 0
-            if h != res[-1][1]:
-                res.append((node, h))
-        return res[1:]
 
+            if heap:
+                h = - heap[0][0]
+            else:
+                h = 0
+
+            if h != res[-1][1]:
+                res.append([point, h])
+                
+        return res[1:]
+            
