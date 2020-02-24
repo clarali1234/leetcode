@@ -5,28 +5,30 @@
 # 每个位置上的盛水数目 = min(左侧最高，右侧最高) - 当前高度
 # 从左到右扫描一边数组，获得每个位置往左这一段的最大值，再从右到左扫描一次获得每个位置向右的最大值。
 # 然后最后再扫描一次数组，计算每个位置上的盛水数目。
-class Solution:
-    def trap(self, height: List[int]) -> int:
-        if not height:
-            return 0
-        
-        left_max = []
-        curt_max = -sys.maxsize
-        for h in height:
-            curt_max = max(curt_max, h)
-            left_max.append(curt_max)
-            
-        right_max = []
-        curt_max = -sys.maxsize
-        for h in reversed(height):
-            curt_max = max(curt_max, h)
-            right_max.append(curt_max)
-        right_max = right_max[::-1]
-        
-        water = 0
+class Solution(object):
+    def trap(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        left = []
+        h_l = 0
         for i in range(len(height)):
-            water += (min(left_max[i], right_max[i]) - height[i])
-        return water
+            h_l = max(h_l, height[i])
+            left.append(h_l)
+        
+        right = []
+        h_r = 0
+        for j in range(len(height) - 1, -1, -1):
+            h_r = max(h_r, height[j])
+            right.append(h_r)
+        right = right[::-1]
+        
+        res = 0
+        for i in range(len(height)):
+            res += min(left[i], right[i]) - height[i]
+
+        return res
 
 # time O(n), space o(1), two pointers
 使用九章算法班中讲过的相向型双指针算法。
@@ -43,23 +45,28 @@ left_max, right_max => 从左到右和从右到左到 left, right 为止，找�
 一种是 left_max <= heights[left]，这种情况下，水无法盛放，会从左侧流走，此时更新 left_max 为 heights[left]
 left_max >= right_max 的情况类似处理。
 
-时间复杂度：O(n)O(n)，空间复杂度 O(1)O(1)
-class Solution:
-    def trap(self, height: List[int]) -> int:
-        if not height:
-            return 0
+时间复杂度：O(n)，空间复杂度 O(1)
+class Solution(object):
+    def trap(self, height):
+       
+        res = 0
+        l_h = 0
+        r_h = 0
         
-        left, right = 0, len(height) - 1
-        left_max, right_max = height[left], height[right]
-        water = 0
-        while left <= right:
-            if left_max < right_max:
-                left_max = max(left_max, height[left])
-                water += left_max - height[left]
-                left += 1
+        i = 0
+        j = len(height) - 1
+        
+        while i <= j:
+            l_h = max(l_h, height[i])
+            r_h = max(r_h, height[j])
+            
+            if l_h <= r_h:
+                res = res + (l_h - height[i])
+                i += 1
+                
             else:
-                right_max = max(right_max, height[right])
-                water += right_max - height[right]
-                right -= 1
-        return water
-        
+                res = res + (r_h - height[j])
+                j -= 1
+                
+        return res
+            
