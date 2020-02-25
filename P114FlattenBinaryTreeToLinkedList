@@ -9,6 +9,8 @@ class Solution(object):
             return None
         self.dfs(root)
         
+        
+    # input: node, output: tail after the flatten
     def dfs(self, node):
         if not node:
             return None
