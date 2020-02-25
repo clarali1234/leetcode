@@ -1,5 +1,6 @@
 # brute force: pre order traversal
 # sol2 time O(n), space O(h)
+# dfs return tail
 
 class Solution(object):
     def flatten(self, root):
