@@ -5,70 +5,55 @@ Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the o
 
 
 
-import collections
 class Solution(object):
     def alienOrder(self, words):
-        result  = self.build_graph(words)
-        graph = result[0]
-        indegrees = result[1]
         
-        return self.bfs(graph, indegrees)
-    
-    
-    def build_graph(self, words):
-        
-        graph = {}
-        # add vertex
+        # step1: add nodes
+        nodes = {}
         for word in words:
             for char in word:
-                if char not in graph:
-                    graph[char] = set()
-                    
-             
-        # add edges
-        indegrees = collections.defaultdict(int)
-        n = len(words)
-        for i in range(n - 1):
+                if char not in nodes:
+                    nodes[char] = set()
+         
+        # step 2: add edges and calculate indegree for each node
+        # 易错点1: indegree的定义方法
+        indegrees = {n : 0 for n in nodes.keys()}    
+        # add edge:
+        for i in range(len(words) - 1):
             first = words[i]
             second = words[i + 1]
-            for j in range(min(len(first), len(second))):
-                # 易错点1 ，first[j] -> second[j]，a->b, a.neighbor.append(b), b的入度+1
-                if first[j] != second[j]:
-                    # 易错点2 ，if second[j] not in graph[first[j]] 检查second[j]是否已经是在first[j]的邻居里，否则indegree会出错
-                    if second[j] not in graph[first[j]]:
-                        graph[first[j]].add(second[j])
+            compare_index = min(len(first), len(second))
+            for j in range(compare_index):
+                if first[j] != second[j]: # char1 -> char2(indegree + 1)
+                    #易错点2， 先判断char2 是否在char1 的adjacent set里面
+                    if second[j] not in nodes[first[j]]:
+                        nodes[first[j]].add(second[j])
                         indegrees[second[j]] += 1
                     break
-        return graph, indegrees
-    
-    
-    def bfs(self, graph, indegrees):
+                    
+         
+        # step 3, topological sort
         queue = collections.deque([])
-        for node in graph:
-            if indegrees[node] == 0:
-                queue.append(node)
+        for c, indeg in indegrees.items():
+            if indeg == 0:
+                queue.append(c)
+                
         res = ''
         while queue:
-            node = queue.popleft()
-            res += node
-            for neighbor in graph[node]:
-                indegrees[neighbor] -= 1
-                if indegrees[neighbor] == 0:
-                    queue.append(neighbor)
-        if len(res) == len(graph.keys()):
-            return res
-        else:
-            return ''
+            n = queue.popleft()
+            res = res + n
+            if nodes[n]:
+                for nb in nodes[n]:
+                    indegrees[nb] -= 1
+                    if indegrees[nb] == 0:
+                        queue.append(nb)
         
-test = Solution()
-print(test.alienOrder(["wrt",
-  "wrf",
-  "er",
-  "ett",
-  "rftt"]))
+        if len(res) == len(nodes):
+            return res
+        return ''
             
+                    
                 
-            
     
     
         
