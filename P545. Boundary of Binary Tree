@@ -5,40 +5,48 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
-        self.res = []
         if not root:
-            return self.res
-        self.res.append(root.val)
-        if root.left == None and root.right == None:
-            return self.res
-        self.dfs_left(root.left)
-        self.dfs_leaves(root)
-        self.dfs_right(root.right)
+            return []
         
+        self.res = [root.val]
+        if not root.left and not root.right:
+            return self.res
+        
+        self.dfs_l(root.left)
+        self.dfs_leaves(root)
+        self.dfs_r(root.right)
         return self.res
     
-    def dfs_left(self, root):
-        if not root or (root.left == None and root.right == None):
+    def dfs_l(self, node):
+        if not node or (not node.left and not node.right):
             return 
-        self.res.append(root.val)
-        if root.left != None:
-            self.dfs_left(root.left)
-        else:
-            self.dfs_left(root.right)
-    
-    def dfs_leaves(self, root):
-        if not root:
-            return 
-        if root.left == None and root.right == None:
-            return self.res.append(root.val)
-        self.dfs_leaves(root.left)
-        self.dfs_leaves(root.right)
+        self.res.append(node.val)
+        if node.left:
+            self.dfs_l(node.left)
+        elif node.right:
+            self.dfs_l(node.right)
+            
+    def dfs_leaves(self, node):
+        if not node:
+            return
         
-    def dfs_right(self, root):
-        if not root or (root.left == None and root.right == None):
+        if not node.left and not node.right:
+            self.res.append(node.val)
+        
+        self.dfs_leaves(node.left)
+        self.dfs_leaves(node.right)
+        
+        
+    def dfs_r(self, node):
+        if not node or (not node.left and not node.right):
             return 
-        if root.right != None:
-            self.dfs_right(root.right)
-        else:
-            self.dfs_right(root.left)
-        self.res.append(root.val)
+        if node.right:
+            self.dfs_r(node.right)
+        elif node.left:
+            self.dfs_r(node.left)
+        self.res.append(node.val)
+            
+        
+        
+        
+    
