@@ -1,18 +1,20 @@
 1. recursion 
  time O(n), space O(n)
 
-class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        while root:
-          # p q are in the left subtree
-            if max(p.val, q.val) < root.val:
-                return self.lowestCommonAncestor(root.left, p, q)
-           # p q are in the right subtree
-            elif min(p.val, q.val) > root.val:
-                return self.lowestCommonAncestor(root.right, p, q)
-           # p q in different subtree
-            else:
-                return root
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
+        if not root:
+            return None
+        
+        if min(p.val, q.val) <= root.val <= max(p.val, q.val):
+            return root
+        
+        if min(p.val, q.val) > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        
+        if max(p.val, q.val) < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+            
 2. iteration
  time O(n), space O(1)
 
