@@ -1,0 +1,62 @@
+# sol1
+# time O(n)
+# space O(n)
+
+step 1: inorder tranversal of BST is non-descending
+step 2: find the swapped two values
+step 3: recover
+
+
+class Solution(object):
+    def recoverTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: None Do not return anything, modify root in-place instead.
+        """
+        self.vals = []
+        self.dfs(root)
+        x, y = self.find_two()
+        print(x, y)
+        self.recover(root, x, y, 2)
+        
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        self.dfs(node.left)
+        self.vals.append(node.val)
+        self.dfs(node.right)
+        
+        
+    def find_two(self):
+        x = y = None
+        for i in range(len(self.vals) - 1):
+            if self.vals[i + 1] < self.vals[i]:
+                y = self.vals[i + 1]
+                if not x:
+                    x = self.vals[i]
+                else:
+                    break  
+        return x, y
+    
+    def recover(self, root, x, y, count):
+        if root:
+            if root.val ==  x or root.val == y:
+                if root.val == x:
+                    root.val = y
+                else:
+                    root.val = x 
+                count -= 1
+                if count == 0:
+                    return 
+        
+            self.recover(root.left, x, y, count)
+            self.recover(root.right, x, y, count)
+                
+        
+                    
+                
+                
+        
+        
+        
