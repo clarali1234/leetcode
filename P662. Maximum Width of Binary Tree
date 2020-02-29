@@ -1,0 +1,24 @@
+# 思路 level order traversal
+# node i, left:2i, right:2i + 1
+# width for the level is rightmost - leftmost + 1
+# get the max of all widths
+
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def widthOfBinaryTree(self, root):
+        q = [(root, 1)]
+        ans = 0
+        while q:
+            width = q[-1][-1] - q[0][-1] + 1
+            ans = max(ans, width)
+            cur_q = []
+            for n, c in q:
+                if n.left:
+                    cur_q.append([n.left, c * 2])
+                if n.right:
+                    cur_q.append([n.right, c * 2 + 1])
+            q = cur_q
+        return ans
+                
