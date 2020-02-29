@@ -1,0 +1,35 @@
+# BFS
+# time O(n), space O(n)
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def maxLevelSum(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        dic = collections.defaultdict(list)
+        queue = collections.deque([(root, 1)])
+        max_sum = -sys.maxsize
+        res = None
+        
+        while queue:
+            cur_sum = 0
+            for _ in range(len(queue)):
+                node, level  = queue.popleft()
+                cur_sum += node.val
+                if node.left:
+                    queue.append((node.left, level + 1))
+                if node.right:
+                    queue.append((node.right, level + 1))
+            if cur_sum > max_sum:
+                max_sum = cur_sum
+                res = level
+                
+        return res
+        
