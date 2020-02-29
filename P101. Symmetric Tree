@@ -19,26 +19,32 @@ class Solution(object):
         
         return left.val == right.val and self.mirror(left.left, right.right) and self.mirror(left.right, right.left)
         
-  # iterative
+  # iterative, like BFS
+  
   class Solution(object):
     def isSymmetric(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
         if not root:
             return True
-        stackl = [root.left]
-        stackr = [root.right]
         
-        while stackl and stackr:
-            left = stackl.pop()
-            right = stackr.pop()
-            if not left and not right:
+        queue = collections.deque([])
+        queue.append(root.left)
+        queue.append(root.right)
+        while queue:
+            n1 = queue.popleft()
+            n2 = queue.popleft()
+            if not n1 and not n2:
                 continue
-            if not left or not right:
+            if not n1 or not n2:
                 return False
-            if left.val != right.val:
+            if n1.val != n2.val:
                 return False
-            stackl.append(left.left)
-            stackl.append(left.right)
-            stackr.append(right.right)
-            stackr.append(right.left)
+            queue.append(n1.left)
+            queue.append(n2.right)
+            queue.append(n1.right)
+            queue.append(n2.left)
             
-        return len(stackl) == 0 and len(stackr) == 0
+        return True
