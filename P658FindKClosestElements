@@ -1,13 +1,38 @@
+# sol1 heap
+# time O(n + klogn), space O(n)
+# step
+heapify nodes with dis
+pop k element 
+sort
+
+
+from heapq import * 
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+       
+        heap = [(abs(y - x), y) for y in arr]
+        heapify(heap)
+        res = []
+        for _ in range(k):
+            dis, y = heappop(heap)
+            res.append(y)
+        return sorted(res)
+        
+
+
 # binary search to find start point, O(log(N-k) + K)
 # 0      M...X...M+K      N-k     N
      
-class Solution:
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        left, right = 0, len(arr) - k
-        while left < right:
-            mid = (left + right) // 2
-            if x - arr[mid] > arr[mid + k] - x:
-                left = mid + 1
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        
+        l = 0
+        r = len(arr) - k
+        while l < r:
+            m = (l + r) // 2 # m means the start point of the res list
+            if abs(arr[m] - x) > abs(arr[m + k] - x):
+                l = m + 1
             else:
-                right = mid
-        return arr[left:left + k]
+                r = m
+            
+        return arr[l : l + k]
