@@ -11,33 +11,34 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
+        
         if not nums:
             return -1
-        left = 0
-        right = len(nums) - 1
-        while left + 1 < right:
-            mid  = (left + right) // 2
-            if nums[mid] == target:
-                return mid
-            if nums[left] < nums[mid]:
-                # mid in first half
-                if nums[left] <= target < nums[mid]:
-                    right = mid - 1
+        
+        l = 0
+        r = len(nums) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+        
+            if nums[m] > nums[l]:
+                if nums[l] <= target <= nums[m]:
+                    r = m
                 else:
-                    left = mid + 1
+                    l = m + 1
             else:
-                # mid in the right half
-                if nums[mid] < target <= nums[right]:
-                    left = mid + 1
+                if nums[m] <= target <= nums[r]:
+                    l = m
                 else:
-                    right = mid - 1
-        if nums[left] == target:
-            return left
-        elif nums[right] == target:
-            return right
-        else:
-            return -1
+                    r = m - 1
+                    
+        if nums[l] == target:
+            return l
+        elif nums[r] == target:
+            return r
         return -1
+        
+        
+        
             
                     
                 
