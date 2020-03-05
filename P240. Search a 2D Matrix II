@@ -24,53 +24,33 @@ class Solution(object):
 # bianry serach 
 # time O(nlgn)
 # 因为题目中matrix不是一个m * n sorted array, 不能用logm * logn实现
+# idea: binary search for each line until return True
 
 class Solution(object):
     def searchMatrix(self, matrix, target):
-        """
-        :type matrix: List[List[int]]
-        :type target: int
-        :rtype: bool
-        """
        
-        if len(matrix[0]) == 0 or len(matrix) == 0:
+        if not matrix or not matrix[0]:
             return False
         
-        for i in range(min(len(matrix[0]), len(matrix))):
-            find_row = self.find_row(matrix, i, 0, len(matrix[0]) - 1, target)
-            find_col = self.find_col(matrix, i, 0, len(matrix) - 1, target)
-            if find_row or find_col:
+        self.target = target
+        for i in range(len(matrix)):
+            if self.binary_search(matrix, i):
                 return True
+            else:
+                continue
         return False
     
-    def find_row(self, matrix, i, left, right, target):
+    def binary_search(self, matrix, i):
+        l = 0
+        r = len(matrix[0]) - 1
         
-        while left + 1 < right:
-            mid = (left + right) // 2
-            if matrix[i][mid] == target:
+        while l + 1 < r:
+            m = (l + r) // 2
+            if matrix[i][m] == self.target:
                 return True
-            elif matrix[i][mid] < target:
-                left = mid + 1
+            if matrix[i][m] < self.target:
+                l = m + 1
             else:
-                right = mid - 1
+                r = m - 1
                 
-        if matrix[i][left] == target or matrix[i][right] == target:
-            return True
-        else:
-            return False
-            
-    def find_col(self, matrix, i, left, right, target):
-        while left + 1 < right:
-            mid = (left + right) // 2
-            if matrix[mid][i] == target:
-                return True
-            elif matrix[mid][i] < target:
-                left = mid + 1
-            else:
-                right = mid - 1
-                
-        if matrix[left][i] == target or matrix[right][i] == target:
-            return True
-        else:
-            return False
-            
+        return matrix[i][l] == self.target or self.target == matrix[i][r]
