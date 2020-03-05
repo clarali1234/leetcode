@@ -8,6 +8,8 @@ For example, nums = [1,3,4,5,10], k = 8, then the missing one = 10+8-5=13.
 # binary search
 time O(lgn)
 space O(1)
+# check if l to m missing counts < k -> l = m, k - (missing in left); else right = mid
+# return l + k
 
 class Solution(object):
     def missingElement(self, nums, k):
