@@ -1,0 +1,72 @@
+# sol1 : brute force 
+# step: start from the right most ele in the first line (t = 11), 
+  i = 0, j = 3, if m[i][j] == t, return True, elif < t, j + 1 else, i + 1
+  return False
+# time O(m + n)
+
+[1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+  
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+    
+        if not matrix:
+            return False
+        
+        i = 0
+        j = len(matrix[0]) - 1
+        
+        while i < len(matrix) and j >= 0:
+            if matrix[i][j] == target:
+                return True
+            elif matrix[i][j] < target:
+                i += 1
+            else:
+                j -= 1
+        return False
+  
+  # sol2 : binary search
+  # log(m) + log(n)
+  # node: if matrix[m][len(matrix[0]) - 1] < self.target:
+                l = m 
+          在search row 时， 如果当前行最后一个点 < target: l = m, 当前行仍然有可能是含有target的行
+      
+  
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        
+        if not matrix or not matrix[0]:
+            return False
+
+        self.target = target
+        row = self.binary_search_row(matrix, 0, len(matrix) -1)
+        return self.search_row(matrix[row], 0, len(matrix[0])- 1)
+    
+    def binary_search_row(self, matrix, l, r):
+        while l + 1 < r:
+            m = (l + r ) // 2
+            if matrix[m][len(matrix[0]) - 1] == self.target:
+                return m
+            elif matrix[m][len(matrix[0]) - 1] < self.target:
+                l = m 
+            else:
+                r = m 
+        if matrix[l][len(matrix[0]) - 1] >= self.target:
+            return l
+        return r
+    
+    def search_row(self, nums, l, r):
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] == self.target:
+                return True
+            elif nums[m] < self.target:
+                l = m + 1
+            else:
+                r = m - 1
+        if nums[l] == self.target:
+            return True
+        return False
+                
+  
