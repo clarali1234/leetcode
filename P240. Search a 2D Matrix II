@@ -25,7 +25,7 @@ class Solution:
         return False
         
 # bianry serach 
-# time O(nlgn)
+# time O(lgm + lgn)
 class Solution(object):
     def searchMatrix(self, matrix, target):
         """
