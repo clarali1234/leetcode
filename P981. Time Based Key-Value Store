@@ -3,6 +3,10 @@
 # set time O(1)
 # get time O(lgn)
 
+# node:
+hash tale: key = key, value = [(t, val), ....]
+首先判断key in dic, then bisec for t
+
 class TimeMap(object):
 
     def __init__(self):
