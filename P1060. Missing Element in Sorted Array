@@ -16,23 +16,20 @@ node:
 class Solution(object):
     def missingElement(self, nums, k):
         
-        missing_counts = nums[-1] - nums[0] + 1 - len(nums)
-        if missing_counts < k:
-            return nums[-1] + k - (nums[-1] - nums[0] + 1 - len(nums))
+        missing_c = nums[-1] - nums[0] + 1 - len(nums)
+        if missing_c < k:
+            return nums[-1] + (k - missing_c)
         
-        left = 0
-        right = len(nums) - 1
-        
-        while left + 1 < right:
-            mid = (left + right) // 2
-            # missing counts for left half is nums[mid] - nums[left] - (mid - left)
-            if nums[mid] - nums[left] - (mid - left) < k:
-                # missing in right half
-                k = k - (nums[mid] - nums[left] - (mid - left))
-                left = mid 
+        l = 0
+        r = len(nums) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+             # missing counts for left half is nums[mid] - nums[left] - (mid - left)
+            if nums[m] - nums[l] - (m - l) < k:
+                k = k - (nums[m] - nums[l] - (m - l))
+                l = m 
             else:
-                # missing in the left half
-                right = mid 
-                
-        return nums[left] + k
+                #  missing in the left half
+                r = m
+        return nums[l] + k
             
