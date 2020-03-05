@@ -11,6 +11,7 @@ space O(1)
 # check if l to m missing counts < k -> l = m, k - (missing in left); else right = mid
 # return l + k
 
+# 循环退出， i, i + 1 nums[i], nums[i + 1] 之间缺失数量 >= k, return nums[i] + k
 class Solution(object):
     def missingElement(self, nums, k):
         
