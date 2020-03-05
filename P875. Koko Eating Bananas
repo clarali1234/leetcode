@@ -1,0 +1,31 @@
+# idea: binary search 
+# for each possible speed can finish 1, can't 0   
+# 0 0 0 0  1 1 1 1 
+# can, r = m, else: l = m + 1
+# l = 1, r = max(piles)
+
+# time O(nlogmax(piles)), space O(1)
+
+class Solution(object):
+    def minEatingSpeed(self, piles, H):
+        
+        l = 1
+        r = max(piles)
+        
+        while l < r:
+            m = (l + r) // 2
+            # can finish in h hours
+            if self.can_finish(piles, m, H):
+                r = m
+            else:
+                l = m + 1
+        return l
+    
+    def can_finish(self, piles, m, h):
+        hours = 0
+        for p in piles:
+            hours += (p - 1) // m + 1
+        #print(m, hours)
+        return hours <= h
+                
+        
