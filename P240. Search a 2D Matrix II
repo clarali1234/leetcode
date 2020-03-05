@@ -23,6 +23,8 @@ class Solution(object):
         
 # bianry serach 
 # time O(nlgn)
+# 因为题目中matrix不是一个m * n sorted array, 不能用logm * logn实现
+
 class Solution(object):
     def searchMatrix(self, matrix, target):
         """
