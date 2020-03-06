@@ -1,6 +1,7 @@
 # sol1 set
-# time O(max(len(nums1), len(nums2)))
-# space O(max(len(nums1), len(nums2)))
+# time O(m) + O(n)
+# space O(m) + O(n)
+
 class Solution(object):
     def intersection(self, nums1, nums2):
         """
