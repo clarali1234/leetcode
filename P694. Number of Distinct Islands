@@ -1,6 +1,3 @@
-# distinct islands can be represented by relative coordinate to the leftmost cell on the top row
-# travserse by dfs
-
 At the beginning, we need to find every island, which we can do using a straightforward depth-first search.
 The hard part is deciding whether two islands are the same.
 
@@ -9,30 +6,31 @@ let's translate every island so the top-left corner is (0, 0)
 For example, if an island is made from squares [(2, 3), (2, 4), (3, 4)], 
 we can think of this shape as [(0, 0), (0, 1), (1, 1)] when anchored at the top-left corner.
 
+# time O(mn)
+# space O(mn)
 
 class Solution(object):
     def numDistinctIslands(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        shapes = set([])
-        visited = set([])
+        shapes = set()
+        self.visited = set()
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if grid[i][j] == 1 and (i, j) not in visited:
-                    self.shape = []
-                    self.dfs(grid,i, j, (0, 0),visited)
-                    shapes.add(tuple(self.shape))
+                if (i, j) not in self.visited and grid[i][j] == 1:
+                    shape = set()
+                    self.dfs(grid, i, j, i, j,  shape)
+                    shapes.add(tuple(shape))
         return len(shapes)
     
-    def dfs(self,grid, i, j, relative,visited):
-            visited.add((i,j))
-            for dx, dy in [(0, 1), (0, -1), (1,0), (-1, 0)]:
-                new_x = i + dx
-                new_y = j + dy
-                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1 and (new_x, new_y) not in visited:
-                    new_rela = (relative[0] + dx, relative[1] + dy)
-                    self.shape.append(new_rela)
-                    visited.add((new_x, new_y))
-                    self.dfs(grid,new_x, new_y, new_rela, visited)
+    
+    def dfs(self, grid, i, j, i0, j0, shape):
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 0 or (i, j) in self.visited:
+            return 
+        self.visited.add((i, j))
+        shape.add((i - i0, j - j0))
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x = i + dx
+            y = j + dy
+            self.dfs(grid, x, y, i0, j0, shape)
+        
+        
+                
