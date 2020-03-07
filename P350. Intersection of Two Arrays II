@@ -20,7 +20,7 @@ class Solution(object):
         return res
         
 # two pointers
-# time O(nlgn)
+# time O(nlgn + mlgm)
 # search O(m + n) 
 # space O(1)
 
