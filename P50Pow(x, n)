@@ -27,23 +27,24 @@
  # time lgn
  # space O(1)
  
-class Solution:
-    def myPow(self, x: float, n: int) -> float:
+class Solution(object):
+    def myPow(self, x, n):
+        
         if x == 1 or n == 0:
             return 1
+        
         if n < 0:
-            x = 1 / x
+            x = 1/x
             n = -n
-            
-        result = 1
-        temp = x
-        while n != 0:
-            if n % 2 == 1:
-                result = result * temp
-            temp = temp * temp
+          
+        res = 1
+        tmp = x
+        while n:
+            if n % 2:
+                res = res * tmp
+            tmp = tmp ** 2
             n = n // 2
-        return  result
-
+        return res
 
 
  
