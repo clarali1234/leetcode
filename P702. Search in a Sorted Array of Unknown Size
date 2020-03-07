@@ -1,1 +1,40 @@
+# sol Binary Search
+# step: search for the right boundary, then do binary search
+# time O(lgn), n is the answer index
 
+class Solution(object):
+    def search(self, reader, target):
+        """
+        :type reader: ArrayReader
+        :type target: int
+        :rtype: int
+        """
+        if reader.get(0) == target:
+            return 0
+        if reader.get(0) > target:
+            return -1
+        
+        r = 1
+        while reader.get(r) < target:
+            print(r)
+            r = r * 2 
+        
+        # first r >= target
+        l = r // 2
+        
+        while l + 1 < r:
+            m = (l + r) // 2
+            if reader.get(m) == target:
+                return m
+            elif reader.get(m) < target:
+                l = m + 1
+            else:
+                r = m - 1
+        
+        if reader.get(r) == target:
+            return r
+        elif reader.get(l)  == target:
+            return l
+        return -1
+                
+            
