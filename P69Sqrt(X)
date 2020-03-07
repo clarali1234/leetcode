@@ -2,6 +2,7 @@
 # time O(lg(x/精度))
 # space O(1)
 
+# 核心： find first integer in range(0, x) m, m ** 2 <= x
 class Solution(object):
     def mySqrt(self, x):
         """
