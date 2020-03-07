@@ -1,3 +1,45 @@
+# binary search
+# time O(log(answer))
+# space O(1)
+
+  class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        sign = 0
+        if dividend > 0 and divisor < 0 or dividend < 0 and divisor > 0:
+            sign = -1
+        else:
+            sign = 1
+        
+        # 注意1. 用absolute value 做
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+        res = 0
+        
+        while dividend >= divisor:
+            tmp = divisor 
+            i = 1
+            #注意2. 比较的是要从dividend 减去的数，tmp + tmp
+            while dividend >= tmp + tmp:
+                tmp += tmp
+                i += i
+            res += i
+            dividend -= tmp
+            
+        res = sign * res
+        if res > 2147483647:
+            return 2147483647
+        elif res < -2147483648:
+            return -2147483648
+        else:
+            return res
+        
+
+
 # bit manipulation
 # a << 1 a向左移动一位，等于a * 2， 左移n位，相当于 a * 2 ^ n
 # 可以用被除数不断地减除数的1倍、2倍、4倍、8倍...这样就快了
@@ -39,40 +81,4 @@ class Solution(object):
         
         
         
-  # binary search
-  class Solution(object):
-    def divide(self, dividend, divisor):
-        """
-        :type dividend: int
-        :type divisor: int
-        :rtype: int
-        """
-        sign = 0
-        if dividend > 0 and divisor < 0 or dividend < 0 and divisor > 0:
-            sign = -1
-        else:
-            sign = 1
-        
-        # 注意1. 用absolute value 做
-        dividend = abs(dividend)
-        divisor = abs(divisor)
-        res = 0
-        
-        while dividend >= divisor:
-            tmp = divisor 
-            i = 1
-            #注意2. 比较的是要从dividend 减去的数，tmp + tmp
-            while dividend >= tmp + tmp:
-                tmp += tmp
-                i += i
-            res += i
-            dividend -= tmp
-            
-        res = sign * res
-        if res > 2147483647:
-            return 2147483647
-        elif res < -2147483648:
-            return -2147483648
-        else:
-            return res
-        
+  
