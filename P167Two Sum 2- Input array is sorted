@@ -1,3 +1,11 @@
+# sol1: brute force
+interate all the possible pair 
+time O(n^2), space O(1)
+
+# sol2: two pointers
+# time O(n)
+# space O(1)
+
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
         left, right = 0, len(numbers) - 1
@@ -8,5 +16,5 @@ class Solution:
                 left += 1
             else:
                 right -= 1
-        return []
+        
         
