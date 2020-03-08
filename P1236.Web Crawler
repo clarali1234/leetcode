@@ -1,0 +1,26 @@
+# time O(v+e)
+# space O(v)
+
+class Solution(object):
+    def crawl(self, startUrl, htmlParser):
+        """
+        :type startUrl: str
+        :type htmlParser: HtmlParser
+        :rtype: List[str]
+        """
+        self.host_name = startUrl.split('/')[2]
+        self.res = []
+        self.visited = set()
+        self.dfs(startUrl, htmlParser)
+        return self.res
+    
+    
+    def dfs(self, url, htmlParser):
+        if url in self.visited or url.split('/')[2] != self.host_name:
+            return 
+        
+        self.visited.add(url)
+        self.res.append(url)
+        nbs = htmlParser.getUrls(url)
+        for nb in nbs:
+            self.dfs(nb, htmlParser)
