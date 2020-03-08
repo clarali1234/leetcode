@@ -9,10 +9,7 @@ step 3: recover
 
 class Solution(object):
     def recoverTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: None Do not return anything, modify root in-place instead.
-        """
+        
         self.vals = []
         self.dfs(root)
         x, y = self.find_two()
@@ -32,7 +29,7 @@ class Solution(object):
         x = y = None
         for i in range(len(self.vals) - 1):
             if self.vals[i + 1] < self.vals[i]:
-                y = self.vals[i + 1]
+                y = self.vals[i + 1] # y is the smaller one
                 if not x:
                     x = self.vals[i]
                 else:
@@ -54,6 +51,7 @@ class Solution(object):
             self.recover(root.right, x, y, count)
                 
         
+# sol2: 
                     
                 
                 
