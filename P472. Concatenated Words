@@ -24,7 +24,6 @@ class Solution(object):
     def findAllConcatenatedWordsInADict(self, words):
        
         s = set(words)
-        
         memo = {}
         def isConcatenatedWord(w):
             if w in memo: return memo[w]
