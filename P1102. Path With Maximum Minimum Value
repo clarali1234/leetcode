@@ -1,2 +1,33 @@
-# dfs
-# 
+# dfs + heap
+# using heap to implement dfs, until get to the end point
+# time O(mnlog(mn))
+# space O(mn)
+
+from heapq import * 
+
+class Solution(object):
+    def maximumMinimumPath(self, A):
+        """
+        :type A: List[List[int]]
+        :rtype: int
+        """
+        heap = [(-A[0][0], 0, 0)]
+        heapify(heap)
+        visited = set()
+        visited.add((0, 0))
+        res = sys.maxsize
+        
+        while heap:
+            val, x, y = heappop(heap)
+            res = min(res, -val)
+            if x == len(A) - 1 and y == len(A[0]) - 1:
+                return res
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < len(A) and 0 <= new_y < len(A[0]) and (new_x, new_y) not in visited:
+                    heappush(heap, (-A[new_x][new_y], new_x, new_y))
+                    visited.add((new_x, new_y))
+                
+            
+        
