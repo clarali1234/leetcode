@@ -1,0 +1,24 @@
+# dfs
+# time O(v + e) (O(n))
+# space O(n)
+
+class Solution(object):
+    def getImportance(self, employees, id):
+        """
+        :type employees: List[Employee]
+        :type id: int
+        :rtype: int
+        """
+        emap = {e.id : e for e in employees}
+        return self.dfs(emap, id)
+    
+    def dfs(self, emap, id):
+        val = emap[id].importance
+        if not emap[id].subordinates:
+            return val
+     
+        else:
+            for sub in emap[id].subordinates:
+                val += self.dfs( emap, sub)
+                
+        return val
