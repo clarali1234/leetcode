@@ -2,38 +2,51 @@
 # time  O(4^mn)
 # space O(mn)
 
+node: 1, backtracking after the four directions; 2. total = 1 (start) + 0
+
 class Solution(object):
     def uniquePathsIII(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        total = 0
-        self.res = 0
+        
+        self.total = 0
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] == 0:
-                    total += 1
+                    self.total += 1
                 elif grid[i][j] == 1:
-                    start = (i, j)
-        self.dfs(grid, start[0], start[1], total)
+                    start = [i, j]
+        self.total += 1
+        self.res = 0
+        self.dfs(grid, start[0], start[1])
         return self.res
-                
-                
-    def dfs(self, grid, x, y, total):
-        for dx, dy in [(1,0), (-1, 0), (0, 1), (0, -1)]:
-            new_x = x + dx
-            new_y = y + dy
-            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] in [0, 2]:
-                if grid[new_x][new_y] == 0:
-                    total -= 1
-                    grid[new_x][new_y] = -1
-                    self.dfs(grid, new_x, new_y, total)
-                    grid[new_x][new_y] = 0
-                    total += 1
-                elif total == 0:
-                    self.res += 1
-                    return 
-                
     
+    
+    def dfs(self, grid, i, j):
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or not grid[i][j] in [1, 0, 2]:
+            return
+        
+        if grid[i][j] == 2:
+            if self.total == 0:
+                self.res += 1
+            return 
+        
+        self.total -= 1
+        grid[i][j] = -1
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+            x = i + dx
+            y = j + dy
+            self.dfs(grid, x, y)
             
+        # backtracking
+        grid[i][j] = 0
+        self.total += 1
+
+
+            
+        
+                
+                
+                
+            
+        
+                
+           
