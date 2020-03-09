@@ -7,27 +7,26 @@ stop, check the current step, put current point into visited, if the current is 
 # time O(m*n * max(m, n)), each points, max road length is max(m, n)
 # space O(mn)
 
-directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 class Solution(object):
     def shortestDistance(self, maze, start, destination):
-      
-        visited = {}
-        queue = collections.deque([(start[0], start[1], 0)])
-        visited[(start[0], start[1])] = 0
+        
+        queue = collections.deque([(start[0], start[1], 0)]) # points that have been visited
+        visited = collections.defaultdict(int)
         
         while queue:
-            i, j, d = queue.popleft()
-            for dx, dy in directions:
-                x = i
-                y = j
-                step = d
-                while 0 <= x + dx < len(maze) and 0 <= y + dy < len(maze[0]) and maze[x + dx][y + dy] == 0:
-                    x += dx
-                    y += dy
-                    step += 1
-                if (x, y) not in visited or (x, y) in visited and visited[(x, y)] > step:
-                    visited[(x, y)] = step
-                    if (x, y) != (destination[0], destination[1]) and maze[x][y] == 0:
-                        queue.append((x, y, step))
-        return visited.get((destination[0], destination[1]), -1)
+            x, y, step = queue.popleft()
+            for dx, dy in [(-1, 0), (1,0), (0, 1), (0, -1)]:
+                new_x = x
+                new_y = y
+                d = step
+                while 0 <= new_x + dx < len(maze) and 0 <= new_y + dy < len(maze[0]) and maze[new_x + dx][new_y + dy] == 0:
+                    new_x += dx
+                    new_y += dy
+                    d += 1
                     
+                if (new_x, new_y) not in visited or visited[(new_x, new_y)] > d:
+                    visited[(new_x, new_y)] = d 
+                    if [new_x, new_y] != destination:
+                        queue.append((new_x, new_y, d))
+                    
+        return visited.get((destination[0], destination[1]), -1)
