@@ -1,3 +1,35 @@
+# dfs
+# time O(mn)
+# space o(mn)
+
+# the ball won't stop until hit the wall (this is our recursion point)
+
+class Solution(object):
+    def hasPath(self, maze, start, destination):
+        self.end = destination
+        self.visited = set()
+        return self.dfs(maze, start[0], start[1])
+    
+    def dfs(self, maze, i, j):
+        if i == self.end[0] and j == self.end[1]:
+            return True
+        
+        if (i, j) in self.visited:
+            return False
+        
+        self.visited.add((i, j))
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            x = i
+            y = j
+            while 0 <= x + dx < len(maze) and 0 <= y + dy < len(maze[0]) and maze[x + dx][y + dy] == 0:
+                x = x + dx
+                y = y + dy
+            if self.dfs(maze, x, y):
+                return True
+        return False
+            
+            
+
 # bfs
 # time O(mn * max(m, n)
 # space o(mn)
@@ -35,34 +67,3 @@ class Solution(object):
         
 
 
-# dfs
-# time O(mn)
-# space o(mn)
-
-# the ball won't stop until hit the wall (this is our recursion point)
-
-class Solution(object):
-    def hasPath(self, maze, start, destination):
-       
-        def dfs(x, y, visited):
-            if x == destination[0] and y == destination[1]:
-                return True
-            if (x, y) in visited:
-                return False
-            
-            visited.add((x, y))
-            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                new_x = x
-                new_y = y
-                while 0 <= new_x + dx < len(maze) and 0 <= new_y + dy < len(maze[0]) and maze[new_x + dx][new_y + dy] == 0:
-                    new_x += dx
-                    new_y += dy
-                if dfs(new_x, new_y, visited):
-                    return True
-            return False
-       
-        if not maze:
-            return False
-        visited = set()
-        return dfs(start[0], start[1], visited)
-        
