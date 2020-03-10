@@ -1,0 +1,15 @@
+class Solution(object):
+    def areSentencesSimilar(self, words1, words2, pairs):
+        
+        if len(words1) != len(words2):
+            return False
+        
+        for i in range(len(words1)):
+            w1 = words1[i]
+            w2 = words2[i]
+            if w1 == w2:
+                continue
+            if not ([w1, w2] in pairs or [w2, w1] in pairs):
+                return False
+        return True
+                
