@@ -1,29 +1,34 @@
 # clarity: traverse all the edges, one only one time
 # step: build graph, sort edges (reverse), call dfs(pop edge one by one until empty), return revserse
 
-# time O(elge)
+# time O(elge + v)
 # space O(v + e)
 
 # dfs
 class Solution(object):
     def findItinerary(self, tickets):
-        """
-        :type tickets: List[List[str]]
-        :rtype: List[str]
-        """
-        self.collection = collections.defaultdict(list)
-        for depart, to in sorted(tickets)[::-1]:
-            self.collection[depart].append(to)
-            
-        self.rout = []
-        self.traverse('JFK')
-        return self.rout[::-1]
+        # build graph
+        self.graph = collections.defaultdict(list)
+        for fro, to in tickets:
+            self.graph[fro].append(to)
+           
+        # sort
+        for fro, tos in self.graph.items():
+            #sorted(tos)[::-1]
+            tos.sort(reverse = True)
+        
+        # call dfs
+        self.res = []
+        self.dfs('JFK')
+        return self.res[::-1]
     
-    def traverse(self, depart):
-        while self.collection[depart]:
-            self.traverse(self.collection[depart].pop())
-        self.rout.append(depart)
-    
+    def dfs(self, port):
+        while self.graph[port]:
+            nxt = self.graph[port].pop()
+            self.dfs(nxt)
+        
+        self.res.append(port)
+        
   # non-recursion
   class Solution(object):
     def findItinerary(self, tickets):
