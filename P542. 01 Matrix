@@ -1,0 +1,85 @@
+# brute force 
+# call bfs for each cell
+# time O(mn * mn)
+# space O(mn)
+
+class Solution(object):
+    def updateMatrix(self, matrix):
+        
+        m = len(matrix)
+        n = len(matrix[0])
+        
+        res = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    res[i][j] == 0
+                else:
+                    visited = set()
+                    visited.add((i, j))
+                    res[i][j] = self.bfs(matrix, i, j, visited, 0)
+                    
+        return res
+    
+    def bfs(self, matrix, i, j, visited, step):
+        queue = collections.deque([(i, j, step)])
+        while queue:
+            x, y, s = queue.popleft()
+            if matrix[x][y] == 0:
+                return s
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                new_s = s + 1
+                if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and (new_x, new_y) not in visited:
+                    visited.add((new_x, new_y))
+                    queue.append((new_x, new_y, new_s))
+                    
+                    
+# better than brute force
+# bfs for one time, start from all 0s
+
+# time O(mn)
+# space O(mn)
+
+class Solution(object):
+    def updateMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        m = len(matrix)
+        n = len(matrix[0])
+        self.res = [[sys.maxsize] * n for _ in range(m)]
+        queue = collections.deque([])
+        visited = set()
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    self.res[i][j] = 0
+                    visited.add((i, j))
+                    queue.append((i, j, 0))
+        
+        self.bfs(matrix, i, j, queue, visited)
+        return self.res
+    
+    def bfs(self, matrix, i, j, queue, visited):
+        
+        while queue:
+            x, y, s = queue.popleft()
+            
+            if matrix[x][y] == 1:
+                self.res[x][y] = s
+                
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                new_s = s + 1
+                if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and matrix[new_x][new_y] == 1 and (new_x, new_y) not in visited:
+                    queue.append((new_x, new_y, new_s))
+                    visited.add((new_x, new_y))
+            
+                        
+                
+                
+        
