@@ -8,7 +8,43 @@ and build hashtable for every email and name pair, hash table key: email, value:
 # space O(sum ai)
 
 # ai 每个账户的长度
-
+class Solution(object):
+    def accountsMerge(self, accounts):
+        """
+        :type accounts: List[List[str]]
+        :rtype: List[List[str]]
+        """
+        
+        e_to_n = {}
+        # build_graph
+        self.graph = collections.defaultdict(set)
+        for acc in accounts:
+            n = acc[0]
+            for e in acc[1:]:
+                self.graph[acc[1]].add(e)
+                self.graph[e].add(acc[1])
+                if e not in e_to_n:
+                    e_to_n[e] = n
+                    
+        # dfs 
+        self.visited = set()
+        res = []
+        for e in self.graph:
+            if e not in self.visited:
+                self.visited.add(e)
+                compnt = []
+                self.dfs(e, compnt)
+                res.append([e_to_n[e]] + sorted(compnt))
+        return res
+    
+    def dfs(self, email, compnt):
+        compnt.append(email)
+        for nb in self.graph[email]:
+            if nb not in self.visited:
+                self.visited.add(nb)
+                self.dfs(nb, compnt)
+        
+# bfs
 class Solution(object):
     def accountsMerge(self, accounts):
         """
