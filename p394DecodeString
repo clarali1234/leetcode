@@ -6,31 +6,26 @@
 # curstring保存的是出栈操作完成后的字符串。
 # 注意这一步：curstring = prestring + prenum * curstring，
 # prestring是前面的字符串，prenum * curstring是这一步骤结束之后的字符串，所以是前面的字符串+现在的字符串得到目前已有的字符串。
-# time O(k_max * n) (O(n))??
-# space O(k_max * n) O(max depth of [])
+# time O(k_max * n) (O(n))?? (n is the length of input, linear time)
+# space O(k_max * n) O(max depth of stack)
 class Solution(object):
     def decodeString(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        current_num = 0
-        current_string = ''
         stack = []
+        cur_s = ''
+        cur_n = 0
         for char in s:
             if char == '[':
-                stack.append(current_string)
-                stack.append(current_num)
-                current_string = ''
-                current_num = 0
+                stack.append(cur_s)
+                stack.append(cur_n)
+                cur_s = ''
+                cur_n = 0
             elif char == ']':
-                previous_num = stack.pop()
-                previous_string = stack.pop()
-                current_string = previous_string + previous_num * current_string 
+                pre_n = stack.pop()
+                pre_s = stack.pop()
+                cur_s = pre_s + cur_s * pre_n
             elif char.isdigit():
-                current_num = current_num * 10 + int(char)
+                cur_n = cur_n * 10 + int(char)
             else:
-                current_string += char
-        return current_string
-            
-        
+                cur_s = cur_s + char
+                
+        return cur_s
