@@ -1,6 +1,8 @@
-# 首先肯定是要把路径保存成链表法表示的图的。
-# 然后对每个顶点的所有邻接顶点进行排序，这样我们每次都优先选择字典序最小的那个顶点作为下次遍历的节点。
-# 我们做了后序遍历即可。最后还要把后序遍历的结果再翻转，才是从根节点出发到每个位置的路径。
+# clarity: traverse all the edges, one only one time
+# step: build graph, sort edges (reverse), call dfs(pop edge one by one until empty), return revserse
+
+# time O(elge)
+# space O(v + e)
 
 # dfs
 class Solution(object):
