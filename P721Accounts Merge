@@ -1,6 +1,7 @@
 # bfs/dfs
-# build graph, first email to each email in the same account
-# hash table key: email, value:name
+
+# step: build graph, for each account, draw edge between first email to each of the other emails in the same account, 
+and build hashtable for every email and name pair, hash table key: email, value:name
 # bfs/dfs 寻找联通块
 
 # time O(sum ai log ai), sort email for the last result
