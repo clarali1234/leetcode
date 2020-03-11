@@ -1,8 +1,7 @@
 # dfs
 # idea: recursion 
 
-# recursion func, 参数, 当前lists, 当前cum_sum
-# 
+# recursion func, 参数, 当前lists, 当前cum_sum before nxt level lists, recursion part, return res
 
 # time O(n+m), n: integers ,相当于node, m: list numbers, 相当于edge 
 # space O(n) 
@@ -12,9 +11,9 @@ class Solution(object):
         
         return self.dfs(nestedList, 0)
     
-    def dfs(self, nestedList, res):
+    def dfs(self, nestedList, cum_sum):
         nxtList = []
-        cum_sum = res # cumulative sum before nxt lists
+        res = cum_sum # cumulative sum before nxt lists
         
         for ele in nestedList:
             if ele.isInteger():
