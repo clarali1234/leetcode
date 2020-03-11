@@ -1,40 +1,34 @@
+# idea: dfs
+# time O(mn)
+# space O(mn)
+# node '='
+
 class Solution(object):
     def updateBoard(self, board, click):
         
-        return self.dfs(board, click)
-    
-    def dfs(self, board, click):
-        x = click[0]
-        y = click[1]
-        if board[x][y] == 'M':
-            board[x][y] = 'X'
-        else:
-            count = 0
-            adjs = []
-            for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, 1), (-1, -1), (1, -1)]:
-                new_x = x + dx
-                new_y = y + dy
-                if self.is_valid(board, new_x,new_y):
-                    if board[new_x][new_y] == 'M':
-                        count +=1 
-                    adjs.append([new_x, new_y])
-                    
-            if count == 0:
-                board[x][y] = 'B'
-                for nei in adjs:
-                    if board[nei[0]][nei[1]] == 'E':
-                        self.dfs(board, nei)
-            else:
-                board[x][y] = str(count)
+        self.dfs(board, click[0], click[1])
         return board
     
-    def is_valid(self, grid,x, y):
-        if 0 <= x < len(grid) and 0 <= y < len(grid[0]):
-            return True
-        return False
-                    
-    
-    
-    
-    
+    def dfs(self, board, x, y):
+        if board[x][y] == 'M':
+            board[x][y] = 'X'
         
+        elif board[x][y] == 'E':
+            adj = []
+            count = 0
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, 1), (1, -1), (-1, -1), (1, 1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < len(board) and 0 <= new_y < len(board[0]):
+                    if board[new_x][new_y] == 'E':
+                        adj.append([new_x, new_y])
+                    elif board[new_x][new_y] == 'M':
+                        count += 1
+                        
+            if count == 0:
+                board[x][y] = 'B'
+                for nb in adj:
+                    self.dfs(board, nb[0], nb[1])
+            else:
+                board[x][y] = str(count)
+                
