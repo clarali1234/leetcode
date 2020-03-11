@@ -1,0 +1,54 @@
+BFS. 首先找出在边界的O, 将它们加到队列中, 然后对它们进行BFS搜索, 将它和它相邻的O转化为D. 
+棋盘里剩下的O则是被X包围住的O, 遍历棋盘, 将O改为X, 将D还原为O.
+
+Time: O(mn)
+Space: O(mn)
+
+class Solution(object):
+    def solve(self, board):
+        """
+        :type board: List[List[str]]
+        :rtype: None Do not return anything, modify board in-place instead.
+        """
+        if not board:
+            return board
+        
+        m = len(board)
+        n = len(board[0])
+        queue = collections.deque([])
+        
+        visited = set()
+        for i in range(m):
+            if board[i][0] == 'O':
+                queue.append([i, 0])
+                visited.add((i, 0))
+            if board[i][n - 1] == 'O':
+                queue.append([i, n - 1])
+                visited.add((i, n - 1))
+                
+        for j in range(n):
+            if board[0][j] == 'O':
+                queue.append([0, j])
+                visited.add((0, j))
+            if board[m - 1][j] == 'O':
+                queue.append([m - 1, j])
+                visited.add((m - 1, j))
+                
+        # bfs
+        while queue:
+            x, y = queue.popleft()
+            board[x][y] = 'D'
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < m and 0 <= new_y < n and (new_x, new_y) not in visited and board[new_x][new_y] == 'O':
+                    queue.append([new_x, new_y])
+                    visited.add((new_x, new_y))
+                    
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                elif board[i][j] == 'D':
+                    board[i][j] = 'O'
+        return board
