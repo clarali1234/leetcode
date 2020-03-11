@@ -1,0 +1,26 @@
+# bfs traversal
+# time O(m + n)
+# space O(m)
+
+class Solution(object):
+    def canVisitAllRooms(self, rooms):
+       
+        entered = set()
+        queue = collections.deque([])
+        if rooms[0]:
+            for x in rooms[0]:
+                queue.append(x)
+        #queue.append(x for x in rooms[0])
+        entered.add(0)
+        
+        while queue:
+            key = queue.popleft()
+            entered.add(key)
+            
+            if rooms[key]:
+                for x in rooms[key]:
+                    if x not in entered:
+                        queue.append(x)
+        
+
+        return len(rooms) == len(entered)
