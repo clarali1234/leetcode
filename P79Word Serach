@@ -1,5 +1,5 @@
-#time O(m*n*4^K)->upper boundO(mn*mn)
-# space O(mn)
+#time O(n * 4^L), n is the number of node, L is length of word
+# space O(mn) + O(L), L is the depth of recursion
 
 class Solution:
     def exist(self, board, word):
