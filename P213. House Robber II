@@ -1,0 +1,33 @@
+该题在House Robber的基础上让首位链接形成环，那么即表示第一个和最后一个不能同时被抢，
+则问题分解为House Robber（nums[0:len(nums)-1]）和House Robber（nums[1:len(nums)]
+两者中比较大的那个即为结果
+
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def rob(self, nums):
+        
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        
+        if len(nums) == 2:
+            return max(nums)
+        
+        n = len(nums)
+        dp1 = self.dp(nums[0 : n - 1])
+        dp2 = self.dp(nums[1 : n])
+        return max(dp1, dp2)
+    
+    def dp(self, nums):
+        if len(nums) == 2:
+            return max(nums)
+        
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, len(dp)):
+            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+        return max(dp)
