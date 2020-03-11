@@ -1,0 +1,38 @@
+# dfs
+# time O(mn)
+# space O(mn)
+
+class Solution(object):
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        if not grid:
+            return 0
+        
+        self.visited = set()
+        res = [0]
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1 and (i, j) not in self.visited:
+                    self.count = 0
+                    self.visited.add((i, j))
+                    self.dfs(grid, i, j)
+                    res.append(self.count)
+        print(res)
+        return max(res)
+                    
+        
+    def dfs(self, grid, x, y):
+        self.count += 1
+        
+        for dx, dy in [(-1, 0), (1,0), (0, 1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+
+            
+            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and (new_x, new_y) not in self.visited and grid[new_x][new_y] == 1:
+
+                self.visited.add((new_x, new_y))
+                self.dfs(grid, new_x, new_y)
