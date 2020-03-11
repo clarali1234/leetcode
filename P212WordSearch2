@@ -6,57 +6,60 @@
 2. space complextiy
       trie O(trie node)
       dfs O(mn)
-
+     
+node: 找到单词之后，为了避免重复，cur_node.is_word = False
 
 class TrieNode(object):
     def __init__(self):
-        self.children  = {}
+        self.children = {}
         self.is_word = False
         
 class Trie(object):
     def __init__(self):
         self.root = TrieNode()
         
-    def addWord(self, word):
-        current = self.root
+    def insert(self, word):
+        cur = self.root
         for char in word:
-            if char not in current.children:
-                current.children[char] = TrieNode()
-            current = current.children[char]
-        current.is_word = True
+            if char not in cur.children:
+                cur.children[char] = TrieNode()
+            cur = cur.children[char]
+        cur.is_word = True
         
+
+
 class Solution(object):
     def findWords(self, board, words):
-        trie = Trie()
         
-        # construct prefix trie for words
-        for word in words:
-            trie.addWord(word)
+        # build trie
+        trie = Trie()
+        for w in words:
+            trie.insert(w)
             
-        #root = trie.root
-        # dfs search
         self.res = []
-        #visited = set()
         for i in range(len(board)):
             for j in range(len(board[0])):
-                self.dfs(board, trie.root,  "", i, j)
+                self.visited = set()
+                self.dfs(board, i, j, '',  trie.root)
+                
         return self.res
-
-    def dfs(self, board, cur_node,  word, i, j):
+    
+    def dfs(self, board, x, y, cur_path, cur_node):
         if cur_node.is_word:
-            self.res.append(word)
+            self.res.append(cur_path)
             cur_node.is_word = False
-            
-        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
-            return
         
+        if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]) or (x, y) in self.visited or board[x][y] not in cur_node.children.keys():
+            return 
+        
+        self.visited.add((x, y))
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            new_x = x + dx
+            new_y = y + dy
+            self.dfs(board, new_x, new_y, cur_path + board[x][y], cur_node.children[board[x][y]])
             
-        #这里预先判断char是否在prefix内，prune 节省时间
-        char = board[i][j]
-        if char in cur_node.children:
-            board[i][j] = '#'
-            for x, y in [[-1, 0], [0, -1], [0, 1], [1, 0]]:
-                self.dfs(board, cur_node.children[char],  word + char, i + x, y + j)
-            board[i][j] = char
-
+        self.visited.remove((x, y))
+            
+        
+        
         
