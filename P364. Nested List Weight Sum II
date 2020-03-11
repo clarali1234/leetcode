@@ -1,25 +1,29 @@
+# dfs
+# idea: recursion 
+# time O(n+m), n: integers ,相当于node, m: list numbers, 相当于edge 
+# space O(n) 
+
 class Solution(object):
     def depthSumInverse(self, nestedList):
-        """
-        :type nestedList: List[NestedInteger]
-        :rtype: int
-        """
-        if not nestedList:
-            return 0
-        self.res = 0
-        self.dfs(nestedList)
-        return self.res
+        
+        return self.dfs(nestedList, 0)
     
-    def dfs(self, lists):
-        cur_lists = []
-        for ele in lists:
+    def dfs(self, nestedList, res):
+        nxtList = []
+        cum_sum = res # cumulative sum before this level
+        
+        for ele in nestedList:
             if ele.isInteger():
-                self.res += ele.getInteger()
+                cum_sum += ele.getInteger()
+                res += ele.getInteger()
             else:
-                cur_lists += ele.getList()
-        if len(cur_lists) > 0:
-            self.res += self.dfs(cur_lists)
-        return self.res
+                nxtList += ele.getList()
+                
+        if nxtList:
+            res += self.dfs(nxtList, cum_sum) # if has nxt list, all cum_sum need to be added again
+            
+        return res # final result after this level is done
+                    
         
 
 但是解题思路没有变，还可以用 DFS 来做，由于遍历的时候不知道最终的 depth 有多深，则不能遍历的时候就直接累加结果，
@@ -27,10 +31,6 @@ class Solution(object):
 # dfs
 # The recursion is obvious - traverse the list and if there is any nestedList, find its depth. 
 # The final depth is the maximum depth from any nestedList.
-
-
-
-
 
 
 class Solution(object):
