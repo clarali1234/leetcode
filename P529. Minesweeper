@@ -1,4 +1,4 @@
-# idea: dfs
+# idea: dfs, 根据题意进行recursion
 # time O(mn)
 # space O(mn)
 # node '='
