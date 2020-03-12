@@ -17,7 +17,12 @@ class Solution(object):
         return False
     
         
+# problem with sol1, many subproblems are redundant, we were calling recursive funtions many times for a particular string
+# so we use hash table to store the result of subproblems that we've calculated.
+
 # sol2 recursion time O(n^2), space O(n) (memo O(n), max depth of recursion is O(n))
+# key: start index, value: res of the recursive function for this start index
+
 class Solution(object):
 
     def wordBreak(self, s, wordDict):
