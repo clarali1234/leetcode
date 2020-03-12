@@ -1,23 +1,18 @@
 # brute force 
-# time (2^n)
-推到：
-T(n) = T(1) + T(2) + ... + T(n-2) + T(n-1)
-T(n+1) = [ T(1) + T(2) + ... + T(n-2) + T(n-1) ] + T(n) = = T(n) + T(n) = 2T(n)
-T(n) = 2T(n-1) = 2 * 2 * T(n-2) = ... 2^k * T(n-k) = ... = 2^(n-1) T(1)
-因此T(n) ~ O(2^n)
+# time O(n^n) eg: 'aaaaa'
 # spce O(n)，递归的深度,递归在内存中同时存在的最大次数
 
 class Solution(object):
     def wordBreak(self, s, wordDict):
-        word_dic = set(wordDict)
-        return self.dfs(s, word_dic, 0)
+        
+        return self.dfs(s, 0, wordDict)
     
-    def dfs(self, s, word_dic, start):
-        if start == len(s):
+    def dfs(self, s, index, wordDict):
+        if index == len(s):
             return True
         
-        for end in range(start + 1, len(s) + 1):
-            if s[start : end] in word_dic and self.dfs(s, word_dic, end):
+        for j in range(index, len(s)):
+            if s[index : j + 1] in wordDict and self.dfs(s, j + 1, wordDict):
                 return True
         return False
     
