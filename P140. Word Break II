@@ -1,6 +1,6 @@
 # dfs + memo (top down dp)
-# Time complexity: O(2^n). Size of recursion tree can go up to 2^n. The creation of the 'res' List takes n time.
-# space complexity is also O(2^n), since we have O(2^n) possible res
+# Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
+# space complexity is also O(n ^ 3)
 
 
 class Solution(object):
