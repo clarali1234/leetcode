@@ -24,26 +24,26 @@ class Solution(object):
 # key: start index, value: res of the recursive function for this start index
 
 class Solution(object):
-
     def wordBreak(self, s, wordDict):
-        # s = "leetcode", wordDict = ["leet", "code"]
-        word_dic = set(wordDict)
-        return self.dfs(s, 0, {}, word_dic)
+        
+        self.dic = {}
+        return self.dfs(s, 0, wordDict)
     
-    def dfs(self, s, start, memo, word_dic):
-        if start in memo:
-            return memo[start]
+    def dfs(self, s, cur_index, wordDict):
+        if cur_index in self.dic:
+            return self.dic[cur_index]
         
-        if start == len(s):
-            memo[start] = True
-            return True
+        if cur_index == len(s):
+            self.dic[cur_index] = True
+            return self.dic[cur_index]
         
-        for end in range(start + 1, len(s) + 1):
-            if s[start : end] in word_dic and self.dfs(s, end, memo, word_dic):
-                memo[start] = True
-                return memo[start]
-        memo[start] = False
-        return memo[start]
+        for j in range(cur_index, len(s)):
+            if s[cur_index : j + 1] in wordDict and self.dfs(s, j + 1, wordDict):
+                self.dic[cur_index] = True
+                return self.dic[cur_index]
+            
+        self.dic[cur_index] = False
+        return False
         
 
 # sol3: dp
