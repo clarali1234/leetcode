@@ -4,57 +4,46 @@
 2. 每个col 1-9只能出现一次
 3. 每个3 * 3， 1-9只能出现一次
 
-brute force method:
-time :9^81, 81个格子，每个格子有9种选择
-
 # dfs + constraint
-time: O(9!^ 9), 9! for each row
-sapce : 81
-
-tip to enumerate sub boxes
-row // 3 * 3 + col // 3
+time: constant, num of operations is O(9!^ 9), 9! for each row
+sapce: constant
 
 class Solution(object):
     def solveSudoku(self, board):
-        """
-        :type board: List[List[str]]
-        :rtype: None Do not return anything, modify board in-place instead.
-        """
         
+        self.seen = set()
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    self.seen.add((board[i][j], i))
+                    self.seen.add((j, board[i][j]))
+                    self.seen.add((i // 3, j // 3, board[i][j]))
+         
         self.dfs(board)
         return board
-    
-    def check(self, x, y, board):
-        tmp = board[x][y]
         
-        board[x][y] = '.'
-        # check col
-        for i in range(9):
-            if board[i][y] == tmp:
-                return False
-        
-        # check row
-        for j in range(9):
-            if board[x][j] == tmp:
-                return False
-            
-        # check sub-board:
-        for row in range(3):
-            for col in range(3):
-                if board[x // 3 * 3 + row][y // 3 * 3 + col] == tmp:
-                    return False
-        board[x][y] = tmp
-        return True
-
-    
     def dfs(self, board):
+        
         for i in range(9):
             for j in range(9):
                 if board[i][j] == '.':
-                    for val in '123456789':
-                        board[i][j] = val
-                        if self.check(i, j, board) and self.dfs(board):
-                            return True
-                        board[i][j] = '.'
+                    for digit in range(1, 10):
+                        digit = str(digit)
+                        
+                        if not (digit, i) in self.seen and not (j, digit) in self.seen and not (i // 3, j // 3, digit) in self.seen:
+                            board[i][j] = digit
+                            self.seen.add((digit, i))
+                            self.seen.add((j, digit))
+                            self.seen.add((i // 3, j // 3, digit))
+        
+                            if self.dfs(board):
+                                return True
+                
+                            board[i][j] = '.'
+                            self.seen.remove((digit, i))
+                            self.seen.remove((j, digit))
+                            self.seen.remove((i // 3, j // 3, digit))
+            
                     return False
         return True
+            
