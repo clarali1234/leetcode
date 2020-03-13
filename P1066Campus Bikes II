@@ -8,30 +8,30 @@
 
 所以python需要优化剪枝，用dp记录之前已经计算过的局部解，
 
-# I passed a boolean list into my dfs method, where "0" means the bike is available for other users, and "1" means occupied.
 class Solution(object):
     def assignBikes(self, workers, bikes):
-        """
-        :type workers: List[List[int]]
-        :type bikes: List[List[int]]
-        :rtype: int
-        """
-        dic = {}
+      
+        m = len(workers)
+        n = len(bikes)
+        self.dis = [self.manhattan(workers[i], bikes[j]) for i in range(m) for j in range(n)]
+        self.memo = {}
+        return self.dfs(workers, bikes, [], 0)
+    
+    
+    def dfs(self, workers, bikes, used_bikes, w):
+        if w == len(workers):
+            return 0
         
-        def helper(a,b):
-            return abs(a[0] - b[0]) + abs(a[1] - b[1])
+        state = (w, tuple(sorted(used_bikes)))
+        if state in self.memo:
+            return self.memo[state]
         
-        def dfs(p, arr):
-            if p == len(workers):
-                return 0
-            if (p, tuple(arr)) in dic:
-                return dic[(p, tuple(arr))]
-            temp = float('inf')
-            for i in range(len(arr)):
-                if arr[i] == 0:
-                    temp = min(temp,  helper(bikes[i], workers[p]) + dfs(p + 1, arr[:i] + [1] + arr[i + 1:]))
-            dic[(p, tuple(arr))] = temp
-            return temp
+        tmp = sys.maxsize
+        for i in range(len(bikes)):
+            if i not in used_bikes:
+                tmp = min(tmp, self.manhattan(workers[w], bikes[i]) + self.dfs(workers, bikes, used_bikes + [i], w + 1))
+        self.memo[state] = tmp
+        return tmp
         
-        ans = dfs(0, [0 for _ in range(len(bikes))])
-        return ans
+    def manhattan(self, x, y):
+        return abs(x[0] - y[0]) + abs(x[1] - y[1])
