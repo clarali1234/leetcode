@@ -6,14 +6,14 @@
 求所有行都取一个数后, 所有这些取出来数的最小和。
 暴力解就是回溯， 所有取法都试一次，时间复杂度是O(N!)，
 
+# space complexity O(m) (m: length of workers)
+
 所以python需要优化剪枝，用dp记录之前已经计算过的局部解，
 
 class Solution(object):
     def assignBikes(self, workers, bikes):
       
-        m = len(workers)
-        n = len(bikes)
-        self.dis = [self.manhattan(workers[i], bikes[j]) for i in range(m) for j in range(n)]
+      
         self.memo = {}
         return self.dfs(workers, bikes, [], 0)
     
