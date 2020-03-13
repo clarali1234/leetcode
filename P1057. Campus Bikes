@@ -1,3 +1,43 @@
+# bucket sort, since 0 <= workers[i][j], bikes[i][j] < 1000
+# max distance is 2000
+
+# m, len(worders)
+# n, len(bikes)
+# time O(mn)
+# space O(m + n)
+
+class Solution(object):
+    def assignBikes(self, workers, bikes):
+        """
+        :type workers: List[List[int]]
+        :type bikes: List[List[int]]
+        :rtype: List[int]
+        """
+        res = [-1] * len(workers)
+        visited_bikes = [False] * len(bikes)
+        dis = [[]  for _ in range(1999)]
+        for i, [x, y] in enumerate(workers):
+            for j, [x1, y1] in enumerate(bikes):
+                dist = abs(x - x1) + abs(y - y1)
+                dis[dist].append((i, j))
+        
+        #print(dis)
+        count = 0
+        for dis_l in dis:
+            for w, b in dis_l:
+                if res[w] == -1 and not visited_bikes[b]:
+                    res[w] = b
+                    visited_bikes[b] = True
+                    count += 1
+                    if count == len(workers):
+                        break
+        return res
+            
+                
+
+
+
+
 # sort
 # traverse all the pairs
 # time O(mn*lgmn)
