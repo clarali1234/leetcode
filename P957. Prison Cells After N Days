@@ -1,13 +1,14 @@
-# sol1: find loop and mod
-# time O(2 ** n), n: length of cells
+# sol1: find circle and mod
+# time O(2 ** n), n: length of cells (since there is a circle, we only need O(2 ** n) opes
 # space O(n)
 
 class Solution(object):
     def prisonAfterNDays(self, cells, N):
         
         cur, first_day, count = [0] * 8, None, 0
+        
         while N:
-            for c in range(1,7):
+            for c in range(1,7):  # left most and right most would be 0 
                 if cells[c-1] == cells[c+1]:
                     cur[c] = 1
                 else:
@@ -26,31 +27,3 @@ class Solution(object):
 
 
 
-# find pattern 14 (1, 7, 14)
-
-class Solution(object):
-    def prisonAfterNDays(self, cells, N):
-        """
-        :type cells: List[int]
-        :type N: int
-        :rtype: List[int]
-        """
-        # the period is 14
-        if N % 14 == 0:
-            N = 14
-            
-        if N > 14:
-            N = N % 14
-        
-        for i in range(N):
-            temp = [0] * 8
-            for j in range(1, 7):
-                if cells[j - 1] == cells[j + 1]:
-                    temp[j] = 1
-                else:
-                    temp[j] = 0
-            cells = temp
-        return cells
-        
-        
-        
