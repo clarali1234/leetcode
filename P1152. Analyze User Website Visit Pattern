@@ -1,0 +1,32 @@
+# first dic1 user_to_webs, key: user, val: websites
+# sort dic1 by times for each user
+# second dic2, key: seq, value: users
+# sort dic2 by len(uses) and seq, return res
+
+
+# time O(u + wlgw + w^3) 
+# space O(u + w^3)
+class Solution(object):
+    def mostVisitedPattern(self, username, timestamp, website):
+        
+        u_w = collections.defaultdict(list)
+        seq_u = collections.defaultdict(set)
+        
+        
+        for i in range(len(username)):
+            u_w[username[i]].append([timestamp[i],website[i]])
+            
+        for user, vals in u_w.items():
+            vals.sort(key = lambda x : x[0])
+            u_w[user] = [x[1] for x in vals]
+            
+        for user,webs in u_w.items():
+            if len(webs) >= 3:
+                for i in range(len(webs) - 2):
+                    for j in range(i + 1, len(webs) - 1):
+                        for k in range(j + 1, len(webs)):
+                            seq_u[(webs[i], webs[j], webs[k])].add(user)
+           
+        keys = seq_u.keys()
+        keys.sort(key = lambda x : (-len(seq_u[x]), x))
+        return keys[0]
