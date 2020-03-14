@@ -1,5 +1,5 @@
 # sol1: find loop and mod
-# time O(2 ** n)
+# time O(2 ** n), n: length of cells
 # space O(n)
 
 class Solution(object):
