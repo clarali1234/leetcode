@@ -1,5 +1,15 @@
+sol1
+# brute force 
+two for loops, time O(n^2), space O(1)
+
+sol2
 # sort + two pointers
 # sort O(nlgn), two pointers O(n) -> total O(nlgn)
+# space O(1)
+
+sol3 (这道题不适用）
+# hash table
+# time O(n), space O(n) 空间换时间
 
 class Solution(object):
     def twoSumLessThanK(self, A, K):
