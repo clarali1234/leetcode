@@ -1,5 +1,6 @@
 # sol1: find loop and mod
 # time O(2 ** n)
+# space O(n)
 
 class Solution(object):
     def prisonAfterNDays(self, cells, N):
