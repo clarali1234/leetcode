@@ -6,6 +6,7 @@
 # 返回随机数： 只要随机生成一个位置，返回该位置上的数字即可
 
 
+import random
 class RandomizedSet(object):
 
     def __init__(self):
@@ -13,7 +14,6 @@ class RandomizedSet(object):
         Initialize your data structure here.
         """
         self.nums = []
-        # key ele, value:index
         self.dic = {}
 
     def insert(self, val):
@@ -22,35 +22,39 @@ class RandomizedSet(object):
         :type val: int
         :rtype: bool
         """
+        
+        # insert to the end the list， 
         if val in self.dic:
             return False
-        else:
-            self.nums.append(val)
-            self.dic[val] = len(self.nums) - 1
-            return True
         
+        self.nums.append(val)
+        self.dic[val] = len(self.nums) - 1
+        return True
+        
+
     def remove(self, val):
         """
         Removes a value from the set. Returns true if the set contained the specified element.
         :type val: int
         :rtype: bool
         """
+        # exchange val with end and the remove
         if val not in self.dic:
             return False
-        else:
-            if val == self.nums[-1]:
-                del self.dic[val]
-                self.nums.pop()
-            else:
-                index = self.dic[val]
-                # 删除tail, 把nums[index]改成tail
-                tail = self.nums.pop()
-                self.nums[index] = tail
-                self.dic[tail] = index
-                
-                # del val in dic
-                del self.dic[val]
-            return True
+        
+        if val != self.nums[-1]:
+            # exchange end val with remove val
+            index_val = self.dic[val]
+            end = self.nums[-1]
+            
+            self.dic[end], self.dic[val] = self.dic[val], self.dic[end]
+            self.nums[index_val] = end
+            
+        self.nums.pop()
+        del self.dic[val]
+        
+        return True
+        
         
 
     def getRandom(self):
@@ -58,8 +62,6 @@ class RandomizedSet(object):
         Get a random element from the set.
         :rtype: int
         """
-        
-        rand = random.randint(0, len(self.nums) -1)
+        rand = random.randint(0, len(self.nums) - 1)
         return self.nums[rand]
         
-          
