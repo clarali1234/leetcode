@@ -49,15 +49,13 @@ class Codec:
         return self.build()
     
     def build(self):
+  
         if self.queue:
             node = self.queue.popleft()
-            if not node:
-                return None
-            else:
-                root = node
-                root.left = self.build()
-                root.right = self.build()
-                return root
+            if node:
+                node.left = self.build()
+                node.right = self.build()
+            return node
         
 
 # bfs
