@@ -30,3 +30,23 @@ class Solution(object):
 
         self.dfs(root.left, L, R)
         self.dfs(root.right, L, R)
+        
+ 
+class Solution(object):
+    def rangeSumBST(self, root, L, R):
+        self.sum_ = 0
+        self.dfs(root, L, R)
+        return self.sum_
+    
+    def dfs(self, node, L, R):
+        if not node:
+            return 
+        
+        if node.val < L:
+            self.dfs(node.right, L, R)
+        elif node.val > R:
+            self.dfs(node.left, L, R)
+        else:
+            self.sum_ += node.val
+            self.dfs(node.left, L, R)
+            self.dfs(node.right, L, R)
