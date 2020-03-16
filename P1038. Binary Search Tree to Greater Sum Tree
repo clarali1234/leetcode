@@ -2,17 +2,25 @@
 # time O(n)
 # space O(h)
 
+# dfs traversal
+# start from the right most node, then current node, then left subtree
+
 class Solution(object):
-    s = 0
     
     def bstToGst(self, root):
         
-        if root.right:
-            self.bstToGst(root.right)
-        self.s += root.val
-        root.val = self.s
-        if root.left:
-            self.bstToGst(root.left)
+        self.sum_ = 0
+        self.dfs(root)
         return root
+    
+    def dfs(self, node):
+        if node.right:
+            self.dfs(node.right)
+            
+        self.sum_ = self.sum_ + node.val
+        node.val = self.sum_
+        
+        if node.left:
+            self.dfs(node.left)
         
         
