@@ -1,0 +1,28 @@
+
+# dp
+
+# dp[i]: the n = i
+# for any root, i, number of left subtree is j from 0 to i - 1, num of right subtree from i - 1 - j
+
+
+# time O(n^2)
+# space O(n)
+
+
+class Solution(object):
+    def numTrees(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n == 0 or n == 1:
+            return 1
+        
+        dp = [0] * (n + 1)
+        dp[0] = 1
+        dp[1] = 1
+        
+        for i in range(2, len(dp)): # total 2, 3, 4
+            for j in range(0, i):
+                dp[i] += dp[j] * dp[i - 1 - j]
+        return dp[-1]
