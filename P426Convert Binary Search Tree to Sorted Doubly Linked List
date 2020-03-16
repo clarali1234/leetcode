@@ -4,33 +4,32 @@ time O(n), space O(h)
 
 class Solution(object):
     def treeToDoublyList(self, root):
-        """
-        :type root: Node
-        :rtype: Node
-        """
+        
         if not root:
             return None
-        head, tail = self.helper(root)
+        
+   
+        head, tail = self.dfs(root)
         return head
     
-    def helper(self, root):
-        head = root
-        tail = root
+    
+    def dfs(self, node):
         
-        if root.left:
-            left_head, left_tail = self.helper(root.left)
-            left_tail.right = root
-            root.left = left_tail
-            head = left_head
+        head = node
+        tail = node
+        
+        if node.left:
+            l_h, l_t = self.dfs(node.left)
+            head = l_h
+            l_t.right = node
+            node.left = l_t
             
-        if root.right:
-            right_head, right_tail = self.helper(root.right)
-            right_head.left = root
-            root.right = right_head
-            tail = right_tail
+        if node.right:
+            r_h, r_t = self.dfs(node.right)
+            tail = r_t
+            r_h.left = node
+            node.right = r_h
             
         head.left = tail
         tail.right = head
         return head, tail
-        
-        
