@@ -1,0 +1,45 @@
+# solution 1 using recursion
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        return self.binary_search(nums, 0, len(nums) - 1, target)
+    
+    def binary_search(self, nums, start, end, target):
+        if start > end:
+            return -1
+        
+        mid = start + (end - start) //2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] < target:
+            return self.binary_search(nums, mid + 1, end, target)
+        return self.binary_search(nums, start, mid - 1, target)
+        
+        
+# binary search
+
+class Solution():
+    def search(self, nums, target):
+        if not nums:
+            return -1
+        
+        left, right = 0, len(nums) - 1
+        while left + 1 < right:
+            mid = left + (right - left) // 2
+            if nums[mid] == target:
+                return mid   # if find last position, start = mid; if find fist, end = mid
+            if nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1     # 可以写成 left = mid or right = mid
+                
+        if nums[left] == target:
+            return left         # if find last positon, check right first
+        if nums[right] == target:
+            return right
+    
+        return -1
+       
+        
+
+        
+        
