@@ -1,9 +1,4 @@
 # o(n) time, O(n) space
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
 
 class Solution(object):
     def hasCycle(self, head):
@@ -19,12 +14,8 @@ class Solution(object):
         return False
             
         
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
+# O(n) time
+# O(1) space 
 class Solution(object):
     def hasCycle(self, head):
         
