@@ -8,29 +8,29 @@
 
 class Solution(object):
     def isValidPalindrome(self, s, k):
-        return self.dfs(s, {}) <= k
+   
+        self.memo = {}
+        return self.dfs(s, 0, len(s) - 1)  <= k
     
-    def dfs(self, s, memo):
-        if s in memo:
-            return memo[s]
+    def dfs(self, s, l, r):
         
-        if not s:
+        if (l, r) in self.memo:
+            return self.memo[(l, r)]
+    
+        if l == r:
             return 0
         
-        left = 0
-        right = len(s) - 1
         res = 0
-        while left < right:
-            if s[left] == s[right]:
-                left += 1
-                right -= 1
-                
-            else:
-                # choose delete left or right
-                res = 1 + min(self.dfs(s[left + 1 : right + 1], memo), self.dfs(s[left : right], memo))
-                memo[s] = res
+        while l < r:
+            if s[l] != s[r]:
+                res = 1 + min(self.dfs(s, l + 1, r), self.dfs(s, l, r - 1))
+                self.memo[(l, r)] = res
                 return res
-        memo[s] = res
+            else:
+                l += 1
+                r -= 1
+                
+        self.memo[(l,r)] = res
         return res
                 
 
