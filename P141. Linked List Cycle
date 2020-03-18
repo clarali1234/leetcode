@@ -14,8 +14,11 @@ class Solution(object):
         return False
             
         
-# O(n) time
+# O(n + k) time
 # O(1) space 
+
+# if there is a cycle, the fast p will always catch up with the slow pointer in the cycle
+# time distance/speed diff = k/1 = k (k is the length of cycle)
 class Solution(object):
     def hasCycle(self, head):
         
