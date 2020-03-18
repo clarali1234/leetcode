@@ -1,7 +1,4 @@
 # two pointers + hashset (sliding window)
-
-# hashsest the unique char in the sliding window
-
 # sliding windown keep the subtring with unique char
 
 变量start和end分别记录子串的起点和终点
@@ -10,26 +7,29 @@
 当新增字符c的计数 > 1时，向右移动起点start，并将s[start]在字典中的计数 - 1，直到countDict[c]不大于1为止
 更新最大长度
 
-# time O(n), space O(k) (k is the length of set)
+# time O(n), worst case is that each char is visited twice by i and j
+# space O(k) (k is the length of set)
 
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        count = collections.defaultdict(int)
-        res = 0
+        i = 0
         j = 0
+        dic = {}
+        max_len = 0
+        
         for i in range(len(s)):
-            while j < len(s) and s[j] not in count:
-                count[s[j]] = 1
+            while j < len(s) and s[j] not in dic:
+                dic[s[j]] = 1
                 j += 1
-            # exit when j == len(s) or s[j] in count (i, j - 1)
-            res = max(res, j - i)
-            if count[s[i]] == 1:
-                count[s[i]] -= 1
-                del count[s[i]]
+                
+            # cur_l = s[i : j]
+            max_len = max(max_len, j - 1 - i + 1)
+            
+            if dic[s[i]] > 1:
+                dic[s[i]] -= 1
             else:
-                count[s[i]] -= 1
-        return res
+                del dic[s[i]]
+                
+        return max_len
+            
+            
