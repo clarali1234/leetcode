@@ -27,22 +27,33 @@ class Solution(object):
 # optimal method
 # two pointers
 # move fast to n steps, then move fast and slow together until fast to the end, 
-# fast: m steps (m total num of node)
-# slow: m - n steps slow.next is the node that we should delete.
+        #   remove n from the end, means remove m - n + 1 from begin
+        #   need to find m - n th node by moving from dummy move m - n steps
+        
+        # fast move n steps
+        # fast and slow move together until the tail (slow move m - n)
+        
 
-class Solution:
-    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
+class Solution(object):
+    def removeNthFromEnd(self, head, n):
+        """
+        :type head: ListNode
+        :type n: int
+        :rtype: ListNode
+        """
+        
+       
         dummy = ListNode(0)
         dummy.next = head
         
-        fast = dummy
-        slow = dummy
-        
-        for i in range(0, n):
+        fast = slow = dummy
+        for _ in range(n):
             fast = fast.next
+            
         while fast.next:
             fast = fast.next
-            slow = slow.next
+            slow = slow.next 
+            
         slow.next = slow.next.next
         return dummy.next
         
