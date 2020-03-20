@@ -1,3 +1,6 @@
+# time O(n)
+# space O(1)
+
 # find count and connect tail with head
 # find the new_head and new_tail
 
