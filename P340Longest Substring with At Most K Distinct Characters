@@ -1,28 +1,29 @@
 # time O(n)
 # space O(k)
 
-class Solution:
-    
+class Solution(object):
     def lengthOfLongestSubstringKDistinct(self, s, k):
         
-        left = 0
-        right = 0
-        res = 0
-        count = collections.defaultdict(int)
+        if k == 0:
+            return 0
         
-        for left in range(len(s)):
+        j = 0
+        dic = collections.defaultdict(int)
+        res = 0
+        
+        for i in range(len(s)):
+            while j < len(s) and (len(dic.keys()) < k or s[j] in dic):
+                dic[s[j]] += 1
+                j += 1
+        
+            # s[i : j] j - 1 - i + 1
+            res = max(res, j - i)
             
-            #易错 1.  s[right] in count当 len(count) == k ,但是s[right]的增加不会加入新的key
-            while right < len(s) and (len(count) < k or s[right] in count):
-                count[s[right]] += 1
-                right += 1
-            
-            res = max(res, right - left)
-            
-            # 易错2  count[s[left]] > 1
-            if count[s[left]] > 1:
-                count[s[left]] -= 1
+            if dic[s[i]] == 1:
+                del dic[s[i]]
             else:
-                del count[s[left]]
+                dic[s[i]] -= 1
+            
         return res
+                
                 
