@@ -1,0 +1,29 @@
+
+
+class Solution(object):
+    def partition(self, head, x):
+       
+        
+        h1 = ListNode(0)
+        p1 = h1
+        
+        h2 = ListNode(0)
+        p2 = h2
+        
+        cur = head
+        while cur:
+            if cur.val < x:
+                p1.next = cur
+                p1 = p1.next
+            else:
+                p2.next = cur
+                p2 = p2.next
+                
+            cur = cur.next
+            
+    
+        p1.next = h2.next
+        p2.next = None
+        
+        return h1.next
+                
