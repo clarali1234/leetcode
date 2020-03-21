@@ -1,0 +1,27 @@
+# sliding window
+
+# Scan the array from left to right. 
+# If we are at the end of a block (last elements OR it stopped alternating), 
+# then we should record the length of that block as our candidate answer, 
+# and set the start of the new block as the next element.
+
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def maxTurbulenceSize(self, A):
+        
+        n = len(A)
+        res = 1
+        anchor = 0
+        
+        for i in range(1, n):
+            c = cmp(A[i - 1], A[i])
+            if c == 0:
+                anchor = i
+                
+            elif i == n - 1 or c * cmp(A[i], A[i + 1]) != -1:
+                res = max(res, i - anchor + 1)
+                anchor = i
+        return res
+                
