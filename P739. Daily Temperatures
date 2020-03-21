@@ -1,0 +1,22 @@
+# stack
+# 堆栈. 构建stack储存还没有找到更大值的温度和索引, 初始化res为长度为len(T)值为0的列表, 
+# 遍历T, 如果走到i 点时发现i点的温度比stack中的温度要高, 则一直出栈, 更新res, 结果是两个index的差值.
+
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def dailyTemperatures(self, T):
+        """
+        :type T: List[int]
+        :rtype: List[int]
+        """
+        stack = []
+        res = [0] * len(T)
+        
+        for i, t in enumerate(T):
+            while stack and stack[-1][0] < t:
+                index = stack.pop()[1]
+                res[index] = i - index
+            stack.append((t, i))
+        return res
