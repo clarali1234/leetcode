@@ -1,3 +1,7 @@
+# brute force 
+# time O((n - k + 1)klgk), space O(k)
+
+
 # time O(nlgk)
 # space O(k)
 
