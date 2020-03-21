@@ -1,0 +1,55 @@
+# idea: hash table  + two pointers
+# steps: combine all the lists in to one, with [ele, i], i: list index
+# sort nums_all 
+# two pointers, for each r, compare cur_count and k, if cur_count == k, contract left pointer, get candidate of res
+# return res
+
+# time O(nlgn), space O(n)
+
+
+class Solution(object):
+    def smallestRange(self, nums):
+       
+        nums_all = []
+        for i in range(len(nums)):
+            for num in nums[i]:
+                nums_all.append((num, i))
+                
+        nums_all.sort()
+        
+        l = 0
+        r = 0
+        
+        k = len(nums)
+        dic = collections.defaultdict(int) # dic for sliding window, key: list index, value: 1/0
+        count = 0
+        res = None
+        diff = sys.maxsize
+        
+        for r in range(len(nums_all)):
+            if not dic[nums_all[r][1]]:
+                count += 1
+            dic[nums_all[r][1]] += 1
+            
+            if count == k:
+                while l < r and count == k: # contract left pointer
+                    if dic[nums_all[l][1]] > 1:
+                        dic[nums_all[l][1]] -= 1
+                    else:
+                        del dic[nums_all[l][1]]
+                        count -= 1
+                    l += 1
+                     
+                #nums_all [ l - 1: r + 1]
+                cur_diff = nums_all[r][0] - nums_all[l - 1][0]
+                if cur_diff < diff or (cur_diff == diff and nums_all[l - 1][0] < res[0]):
+                
+                    diff = cur_diff
+                    res = [nums_all[l - 1][0], nums_all[r][0]]
+                        
+        return res
+                        
+                    
+                    
+            
+            
