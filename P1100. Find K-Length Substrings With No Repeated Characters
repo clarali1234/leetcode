@@ -1,0 +1,26 @@
+# sliding window
+# time O(n)
+# space O(k)
+
+class Solution(object):
+    def numKLenSubstrNoRepeats(self, S, K):
+        
+        if not S or len(S) < K:
+            return 0
+        
+        dic = collections.Counter(S[:K - 1])
+        res = 0
+        i = 0
+        for j in range(K - 1, len(S)):
+            dic[S[j]] += 1
+            if len(dic) == K:
+                res += 1
+                
+            if dic[S[i]] > 1:
+                dic[S[i]] -= 1
+            else:
+                del dic[S[i]]
+            i += 1
+            
+        return res
+                
