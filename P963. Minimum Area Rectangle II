@@ -1,0 +1,37 @@
+# dic, key: (len, cenx, ceny), val: [[x, y] ... ]
+# idea: center of length and length is the same, then two can construct a rectangle
+
+# time O(n^2)
+# space O(n)
+
+
+class Solution(object):
+    def minAreaFreeRect(self, points):
+        
+        dic = collections.defaultdict(list)
+        for i in range(len(points) - 1):
+            x = points[i]
+            for j in range(i + 1, len(points)):
+                y = points[j]
+                length = (x[0] - y[0]) ** 2 + (x[1] - y[1]) ** 2
+                c1 = (x[0] + y[0]) / 2.0
+                c2 = (x[1] + y[1]) / 2.0
+                
+                dic[(length, c1, c2)].append((x, y))
+     
+        res = sys.maxsize
+        for key in dic.keys():
+            ps = dic[key]
+            if len(ps) >= 2:
+                for i in range(len(ps) - 1):
+                    p1, p2 = ps[i]
+                    for j in range(i + 1, len(ps)):
+                        p3, p4 = ps[j]
+                        edge1 = sqrt((p1[0] - p3[0]) ** 2 + (p1[1] - p3[1]) ** 2)
+                        edge2 = sqrt((p1[0] - p4[0]) ** 2 + (p1[1] - p4[1]) ** 2)
+                        area = edge1 * edge2
+                        res = min(area, res)
+                        
+        if res != sys.maxsize:
+            return res
+        return 0
