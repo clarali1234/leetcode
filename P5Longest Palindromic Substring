@@ -58,32 +58,34 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        if not s:
-            return ''
-        
-        long_sub = ''
-        max_length = 0
+        res = ''
+        max_len = 0
         for i in range(len(s)):
-            # case 1
-            sub = self.find_palindrom_substring(s, i, i)
-            length = len(sub)
-            if length > max_length:
-                max_length = length
-                long_sub = sub
+            length, substr = self.find_palind(s, i, i)
+            if max_len < length:
+                max_len = length
+                res = substr
                 
-            # case 2
-            sub = self.find_palindrom_substring(s, i, i + 1)
-            length = len(sub)
-            if length > max_length:
-                max_length = length
-                long_sub = sub
-        return long_sub
+            length, substr = self.find_palind(s, i, i + 1)
+            
+            if max_len < length:
+                max_len = length
+                res = substr
+ 
+        return res
     
+    def find_palind(self, s, i, j):
     
-    def find_palindrom_substring(self, s, left, right):
-        
-        while left >= 0 and right < len(s) and s[left] == s[right]:
-            left -= 1
-            right += 1
-        return s[left + 1: right]
+        length = 0
+        while i >= 0 and j < len(s):
+            if s[i] == s[j]:
+                if i == j:
+                    length += 1
+                else:
+                    length += 2
+                i -= 1
+                j += 1
+            else:
+                break
+        return length, s[i + 1 : j]
                 
