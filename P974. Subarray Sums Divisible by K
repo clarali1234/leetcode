@@ -1,0 +1,32 @@
+# two pointers
+# time O(n^2)
+# space O(1)
+class Solution(object):
+    def subarraysDivByK(self, A, K):
+       
+        res = 0
+        for i in range(len(A)):
+            cur_sum = 0
+            for j in range(i, len(A)):
+                cur_sum += A[j]
+                if cur_sum % K == 0:
+                    res += 1
+        return res
+
+# prefix sum + dic
+# time O(n)
+# space O(k)
+
+class Solution(object):
+    def subarraysDivByK(self, A, K):
+        
+        dic = {0 : 1}
+        res = 0
+        cur_sum = 0
+        
+        for num in A:
+            cur_sum += num
+            res += dic.get(cur_sum % K, 0)
+            dic[cur_sum % K] = dic.get(cur_sum % K, 0) + 1
+        return res
+                
