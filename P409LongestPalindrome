@@ -1,18 +1,17 @@
-class Solution:
-    def longestPalindrome(self, s: str) -> int:
-        if not s:
-            return 0
-        map_string = {}
-        length = 0
+class Solution(object):
+    def longestPalindrome(self, s):
+        
+        res = 0
+        dic = collections.defaultdict(int)
         
         for char in s:
-            if char not in map_string:
-                map_string[char] = 1
+            if char not in dic:
+                dic[char] = 1
             else:
-                map_string.pop(char)
-                length += 2
-        
-        if len(map_string) > 0:
-            length += 1
+                del dic[char]
+                res += 2
+                
+        if len(dic) > 0:
+            res += 1
             
-        return length
+        return res
