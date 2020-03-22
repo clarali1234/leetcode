@@ -1,0 +1,17 @@
+# time O(m * n)
+# space O(m * n)
+
+class Solution(object):
+    def commonChars(self, A):
+        
+        res = []
+        for char in set(A[0]):
+            count = A[0].count(char)
+            
+            for string in A[1:]:
+                count = min(count, string.count(char))
+                
+            if count != 0:
+                for _ in range(count):
+                    res.append(char)
+        return res
