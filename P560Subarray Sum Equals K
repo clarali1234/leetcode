@@ -6,35 +6,34 @@ time O(n^3), space O(1)
 # space O(1) 
 class Solution(object):
     def subarraySum(self, nums, k):
-        if not nums:
-            return 0
         
-        count = 0
+        
+        res = 0
         for i in range(len(nums)):
-            sum_ = 0
+            cur_sum = 0
             for j in range(i, len(nums)):
-                sum_ += nums[j]
-                if sum_ == k:
-                    count += 1
-        return count
+                cur_sum += nums[j]
+                if cur_sum == k:
+                    res += 1
+        return res
 
 # prefix_sum + hash
 # time O(n), space O(n)
 # hash , key: prefix sum, value :count, prefix_sum = current_sum - k
-class Solution:
-    def subarraySum(self, nums: List[int], k: int) -> int:
-        if not nums:
-            return 0
+class Solution(object):
+    def subarraySum(self, nums, k):
         
-        res = 0 
-        # key = prefix_sum, value = count
+        
+        res = 0
+        dic = {0 : 1} # key: prefix sum, val: c
+        
         cur_sum = 0
-        dic = {0:1}
         for num in nums:
-            cur_sum = cur_sum + num
-            res += dic.get(cur_sum - k, 0)
+            cur_sum += num
+            if cur_sum - k in dic:
+                res += dic[cur_sum - k]
             dic[cur_sum] = dic.get(cur_sum, 0) + 1
-            
+                
         return res
         
         
