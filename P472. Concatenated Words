@@ -4,42 +4,43 @@
 
 class Solution(object):
     def findAllConcatenatedWordsInADict(self, words):
-        """
-        :type words: List[str]
-        :rtype: List[str]
-        """
-        words = set(words)
         
-        def isConcad(word):
-            for i in range(1, len(word)):
-                if word[:i] in words and (word[i:] in words or isConcad(word[i:])):                 
-                                          return True
-            return False
-                                          
-        return [word for word in words if isConcad(word)]    
+        res = []
+        self.words = words
+        for word in words:
+            if self.is_concated(word):
+                res.append(word)
+        return res
+    
+    def is_concated(self, word):
+        for i in range(len(word)):
+            if word[:i] in self.words and (word[i:] in self.words or self.is_concated(word[i:])):
+                return True
+        return False
         
-
-class Solution(object):
-   
+  # time O(m * n ^ 3), n is the average length of words.
+  # space O(n ^ 2)
+ class Solution(object):
     def findAllConcatenatedWordsInADict(self, words):
-       
-        s = set(words)
-        memo = {}
-        def isConcatenatedWord(w):
-            if w in memo: return memo[w]
-            
-            for i in range(1, len(w)):
-                if w[:i] not in s: continue
-                
-                r = w[i:]
-                if r in s or isConcatenatedWord(r):
-                    memo[w] = True
-                    return True
-                
-            memo[w] = False
-            return False
         
-        return filter(isConcatenatedWord, words)
+        res = []
+        self.memo = {} # key: word, val : T/F
+        self.words = words
+        for word in words:
+            if self.is_concated(word):
+                res.append(word)
+        return res
+    
+    def is_concated(self, word):
+        if word in self.memo:
+            return self.memo[word]
+        
+        for i in range(1, len(word)):
+            if word[:i] in self.words and (word[i:] in self.words or self.is_concated(word[i:])):
+                self.memo[word] = True
+                return True
+        self.memo[word] = False
+        return False
         
    
 # dp
