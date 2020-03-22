@@ -1,0 +1,34 @@
+# idea: enumerate each column + hashmap(key: x, value: ys)
+
+# time O(n^2)
+# space O(n)
+
+class Solution(object):
+    def minAreaRect(self, points):
+        """
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        cols = collections.defaultdict(list)
+        for x, y in points:
+            cols[x].append(y)
+        res = sys.maxsize
+        
+        last_x = {}
+        for x in sorted(cols):
+            col = cols[x]
+            col.sort()
+            for i, y2 in enumerate(col):
+                for j in range(i):
+                    y1 = col[j]
+                    if (y1, y2) not in last_x:
+                        last_x[(y1, y2)] = x
+                    else:
+                        res = min(res, (x - last_x[(y1, y2)]) * (y2 - y1))
+                        last_x[(y1, y2)] = x
+                        
+        if res == sys.maxsize:
+            return 0
+        return res
+        
+        
