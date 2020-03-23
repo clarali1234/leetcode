@@ -1,0 +1,14 @@
+class Solution(object):
+    def containsNearbyDuplicate(self, nums, k):
+        
+        # hashtable, key: num, val: last index
+        
+        dic = {}
+        for i, num in enumerate(nums):
+            if nums[i] not in dic:
+                dic[nums[i]] = i
+            else:
+                if i - dic[nums[i]] <= k:
+                    return True
+                dic[nums[i]] = i
+        return False
