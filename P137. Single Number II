@@ -1,3 +1,15 @@
+# sol1
+# hashtable
+# time O(n), space O(1)
+class Solution(object):
+    def singleNumber(self, nums):
+       
+        counter = collections.Counter(nums)
+        for key, value in counter.items():
+            if value == 1:
+                return key
+
+
 Intuition
 
 Now let's discuss O(1) space solution by using three bitwise operators
