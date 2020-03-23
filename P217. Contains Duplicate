@@ -1,0 +1,13 @@
+
+
+class Solution(object):
+    def containsDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        counter = collections.Counter(nums)
+        for key, freq in counter.items():
+            if freq >= 2:
+                return True
+        return False
