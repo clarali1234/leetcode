@@ -1,22 +1,17 @@
+# two dic
+# s[i], index1
+# t[i], index2
+# index1 == index2
+
 class Solution(object):
     def isIsomorphic(self, s, t):
-        """
-        :type s: str
-        :type t: str
-        :rtype: bool
-        """
-        if len(s) != len(t):
-            return False
-        
-        dic1 = {}
-        dic2 = {}
+       
+        d1 = collections.defaultdict(list)
+        d2 = collections.defaultdict(list)
         for i in range(len(s)):
-            if s[i] not in dic1:
-                dic1[s[i]] = t[i]
-            if t[i] not in dic2:
-                dic2[t[i]] = s[i]
-            if dic1[s[i]] != t[i] or dic2[t[i]] != s[i]:
-                    return False
+            d1[s[i]].append(i)
+            d2[t[i]].append(i)
+            if d1[s[i]] != d2[t[i]]:
+                return False
         return True
         
-  
