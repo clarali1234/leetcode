@@ -11,13 +11,12 @@ class Solution(object):
 
 
 Intuition
-
 Now let's discuss O(1) space solution by using three bitwise operators
-∼x  means bitwise NOT, 0->1, 1->0,
-x&y means bitwise AND, a&b 的操作的结果：a、b中对应位同时为1，则对应结果位也为1、
-{bitwise XOR} x⊕y that means bitwise XOR x^x = 0, 0 ^ x = x
 
-AND and NOT
+^ : x ^ x = 0, x ^ 0 = x
+& : 1 & 7 = 1, 1 & 0 = 0
+~ : 
+
 
 To separate number that appears once from a number that appears three times 
 let's use two bitmasks instead of one: seen_once and seen_twice.
@@ -37,15 +36,15 @@ class Solution(object):
         # [2,2,3,2]
         for num in nums:
             # first appearance: 
-            # add num to seen_once 
-            # don't add to seen_twice because of presence in seen_once
+            # add num to seen_once ^
+            # don't add to seen_twice because of presence in seen_once ~
             
             # second appearance: 
-            # remove num from seen_once 
-            # add num to seen_twice
+            # remove num from seen_once ~
+            # add num to seen_twice ^
             
-            # third appearance: 
-            # don't add to seen_once because of presence in seen_twice
+            # third appearance: ~
+            # don't add to seen_once because of presence in seen_twice ^
             # remove num from seen_twice
             seen_once = ~seen_twice & (seen_once ^ num)
             seen_twice = ~seen_once & (seen_twice ^ num)
