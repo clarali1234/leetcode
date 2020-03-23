@@ -1,3 +1,16 @@
+# hashtable + most_common()
+class Solution(object):
+    def frequencySort(self, s):
+        
+        res = ''
+        c = collections.Counter(s)
+        for char, freq in c.most_common():
+            res = res + char * freq
+        return res
+        
+        
+
+
 # heap
 # time O(nlgn)
 # space O(n)
