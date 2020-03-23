@@ -1,0 +1,24 @@
+
+# time O(m + a * b)
+# space O(a * b + m)
+
+class Solution(object):
+    def countCharacters(self, words, chars):
+        
+        
+        res = 0
+        self.counter = collections.Counter(chars)
+        for word in words:
+            if self.is_valid(word):
+                res += len(word)
+        return res
+    
+    def is_valid(self, word):
+        c = collections.Counter(word)
+        for key, freq in c.items():
+            if key not in self.counter or self.counter[key] < freq:
+                return False
+        return True
+        
+        
+            
