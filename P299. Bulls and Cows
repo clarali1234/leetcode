@@ -1,21 +1,21 @@
 class Solution(object):
     def getHint(self, secret, guess):
-        """
-        :type secret: str
-        :type guess: str
-        :rtype: str
-        """
-        bulls = 0
-        secret_dict = collections.defaultdict(int)
-        for i in range(len(secret)):
+        
+        dic = {}
+        bull = 0
+        for i, char in enumerate(secret):
             if secret[i] == guess[i]:
-                bulls += 1
+                bull += 1
             else:
-                secret_dict[secret[i]] += 1
+                dic[secret[i]] = dic.get(secret[i], 0) + 1
                 
-        cows = 0
-        for i in range(len(guess)):
-            if secret[i] != guess[i] and secret_dict[guess[i]]:
-                cows += 1
-                secret_dict[guess[i]] -= 1
-        return str(bulls) + 'A' + str(cows) + 'B'
+        cow = 0
+        for i, char in enumerate(guess):
+            if char != secret[i] and char in dic:
+                cow += 1
+                if dic[char] > 1:
+                    dic[char] -= 1
+                    
+                else:
+                    del[dic[char]]
+        return str(bull) + 'A' + str(cow) + 'B'
