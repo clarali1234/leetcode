@@ -1,0 +1,35 @@
+# idea: 遍历两个链表，找出两个num，相加，再构建新的linked list
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def addTwoNumbers(self, l1, l2):
+       
+        n1 = ''
+        n2 = ''
+        
+        p1 = l1
+        p2 = l2
+        
+        while p1:
+            n1 = n1 + str(p1.val)
+            p1 = p1.next 
+            
+        while p2:
+            n2 = n2 + str(p2.val)
+            p2 = p2.next 
+            
+        new_num = str(int(n1) + int(n2))
+        
+        dummy = ListNode(0)
+        cur = dummy
+        
+        # new_num, '7807'
+        
+        for i in range(len(new_num)):
+            cur.next = ListNode(int(new_num[i]))
+            cur = cur.next
+        return dummy.next
+        
+            
+            
