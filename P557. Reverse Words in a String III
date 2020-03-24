@@ -1,0 +1,27 @@
+
+
+class Solution(object):
+    def reverseWords(self, s):
+        
+        
+        words = s.split(' ')
+        res = []
+        for word in words:
+            new_w = self.reverse(word)
+            res.append(new_w)
+            
+        return ' '.join(res)
+    
+    def reverse(self, word):
+        word = list(word)
+        i = 0
+        j = len(word) - 1
+        
+        while i < j:
+            word[i], word[j] = word[j], word[i]
+            i += 1
+            j -= 1
+            
+        return ''.join(word)
+        
+            
