@@ -1,6 +1,6 @@
 sol1: dynamic programming
 
-# i2, i3, i5, to mark the last ugly number which was multiplied by 2, 3 and 5, correspondingly.
+# i2, i3, i5, to mark the last ugly number need to be used to produce new one
 # choose the smallest ugly number among 2 * nums[i2], 3 * nums[i3], 5 * nums[i5]
 
 # time O(1) 
