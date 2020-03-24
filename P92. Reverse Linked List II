@@ -1,0 +1,31 @@
+class Solution(object):
+    def reverseBetween(self, head, m, n):
+        """
+        :type head: ListNode
+        :type m: int
+        :type n: int
+        :rtype: ListNode
+        """
+        
+        count = 1
+        dummy = ListNode(0)
+        dummy.next = head
+        pre = dummy
+        
+        while count < m:
+            pre = pre.next
+            count += 1
+    
+        # pre 1, m = 2
+        mid = pre.next
+        cur = pre.next.next # 3
+        
+        while count < n:
+            next = cur.next # 4
+            cur.next = pre.next
+            pre.next = cur
+            mid.next = next
+            cur = next
+            
+            count += 1
+        return dummy.next
