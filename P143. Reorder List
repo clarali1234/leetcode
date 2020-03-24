@@ -10,40 +10,56 @@
 
 class Solution(object):
     def reorderList(self, head):
-        """
-        :type head: ListNode
-        :rtype: None Do not return anything, modify head in-place instead.
-        """
-        # reverse the second halp
+        
         if not head or not head.next:
             return head
         
-        slow = head 
         fast = head
-        while fast.next and fast.next.next:
-            slow = slow.next
-            fast = fast.next.next
-            
-        head2 = slow.next
-        slow.next = None
+        slow = head
         
-        # reverse 
-        prev = None
-        current = head2
-        while(current is not None): 
-            next = current.next
-            current.next = prev 
-            prev = current 
-            current = next
-        head2 = prev 
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
             
-        # merge
-        pointer1 = head
-        pointer2= head2
-        while pointer2:
-            tmp1 = pointer1.next
-            tmp2 = pointer2.next
-            pointer1.next = pointer2
-            pointer2.next = tmp1
-            pointer1 = tmp1
-            pointer2 = tmp2
+        sec = slow.next 
+        slow.next = None
+        sec_head = self.reverse(sec)
+        return self.merge_two(head, sec_head)
+        
+
+    def reverse(self, head):
+        
+        prev = None
+        cur = head
+        nxt = None
+        while cur:
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+        return prev
+    
+    def merge_two(self, h1, h2):
+        dummy = ListNode(0)
+        cur = dummy
+        p1 = h1
+        p2 = h2
+        
+        c = 1
+        while p1 and p2:
+            if c % 2 == 1:
+                cur.next = p1
+                p1 = p1.next
+            else:
+                cur.next = p2
+                p2 = p2.next 
+            c += 1
+            cur = cur.next
+        if p1:
+            cur.next = p1
+        else:
+            cur.next = p2
+            
+        return dummy.next
+            
+                
