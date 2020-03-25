@@ -4,17 +4,22 @@
 
 class Solution(object):
     def nextGreaterElements(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        res = [-1] * len(nums)
+        
+        new_num = nums + nums
+        n = len(nums)
+        res = []
+        
         for i in range(len(nums)):
-            for j in range(i + 1, i + len(nums)):
-                if nums[j % len(nums)] > nums[i]:
-                    res[i] = nums[j % len(nums)]
+            cur_num = nums[i]
+            j = i
+            for j in range(i, i + n): # 1, n - 1
+                if new_num[j] > cur_num:
+                    res.append(new_num[j])
                     break
+            if j == i + n - 1 and new_num[j] <= cur_num:
+                res.append(-1)
         return res
+        
         
  # twice pass
  Loop once, we can get the Next Greater Number of a normal array.
