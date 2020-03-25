@@ -1,6 +1,6 @@
 # stack 
 # time O(n)
-# space O(h)
+# space O(n)
 
 """
 # Definition for a Node.
