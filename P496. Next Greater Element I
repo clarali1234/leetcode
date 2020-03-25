@@ -1,6 +1,6 @@
 # brute - foce (hashtable)
 # time O(mn)
-# space O(m) m: lenght of lookup nums
+# space O(m + n) m: lenght of lookup nums
 
 class Solution(object):
     def nextGreaterElement(self, nums1, nums2):
