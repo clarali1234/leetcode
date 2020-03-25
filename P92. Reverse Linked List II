@@ -7,12 +7,12 @@ class Solution(object):
         :rtype: ListNode
         """
         
-        count = 1
+        count = 0
         dummy = ListNode(0)
         dummy.next = head
         pre = dummy
         
-        while count < m:
+        while count < m - 1:
             pre = pre.next
             count += 1
     
@@ -20,7 +20,7 @@ class Solution(object):
         mid = pre.next
         cur = pre.next.next # 3
         
-        while count < n:
+        while count < n - 1:
             next = cur.next # 4
             cur.next = pre.next
             pre.next = cur
