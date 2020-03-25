@@ -38,7 +38,7 @@ class Solution(object):
                 
             prev = node
             
-        dummy.next.prev = None
+        dummy.next.prev = None # 断开dummy
         return dummy.next
         
             
