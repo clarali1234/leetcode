@@ -1,0 +1,35 @@
+# idea: keep the difference bewteen left and right parenthesis, in the end check if 0 in the set
+# node: for right parenthesis, we only reduce 1 by having diff > 0 (which means left > right)
+
+
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def checkValidString(self, s):
+        
+        old_set = set([0])
+        for char in s:
+            new_set = set()
+            
+            if char == '(':
+                for num in old_set:
+                    new_set.add(num + 1)
+            elif char == ')':
+                for num in old_set:
+                    if num > 0:
+                        new_set.add(num - 1)
+                        
+            elif char == '*':
+                for num in old_set:
+                    new_set.add(num + 1)
+                    new_set.add(num)
+                    if num > 0:
+                        new_set.add(num - 1)
+                        
+            old_set = new_set
+
+        return 0 in old_set
+                    
+                               
+        
