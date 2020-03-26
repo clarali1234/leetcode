@@ -10,25 +10,24 @@
 # space O(n)
 class Solution(object):
     def evalRPN(self, tokens):
-        """
-        :type tokens: List[str]
-        :rtype: int
-        """
         
         stack = []
-        for i in tokens:
-            if i not in ['+', '-', '*', '/']:
-                stack.append(int(i))
+        for char in tokens:
+            if char not in ['+', '-', '*', '/']:
+                stack.append(int(char))
             else:
-                num2 = stack.pop()
-                num1 = stack.pop()
-                if i == '+':
-                    stack.append(num1 + num2)
-                elif i == '-':
-                    stack.append(num1 - num2)
-                elif i == '*':
-                    stack.append(num1 * num2)
-                else:
-                    stack.append(int(num1 * 1.0 / num2))
+                n2 = stack.pop()
+                n1 = stack.pop()
+                if char == '+':
+                    stack.append(n1 + n2)
+                elif char == '-':
+                    stack.append(n1 - n2)
+                elif char == '*':
+                    stack.append(n1 * n2)
+                elif char == '/':
+                    if n1 * n2 < 0:
+                        stack.append(-(abs(n1) // abs(n2)))
+                    else:
+                        stack.append(n1 // n2)
+                        
         return stack[-1]
-        
