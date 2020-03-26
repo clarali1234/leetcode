@@ -1,0 +1,56 @@
+class DinnerPlates(object):
+
+    def __init__(self, capacity):
+        """
+        :type capacity: int
+        """
+        self.stack = [[]]
+        self.capa = capacity
+        self.cur_id = 0
+        
+
+    def push(self, val):
+        """
+        :type val: int
+        :rtype: None
+        """
+        while True:
+            if len(self.stack[self.cur_id]) < self.capa:
+                break
+            self.cur_id += 1
+            if self.cur_id == len(self.stack):
+                self.stack.append([])
+        self.stack[self.cur_id].append(val)
+        
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        i = len(self.stack) - 1
+        while not self.stack[i]:
+            if i == 0:
+                return -1
+            i -= 1
+            self.stack.pop()
+        self.cur_id = min(self.cur_id, i)
+        return self.stack[i].pop()
+        
+
+    def popAtStack(self, index):
+        """
+        :type index: int
+        :rtype: int
+        """
+        if index < len(self.stack) and self.stack[index]:
+            self.cur_id = min(self.cur_id, index)
+            return self.stack[index].pop()
+        return -1
+            
+
+
+# Your DinnerPlates object will be instantiated and called as such:
+# obj = DinnerPlates(capacity)
+# obj.push(val)
+# param_2 = obj.pop()
+# param_3 = obj.popAtStack(index)
