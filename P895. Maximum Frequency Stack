@@ -1,0 +1,31 @@
+class FreqStack(object):
+
+    def __init__(self):
+        self.max_freq = 0
+        self.freq = collections.defaultdict(int) # key: ele, val: freq
+        self.group = collections.defaultdict(list) # key: freq, val: elements
+        
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: None
+        """
+        self.freq[x] += 1
+        self.group[self.freq[x]].append(x)
+        if self.freq[x] > self.max_freq:
+            self.max_freq = self.freq[x]
+        
+
+    def pop(self):
+        """
+        :rtype: int
+        """
+        val = self.group[self.max_freq].pop()
+        self.freq[val] -= 1
+        if not self.group[self.max_freq]:
+            self.max_freq -= 1
+        return val
+        
+  # time O(1) each operation
+  # space O(1)
