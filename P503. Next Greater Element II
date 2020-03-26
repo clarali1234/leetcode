@@ -1,3 +1,25 @@
+# time O(n)
+# space O(n)
+# stack  # stack store index that has not been found next greater element
+
+class Solution(object):
+    def nextGreaterElements(self, nums):
+        
+        n = len(nums)
+        new_num = nums + nums
+        stack = []
+        res = [-1 for _ in range(2 * n)]
+        
+        # [1 2 1 1 2 1 ]
+        
+        for i, num in enumerate(new_num):
+            while stack and new_num[stack[-1]] < num:
+                res[stack.pop()] = new_num[i]
+            stack.append(i)
+            
+        return res[:n]
+        
+        
 # brute force 
 # time O(n^2)
 # space O(n)
@@ -25,19 +47,6 @@ class Solution(object):
  Loop once, we can get the Next Greater Number of a normal array.
 Loop twice, we can get the Next Greater Number of a circular array
 
-# time O(n)
-# space O(n)
-class Solution(object):
-    def nextGreaterElements(self, nums):
-        
-        n = len(nums)
-        stack = []
-        res = [-1] * n
-        
-        for i in range(2 * n):
-            while stack and nums[stack[-1]] < nums[i % n]:
-                res[stack.pop()] = nums[i % n]
-            stack.append(i % n)
-        return res
+
             
            
