@@ -8,24 +8,32 @@
 # prestring是前面的字符串，prenum * curstring是这一步骤结束之后的字符串，所以是前面的字符串+现在的字符串得到目前已有的字符串。
 # time O(k_max * n) (O(n))?? (n is the length of input, linear time)
 # space O(k_max * n) O(max depth of stack)
+
 class Solution(object):
     def decodeString(self, s):
+        
         stack = []
-        cur_s = ''
-        cur_n = 0
-        for char in s:
-            if char == '[':
-                stack.append(cur_s)
-                stack.append(cur_n)
-                cur_s = ''
-                cur_n = 0
+        cur_num = 0
+        res = ''
+        for i, char in enumerate(s):
+            if char.isdigit():
+                cur_num = cur_num * 10 + int(char)
+            elif char == '[':
+                stack.append(res)
+                stack.append(cur_num)
+                res = ''
+                cur_num = 0
             elif char == ']':
-                pre_n = stack.pop()
-                pre_s = stack.pop()
-                cur_s = pre_s + cur_s * pre_n
-            elif char.isdigit():
-                cur_n = cur_n * 10 + int(char)
+                prev_num = stack.pop()
+                prev_res = stack.pop()
+                res = prev_res + prev_num * res
             else:
-                cur_s = cur_s + char
+                res = res + char
                 
-        return cur_s
+        while stack:
+            prev_num = stack.pop()
+            prev_res = stack.pop()
+            res = pre_res + prev_num * res
+            
+        return res
+    
