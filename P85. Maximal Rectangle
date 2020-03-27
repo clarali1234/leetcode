@@ -1,15 +1,16 @@
  # 可以利用直方图的算法
-• 以矩阵每一行为直方图的底部，通过1确定每个柱形的高度 
-• 求出最大全1子矩阵
-• 时间复杂度O(N^2)
-# space O(n)
+参考了84. Largest Rectangle in Histogram升级版的解法。
+如图所示，如果把每一行的1和它上面的1连在一起，那么就可以看成一个个站里的矩形方块。
+那么我们的最终目的就是找出最大面积的矩形方块，所以就是第84题的做法了，使用单调栈。
+
+需要注意的是，我们使用一个height数组，保存到某一层的第i个位置为止，能向上构成的矩形的高度。
+而且需要对每层都做一个寻找面积的操作，最终选择所有层中能够成矩形面积最大值。
+• 时间复杂度O(M * (N + M))
+# space O(N)
 
 class Solution(object):
     def maximalRectangle(self, matrix):
-        """
-        :type matrix: List[List[str]]
-        :rtype: int
-        """
+
         if not matrix:
             return 0
         m = len(matrix)
