@@ -10,42 +10,47 @@
 
 class Solution(object):
     def maximalRectangle(self, matrix):
-
+        """
+        :type matrix: List[List[str]]
+        :rtype: int
+        """
         if not matrix:
             return 0
+        
         m = len(matrix)
         n = len(matrix[0])
+        
         heights = [0] * n
         res = 0
         for row in matrix:
             for j in range(n):
                 if row[j] == '0':
-                    heights[j] = 0
+                    heights[j] = 0  # 1. cur val = 0, height is 0
                 else:
                     heights[j] += 1
-            res = max(res, self.maxRectangle(heights))
+            res = max(res, self.largest_rec_histog(heights))
         return res
     
-    def maxRectangle(self, heights):
-        stack = []
-        area = 0
+    
+    def largest_rec_histog(self, heights):
+        stack = [] # height 
         heights.append(0)
-        for i in range(len(heights)):
-            if not stack or heights[i] > heights[stack[-1]]:
+        res = 0
+        
+        for i, height in enumerate(heights):
+            if not stack or heights[stack[-1]] <= height: # stack stores the index 
                 stack.append(i)
             else:
-                while stack and heights[i] <= heights[stack[-1]]:
-                    h = heights[stack[-1]]
-                    stack.pop()
-                    w = i if not stack else i - stack[-1] - 1
-                    area = max(area, h * w)
+                while stack and heights[stack[-1]] > height:
+                    h = heights[stack.pop()]
+                    if not stack:
+                        w = i
+                    else:
+                        w = (i - 1) - (stack[-1] + 1) + 1
+                    res = max(res, h * w)
                 stack.append(i)
-        return area
+        return res
                     
-        
-        
-        
+                        
                     
-                
-        
-        
+            
