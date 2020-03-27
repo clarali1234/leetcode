@@ -1,0 +1,24 @@
+# stack
+算法的思想是，从左到右遍历每个行星，并和栈顶数字相比较，当栈顶数字为正（向右），当前数字为负（向左）的时候，会发生碰撞。
+这时候，判断遗留下来的数字是多少，保存到new里，如果new为空代表啥都没有了，如果new质量大于栈顶元素会留下来new，否则留下pre。
+判断new是否为空，不为空就把遗留下来的数字进栈就好了。
+
+
+# time O(n), our stack push and pop each asteroid only once 
+# space O(n)
+class Solution(object):
+    def asteroidCollision(self, asteroids):
+        
+        stack = []
+        for new in asteroids:
+            while stack and (stack[-1] > 0 and new < 0):
+                prev = stack.pop()
+                if prev == - new:
+                    new = None
+                    break
+                elif prev > -new:
+                    new = prev
+            if new:
+                stack.append(new)
+        return stack
+                
