@@ -10,28 +10,28 @@
 
 class Solution(object):
     def exclusiveTime(self, n, logs):
-        """
-        :type n: int
-        :type logs: List[str]
-        :rtype: List[int]
-        """
+       
         res = [0] * n
         stack = []
-        prev_time = 0
+        prev_t = 0
         for log in logs:
-            func, wtype, time = log.split(':')
-            cur_time = int(time)
-            func = int(func)
-            if wtype == 'start':
+        
+            [fun, s_e, t] = log.split(':')
+            fun = int(fun)
+            t = int(t)
+            if s_e == 'start':
                 if stack:
-                    res[stack[-1]] += cur_time - prev_time
-                stack.append(func)
-                prev_time = cur_time
+                    res[stack[-1]] += t - prev_t 
+                stack.append(fun)
+                prev_t = t
+                    
             else:
-                res[stack[-1]] += cur_time - prev_time + 1
-                prev_time = cur_time + 1
-                stack.pop()
+                prev_fun = stack.pop()
+                res[prev_fun] += t - prev_t + 1
+                prev_t = t + 1
+                
         return res
+                    
             
 follow up如果invalid log怎么办，input还有哪些可能的format（我写的是list of string），以及multi thread会有什么问题
 
