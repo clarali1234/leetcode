@@ -3,6 +3,9 @@
 # check boundry and new in snake (new can be in the tail)
 
 
+# node: new head can be the loc of tail
+
+
 
 class SnakeGame(object):
 
