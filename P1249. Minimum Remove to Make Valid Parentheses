@@ -8,24 +8,20 @@
 
 class Solution(object):
     def minRemoveToMakeValid(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
         stack = []
-        cur = ''
+        res = ''
         
         for char in s:
             if char == '(':
-                stack.append(cur)
-                cur = ''
+                stack.append(res)
+                res = ''
             elif char == ')':
                 if stack:
-                    cur = stack.pop() + '(' + cur + ')'
+                    res = stack.pop() + '(' + res + ')'
             else:
-                cur += char
-        
+                res = res + char 
+                
         while stack:
-            cur = stack.pop() + cur
-        return cur
+            res = stack.pop() + res # corner case 'a(b(c'
+        return res
                         
