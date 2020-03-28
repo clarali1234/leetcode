@@ -1,0 +1,25 @@
+通过这个定理，可以知道除了11之外，所有长度为偶数的回文数都不是质数，那么当N为 [8, 11] 中的数字时，才会返回11，
+这个就当 corner cases 提前判断了，对于其他所有的都是符合规律的。
+那就可以只组奇数的回文数了，由于N的范围是 [1, 1e8]，所以前一半范围是 [1, 1e5)，
+因为还包含了最中间的那个数字，所以在翻转之后，记得要把第一位数字去掉，因为最中间的数字只能保留一个，
+然后把两个数字拼接起来。此时再判断这个拼接后的数字是否大于等N，并且是否是质数，都满足的话返回这个数字即可，参见代码如下：
+
+
+class Solution(object):
+    def primePalindrome(self, N):
+        """
+        :type N: int
+        :rtype: int
+        """
+        def isPrime(x):
+            if x < 2 or x % 2 == 0: return x == 2
+            for i in xrange(3, int(x**0.5) + 1, 2):
+                if x % i == 0: return False
+            return True
+        
+        if 8 <= N <= 11: return 11
+        
+        for x in xrange(10 ** (len(str(N)) / 2), 10**5):
+            y = int(str(x) + str(x)[-2::-1])
+            if y >= N and isPrime(y): return y
+        
