@@ -73,43 +73,42 @@ class Solution(object):
 #         self.val = x
 #         self.next = None
 
-
-class Solution(object):
-    def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        if not lists or lists == []:
-            return None
-                
-        # l0 l1 l2 l3 l4 l5 inter 1   amount 6 amount-in = 5 
+# l0 l1 l2 l3 l4 l5 inter 1   amount 6 amount-in = 5 
         # l0 l2 l4          inter 2      6       4 
         # l0 l2             inter 4      6       2
-        # l0                    8
-        amount = len(lists)
-        interval = 1 # merge link distance
-        while interval < amount:
-            for i in range(0, amount - interval, interval * 2):
-                lists[i] = self.merge2Lists(lists[i], lists[i + interval])
+        # l0  
+        
+        
+class Solution(object):
+    def mergeKLists(self, lists):
+       
+        if not lists or (len(lists) == 1 and not lists[0]):
+            return None
+        
+        interval = 1
+        while interval < len(lists):
+            for i in range(0, len(lists) - interval, interval * 2):
+                lists[i] = self.merge_two(lists[i], lists[i + interval])
             interval *= 2
-        return lists[0] if amount > 0 else lists
-
-    
-    def merge2Lists(self, l1, l2):
-        head = point = ListNode(0)
+       
+        return lists[0]
+        
+        
+    def merge_two(self, l1, l2):
+        dummy = ListNode(0)
+        cur = dummy
         while l1 and l2:
             if l1.val <= l2.val:
-                point.next = l1
+                cur.next = ListNode(l1.val)
                 l1 = l1.next
             else:
-                point.next = l2
-                l2 = l1
-                l1 = point.next.next
-            point = point.next
-        if not l1:
-            point.next=l2
-        else:
-            point.next=l1
-        return head.next
-        
+                cur.next = ListNode(l2.val)
+                l2 = l2.next 
+                
+            cur = cur.next 
+        if l1:
+            cur.next = l1
+        elif l2:
+            cur.next = l2
+        return dummy.next
+                
