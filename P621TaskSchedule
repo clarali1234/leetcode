@@ -1,7 +1,7 @@
 # freq(A) = k
 # task分成k-1组， 每组n + 1个
 # (k - 1) * (n + 1) + p (和A有相同frequency任务的数量，如果没有则为1）
-# coner case : (n + 1) < num of tasks
+# coner case : (n + 1) < num of tasks (dont' need idle)
 # A B C D E A  n = 2, 3 * 1 + 1 = 4, but acutally we need 6
 
 # time O(n)
