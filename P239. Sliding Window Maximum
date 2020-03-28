@@ -13,8 +13,8 @@ class Solution(object):
         for i in range(k - 1, len(nums)):
             res.append(max(nums[i - k + 1:i + 1]))
         return res
-            
-            
+ 
+ 
 # monotonic queue
 # time linear
 # space O(n)
@@ -26,6 +26,9 @@ class Solution(object):
 把当前数(下标)放入队列。
 队列里有足够多数，就开始输出。
 队列头的数太老，就顶出去。
+
+# Keep only the indexes of elements from the current sliding window.
+# Remove indexes of all elements smaller than the current one, since they will not be the maximum ones.
 
 class Solution(object):
     def maxSlidingWindow(self, nums, k):
