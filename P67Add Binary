@@ -12,24 +12,29 @@ class Solution(object):
         m = len(a)
         n = len(b)
         
-        if m > n:
-            return self.addBinary(b, a)
+        if m < n:
+            a = '0' * (n - m) + a
+        elif m > n:
+            b = '0' * (m - n) + b
             
-        # m < n
-        a =  '0' * (n - m) + a
         carry = 0
-        
         res = ''
-        for i in range(n - 1, -1, -1):
-            cur = int(a[i]) + int(b[i]) + carry
-            carry = cur // 2
-            cur = cur % 2
+        for i in range(max(m, n) - 1, -1, -1):
+            cur = carry + int(a[i]) + int(b[i])
+            
+            if cur > 1:
+                cur = cur % 2
+                carry = 1
+            else:
+                carry = 0
+            
             res = str(cur) + res
-        
+            
         if carry != 0:
             res = str(carry) + res
-        
         return res
+            
+            
             
  # recursion
 # time O(min(m,n)*min(m,n)) since we have to copy each string at each function call
