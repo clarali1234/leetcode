@@ -1,0 +1,16 @@
+class Solution(object):
+    def splitArraySameAverage(self, A):
+        
+        A.sort(reverse = True)
+        dp = {0 : 0} # key: sum, value: num of values
+        size, total = len(A), sum(A)
+        
+        for a in A:
+            for k in sorted(dp.keys(), reverse = True):
+                dp[k + a] = dp[k] + 1 # new sum, 
+                k += a
+                v = dp[k] # new_sum counts
+                # a/b = c/ d => a * d = c * b
+                if v and size - v and k * (size - v) == (total - k) * v:
+                    return True
+        return False
