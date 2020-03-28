@@ -4,14 +4,14 @@ hash
 The trick is that the last letter is always added. 
 Except the last one, if one letter is less than its latter one, this letter is subtracted.
 
-
-class Solution:
-    def romanToInt(self, s: str) -> int:
-        dict_roman = {"I":1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
-        sum = 0
-        for i in range(0, len(s)-1):
-            if dict_roman[s[i]] < dict_roman[s[i+1]]:
-                sum -= dict_roman[s[i]]
+class Solution(object):
+    def romanToInt(self, s):
+        =
+        roman_int = {'M' : 1000, 'D' : 500, 'C' : 100, 'L' : 50, 'X' : 10, 'V' : 5, 'I' : 1}
+        res = 0
+        for i in range(len(s) - 1):
+            if roman_int[s[i]] < roman_int[s[i + 1]]:
+                res -= roman_int[s[i]]
             else:
-                sum += dict_roman[s[i]]
-        return sum + dict_roman[s[-1]]
+                res += roman_int[s[i]]
+        return res + roman_int[s[-1]]
