@@ -4,25 +4,31 @@
 class TicTacToe(object):
 
     def __init__(self, n):
-        self.length = n
-        self.grid = [['0'] * n for i in range(n)]
+        
+        self.n = n
+        self.board = [[0] * n for _ in range(n)]
         
 
     def move(self, row, col, player):
-        if player == 1:
-            mark = 1
-        else:
-            mark = -1
-        self.grid[row][col] = mark
         
-        sum_row = sum(self.grid[row][c] == mark for c in range(self.length))
-        sum_col = sum(self.grid[r][col] == mark for r in range(self.length))
-        sum_diag = sum(self.grid[i][i] == mark for i in range(self.length))
-        sum_anti_diag = sum(self.grid[j][self.length - 1 - j] == mark for j in range(self.length))
-        if sum_row == self.length or sum_col == self.length or sum_diag == self.length or sum_anti_diag == self.length:
-            return player
+        
+        if player == 1:
+            offset = 'X'
         else:
-            return 0
+            offset = 'O'
+            
+        self.board[row][col] = offset
+        # check row 
+        sum_row = sum(self.board[row][i] == offset for i in range(self.n))
+        sum_col = sum(self.board[i][col] == offset  for i in range(self.n))
+        sum_diag = sum(self.board[i][i] == offset for i in range(self.n))
+        sum_anti = sum(self.board[i][self.n - 1 - i] == offset  for i in range(self.n))
+        
+        if self.n in [sum_row, sum_col, sum_diag, sum_anti]:
+            return player
+        return 0
+
+
         
  # sol2 time O(1) per move, O(n) space 
  不用创建网格, 只需记录每个行、列和两条对角线的下棋的值。
