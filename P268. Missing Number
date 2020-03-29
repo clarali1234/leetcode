@@ -1,18 +1,30 @@
+# sol1: sort
+
+time O(nlgn)
+space O(1)
+
 class Solution(object):
     def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        n = len(nums)
-        
-        for i in range(n):
-            while nums[i] != i and nums[i] < n:
-                t = nums[i]
-                nums[i] = nums[t]
-                nums[t] = t
-                
-        for i in range(n):
+
+        nums.sort()
+        for i in range(len(nums)):
             if nums[i] != i:
                 return i
-        return n
+            else:
+                i += 1
+        return i 
+
+
+sol2:math
+time: O(n)
+space O(1)
+class Solution(object):
+    def missingNumber(self, nums):
+        
+        n = len(nums)
+        sum1 = n * (n + 1) / 2
+        sum2 = sum(nums)
+        return sum1 - sum2
+        
+        
+
