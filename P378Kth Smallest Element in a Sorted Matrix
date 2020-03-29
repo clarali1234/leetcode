@@ -41,48 +41,44 @@ then find the count that <= mid, and smaller: largest value <= mid, lagest: smal
 若 c > k, 区间变成 right = smaller
 若 c < k, 区间变成 left = larger
 
-
-class Solution(object):
-    def kthSmallest(self, matrix, k):
+ def kthSmallest(self, matrix, k):
         """
         :type matrix: List[List[int]]
         :type k: int
         :rtype: int
         """
-        left = matrix[0][0]
-        right = matrix[-1][-1]
+        l = matrix[0][0]
+        r = matrix[-1][-1]
         
-        while left < right:
-            mid = (left + right) // 2
-            smaller = matrix[0][0]
-            larger = matrix[-1][-1]
-            count, smaller, larger = self.count_less_equal(matrix, mid, smaller, larger)
+        while l < r:
+            m = (l + r) // 2
+            
+            smaller = l
+            larger = r
+            
+            count, smaller, larger = self.count_less_equal(matrix, m, smaller, larger)
             
             if count == k:
                 return smaller
             elif count < k:
-                left = larger
+                l = larger
             else:
-                right = smaller
+                r = smaller
                 
-        return left
-      
+        return l
     
-    def count_less_equal(self, matrix, mid, smaller, larger):
-        count = 0
+    def count_less_equal(self, matrix, m, smaller, larger):
         row = len(matrix) - 1
         col = 0
+        count = 0
         
-        while row >= 0 and col < len(matrix[0]):
-            if matrix[row][col] > mid:
-                larger = min(larger, matrix[row][col])
-                row -= 1
-            else:
+        while row >= 0 and col < len(matrix):
+            if matrix[row][col] <= m:
                 smaller = max(smaller, matrix[row][col])
                 count += row + 1
                 col += 1
+            else:
+                larger = min(larger, matrix[row][col])
+                row -= 1
         return count, smaller, larger
                 
-                            
-            
-
