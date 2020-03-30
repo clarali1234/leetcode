@@ -1,0 +1,25 @@
+class FileSystem(object):
+
+    def __init__(self):
+        self.dic = {'':-1}
+        
+        
+    def createPath(self, path, value):
+        """
+        :type path: str
+        :type value: int
+        :rtype: bool
+        """
+        if path[:path.rfind('/')] not in self.dic or path in self.dic:
+            return False
+        
+        self.dic[path] = val
+        return True
+
+    def get(self, path):
+        """
+        :type path: str
+        :rtype: int
+        """
+        return self.dic.get(path, -1)
+        
