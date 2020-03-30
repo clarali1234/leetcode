@@ -1,3 +1,22 @@
+# trie + dfs + hash table
+
+# trie node : children
+# add : char : next word, '#' : sent
+# search : (dfs)
+
+# hashtable : key : sent, val : times
+
+
+AutocompleteSystem() takes O(k*l) time. 
+We need to iterate over ll sentences each of average length kk, to create the trie for the given set of sentencessentences.
+input() takes O(p+q+mlogm) time. Here, p refers to the length of the sentence formed till now, cur_sent. 
+q refers to the number of nodes in the trie considering the sentence formed till now as the root node. 
+Again, we need to sort the listlist of length mm indicating the options available for the hot sentences, 
+which takes O(mlogm) time.
+
+
+
+
 # trie
 class TrieNode():
     def __init__(self):
@@ -20,7 +39,7 @@ class Trie():
     def search(self, prefix, cur = None):
         if not cur:
             cur = self.root
-        for c in prefix:
+        for c in prefix: # reach to the children of last char 
             if c not in cur.children:
                 return []
             cur = cur.children[c]
