@@ -1,3 +1,9 @@
+# sol1
+# using deque ( space (num of count in 300 s)
+
+# sol2
+# using dic ( space (num of timestamp)
+
 class HitCounter(object):
 
     def __init__(self):
