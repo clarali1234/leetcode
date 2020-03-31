@@ -1,0 +1,9 @@
+# 有解的条件
+# N - 1是K - 1的倍数
+
+# 性质 1: total cost: sum(元素 * 该元素合并的次数)
+# 性质 2: last time : sum(all元素)
+
+方法DP
+
+
