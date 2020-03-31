@@ -1,18 +1,22 @@
-O(k * n ^2)解法 其中k为单词个数，n为单词的长度：
+# burte foce , emurate all kinds of candidates
+# time O(n^2 * k)
+# space O(n^2 * k)
 
-利用字典wmap保存单词 -> 下标的键值对
+class Solution(object):
+    def palindromePairs(self, words):
+       
+        pairs = []
 
-遍历单词列表words，记当前单词为word，下标为idx：
+        for i, word_1 in enumerate(words):
+            for j, word_2 in enumerate(words):
+                if i == j:
+                    continue
+                combined_word = word_1 + word_2
+                if combined_word == combined_word[::-1]:
+                    pairs.append([i, j])
 
-1). 若当前单词word本身为回文，且words中存在空串，则将空串下标bidx与idx加入答案
+        return pairs
 
-2). 若当前单词的逆序串在words中，则将逆序串下标ridx与idx加入答案
-
-3). 将当前单词word拆分为左右两半left，right。
-
-     3.1) 若left为回文，并且right的逆序串在words中，则将right的逆序串下标rridx与idx加入答案
-     
-     3.2) 若right为回文，并且left的逆序串在words中，则将left的逆序串下标idx与rlidx加入答案
 
 
 class Solution(object):
@@ -21,34 +25,31 @@ class Solution(object):
         :type words: List[str]
         :rtype: List[List[int]]
         """
-        wmap = {y : x for x, y in enumerate(words)}
-        
-        def isPalindrome(word):
-            size = len(word)
-            for x in range(size / 2):
-                if word[x] != word[size - x - 1]:
-                    return False
-            return True
-
-        ans = set()
+        # 本身就是回文串单词
+        palidStr = []
+        # 翻转单词记录位置
+        rev_words = {}
+        # 结果
+        res = []
         for idx, word in enumerate(words):
-            if "" in wmap and word != "" and isPalindrome(word):
-                bidx = wmap[""]
-                ans.add((bidx, idx))
-                ans.add((idx, bidx))
-
-            rword = word[::-1]
-            if rword in wmap:
-                ridx = wmap[rword]
-                if idx != ridx:
-                    ans.add((idx, ridx))
-                    ans.add((ridx, idx))
-
-            for x in range(1, len(word)):
-                left, right = word[:x], word[x:]
-                rleft, rright = left[::-1], right[::-1]
-                if isPalindrome(left) and rright in wmap:
-                    ans.add((wmap[rright], idx))
-                if isPalindrome(right) and rleft in wmap:
-                    ans.add((idx, wmap[rleft]))
-        return list(ans)
+            rev_words[word[::-1]] = idx
+            # 为了防止数组里有空字符串("")
+            if word == word[::-1]:
+                palidStr.append(idx)
+        for idx, word in enumerate(words):
+            if word:
+                # 这里没有 len(word) + 1
+                for i in range(len(word)):
+                    left, right = word[:i], word[i:]
+                    # 是否存在在单词左边加 使得成为回文串
+                    if left == left[::-1] and right in rev_words and idx != rev_words[right]:
+                        res.append([rev_words[right], idx])
+                    # 同理
+                    if right == right[::-1] and left in rev_words and idx != rev_words[left]:
+                        res.append([idx, rev_words[left]])
+            else:
+                # 对于空字符串
+                for loc in palidStr:
+                    if loc != idx:
+                        res.append([idx, loc])
+        return res
