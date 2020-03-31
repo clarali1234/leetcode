@@ -18,6 +18,9 @@ class Solution(object):
         return pairs
 
 
+对于示例1的一个单词 lls，如何找其他单词把它拼成回文串。
+两种方式，一种是在左边加，比如有个单词s，那么可以拼车 slls；一种右边加，单词为sssll，拼成 llssssll
+由上面简单想法，可以把单词分成两部分考虑，看代码很好理解！
 
 class Solution(object):
     def palindromePairs(self, words):
