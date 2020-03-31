@@ -4,6 +4,8 @@
 # sol2
 # using dic ( space (num of timestamp)
 
+# time hit O(1), getHits O(n) for both methods
+
 class HitCounter(object):
 
     def __init__(self):
