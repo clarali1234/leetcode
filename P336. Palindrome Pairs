@@ -38,7 +38,7 @@ class Solution(object):
             if word[::-1] == word:
                 palid_str.append(i)
                 
-                
+     
         # iterate each words
         res = []
         for idx, word in enumerate(words):
@@ -49,14 +49,17 @@ class Solution(object):
                 
                     # add before l
                     if l == l[::-1] and r in reverse and reverse[r] != idx:
+                        print(i, l, r, reverse[r], idx)
                         res.append([reverse[r], idx])
                     
                     # add after r
                     if r == r[::-1] and l in reverse and reverse[l] != idx:
-                        res.append([idx, reverse[l]])
+                        print(i, l, r, reverse[r], idx)
+                        res.append([idx, reverse[l]]) # this includes l is empty, empty is on the right
+                        
             else:
                 for j in palid_str:
                     if j != idx:
-                        res.append([idx, j])
+                        res.append([idx, j]) # empty is on the left
         return res
             
