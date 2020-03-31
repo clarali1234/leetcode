@@ -1,0 +1,44 @@
+# idea:
+use self.nxt = None # store the nxt value 
+
+
+
+class PeekingIterator(object):
+    def __init__(self, iterator):
+        """
+        Initialize your data structure here.
+        :type iterator: Iterator
+        """
+        self.iter = iterator
+        self.nxt = None # store the nxt value 
+        
+
+    def peek(self):
+        """
+        Returns the next element in the iteration without advancing the iterator.
+        :rtype: int
+        """
+        if not self.nxt:
+            self.nxt = self.iter.next()
+        return self.nxt 
+        
+
+    def next(self):
+        """
+        :rtype: int
+        """
+        
+        if not self.nxt:
+            return self.iter.next()
+        else:
+            tmp = self.nxt 
+            self.nxt = None
+            return tmp
+        
+    def hasNext(self):
+        """
+        :rtype: bool
+        """
+        if not self.nxt:
+            return self.iter.hasNext()
+        return True
