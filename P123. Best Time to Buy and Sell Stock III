@@ -1,3 +1,45 @@
+# dp
+只允许做两次交易，这道题就比前两道要难多了。解法很巧妙，有点动态规划的意思：开辟两个数组f1和f2，
+f1[i]表示在price[i]之前进行一次交易所获得的最大利润，
+f2[i]表示在price[i]之后进行一次交易所获得的最大利润。
+则f1[i]+f2[i]的最大值就是所要求的最大值，而f1[i]和f2[i]的计算就需要动态规划了，看代码不难理解。
+
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices:
+            return 0
+        
+        n = len(prices)
+        dp1 = [0 for _ in range(n)] # max profit for day i , the transaction take before day i
+        dp2 = [0 for _ in range(n)] # max profit for day i, the transaction take after day i
+        
+        min_price = prices[0]
+        max_prof1 = -sys.maxsize
+        for i in range(1, len(prices)):
+            min_price = min(min_price, prices[i])
+            max_prof1 = max(max_prof1, prices[i] - min_price)
+            dp1[i] = max_prof1
+         
+        
+        max_price = prices[n - 1] 
+        max_prof2 = -sys.maxsize 
+        for j in range(n - 2, -1 , -1):
+            max_price = max(max_price, prices[j])
+            max_prof2 = max(max_prof2, max_price - prices[j])
+            dp2[j] = max_prof2
+            
+            
+        res = 0
+        for i in range(n):
+            res = max(res, dp1[i] + dp2[i])
+        return res
+        
+
+
 1. 今天刚买的
 那么 Local(i, j) = Global(i-1, j-1)
 相当于啥都没干
