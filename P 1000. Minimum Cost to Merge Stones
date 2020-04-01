@@ -5,15 +5,7 @@
 # 性质 2: last time : sum(all元素)
 
 方法DP
-dp[i][j][k] := min cost to merge subarray i ~ j into k piles
-Init: dp[i][j][k] = 0 if i==j and k == 1 else inf
-ans: dp[0][n-1][1]
-transition:
-1. dp[i][j][k] = min{dp[i][m][1] + dp[m+1][j][k-1]} for all i <= m < j
-2. dp[i][j][1] = dp[i][j][K] + sum(A[i]~A[j])
-
-Time complexity: O(n^3)
-Space complexity: O(n^2*K)
+reference : https://leetcode.com/problems/minimum-cost-to-merge-stones/discuss/446088/Python-DP-with-explaination
 
 class Solution(object):
     def mergeStones(self, stones, K):
