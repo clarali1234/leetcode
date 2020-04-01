@@ -1,3 +1,29 @@
+# BFS
+# time O(v+e)
+# space O(v)
+方法也是使用了字典保存每一个对应关系。当新构造出一个节点之后，必须同时把它放到字典中保存，这个很重要。
+另外就是每遍历到一个节点时，都要把它的所有邻居放到队列中。
+
+class Solution(object):
+    def cloneGraph(self, node):
+        
+        if not node:
+            return None
+        
+        dic = {}
+        q = collections.deque([node])
+        dic[node] = Node(node.val) # 注意初始时讲node放入dic
+        
+        while q:
+            cur_n = q.popleft()
+            for nb in cur_n.neighbors:
+                if nb not in dic: 
+                    dic[nb] = Node(nb.val)
+                    q.append(nb)
+                dic[cur_n].neighbors.append(dic[nb])
+        return dic[node]
+                
+
 # DFS
 # time O(V + E), we need to process each node only once
 # space O(N), O(N) for hash table, O(H) for recursion, H is the height of graph
@@ -43,31 +69,6 @@ node1_copy = test.cloneGraph(node1)
 print(node1_copy.neighbors[0].val)
 
 
-# BFS
-# time O(v+e)
-# space O(v)
-方法也是使用了字典保存每一个对应关系。当新构造出一个节点之后，必须同时把它放到字典中保存，这个很重要。
-另外就是每遍历到一个节点时，都要把它的所有邻居放到队列中。
-
-class Solution:
-    def cloneGraph(self, node):
-        visited = {}
-        node_copy = Node(node.val, [])
-        # 注意 初始时，把copy of root 放入visited里
-        visited[node] = node_copy
-        queue = collections.deque([node])
-        
-        while queue:
-            cur_node = queue.popleft()
-            for neighbor in cur_node.neighbors:
-                if neighbor not in visited:
-                    visited[neighbor] = Node(neighbor.val, [])
-                    #注意 copy之后将点放入queue里面
-                    queue.append(neighbor)
-                 1. 注意，把当前点邻居的copy放到当前点的copy的neighbors list里面
-                visited[cur_node].neighbors.append(visited[neighbor])
-        return node_copy
-        
 
 
 # DFS iterative
