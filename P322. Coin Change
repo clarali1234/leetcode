@@ -1,6 +1,6 @@
 需要构建一个长度是amount + 1的dp数组，其含义是能够成面额从0到amount + 1需要使用的最少硬币数量
 for each coin, for i in range(amount + 1)
-dp[i] = min(dp[i], dp[i - coin] + 1)
+dp[i] = min(dp[i], dp[i - coin] + 1), 假设dp[i]表示凑够i元所需要的最少硬币数
 
 # ans = DP[amount]
 # time O(n*amount)
