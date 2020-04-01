@@ -1,9 +1,45 @@
-# 有解的条件
+#有解的条件
 # N - 1是K - 1的倍数
 
 # 性质 1: total cost: sum(元素 * 该元素合并的次数)
 # 性质 2: last time : sum(all元素)
 
 方法DP
+dp[i][j][k] := min cost to merge subarray i ~ j into k piles
+Init: dp[i][j][k] = 0 if i==j and k == 1 else inf
+ans: dp[0][n-1][1]
+transition:
+1. dp[i][j][k] = min{dp[i][m][1] + dp[m+1][j][k-1]} for all i <= m < j
+2. dp[i][j][1] = dp[i][j][K] + sum(A[i]~A[j])
+
+Time complexity: O(n^3)
+Space complexity: O(n^2*K)
+
+class Solution(object):
+    def mergeStones(self, stones, K):
+        """
+        :type stones: List[int]
+        :type K: int
+        :rtype: int
+        """
+        N = len(stones)
+        if (N - 1) % (K - 1): 
+            return -1
+        
+        prefix = [0] * (N+1)
+        for i in range(1,N+1): 
+            prefix[i] = stones[i-1] + prefix[i-1]
+            
+        dp = [[0] * N for _ in range(N)]
+        
+        for m in range(K, N+1):
+            for i in range(N-m+1):
+                
+                dp[i][i+m-1] = min(dp[i][k] + dp[k+1][i+m-1] for k in range(i, i+m-1, K-1)) + (prefix[i+m] - prefix[i] if (m-1)%(K-1) == 0 else 0)
+                        
+                        
+        return dp[0][N-1]
+
+
 
 
