@@ -12,7 +12,7 @@ class Solution(object):
                 max_profit = max(max_profit, cur_prof)
         return max_profit
         
-# time O(n)
+# time O(n), solve in one pass, iterate daily price, maintain min price and max profit so far.
 
 class Solution(object):
     def maxProfit(self, prices):
