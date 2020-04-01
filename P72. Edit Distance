@@ -1,11 +1,9 @@
-# dp
-#  word1 and word2
+# dp (m + 1) * (n + 1), dp[i][j], the min edit distance bewteen first i chars in w1 and first j chars in w2
+# initialize i == 0 and j == 0
+transmation formula: 增加减少替换； 尾巴相等
 
-m, n
-m < n
-
-dp[0][n] = n
-dp[i][j] 
+# time O(m * n)
+# space O(m * n)
 
 # 1. word1[i-1] == word2[j-1]
     dpij = dpi-1,j-1
