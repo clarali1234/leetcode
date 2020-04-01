@@ -20,13 +20,12 @@ class Solution(object):
         """
         mod = 10 ** 9 + 7
         dp = [[0 for _ in range(target + 1)] for _ in range(d)]
+
         dp[0][0] = 0
-        
-        for i in range(f): # 掷一次筛子
-            if i + 1 <= target:
-                dp[0][i + 1] = 1
-                
-        
+        for j in range(1, f + 1): # 1, ... f
+            if j <= target:
+                dp[0][j] = 1
+                    
         for i in range(1, d):
             for j in range(1, target + 1):
                 k = 1
