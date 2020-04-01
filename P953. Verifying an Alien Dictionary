@@ -11,27 +11,24 @@
 
 class Solution(object):
     def isAlienSorted(self, words, order):
-        """
-        :type words: List[str]
-        :type order: str
-        :rtype: bool
-        """
+        
         dic = {}
-        for index, char in enumerate(order):
-            dic[char] = index
+        for i, char in enumerate(order):
+            dic[char] = i
             
         for i in range(len(words) - 1):
-            first = words[i]
-            second = words[i + 1]
-            for j in range(min(len(first), len(second))):
-                if first[j] != second[j]:
-                    # as long as we find the difference, we need to break our loop whether or not they're in order
-                    if dic[first[j]] > dic[second[j]]:
+            w1 = words[i]
+            w2 = words[i + 1]
+            length = min(len(w1), len(w2))
+            for j in range(length):
+                if w1[j] != w2[j]:
+                    if dic[w1[j]] > dic[w2[j]]:
                         return False
-                    break
-            # the else is called if last if is not hit any break
-            else:
-                if len(first) > len(second):
-                    
-                    return False
+                    else:
+                        break
+            if w1[:length] == w2[:length] and len(w1) > len(w2):
+                return False
         return True
+                
+                    
+            
