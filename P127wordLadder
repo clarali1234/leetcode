@@ -1,8 +1,15 @@
-很显然这个问题是BFS的问题，只是把走迷宫问题的4个方向转变成了26个方向，直接BFS会超时，
-所以我使用了个visited来保存已经遍历了的字符串，代表已经走过了的位置。
-代码总体思路很简单，就是利用队列保存每个遍历的有效的字符串，然后对队列中的每个字符串再次遍历，保存每次遍历的长度即可。
+BFS
 
-时间复杂度是O(NL)，空间复杂度是O(N).其中N是wordList中的单词个数，L是其实字符串的长度。
+# time O(m*n)
+# space O(m * n)
+time : where MM is the length of words and NN is the total number of words in the input word list. 
+Finding out all the transformations takes MM iterations for each of the NN words. 
+Also, breadth first search in the worst case might go to each of the NN words.
+
+space : to store all MM transformations for each of the NN words, 
+in the all_combo_dict dictionary. Visited dictionary is of NN size. 
+Queue for BFS in worst case would need space for all NN words.
+
 
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
