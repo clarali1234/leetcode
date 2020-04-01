@@ -1,3 +1,6 @@
+# greedy, maxprofit is just sum of each profitable stock price difference.
+# time O(n), space O(1)
+
 class Solution(object):
     def maxProfit(self, prices):
         """
