@@ -8,54 +8,51 @@ Topological sort takes O(V + E). V <= n. E also can't be larger than n. So the o
 class Solution(object):
     def alienOrder(self, words):
         
-        # step1: add nodes
-        nodes = {}
+        graph = collections.defaultdict(set)
+        indegrees = collections.defaultdict(int)
+        
+        # node 1: add node:
         for word in words:
             for char in word:
-                if char not in nodes:
-                    nodes[char] = set()
-         
-        # step 2: add edges and calculate indegree for each node
-        # 易错点1: indegree的定义方法
-        indegrees = {n : 0 for n in nodes.keys()}    
-        # add edge:
-        for i in range(len(words) - 1):
-            first = words[i]
-            second = words[i + 1]
-            compare_index = min(len(first), len(second))
-            for j in range(compare_index):
-                if first[j] != second[j]: # char1 -> char2(indegree + 1)
-                    #易错点2， 先判断char2 是否在char1 的adjacent set里面
-                    if second[j] not in nodes[first[j]]:
-                        nodes[first[j]].add(second[j])
-                        indegrees[second[j]] += 1
-                    break
+                if char not in graph:
+                    graph[char] = set()
+                    indegrees[char] = 0
                     
-         
-        # step 3, topological sort
-        queue = collections.deque([])
-        for c, indeg in indegrees.items():
-            if indeg == 0:
-                queue.append(c)
-                
-        res = ''
-        while queue:
-            n = queue.popleft()
-            res = res + n
-            if nodes[n]:
-                for nb in nodes[n]:
-                    indegrees[nb] -= 1
-                    if indegrees[nb] == 0:
-                        queue.append(nb)
         
-        if len(res) == len(nodes):
+        for i in range(len(words) - 1):
+            w1 = words[i]
+            w2 = words[i + 1]
+            length = min(len(w1), len(w2))
+            for j in range(length):
+                if w1[j] != w2[j]: # w1[j] -> w2[j]
+                    if w2[j] not in graph[w1[j]]:
+                        graph[w1[j]].add(w2[j])
+                        indegrees[w2[j]] += 1
+                    break
+            if w1[:length] == w2[:length] and len(w1) > len(w2): # 2. corner case
+                return ''
+                    
+        q = collections.deque([])
+        for node, indeg in indegrees.items():
+            if indeg == 0:
+                q.append(node)
+        
+        res = ''
+        while q:
+            cur_n = q.popleft()
+            res += cur_n
+            for nb in graph[cur_n]:
+                indegrees[nb] -= 1
+                if indegrees[nb] == 0:
+                    q.append(nb)
+        
+        if len(res) == len(graph):
             return res
         return ''
             
+        
+        
                     
-                
-    
-    
         
     
                     
