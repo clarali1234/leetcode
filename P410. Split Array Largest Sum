@@ -1,8 +1,9 @@
 
 # binary search
 # lower_bound = max(nums), upper_bound = sum(nums)
-# 给一个c, 求最少需要将nums划分成多少组，使得每一组的和 <=c k组
-# if k > m, l = c + 1 else r = c
+# max sum of subarray increase, then the num of groups decrease 
+
+# if k >= m, r = m else l = m + 1
 # time O(log(sum(nums)) * n)
 # space O(1)
 
