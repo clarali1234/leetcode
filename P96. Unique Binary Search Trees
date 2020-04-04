@@ -1,6 +1,16 @@
+could enumerate each number i in the sequence, and use the number as the root, then, the subsequence 1 ... (i-1) 
+on its left side would lay on the left branch of the root, and similarly the right subsequence (i+1) ... n 
+lay on the right branch of the root. We then can construct the subtree from the subsequence recursively. 
+Through the above approach, we could be assured that the BST that we construct are all unique, 
+since they start from unique roots.
 
+As we can see, the problem can be reduced into problems with smaller sizes, 
+instead of recursively (also repeatedly) solve the subproblems, 
+we can store the solution of subproblems and reuse them later, i.e. the dynamic programming way.
+
+
+ num of unique BST's (binary search trees) that store values 1 ... n == number of unique BST for a sequence of length n.
 # dp
-
 # dp[i]: the n = i
 # root is 1, 2, ...., i - 1
 # for any root, i, number of left subtree is j from 0 to i - 1, num of right subtree from i - 1 - j
@@ -12,10 +22,7 @@
 
 class Solution(object):
     def numTrees(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
+        
         if n == 0 or n == 1:
             return 1
         
@@ -24,6 +31,6 @@ class Solution(object):
         dp[1] = 1
         
         for i in range(2, len(dp)): # total 2, 3, 4, i
-            for j in range(0, i): # root is 1, 2, ... , i
-                dp[i] += dp[j] * dp[i - 1 - j] # nums of left is 0, 1, 2, i - 1, 
+            for j in range(0, i): # num of left is 0, 1, i - 1
+                dp[i] += dp[j] * dp[i - 1 - j] # nums of right is i - 1 - left ( i is root) 
         return dp[-1]
