@@ -1,26 +1,24 @@
 # subproblem
 # dp[i], min cuts for s[:i]
-# transmation formula: dp[i] = min(dp[j] + 1), if valid(j + 1, i) for 0 <= j < i
-
-# valid[i][j] = s[i] == s[j] and valid[i + 1][j - 1]
+# transmation formula: dp[i] = min(dp[i], dp[j + 1] + 1), if valid(j + 1, i) for 0 <= j < i
 
 # time O(n^2)
-# space O(n^2)
+# space O(n)
 
 class Solution(object):
     def minCut(self, s):
-        dp=[0 for i in range(len(s)+1)]
-        p=[[False for i in range(len(s))] for j in range(len(s))]
+        lens = len(s)
+        isPal = [[False] * (i + 1) for i in range(lens)]
+        dp = range(lens) + [-1]
         
-        for i in range(len(s)+1):
-            dp[i]=len(s)-i
-            
-        for i in reversed(range(len(s))):
-            for j in range(i,len(s)):
-                if s[i]==s[j] and (j-i<2 or p[i+1][j-1]==True):
-                    p[i][j]=True
-                    dp[i]=min(dp[i],dp[j+1]+1)
-        return dp[0]-1
+        for i in range(lens):
+            for j in range(i, -1, -1):
+                if s[i] == s[j] and (i - j < 2 or isPal[i - 1][j + 1]):
+                    isPal[i][j] = True
+                    dp[i] = min(dp[i], dp[j - 1] + 1)
+        return dp[lens - 1]
 
      
+                
+                
                 
