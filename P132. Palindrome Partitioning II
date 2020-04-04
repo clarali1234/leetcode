@@ -1,6 +1,8 @@
 # subproblem
 # dp[i], min cuts for s[:i]
-# transmation formula: dp[i] = min(dp[i], dp[j + 1] + 1), if valid(j + 1, i) for 0 <= j < i
+# scan from middle to two sides, need i : j is palid
+# dp[j] = min{dp[j - 1] + 1}
+
 
 # time O(n^2)
 # space O(n)
