@@ -9,11 +9,9 @@ instead of recursively (also repeatedly) solve the subproblems,
 we can store the solution of subproblems and reuse them later, i.e. the dynamic programming way.
 
 
- num of unique BST's (binary search trees) that store values 1 ... n == number of unique BST for a sequence of length n.
+ 
 # dp
-# dp[i]: the n = i
-# root is 1, 2, ...., i - 1
-# for any root, i, number of left subtree is j from 0 to i - 1, num of right subtree from i - 1 - j
+# dp[i]: num of unique BST's (binary search trees) that store values 1 ... n == number of unique BST for a sequence of length n.
 
 
 # time O(n^2)
@@ -26,11 +24,10 @@ class Solution(object):
         if n == 0 or n == 1:
             return 1
         
-        dp = [0] * (n + 1)
-        dp[0] = 1
-        dp[1] = 1
+        dp = [0 for i in range(n + 1)] # num of unique BST with n diff notes
+        dp[0] = dp[1] = 1
         
-        for i in range(2, len(dp)): # total 2, 3, 4, i
-            for j in range(0, i): # num of left is 0, 1, i - 1
-                dp[i] += dp[j] * dp[i - 1 - j] # nums of right is i - 1 - left ( i is root) 
+        for i in range(2, len(dp)):
+            for j in range(0, i): # num of unique BST with j notes for left subtree
+                dp[i] = dp[i] + dp[j] * dp[i - 1 - j] # we take i as root
         return dp[-1]
