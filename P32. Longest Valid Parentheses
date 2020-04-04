@@ -1,9 +1,10 @@
 # time O(n)
 # space O(n)
 
+# iterate each ele
 # '(‘ stack.append(i)
-# ')', if empty last = i
-  not empty,配对，empty, i-last; not empty i - stack[-1]
+# ')', if stack empty start = i + 1
+  not empty,配对，empty, i - start + 1; not empty i - stack[-1]
   
 class Solution(object):
     def longestValidParentheses(self, s):
