@@ -4,34 +4,30 @@
 # '(‘ stack.append(i)
 # ')', if empty last = i
   not empty,配对，empty, i-last; not empty i - stack[-1]
+  
 class Solution(object):
     def longestValidParentheses(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
+        
         stack = []
-        last = -1
-        max_len = 0
+        res = 0
+        start = 0
         
         for i, ele in enumerate(s):
             if ele == '(':
                 stack.append(i)
-                
             else:
                 if not stack:
-                    last = i
-                    
+                    start = i + 1 # invalid
                 else:
-                    node = stack.pop()
+                    stack.pop()
                     if not stack:
-                        max_len = max(max_len, i - last)
-                        
+                        # start : last + 1, end:i, i - last + 1
+                        res = max(res, i - start + 1)
                     else:
-                        max_len = max(max_len, i - stack[-1])
-                        
-        return max_len
-   
+                        # start : stack[-1] + 1, end i
+                        res = max(res, i - stack[-1])
+        return res
+        
   1. follow up:return longest substring
   
   class Solution(object):
