@@ -11,17 +11,13 @@
 class Solution(object):
     def maxTurbulenceSize(self, A):
         
-        n = len(A)
+        i = 0
         res = 1
-        anchor = 0
-        
-        for i in range(1, n):
-            c = cmp(A[i - 1], A[i])
-            if c == 0:
-                anchor = i
-                
-            elif i == n - 1 or c * cmp(A[i], A[i + 1]) != -1:
-                res = max(res, i - anchor + 1)
-                anchor = i
+        for j in range(1, len(A)):
+            if A[j] - A[j - 1] == 0:
+                i = j
+            elif j == len(A) - 1 or (A[j] - A[j - 1]) * (A[j + 1] - A[j]) >= 0:
+                res = max(res, j - i + 1)
+                i = j
         return res
                 
