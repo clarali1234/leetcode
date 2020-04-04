@@ -1,0 +1,40 @@
+Let f[r][c][steps] be the probability of being on square (r, c) after steps steps. Based on how a knight moves,
+we have the following recursion:
+
+f[r][c][steps] = sum(f[r+dr][c+dc][steps-1] / 8.0 ^ k)
+
+where the sum is taken over the eight (dr, dc) pairs  dirs = [(2, 1), (2, -1), (1, 2), (1, -2), 
+(-2, 1), (-2, -1), (-1, 2), (-1, -2)]
+
+Instead of using a three-dimensional array f, we will use two two-dimensional ones dp and dp2,
+storing the result of the two most recent layers we are working on. dp2 will represent f[][][steps],
+and dp will represent f[][][steps-1].
+
+Time Complexity: O(N^2 K)
+Space Complexity: O(N^2)
+
+class Solution(object):
+    def knightProbability(self, N, K, r, c):
+        
+        dp = [[0 for _ in range(N)] for _ in range(N)]
+        dirs = [(2, 1), (2, -1), (1, 2), (1, -2), (-2, 1), (-2, -1), (-1, 2), (-1, -2)]
+        
+        dp[r][c] = 1
+        while K > 0:
+            dp2 = [[0 for _ in range(N)] for _ in range(N)]
+            for i in range(0, N):
+                for j in range(0, N):
+                    for dx, dy in dirs:
+                        new_x = i + dx
+                        new_y = j + dy
+                        if 0 <= new_x < N and 0 <= new_y < N:
+                            dp2[new_x][new_y] += dp[i][j] / 8.0
+                            
+            dp = dp2
+            K-= 1
+            
+        ans = 0
+        for row in dp:
+            for ele in row:
+                ans += ele
+        return ans
