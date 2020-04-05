@@ -5,8 +5,8 @@
 
 
 # sol2: dp
-# time O(m * n)
-# space o(m * n)
+# time, O(1) time per query, O(m * n) pre-computation
+# space o(m * n) to store cumulative region sum
 
 pre-compute a cumulative region sum with respect to the origin at (0, 0).
 Sum(ABCD)=Sum(OD)−Sum(OB)−Sum(OC)+Sum(OA)
