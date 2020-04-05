@@ -35,23 +35,20 @@ class Solution(object):
  
 class Solution(object):
     def kthSmallest(self, root, k):
-        """
-        :type root: TreeNode
-        :type k: int
-        :rtype: int
-        """
+
         stack = []
-        while stack or root:
-            if root:
-                stack.append(root)
-                root = root.left
-            else:
-                k -= 1    
-                node = stack.pop()
-                if k == 0:
-                    return node.val
-                    break
-                root = node.right
+        cur = root
+        
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                cur = cur.left 
+                
+            node = stack.pop()
+            k -= 1
+            if k == 0:
+                return node.val 
+            cur = node.right 
                 
             
 
