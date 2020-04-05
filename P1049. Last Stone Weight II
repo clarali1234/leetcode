@@ -28,9 +28,6 @@ class Solution(object):
             a[0]=0
         dp[0]=[0 if i<stones[0] else stones[0] for i in range(half)]
 
-        # for i in dp:
-        #     print i
-        # print '-'*10
 
         for i in range(1,len(stones)):#前i块
             for j in range(half):#不大于j的重量
@@ -38,5 +35,4 @@ class Solution(object):
                 max1=max(dp[i-1][j],stones[i]+dp[i-1][j-stones[i]] if stones[i]<=j else 0)
                
                 dp[i][j]=max1
-                # print 'dp {} {}={}'.format(i,j,dp[i][j])
         return abs(sum(stones)-2*dp[-1][-1])
