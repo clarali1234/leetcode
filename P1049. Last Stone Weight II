@@ -1,0 +1,42 @@
+# DP 0-1背包
+
+#问题可以等效为，一个数组分成两部分，使这两部分的和尽可能的接近
+
+        #问题可以进一步化为，从一个数组取出一些数，使他们的和尽可能接近整体的1/2
+
+        #问题进一步化为，从一个数组取出一些数，在不大于sum/2的情况下，尽可能的大
+        #动态规划，dp[i][j]表示 数组 前i 个数 在不大于j的情况下 组合可能的最大值。试一试
+
+        #dp[i][j] dp[i+1][j]的关系：dp[i+1][j]=max(dp[i][j],stones[i+1]+dp[i][j-stones[i]]) 到了第i+1个的时候判断用不用i+1这个数
+        #dp[i][j]=max(dp[i-1][j],stones[i]+dp[i-1][j-stones[i]])
+
+        #dp[i][j-n]和 dp[i][j]的关系 在从小到大的石头中，判断 取当前这块 和 dp[i][j-stone[i]]这两个循环比较取最大值 
+        
+# time O(n * m)
+# space O(n * m)
+        
+class Solution(object):
+    def lastStoneWeightII(self, stones):
+        """
+        :type stones: List[int]
+        :rtype: int
+        """
+        stones.sort()
+        half=sum(stones)/2+1
+        dp=[[0 for _ in range(half)] for _ in range(len(stones))]
+        for a in dp:#不大于0的都为0
+            a[0]=0
+        dp[0]=[0 if i<stones[0] else stones[0] for i in range(half)]
+
+        # for i in dp:
+        #     print i
+        # print '-'*10
+
+        for i in range(1,len(stones)):#前i块
+            for j in range(half):#不大于j的重量
+                max1=0
+                max1=max(dp[i-1][j],stones[i]+dp[i-1][j-stones[i]] if stones[i]<=j else 0)
+               
+                dp[i][j]=max1
+                # print 'dp {} {}={}'.format(i,j,dp[i][j])
+        return abs(sum(stones)-2*dp[-1][-1])
