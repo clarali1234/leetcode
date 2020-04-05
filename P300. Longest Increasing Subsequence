@@ -1,12 +1,16 @@
-# dp time:O(n^2)
+# sol1: brute force 
+# num of all possbile of subquence is 2^n, each ele take/not
+# time O(2^n）
+
+
+
+# dp dp[i], length of LIS ends with nums[i], nums[i] must be used
 # dp[x] = max(dp[x], dp[y] + 1) 其中 y < x 并且 nums[x] > nums[y]
+time:O(n^2)
+space:O(n)
 
 class Solution(object):
-    def lengthOfLIS(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+    def lengthOfLIS(self, nums)：
         
         if not nums:
             return 0
@@ -15,7 +19,6 @@ class Solution(object):
         
         n = len(nums)
         dp = [1] * n
-        
         for i in range(n):
             for j in range(i):
                 if nums[i] > nums[j]:
