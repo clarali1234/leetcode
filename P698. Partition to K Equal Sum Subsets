@@ -1,26 +1,36 @@
+
+# time O(2^n)
+# space O(n)
+
 class Solution(object):
     def canPartitionKSubsets(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: bool
-        """
-        if sum(nums) % k != 0 or k > sum(nums):
+        
+        if sum(nums) % k != 0:
             return False
-        target = sum(nums) / k
-        visited = [False for i in range(len(nums))]
-        return self.dfs(nums, 0, 0, target, k, visited)
+        self.target = sum(nums) / k
+        self.visited = [False for i in range(len(nums))]
+        
+        return self.dfs(nums, 0, 0, [], k)
+
     
-    def dfs(self, nums, start_index, cur_sum, target, k, visited):
-        if cur_sum == target and k == 1:
+    def dfs(self, nums, cur_sum, cur_index, cur_path, k):
+        # base case 1
+        if cur_sum == self.target and k == 1:
             return True
-        if cur_sum == target:
-            # from the start index to go through dfs
-            return self.dfs(nums, 0, 0, target, k - 1,visited)
-        for i in range(start_index, len(nums)):
-            if nums[i] + cur_sum <= target and not visited[i]:
-                visited[i] = True
-                if self.dfs(nums, i + 1, cur_sum + nums[i], target, k, visited):
+        
+        # base case 2
+        if cur_sum == self.target:
+            return self.dfs(nums, 0, 0, [], k - 1)
+        
+        if cur_sum >= self.target:
+            return 
+        
+        # recursion part
+        for i in range(cur_index, len(nums)):
+            if not self.visited[i]:
+                self.visited[i] = True
+                if self.dfs(nums, cur_sum + nums[i], i + 1, cur_path, k):
                     return True
-                visited[i] = False
+                self.visited[i] = False
+                
         return False
