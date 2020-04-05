@@ -55,35 +55,34 @@ class Solution(object):
    # spcace O(n) 
    
 class Solution(object):
-    
     def sortedListToBST(self, head):
-        """
-        :type head: ListNode
-        :rtype: TreeNode
-        """
-        # find the middle 
         
-        array = []
-        while head:
-            array.append(head.val)
-            head = head.next
+        if not head:
+            return None
+        
+        if not head.next:
+            return TreeNode(head.val)
+        
+        nums = []
+        cur = head
+        while cur:
+            nums.append(cur.val)
+            cur = cur.next 
+
             
-        left = 0
-        right = len(array) - 1
-
-        return self.convert(array, left, right)
+        return self.build_tree(nums, 0, len(nums) - 1)
+    
+    
+    def build_tree(self, nums, l, r):
+        if l > r:
+            return None
         
-    def convert(self, array, left, right):
-        if left > right:
-            return 
+        m = (l + r) // 2
+        root = TreeNode(nums[m])
+        root.left = self.build_tree(nums, l, m - 1)
+        root.right = self.build_tree(nums, m + 1, r)
+        return root 
         
-        middle = (left + right) // 2
-        root = TreeNode(array[middle])
-        
-        root.left = self.construct(array, left, middle - 1)
-        root.right = self.construct(array, middle + 1, right)
-        return root
-
         
  # sol3: simulate the inorder traversal, find the size first
  # make recursion calls for left half, then move head by one and make it to the root, and then call right half
