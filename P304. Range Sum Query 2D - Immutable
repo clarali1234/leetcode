@@ -1,17 +1,21 @@
-# dp
+# brute force 
+# for each call of sumRegion, at worst case time O(m * n)
+# space O(1)
+
+
+
+# sol2: dp
 # time O(m * n)
 # space o(m * n)
-这个题肯定是用先把所有的和求出来，然后查找的时候直接计算就行了。
-我们使用的这个求和矩阵保存的是每个位置到整个矩阵的左上角元素这个矩形的所有元素和。为了方便起见，利用了和DP类似的添加边界的方法，
-也就是在最左边和最上边添加了全是0的列和行，这样能保证在求和的时候，每个位置的和是左边的和+上边的和+自身-左上元素的和
+
+pre-compute a cumulative region sum with respect to the origin at (0, 0).
+Sum(ABCD)=Sum(OD)−Sum(OB)−Sum(OC)+Sum(OA)
 
 
 class NumMatrix(object):
 
     def __init__(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        """
+    
         if len(matrix) == 0 or len(matrix[0]) == 0:
             return 
         
@@ -24,13 +28,7 @@ class NumMatrix(object):
                 self.dp[r + 1][c + 1] = self.dp[r + 1][c] + self.dp[r][c + 1] - self.dp[r][c] + matrix[r][c]
                 
     def sumRegion(self, row1, col1, row2, col2):
-        """
-        :type row1: int
-        :type col1: int
-        :type row2: int
-        :type col2: int
-        :rtype: int
-        """
+        
         return self.dp[row2 + 1][col2 + 1] - self.dp[row1][col2 + 1] - self.dp[row2 + 1][col1] + self.dp[row1][col1]
         
 
