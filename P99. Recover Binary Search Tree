@@ -13,8 +13,7 @@ class Solution(object):
         self.vals = []
         self.dfs(root)
         x, y = self.find_two()
-        print(x, y)
-        self.recover(root, x, y, 2)
+        self.exchange(root, x, y, 2)
         
     def dfs(self, node):
         if not node:
@@ -24,37 +23,35 @@ class Solution(object):
         self.vals.append(node.val)
         self.dfs(node.right)
         
-        
     def find_two(self):
-        x = y = None
+        x = None 
+        y = None
+        
         for i in range(len(self.vals) - 1):
-            if self.vals[i + 1] < self.vals[i]:
-                y = self.vals[i + 1] # y is the smaller one
+            if self.vals[i] > self.vals[i + 1]:
+                y = self.vals[i + 1]
                 if not x:
                     x = self.vals[i]
                 else:
-                    break  
+                    break
         return x, y
-    
-    def recover(self, root, x, y, count):
-        if root:
-            if root.val ==  x or root.val == y:
-                if root.val == x:
-                    root.val = y
-                else:
-                    root.val = x 
+        
+                
+    def exchange(self, node, x, y, count):
+        if count == 0:
+            return 
+        if not node:
+            return 
+        
+        if node.val == x or node.val == y:
+            if node.val == x:
+                node.val = y
                 count -= 1
-                if count == 0:
-                    return 
-        
-            self.recover(root.left, x, y, count)
-            self.recover(root.right, x, y, count)
+            else:
+                node.val = x
+                count -= 1
+        self.exchange(node.left, x, y, count)
+        self.exchange(node.right, x, y, count)
                 
-        
-# sol2: 
-                    
-                
-                
-        
         
         
