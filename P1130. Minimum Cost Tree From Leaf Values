@@ -6,32 +6,26 @@ space O(n^2)
 # transmation formula
   dp(i,j)=min(dp(i,k)+dp[(k+1,j)+max(i,k) * max(k+1,j)),i ≤ k< j
   
-# result: dp[0][n - 1]
 class Solution(object):
     def mctFromLeafValues(self, arr):
-        """
-        :type arr: List[int]
-        :rtype: int
-        """
+        
         n = len(arr)
-        # 初始值设为最大
-        dp = [[float('inf') for _ in range(n)] for _ in range(n)]
-        # 初始区间查询最大值设为0
-        maxval = [[0 for _ in range(n)] for _ in range(n)]
-        # 求区间[i, j]中最大元素
+        dp = [[sys.maxsize for _ in range(n)] for _ in range(n)]
+        max_val = [[0 for _ in range(n)] for _ in range(n)]
+        
         for i in range(n):
             for j in range(i, n):
-                maxval[i][j] = max(arr[i:j + 1])
-        # 叶子结点不参与计算
+                max_val[i][j] = max(arr[i: j + 1])
+                
+        # cost of leaves is 0
         for i in range(n):
             dp[i][i] = 0
-        # 枚举区间长度
+            
         for l in range(1, n):
-            # 枚举区间起始点
-            for s in range(n - l):
-                # 枚举划分两棵子树
-                for k in range(s, s + l):
-                    dp[s][s + l] = min(dp[s][s + l], dp[s][k] + dp[k + 1][s + l] + maxval[s][k] * maxval[k + 1][s + l])
+            for i in range(n - l):
+                for k in range(i, i + l):
+                    j = i + l
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + max_val[i][k] * max_val[k + 1][j])
         return dp[0][n - 1]
 
 
