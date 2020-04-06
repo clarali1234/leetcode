@@ -1,0 +1,24 @@
+# two pointers
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def isSubsequence(self, s, t):
+        
+        i = 0
+        j = 0
+        
+        while i < len(s) and j < len(t):
+            if s[i] == t[j]:
+                i += 1
+                j += 1
+            else:
+                j += 1
+                
+        return  i == len(s)
+        
+
+
+# follow up: 大量的s
+# dic, key: ele, values: indexes 
+# interate each ele in s, binary search first index > cur index in s
