@@ -1,0 +1,22 @@
+# sort by w, -h
+# then LIS
+
+# time O(n^2)
+# space O(n)
+class Solution(object):
+    def maxEnvelopes(self, envelopes):
+        
+        if not envelopes:
+            return 0
+        
+        envelopes.sort(key = lambda x : (x[0], -x[1]))
+        return self.lis([x[1] for x in envelopes])
+    
+    def lis(self, nums):
+        dp = [1] * len(nums)
+        
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
