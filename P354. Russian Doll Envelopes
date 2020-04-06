@@ -20,3 +20,22 @@ class Solution(object):
                 if nums[i] > nums[j]:
                     dp[i] = max(dp[i], dp[j] + 1)
         return max(dp)
+
+# time O(nlgn)
+# space O(n)
+class Solution(object):
+    def maxEnvelopes(self, envelopes):
+        arr = envelopes
+        arr.sort(key=lambda x: (x[0], -x[1]))
+
+        def lis(nums):
+            dp = []
+            for i in range(len(nums)):
+                idx = bisect_left(dp, nums[i])
+                if idx == len(dp):
+                    dp.append(nums[i])
+                else:
+                    dp[idx] = nums[i]
+            return len(dp)
+        # extract the second dimension and run the LIS
+        return lis([i[1] for i in arr])
