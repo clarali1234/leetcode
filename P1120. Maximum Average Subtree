@@ -8,26 +8,21 @@ For recursion
 base case: 根结点返回0, 0
 不是base case, recursively 解决，总问题和左右子树的关系。
 
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def maximumAverageSubtree(self, root: TreeNode) -> float:
-        self.average = 0
-        self.helper(root)
-        return self.average
-
-    def helper(self, root):
-        if not root:
+class Solution(object):
+    def maximumAverageSubtree(self, root):
+        
+        self.res = -sys.maxsize 
+        self.dfs(root)
+        return self.res 
+    
+    def dfs(self, node):
+        if not node:
             return 0, 0
-        left_sum, left_size = self.helper(root.left)
-        right_sum, right_size = self.helper(root.right)
-        sum_new = left_sum + right_sum + root.val
-        size_new = left_size + right_size + 1
-        average_new = sum_new / size_new
-        self.average = max(average_new, self.average)
-        return sum_new, size_new
+        
+        l_s, l_c = self.dfs(node.left)
+        r_s, r_c = self.dfs(node.right)
+        cur_s = l_s + r_s + node.val 
+        cur_c = l_c + r_c + 1.0
+        self.res = max(self.res, cur_s/cur_c)
+        
+        return cur_s, cur_c
