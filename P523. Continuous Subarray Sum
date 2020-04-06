@@ -5,7 +5,7 @@ class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
         if k == 0:
             for i in range(len(nums) - 1):
-                if nums[i] + nums[i + 1] == 0:
+                if nums[i] + nums[i + 1] == 0: # all ele in nums are >= 0
                     return True
         
         else:
