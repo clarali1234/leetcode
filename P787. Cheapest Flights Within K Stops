@@ -1,0 +1,41 @@
+# dfs + prune
+
+# build graph
+# dfs
+# global variable
+
+# time O(n * k)
+# space O(n)
+class Solution(object):
+    def findCheapestPrice(self, n, flights, src, dst, K):
+        
+        graph = collections.defaultdict(list)
+        for u, v, w in flights:
+            graph[u].append([v, w])
+            
+        self.min_cost = sys.maxsize
+        self.visited = [False for _ in range(n)]
+        self.visited[src] = True
+        
+        self.dfs(graph, src, dst, K + 1, 0)
+        
+        if self.min_cost == sys.maxsize:
+            return -1
+        return self.min_cost
+    
+    def dfs(self, graph, node, dst, k, cur_cost):
+        
+        if node == dst and k >= 0:
+            self.min_cost = min(cur_cost, self.min_cost)
+            return 
+        
+        if k == 0 or cur_cost >= self.min_cost:
+            return 
+        
+        for nxt, cost in graph[node]:
+            if not self.visited[nxt]:
+                self.visited[nxt] = True
+                self.dfs(graph, nxt, dst, k - 1, cur_cost + cost)
+                self.visited[nxt] = False
+                
+        
