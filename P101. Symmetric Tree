@@ -1,11 +1,12 @@
 # 递归，对于每个节点，检查树的左右节点值是否相等，同时判断：左节点的左子树和右节点的右子树是否对称、右节点的左子树和左节点的右子树是否对称。
+# time O(n)
+# space O(h)
 
 class Solution(object):
     def isSymmetric(self, root):
 
         if not root:
             return True
-        
         return self.mirror(root.left, root.right)
     
     
@@ -16,17 +17,15 @@ class Solution(object):
         if not left or not right:
             return False
         
-        
         return left.val == right.val and self.mirror(left.left, right.right) and self.mirror(left.right, right.left)
         
   # iterative, like BFS
+  # time O(n)
+  # space O(n)
   
   class Solution(object):
     def isSymmetric(self, root):
-        """
-        :type root: TreeNode
-        :rtype: bool
-        """
+        
         if not root:
             return True
         
