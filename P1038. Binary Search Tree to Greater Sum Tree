@@ -6,10 +6,12 @@
 # start from the right most node, then current node, then left subtree
 
 class Solution(object):
-    
     def bstToGst(self, root):
         
-        self.sum_ = 0
+        if not root:
+            return None
+            
+        self.cur_sum = 0
         self.dfs(root)
         return root
     
@@ -17,10 +19,9 @@ class Solution(object):
         if node.right:
             self.dfs(node.right)
             
-        self.sum_ = self.sum_ + node.val
-        node.val = self.sum_
+        self.cur_sum += node.val
+        node.val = self.cur_sum
         
         if node.left:
             self.dfs(node.left)
-        
         
