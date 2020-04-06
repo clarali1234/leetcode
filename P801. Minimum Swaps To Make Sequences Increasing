@@ -5,6 +5,8 @@
 
 
 # dp
+# time O(n)
+# space O(1)
 我们在判断 A[i] 和 B[i] 是否交换时，只需要考虑它们之前的一个元素 A[i - 1] 和 B[i - 1] 是否被交换就可以了。
 这是因为要使得序列严格递增，每个元素只要大于它之前的那个元素就行。这样以来，我们就可以用动态规划的方法来解决这个问题。
 
@@ -29,16 +31,15 @@ class Solution(object):
     def minSwap(self, A, B):
         
         n1, s1 = 0, 1
-        for i in xrange(1, len(A)):
+        for i in range(1, len(A)):
             n2 = s2 = sys.maxsize
             if A[i-1] < A[i] and B[i-1] < B[i]:
-                n2 = min(n2, n1)
-                s2 = min(s2, s1 + 1)
+                n2 = min(n2, n1)     # dont't swap  i - 1
+                s2 = min(s2, s1 + 1) # swap i - 1
             if A[i-1] < B[i] and B[i-1] < A[i]:
-                n2 = min(n2, s1)
-                s2 = min(s2, n1 + 1)
+                n2 = min(n2, s1) # swap i - 1
+                s2 = min(s2, n1 + 1) # swap i
 
             n1, s1 = n2, s2
 
         return min(n1, s1)
-
