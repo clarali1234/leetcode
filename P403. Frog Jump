@@ -1,0 +1,62 @@
+# dfs
+# time O(3^n)
+# space O(n) (TLE)
+
+class Solution(object):
+    def canCross(self, stones):
+        
+        self.visited = set()
+        self.visited.add(0)
+        return self.dfs(stones, 0, 0)
+    
+    def dfs(self,stones, cur_stone, cur_step):
+        if cur_stone == stones[-1]:
+            return True
+        
+        for step in [cur_step - 1, cur_step, cur_step + 1]:
+            if step > 0:
+                nxt_stone = cur_stone + step
+                if nxt_stone in stones and nxt_stone not in self.visited:
+                    self.visited.add(nxt_stone)
+                    if self.dfs(stones, nxt_stone, step):
+                        return True
+                    self.visited.remove(nxt_stone)
+        return False
+        
+# dfs + memo
+# time O(n ^ 3)
+# space O(n ^ 2)
+
+class Solution(object):
+    def canCross(self, stones):
+        
+        self.visited = set()
+        self.visited.add(0)
+        self.memo = {}
+        return self.dfs(stones, 0, 0)
+    
+    def dfs(self,stones, cur_stone, cur_step):
+        if cur_stone == stones[-1]:
+            return True
+        
+        if (cur_stone, cur_step) in self.memo:
+            return self.memo[(cur_stone, cur_step)]
+        
+        for step in [cur_step - 1, cur_step, cur_step + 1]:
+            if step > 0:
+                nxt_stone = cur_stone + step
+                if nxt_stone in stones and nxt_stone not in self.visited:
+                    self.visited.add(nxt_stone)
+                    if self.dfs(stones, nxt_stone, step):
+                        self.memo[(cur_stone, cur_step)] = True
+                        return True
+                    self.visited.remove(nxt_stone)
+                    
+        self.memo[(cur_stone, cur_step)] = False
+        return False
+
+        
+  
+# dp
+# time O(n^2)
+# space O(n^2)
