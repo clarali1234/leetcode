@@ -1,0 +1,18 @@
+# heap
+# time O(nlgn)
+# space O(n)
+
+from heapq import *
+class Solution(object):
+    def connectSticks(self, sticks):
+        
+
+        heapify(sticks)
+        res = 0
+        while sticks and len(sticks) > 1:
+            s1 = heappop(sticks)
+            s2 = heappop(sticks)
+            res += s1 + s2
+            heappush(sticks, s1 + s2)
+            
+        return res
