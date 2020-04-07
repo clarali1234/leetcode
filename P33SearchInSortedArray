@@ -37,7 +37,43 @@ class Solution(object):
             return r
         return -1
         
+ 
+class Solution(object):
+    def search(self, nums, target):
         
+        if not nums:
+            return -1
+        
+
+        l = 0
+        r = len(nums) - 1
+        
+        while l + 1 < r:
+            m = (l + r) // 2
+            if target == nums[m]:
+                return m
+            if target == nums[l]:
+                return l
+            if target == nums[r]:
+                return r
+            
+            if nums[m] > nums[l]: # left half
+                if nums[l] < target < nums[m]:
+                    r = m - 1
+                else:
+                    l = m + 1
+            else: # right half
+                if nums[m] < target < nums[r]:
+                    l = m + 1
+                else:
+                    r = m - 1
+        
+        if target == nums[l]:
+            return l
+        elif target == nums[r]:
+            return r
+        return -1
+                
         
             
                     
