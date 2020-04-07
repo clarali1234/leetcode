@@ -5,6 +5,12 @@
 # time O(n)
 # space O(1)
 
+这里要注意一个细节，就是 for 循环中，i < nums.length - 1，少了末尾。
+因为开始的时候边界是第 0 个位置，steps 已经加 1 了。
+如下图，如果最后一步刚好跳到了末尾，此时 steps 其实不用加 1 了。
+如果是 i < nums.length，i 遍历到最后的时候，会进入 if 语句中，steps 会多加 1。
+
+
 class Solution(object):
     def jump(self, nums):
        
