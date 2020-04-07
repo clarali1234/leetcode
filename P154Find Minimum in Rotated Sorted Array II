@@ -1,5 +1,7 @@
 # worst case, 1 1 1 1 0 1 1, we can do it in log(n)
 
+# 2 2 2  2 2
+
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         return min(nums)
