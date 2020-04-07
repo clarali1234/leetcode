@@ -1,6 +1,9 @@
 # binary search
-# l = 0, r = n - 1, compare m with nums[0], if m is less, means m in the right half, r = m; else l = m + 1
+# find first ele < nums[0]
 # corner case: nums[0] < nums[-1]
+
+# l = 0, r = n - 1, compare m with nums[0], if m is less, means m in the right half, r = m; else l = m + 1
+
 # time O(lgn), space O(1)
 class Solution(object):
     
