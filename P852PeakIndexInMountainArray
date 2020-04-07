@@ -1,10 +1,21 @@
-class Solution:
-    def peakIndexInMountainArray(self, A: List[int]) -> int:
-        left, right = 0, len(A) - 1
-        while left < right:
-            mid = (left + right) // 2
-            if A[mid] < A[mid + 1]:
-                left = mid + 1
-            else:
-                right = mid
-        return left
+# bianry search
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def peakIndexInMountainArray(self, A):
+        
+        l = 0
+        r = len(A) - 1
+        
+        while l + 1 < r:
+            m = (l + r) // 2
+            if A[m] < A[m + 1]:
+                l = m + 1
+            elif A[m] > A[m + 1]:
+                r = m
+                
+        if A[l] < A[r]:
+            return r
+        return l
+        
