@@ -1,0 +1,37 @@
+# sol1 bit operation
+
+# count how many times n&(n-1)来进行运算,找出一个数中有多少个1,n&(n-1)相当于将n的最后一位的1变成0
+# time O(n*m),m为n的二进制长度
+
+class Solution(object):
+    def countBits(self, num):
+        
+        res = []
+        
+        for i in range(num + 1):
+            tmp = 0
+            while i:
+                i = i & (i - 1)
+                tmp += 1
+            res.append(tmp)
+        return res
+
+# sol2 dp
+# 奇数的二进制中一的位数等于前面的偶数的二进制中1的个数加1,也就是前面偶数的最后一位的0变成1
+# 偶数的二进制中一的位数等于自身除以2的数的二进制中1的个数,偶数除以2相当于右移一位,也就是将最后面的0移出去,不影响1的个数
+# time O(n)
+# space O(1)
+
+# 10
+# 100
+
+class Solution(object):
+    def countBits(self, num):
+        
+        res = [0] * (num + 1)
+        for i in range(num + 1):
+            if i % 2:
+                res[i] = res[i - 1] + 1
+            else:
+                res[i] = res[i // 2]
+        return res
