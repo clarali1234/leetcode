@@ -3,21 +3,17 @@
 # space o(n)
 class Solution(object):
     def carPooling(self, trips, capacity):
-        """
-        :type trips: List[List[int]]
-        :type capacity: int
-        :rtype: bool
-        """
-        time = []
-        for passenger, start, end in trips:
-            time.append((start, passenger))
-            time.append((end, -passenger))
-        time.sort()
         
-        cur_people = 0
-        for location, people in time:
-            cur_people += people
-            if cur_people > capacity:
+        points = []
+        for num, s, e in trips:
+            points.append((s, num))
+            points.append((e, -num))
+            
+        points.sort()
+        total = 0
+        for t, delta in points:
+            total += delta
+            if total > capacity:
                 return False
         return True
         
