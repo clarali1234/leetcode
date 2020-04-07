@@ -22,7 +22,7 @@ class Solution(object):
         return True
         
 # time O(n)
-# space O(n)
+# space O(1000)
 # locations : number of people in the car when passing this location
 class Solution(object):
     def carPooling(self, trips, capacity):
