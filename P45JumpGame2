@@ -1,6 +1,6 @@
 # greedy
-#我们每次贪心的找在自己当前能到达的几个位置里面，跳到哪个位置的时候，在下一步能跳的最远。
-#然后，我们当前步就跳到这个位置上去，所以我们在这一步的跳跃时，给下一步留下了最好的结果。
+
+# 只需要在一次 跳跃 完成时，更新下一次 能跳到最远的距离。
 
 # 使用一个cur表示当前步能到达的最远位置，使用pre表示上一次能到达的最远位置。
 # 所以，我们应该遍历在上一步的覆盖范围内，当前能跳的最远位置来更新cur。
@@ -8,20 +8,15 @@
 # time O(n)
 # space O(1)
 
-class Solution:
-    def jump(self, nums: List[int]) -> int:
-        count = 0
-        cur_farest = 0
-        pos = 0
-        
-        while cur_farest < len(nums) - 1:
-            count += 1
-            pre_farest = cur_farest
-            while pos <= pre_farest:
-                cur_farest = max(cur_farest, pos + nums[pos])
-                pos += 1
-                
-        return count 
-        
-        
-            
+class Solution(object):
+    def jump(self, nums):
+       
+        end = 0 # end 表示当前能跳的边界
+        max_pos = 0
+        steps = 0
+        for i in range(len(nums) - 1):
+            max_pos = max(max_pos, nums[i] + i) //找能跳的最远的
+            if i == end: //遇到边界，就更新边界，并且步数加一
+                end = max_pos
+                steps += 1
+        return steps
