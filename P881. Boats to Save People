@@ -1,0 +1,22 @@
+# sort + two pointer
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def numRescueBoats(self, people, limit):
+        
+        people.sort()
+        i = 0
+        j = len(people) - 1
+        
+        res = 0
+        
+        while i <= j:
+            if people[i] + people[j] <= limit:
+                res += 1
+                i += 1
+                j -= 1
+            else:
+                res += 1
+                j -= 1
+        return res
