@@ -1,5 +1,6 @@
 # greedy 
 # 贪心策略是我们每次都选取最优的策略，然后前面已经选好了的就不用管了
+# greedy, jump as far as we can for each strategy
 # reach，表示最远能到达的位置，初始化为0
 # 遍历数组中每一个数字，如果当前坐标大于reach或者reach已经抵达最后一个位置则跳出循环，
 # 否则就更新reach的值为其和i + nums[i]中的较大值，其中i + nums[i]表示当前位置能到达的最大位置
@@ -8,17 +9,13 @@
 # space O(1)
 class Solution(object):
     def canJump(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: bool
-        """
+       
         reach = 0
-        for i in range(0, len(nums)):
-            if reach < i or reach == len(nums):
+        for i in range(len(nums)):
+            if i > reach:
                 break
-            reach = max(reach, nums[i] + i)
+            reach = max(reach, nums[i] + i) # not jump, at the current index, jump
         return reach >= len(nums) - 1
-        
 
 
 
