@@ -1,0 +1,44 @@
+# sol1: prefix trie
+# time O(sum(L) + s), sum(L) 所有product的长度，s, search的长度
+# space O(sum(L))
+
+class TrieNode(object):
+    def __init__(self):
+        self.children = {}
+        self.words = []
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def add(self, word):
+        cur = self.root
+        for char in word:
+            if char not in cur.children:
+                cur.children[char] = TrieNode()
+            cur.children[char].words.append(word)
+            cur.children[char].words.sort()
+            if len(cur.children[char].words) > 3:
+                cur.children[char].words.pop()
+            cur = cur.children[char]
+                
+        
+class Solution(object):
+    def suggestedProducts(self, products, searchWord):
+        
+        trie = Trie()
+        for prod in products:
+            trie.add(prod)
+            
+        res = []
+        cur = trie.root
+        for i, char in enumerate(searchWord):
+            if char not in cur.children:
+                res = res + [[] for _ in range(len(searchWord) - i)]
+                break
+            else:
+                res.append(cur.children[char].words)
+                cur = cur.children[char]
+                
+        return res
+                
