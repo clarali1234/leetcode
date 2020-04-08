@@ -1,21 +1,23 @@
 class Solution(object):
     def mostCommonWord(self, paragraph, banned):
-        """
-        :type paragraph: str
-        :type banned: List[str]
-        :rtype: str
-        """
-        for c in "!?',;.": 
-            paragraph = paragraph.replace(c, " ")
-        d, res, count = {},"",0
-        for word in paragraph.lower().split():
-            if word in banned:
+        
+        for char in paragraph:
+            if char in "!?',;.":
+                paragraph = paragraph.replace(char, ' ')
+        
+        words = paragraph.lower().split(' ')
+        counter = collections.Counter(words)
+        
+        max_c = 0
+        res = None
+        for key, value in counter.most_common():
+            print(key,value)
+            if not key or key in banned:
                 continue
-            elif word in d:
-                d[word] += 1
-            else:
-                d[word] = 1
-            if d[word] > count:
-                count = d[word]
-                res = word
+            if value > max_c:
+                max_c = value
+                res = key
+                
         return res
+            
+            
