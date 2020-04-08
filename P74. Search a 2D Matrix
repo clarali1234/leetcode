@@ -27,10 +27,8 @@ class Solution(object):
         return False
   
   # sol2 : binary search
-  # log(m) + log(n)
-  # node: if matrix[m][len(matrix[0]) - 1] < self.target:
-                l = m 
-          在search row 时， 如果当前行最后一个点 < target: l = m, 当前行仍然有可能是含有target的行
+    注意到输入的 m x n 矩阵可以视为长度为 m x n的有序数组。
+    该有序数组非常适合二分查找。row = idx // n ， col = idx % n。
       
   
 class Solution(object):
@@ -38,35 +36,22 @@ class Solution(object):
         
         if not matrix or not matrix[0]:
             return False
-
-        self.target = target
-        row = self.binary_search_row(matrix, 0, len(matrix) -1)
-        return self.search_row(matrix[row], 0, len(matrix[0])- 1)
+        
+        m = len(matrix)
+        n = len(matrix[0])
+        
     
-    def binary_search_row(self, matrix, l, r):
+        l = 0
+        r = m * n - 1
         while l + 1 < r:
-            m = (l + r ) // 2
-            if matrix[m][len(matrix[0]) - 1] == self.target:
-                return m
-            elif matrix[m][len(matrix[0]) - 1] < self.target:
-                l = m 
+            mid = (l + r) // 2
+            pivot = matrix[mid // n][mid % n]
+            if pivot <= target:
+                l = mid 
             else:
-                r = m 
-        if matrix[l][len(matrix[0]) - 1] >= self.target:
-            return l
-        return r
-    
-    def search_row(self, nums, l, r):
-        while l < r:
-            m = (l + r) // 2
-            if nums[m] == self.target:
-                return True
-            elif nums[m] < self.target:
-                l = m + 1
-            else:
-                r = m - 1
-        if nums[l] == self.target:
+                r = mid
+        
+        if matrix[l // n][l % n] == target or matrix[r // n][r % n] == target:
             return True
         return False
                 
-  
