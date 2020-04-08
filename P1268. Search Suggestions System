@@ -43,8 +43,8 @@ class Solution(object):
         return res
                 
 # binary search
-# time O((∑L+S) * logN)
-# space O(lgn) # 为排序需要的空间复杂度
+# time , sort: O(nlgn), query: O(s * lgn), O((n + s) lgn)
+# space O(s)
 那么对于输入单词 searchWord 的某个前缀 prefix，我们只需要在排完序的数组中找到最小的三个字典序大于等于 prefix 的字符串，
 
 class Solution(object):
