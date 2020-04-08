@@ -15,7 +15,7 @@ class Solution(object):
         while l + 1 < r:
             while nums[l] == nums[l + 1] and l + 1 < r:
                 l += 1
-            while nums[r] == nums[r - 1] and l + 1 < r:
+            while nums[r] == nums[r - 1] and l + 1 < r - 1:
                 r -= 1
                 
             m = (l + r) // 2
@@ -24,9 +24,11 @@ class Solution(object):
                     r = m
                 else:
                     l = m
+            
             else:
                 if nums[m] <= target <= nums[r]:
                     l = m
                 else:
                     r = m
+            
         return target in [nums[l], nums[r]]
