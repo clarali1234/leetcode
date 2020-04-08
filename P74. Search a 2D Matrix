@@ -27,6 +27,8 @@ class Solution(object):
         return False
   
   # sol2 : binary search
+  # time O(log(m * n))
+  # space O(1)
     注意到输入的 m x n 矩阵可以视为长度为 m x n的有序数组。
     该有序数组非常适合二分查找。row = idx // n ， col = idx % n。
       
