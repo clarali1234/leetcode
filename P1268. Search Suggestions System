@@ -42,3 +42,27 @@ class Solution(object):
                 
         return res
                 
+# binary search
+# time O((∑L+S) * logN)
+# space O(lgn) # 为排序需要的空间复杂度
+那么对于输入单词 searchWord 的某个前缀 prefix，我们只需要在排完序的数组中找到最小的三个字典序大于等于 prefix 的字符串，
+
+class Solution(object):
+    def suggestedProducts(self, products, searchWord):
+        
+        products.sort()
+        query = ""
+        iter_last = 0
+        ans = []
+        
+        for ch in searchWord:
+            query += ch
+            iter_find = bisect.bisect_left(products, query, iter_last)
+            ans.append([s for s in products[iter_find : iter_find + 3] if s.startswith(query)])
+            iter_last = iter_find
+            
+        return ans
+
+
+
+
