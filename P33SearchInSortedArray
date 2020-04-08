@@ -20,16 +20,16 @@ class Solution(object):
         while l + 1 < r:
             m = (l + r) // 2
         
-            if nums[m] > nums[l]:
+            if nums[m] > nums[l]: # l to m is increasing
                 if nums[l] <= target <= nums[m]:
                     r = m
                 else:
-                    l = m + 1
+                    l = m
             else:
-                if nums[m] <= target <= nums[r]:
+                if nums[m] <= target <= nums[r]: # m to r is increasing
                     l = m
                 else:
-                    r = m - 1
+                    r = m
                     
         if nums[l] == target:
             return l
