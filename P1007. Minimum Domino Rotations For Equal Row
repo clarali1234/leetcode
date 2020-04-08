@@ -6,27 +6,21 @@
 class Solution(object):
     def minDominoRotations(self, A, B):
         
-        self.n = len(A)
-        rotations = self.min_rotation(A, B, A[0]) 
-        # If one could make all elements in A or B equal to A[0]
-        if rotations != -1:
-            return rotations 
-        else:
+        r_A = self.min_rotation(A, B, A[0])
+        if r_A == -1:
             return self.min_rotation(A, B, B[0])
-
-
-    def min_rotation(self, A, B, x):
+        return r_A
         
-        # min number of rotations to have all
-        # elements equal to x in A or B
-            
-        rotations_a = rotations_b = 0
-        for i in range(self.n):
+    def min_rotation(self, A, B, x):
+        r_a = 0
+        r_b = 0
+        
+        for i in range(len(A)):
             if A[i] != x and B[i] != x:
                 return -1
             elif A[i] != x:
-                rotations_a += 1
+                r_a += 1
             elif B[i] != x:
-                rotations_b += 1
-        return min(rotations_a, rotations_b)
-    
+                r_b += 1
+        return min(r_a, r_b)
+        
