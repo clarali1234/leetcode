@@ -1,0 +1,66 @@
+# binary search + rabin carp
+# time O(nlgn)
+# space O(n)
+
+我们可以把这个问题分解成两个子问题：
+1. 从 1 到 N 中选取子串的长度 L；
+2. 检查字符串中是否存在长度为 L 的重复子串
+
+1. 解决子问题一的最简单的方法是，我们从 L = N - 1 开始，依次递减选取子串的长度，并进行判断。
+如果发现存在长度为 L 的重复子串，就表示 L 是最长的可能长度。
+但我们发现，如果字符串中存在长度为 L 的重复子串，那么一定存在长度为 L0 < L 的重复子串
+（选取长度为 L 的重复子串的某个长度为 L0 的子串即可因此我们可以使用二分查找的方法，找到最大的 L。
+
+2. 我们可以使用 Rabin-Karp 算法将字符串进行编码，这样只要有两个编码相同，就说明存在重复子串。对于选取的长度
+class Solution(object):
+    def longestDupSubstring(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        n = len(S)
+        # convert string to array of integers
+        # to implement constant time slice
+        nums = [ord(S[i]) - ord('a') for i in range(n)]
+        # base value for the rolling hash function
+        a = 26
+        # modulus value for the rolling hash function to avoid overflow
+        modulus = 2**32
+        
+        # binary search, L = repeating string length
+        left, right = 1, n
+        while left != right:
+            L = left + (right - left) // 2
+            if self.search(L, a, modulus, n, nums) != -1:
+                left = L + 1
+            else:
+                right = L 
+               
+        start = self.search(left - 1, a, modulus, n, nums)
+        return S[start: start + left - 1] if start != -1 else ""
+
+    def search(self, L, a, modulus, n, nums):
+        """
+        Rabin-Karp with polynomial rolling hash.
+        Search a substring of given length
+        that occurs at least 2 times.
+        @return start position if the substring exits and -1 otherwise.
+        """
+        # compute the hash of string S[:L]
+        h = 0
+        for i in range(L):
+            h = (h * a + nums[i]) % modulus
+              
+        # already seen hashes of strings of length L
+        seen = {h} 
+        # const value to be used often : a**L % modulus
+        aL = pow(a, L, modulus) 
+        for start in range(1, n - L + 1):
+            # compute rolling hash in O(1) time
+            h = (h * a - nums[start - 1] * aL + nums[start + L - 1]) % modulus
+            if h in seen:
+                return start
+            seen.add(h)
+        return -1
+
+
