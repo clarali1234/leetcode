@@ -1,0 +1,29 @@
+# 转化成mins， sort
+# corner case 35, 245, 1300, mins[0] + 1240 - mins[-1]
+# time O(nlgn) (O(1))
+# space O(n)    (O(1))
+
+
+class Solution(object):
+    def findMinDifference(self, timePoints):
+       
+        mins = []
+        for t in timePoints:
+            if t == '00:00':
+                mins.append(24 * 60)
+            else:
+                h = int(t.split(':')[0])
+                min_ = int(t.split(':')[1])
+                mins.append(h * 60 + min_)       
+        mins.sort()
+        
+        res = 24 * 60
+        for i in range(len(mins) - 1):
+            if mins[i + 1] - mins[i] < res:
+                res = mins[i + 1] - mins[i]
+                
+        if res > mins[0] + 24 * 60 - mins[-1]:
+            res = mins[0] + 24 * 60 - mins[-1]
+        
+        return res
+            
