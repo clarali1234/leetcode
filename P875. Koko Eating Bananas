@@ -8,24 +8,28 @@
 
 class Solution(object):
     def minEatingSpeed(self, piles, H):
-        
+       
         l = 1
-        r = max(piles)
+        r = sum(piles)
         
-        while l < r:
+        while l + 1 < r:
             m = (l + r) // 2
-            # can finish in h hours
-            if self.can_finish(piles, m, H):
+            if self.can_eat(piles, m, H):
                 r = m
             else:
                 l = m + 1
-        return l
+        if self.can_eat(piles, l, H):
+            return l
+        return r
     
-    def can_finish(self, piles, m, h):
-        hours = 0
-        for p in piles:
-            hours += (p - 1) // m + 1
-        #print(m, hours)
-        return hours <= h
+    
+    def can_eat(self, piles, speed, H):
+        c = 0
+        for pile in piles:
+            if pile <= speed:
+                c += 1
+            else:
+                c += pile // speed + 1
+        return c <= H
                 
-        
+                
