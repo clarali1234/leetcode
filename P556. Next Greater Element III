@@ -1,4 +1,8 @@
 # same as P31 next permutation
+# step1: find the first increasing pattern from the end
+# step2: swap i with first ele > i (from the end)
+# step3: reverse from i + 1
+
 
 class Solution(object):
     def nextGreaterElement(self, n):
@@ -19,19 +23,18 @@ class Solution(object):
         self.reverse(n, i)
         l = [str(x) for x in n]
         ans = int(''.join(l))
+        
         if ans > 2 ** 31 - 1:
             return -1
         return ans
         
         
     def swap(self, nums, i):
-        j = len(nums) - 1
-        
-        while j > i and nums[j] <= nums[i]:
-            j -= 1
-        
-        if j > i:
-            nums[j], nums[i] = nums[i], nums[j]
+        j = len(nums) - 1 
+        for j in range(len(nums) -1, i, -1):
+            if nums[j] > nums[i]:
+                nums[j], nums[i] = nums[i], nums[j]
+                break
             
     def reverse(self, n, i):
         l = i + 1
