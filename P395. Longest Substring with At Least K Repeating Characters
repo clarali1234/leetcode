@@ -1,0 +1,19 @@
+
+# divide and conquer
+# time 最坏为O(n^2)，空间复杂度O(1)。n为字符串长度。
+
+# base case, len(s) < k, can't form
+# recursive case, 如果频率最小的char > k, return len(s), 否则结果里面不能含有ele, split，recursive, then take max
+
+class Solution(object):
+    def longestSubstring(self, s, k):
+        
+        if len(s) < k:
+            return 0
+        
+        counter = collections.Counter(s)
+        if counter.most_common()[-1][1] < k: # ans can't be hold ele
+            ele = counter.most_common()[-1][0]
+            return max(self.longestSubstring(sub, k) for sub in s.split(ele))
+        else:
+            return len(s)
