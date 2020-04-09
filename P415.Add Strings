@@ -1,29 +1,37 @@
 # simulation 
 # time num1和num2位数最大值，space O(1)
-class Solution:
-    def addStrings(self, num1: str, num2: str) -> str:
-        m = len(num1)
-        n = len(num2)
+
+class Solution(object):
+    def addStrings(self, num1, num2):
+        
+        l1 = [int(x) for x in list(num1)]
+        l2 = [int(x) for x in list(num2)]
+        
+        m = len(l1)
+        n = len(l2)
         
         if m < n:
-            num1 = '0' * (n - m) + num1
+            l1 =  [0 for _ in range(n - m)] + l1
         elif m > n:
-            num2 = '0' * (m - n) + num2
+            l2 =  [0 for _ in range(m - n)] + l2
             
-        res = ''
+        #print(l1, l2)
         carry = 0
+        cur = 0
+        res = ''
+        
         for i in range(max(m, n) - 1, -1, -1):
-            add = int(num1[i]) + int(num2[i]) + carry
-            if add >= 10:
-                carry = 1
-                add -= 10
+            cur = carry + l1[i] + l2[i]
+            if cur >= 10:
+                carry = cur // 10 # node1, 先计算carry
+                cur = cur % 10 
             else:
-                carry = 0
-            res = str(add) + res
-            
+                carry = 0         # node2, carry 归 0
+            res = str(cur) + res 
+
         if carry:
             res = str(carry) + res
         return res
                 
-            
                 
+            
