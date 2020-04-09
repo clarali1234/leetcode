@@ -9,21 +9,30 @@
 
 class Solution(object):
     def shipWithinDays(self, weights, D):
-        """
-        :type weights: List[int]
-        :type D: int
-        :rtype: int
-        """
+       
         l = max(weights)
         r = sum(weights)
-        
-        while l < r:
+ 
+        while l + 1 < r:
             m = (l + r) // 2
-            cur = 0
-            need = 1
-            for w in weights:
-                if cur + w > m:
-                    need += 1
-                    cur = 0
-                cur = cur + w
+            if not self.can_ship(weights, m, D): 
+                l = m + 1
+            else:
+                r = m
+        if self.can_ship(weights, l, D):
+            return l
+        return r
+    
+    def can_ship(self, weights, limit, D):
+        count = 1
+        cur = 0
+        for w in weights:
+            if cur + w > limit:
+                count += 1
+                cur = w
+            else:
+                cur += w
+        return count <= D
+                
+                
             
