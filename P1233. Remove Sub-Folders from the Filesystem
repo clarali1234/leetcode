@@ -1,0 +1,15 @@
+# sort + iterate
+# time O(nlgn)
+# space O(n)
+
+class Solution(object):
+    def removeSubfolders(self, folder):
+        
+        folder.sort()
+        res = []
+        t = ' '
+        for f in folder:
+            if not f.startswith(t):
+                res.append(f)
+                t = f + '/'
+        return res
