@@ -1,33 +1,48 @@
 # graph
-# dfs or union find
+# dfs 
+# find component then sort each component
 
 # time O(vlgv)
 # space O(v)
-# 联通分量内部排序 找联通分量 O(v + e)
+# dfs 找联通分量 O(v + e)
+
+steps:
+# build graph
+# dfs search from component
+# build string
+        
 
 class Solution(object):
     def smallestStringWithSwaps(self, s, pairs):
         
-        p = {i:i for i in range(len(s))}    #初始化并查集
-
-        def f(x):
-            if x != p[x]:
-                p[x] = f(p[x])
-            return p[x]
+        graph = collections.defaultdict(list)
+        for c1, c2 in pairs:
+            graph[c1].append(c2)
+            graph[c2].append(c1)
+            
+        self.visited = [False for _ in range(len(s))]
+        res = list(s)
         
-        for i, j in pairs:
-            p[f(j)] = f(i)      
-        #合并可交换位置
-        d = collections.defaultdict(list)
-        for i, j in enumerate(map(f, p)):
-            d[j].append(i)
-        #排序
-        ans = list(s)
-        for q in d.values():
-            t = sorted(ans[i] for i in q)   
-            for i, c in zip(sorted(q), t):
-                ans[i] = c
-        return ''.join(ans)
-
-
-
+        for i in range(len(s)):
+            if not self.visited[i]:
+                component_chars = [s[i]]
+                component_idx = [i]
+                self.visited[i] = True
+                self.dfs(component_chars, component_idx, s, graph, i)
+                print(i, component_chars, component_idx)
+                component_chars.sort()
+                component_idx.sort()
+                for index, j in enumerate(component_idx):
+                    res[j] = component_chars[index]
+            
+        return ''.join(res)
+    
+    
+    def dfs(self, component_chars, component_idx, s, graph, i):
+        for nb in graph[i]:
+            if not self.visited[nb]:
+                self.visited[nb] = True
+                component_idx.append(nb)
+                component_chars.append(s[nb])
+                self.dfs(component_chars, component_idx, s, graph, nb)
+                
