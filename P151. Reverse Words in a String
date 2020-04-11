@@ -1,12 +1,8 @@
 class Solution(object):
     def reverseWords(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
-        
-        words = list(s.split())
-        new = ' '.join(words[::-1])
-        new = new.strip()
-        return new
-        
+       
+        l = s.split()
+        res = []
+        for i in range(len(l) - 1, -1, -1):
+            res.append(l[i])
+        return ' '.join(res)   
