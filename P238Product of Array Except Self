@@ -6,21 +6,15 @@
 
 class Solution(object):
     def productExceptSelf(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        result = [] 
-        prod = 1 # product before the cur value 
+       
+        res = [1 for _ in range(len(nums))]
+        product = 1
         for i in range(len(nums)):
-            result.append(prod)
-            prod *= nums[i]
-        
-        prod = 1 # product after the current value 
-        for i in range(len(nums) - 1, -1, -1):
-            # update result 
-            result[i] *= prod
-            # update product from right
-            prod *= nums[i]
-        return result
+            res[i] = product
+            product = product * nums[i]
             
+        product2 = 1
+        for j in range(len(nums)- 1, -1, -1):
+            res[j] = res[j] * product2
+            product2 = product2 * nums[j]
+        return res
