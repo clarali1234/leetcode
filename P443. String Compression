@@ -1,0 +1,30 @@
+# three pointers
+# time O(n)
+# space O(1)
+使用两个指针 read 和 write 分别标记读和写的位置。读写操作均从左到右进行：读入连续的一串字符，然后将压缩版写到数组中。
+最终，write 将指向输出答案的结尾。
+
+保留指针 anchor(repeat_index)，指向当前读到连续字符串的起始位置。
+从左到右进行读取。当读到最后一个字符，或者下一个下一个字符与当前不同时，则到达连续区块的结尾。
+
+当我们到达连续区块的结尾时，就从 write 写入压缩的结果。chars[anchor] 为字符，read - anchor + 1 （若大于 1）为长度。
+
+
+class Solution(object):
+    def compress(self, chars):
+        
+        read = 0
+        write = 0
+        repeat_index = 0
+        
+        for read, char in enumerate(chars):
+            if read == len(chars) - 1 or chars[read + 1] != char:
+                chars[write] = char
+                write += 1
+                
+                if read > repeat_index:
+                    for digit in str(read - repeat_index + 1):
+                        chars[write] = digit
+                        write += 1
+                repeat_index = read + 1
+        return write
