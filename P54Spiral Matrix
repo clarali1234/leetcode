@@ -1,4 +1,41 @@
 simulation
+
+# sol1 : simulation + hashset
+# time O(mn)
+# space O(mn)
+# 思路:当new_x, new_y 越界或者已经被访问过，则换方向
+
+class Solution(object):
+    def spiralOrder(self, matrix):
+       
+        if not matrix or not matrix[0]:
+            return []
+        
+        res = []
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)] # right, down, left, up
+        m = len(matrix)
+        n = len(matrix[0])
+        visited = set()
+        x = y = 0
+        cur_i = 0
+        
+        for _ in range(m * n):
+            res.append(matrix[x][y])
+            visited.add((x, y))
+            new_x = x + dirs[cur_i][0]
+            new_y = y + dirs[cur_i][1]
+            
+            if 0 <= new_x < m and 0 <= new_y < n and (new_x, new_y) not in visited:
+                x = new_x
+                y = new_y
+            else:
+                cur_i = (cur_i + 1) % 4
+                x += dirs[cur_i][0]
+                y += dirs[cur_i][1]
+        return res
+            
+           
+
 # direction : 0, 1, 2, 3
 # border: left, right, bottom, top
 
