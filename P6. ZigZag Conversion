@@ -3,19 +3,25 @@
 
 class Solution(object):
     def convert(self, s, numRows):
-      
-        if numRows == 1 or numRows > len(s):
+        
+        
+        if numRows == 1 or numRows >= len(s):
             return s
         
+        row = 0
+        res = ['' for _ in range(numRows)]
         step = 1
-        index = 0
-        l = [''] * numRows # l = ['', '', '']
+        
         for char in s:
-            l[index] += (char)
-            if index == 0:
+            res[row] += char
+            if row == 0:
                 step = 1
-            elif index == numRows - 1:
+            elif row == numRows - 1:
                 step = -1
-            index += step
+                
+            row += step
             
-        return ''.join(l)
+        return ''.join(res)
+            
+        
+        
