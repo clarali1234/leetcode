@@ -1,3 +1,26 @@
+# recursion
+# time O(n^2)
+# space O(n)
+
+class Solution(object):
+    def countAndSay(self, n):
+        # base case, n == 1, return 1
+        if n == 1:
+            return '1'
+        
+        # recursion part, count result of n - 1
+        anchor = 0
+        last = self.countAndSay(n - 1)
+        res = ''
+        for index, char in enumerate(last):
+            if index == len(last) - 1 or last[index + 1] != char:
+                res += str(index - anchor + 1)
+                res += char
+                anchor = index + 1
+        return res
+            
+
+
 class Solution(object):
     def countAndSay(self, n):
         """
