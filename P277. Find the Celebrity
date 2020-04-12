@@ -4,31 +4,21 @@ The second and third loop is to verify x is actually a celebrity by definition.
 
 # time O(n)
 
-# The knows API is already defined for you.
-# @param a, person a
-# @param b, person b
-# @return a boolean, whether a knows b
-# def knows(a, b):
-
 class Solution(object):
     def findCelebrity(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        # find the candidate of celebrity
-        x = 0
+        # find celebrity
+        celebrity = 0
         for i in range(n):
-            if knows(x, i):
-                x = i
+            if knows(celebrity, i):
+                celebrity = i
+               
+        # verify celebrity
+        for i in range(n):
+            if celebrity != i:
+                if knows(celebrity, i):
+                    return -1
+                if not knows(i, celebrity):
+                    return -1
                 
-        # verify the candidate is celebrity
-        for i in range(n):
-            if x == i:
-                continue
-            if knows(x, i) == 1:
-                return -1
-            if knows(i, x) == 0:
-                return -1
-        return x
+        return celebrity
         
