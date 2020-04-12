@@ -1,0 +1,33 @@
+# time O(1)
+# space O(1)
+
+class Solution(object):
+    def tictactoe(self, moves):
+
+        if self.check(moves, 0):
+            return 'A'
+        if self.check(moves, 1):
+            return 'B'
+        
+        if len(moves) == 9:
+            return 'Draw'
+        return 'Pending'
+    
+    def check(self, moves, start):
+        rows = [0 for _ in range(3)]
+        cols = [0 for _ in range(3)]
+        diag = 0
+        anti_diag = 0
+        
+        for i in range(start, len(moves), 2):
+            x = moves[i][0]
+            y = moves[i][1]
+            rows[x] += 1
+            cols[y] += 1
+            if x == y:
+                diag += 1
+            if x == 2 - y:
+                anti_diag += 1
+
+        return max(rows) == 3 or max(cols) == 3 or diag == 3 or anti_diag == 3
+            
