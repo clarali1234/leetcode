@@ -3,30 +3,27 @@
 # space O(1)
 
 # 核心： find first integer in range(0, x) m, m ** 2 <= x
+# l ** 2 <= x, (l + 1) ** 2 > x
+
 class Solution(object):
     def mySqrt(self, x):
-        """
-        :type x: int
-        :rtype: int
-        """
+        
         if x == 0:
             return 0
         
-        left = 0
-        right = x
-        while left + 1 < right:
-            mid = left + (right - left) // 2
-            if mid == x // mid:
-                return mid
-            elif mid < x // mid:
-                left = mid
-            else:
-                right = mid
-                
-        if right <= x // right:
-            return right
-        return left
+        l = 1
+        r = x
         
+        while l + 1 < r:
+            m = (l + r) // 2
+            if m ** 2 <= x:
+                l = m
+            else:
+                r = m
+                
+        if l ** 2 <= x:
+            return l
+        return r
         
         
  # follow up 一直二分直到 |number^2 - x| <= 1e-10
