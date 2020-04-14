@@ -11,18 +11,17 @@ class Solution(object):
         self.dfs(root)
         return self.leaves
     
-    def dfs(self, root): # return height
-        if not root:
+    def dfs(self, node):
+        if not node:
             return -1
         
-        l_h  = self.dfs(root.left)
-        r_h = self.dfs(root.right)
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
+        h = max(l, r) + 1
         
-        height = max(l_h, r_h) + 1
-        
-        if height >= len(self.leaves):
+        if h >= len(self.leaves):
             self.leaves.append([])
             
-        self.leaves[height].append(root.val)
-        return height
+        self.leaves[h].append(node.val)
+        return h
         
