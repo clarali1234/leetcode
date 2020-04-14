@@ -1,0 +1,23 @@
+# 序列化 for each node + hash table 
+# time O(n ^ 2)
+# space O(n ^ 2)
+
+
+
+ class Solution(object):
+    def findDuplicateSubtrees(self, root):
+        self.paths = collections.defaultdict(int)
+        self.res = []
+        self.dfs(root)
+        return self.res
+    
+    
+    def dfs(self, node):
+        if not node:
+            return '#'
+        
+        path = str(node.val) + self.dfs(node.left) + self.dfs(node.right)
+        if self.paths[path] == 1:
+            self.res.append(node)
+        self.paths[path] += 1
+        return path
