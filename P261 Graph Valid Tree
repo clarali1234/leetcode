@@ -1,6 +1,30 @@
 # 判断是否为tree
-# 1. n - 1 edges 2. 无环
+# 1. n - 1 edges 2. 无环 (traverse all node in one dfs)
 
+class Solution(object):
+    def validTree(self, n, edges):
+        
+        if n != len(edges) + 1:
+            return False
+        
+        graph = collections.defaultdict(set)
+        for i, j in edges:
+            graph[i].add(j)
+            graph[j].add(i)
+            
+        self.visited = set()
+        self.visited.add(0)
+        self.dfs(graph, 0)
+        return len(self.visited) == n
+    
+    def dfs(self, graph, x):
+        for i in graph[x]:
+            if i not in self.visited:
+                self.visited.add(i)
+                self.dfs(graph, i)
+                
+                
+# bfs
 class Solution:
     def validTree(self, n, edges):
         if len(edges) != n - 1:
