@@ -1,4 +1,8 @@
 # recursion + dfs
+# two layers dfs
+# time O(nlgn) ~ O(n ^ 2)
+# space O(n)
+
 
 class Solution(object):
     def pathSum(self, root, sum):
@@ -18,4 +22,32 @@ class Solution(object):
             
         count += self.dfs(node.left, sum)
         count += self.dfs(node.right, sum)
+        return count
+
+
+sol2 : memo with path sum
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def pathSum(self, root, sum):
+ 
+        self.memo = {0:1}
+        return self.dfs(root, 0, sum)
+    
+    def dfs(self, root, prevSum, sum):
+        if not root:
+            return 0
+        
+        count = 0
+        currSum = prevSum + root.val
+        if currSum - sum in self.memo:
+            count += self.memo[currSum - sum]
+        if currSum in self.memo:
+            self.memo[currSum] += 1
+        else:
+            self.memo[currSum] = 1
+        count += self.dfs(root.left, currSum, sum)
+        count += self.dfs(root.right, currSum, sum)
+        self.memo[currSum] -= 1
         return count
