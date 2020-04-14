@@ -1,10 +1,8 @@
-递归+分治法. 构建d存储每层的节点值, 当节点为空时, 为第0层, 当根节点时, 为第1层, 以此类推. 构造getLevel函数, 分别求得左右子节点的层数, 
-当前节点的层数为1 + max(left, right), 然后更新字典. 最后遍历字典的键, 将值加入res.
+# divide and conquer 
+# time O(n)
+# space O(h)
 
-
-# 每一个节点从左子节点和右子节点分开走可以得到两个深度，由于成为叶节点的条件是左右子节点都为空，
-# 所以我们取左右子节点中较大值加1为当前节点的深度值，知道了深度值就可以将节点值加入到结果res中的正确位置了
-
+# leaves height is 0
 
 class Solution(object):
     def findLeaves(self, root):
@@ -13,15 +11,18 @@ class Solution(object):
         self.dfs(root)
         return self.leaves
     
-    def dfs(self, root):
+    def dfs(self, root): # return height
         if not root:
             return -1
-        left_height  = self.dfs(root.left)
-        right_height = self.dfs(root.right)
-        height = max(left_height, right_height) + 1
+        
+        l_h  = self.dfs(root.left)
+        r_h = self.dfs(root.right)
+        
+        height = max(l_h, r_h) + 1
+        
         if height >= len(self.leaves):
             self.leaves.append([])
+            
         self.leaves[height].append(root.val)
         return height
-            
         
