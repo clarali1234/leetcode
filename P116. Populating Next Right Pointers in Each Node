@@ -1,3 +1,34 @@
+# sol1 bfs
+time O(n)
+space O(n)
+class Solution(object):
+    def connect(self, root):
+        
+        if not root:
+            return None
+        queue = collections.deque([root])
+        
+        while queue:
+            n = len(queue)
+            pre_node = queue.popleft()
+            if pre_node.left:
+                    queue.append(pre_node.left)
+            if pre_node.right:
+                    queue.append(pre_node.right)
+            
+            for _ in range(n - 1):
+                cur_node = queue.popleft()
+                if cur_node.left:
+                    queue.append(cur_node.left)
+                if cur_node.right:
+                    queue.append(cur_node.right)
+                pre_node.next = cur_node
+                pre_node = cur_node
+            
+        return root
+
+
+
 树的问题一般都可以用递归解决。这个题中，同样可以使用dfs解决。
 
 注意题目已经声明了是完全二叉树，从根节点开始找到任意节点，将其左孩子指向右孩子。
