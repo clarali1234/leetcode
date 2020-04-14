@@ -1,12 +1,13 @@
 # 递归
-# first: inorder? preorder? post order? - preorder
+# first: preorder
 # second: local view: 
+
 # cur node
 # cur.left.next = cur.right
 # cur.right.next = cur.next.left
 
 # time O(n), space O(lgn)
-# dummy node
+
 # dummy is like a dupicate of tail and it records the route where tail walks in a level. 
 # Therefore, the first element of dummy must be 0 and 
 # second element must be the leftmost node in a level which can be set as the first parent node of next level
