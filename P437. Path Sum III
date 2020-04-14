@@ -1,0 +1,21 @@
+# recursion + dfs
+
+class Solution(object):
+    def pathSum(self, root, sum):
+        
+        if not root:
+            return 0
+        return self.dfs(root, sum) + self.pathSum(root.left, sum) + self.pathSum(root.right, sum)
+    
+    def dfs(self, node, sum):
+        count = 0
+        if not node:
+            return count
+        
+        sum -= node.val
+        if sum == 0:
+            count += 1
+            
+        count += self.dfs(node.left, sum)
+        count += self.dfs(node.right, sum)
+        return count
