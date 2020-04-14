@@ -1,17 +1,11 @@
-A sorted array nums with a and b as lower and upper bound, has b-a-len(nums)+1 missing numbers. 
-Therefore, if the desired k is greater than the max missing number the interval can hold 
-(k > b-a-len(nums)+1), we simply need to add extra counts to the last 
-number nums[-1] + k - (max_value - min_value - len(nums) + 1). 
-
 
 # binary search
 time O(lgn)
 space O(1)
 
 node:
-# check if l to m missing counts < k -> l = m, k - (missing in left); else right = mid
-# return l + k
-# 循环退出， i, i + 1 nums[i], nums[i + 1] 之间缺失数量 >= k, return nums[i] + k
+binary search to find index, missing(index) < k <= missing(index + 1), 
+so the result is nums[index] + k
 
 class Solution(object):
     def missingElement(self, nums, k):
