@@ -1,0 +1,21 @@
+# dp + tree
+# time O(n)
+# space O(h)
+
+
+class Solution(object):
+    def rob(self, root):
+        return self.dfs(root)[1]
+        
+    def dfs(self, node):
+        if not node:
+            return [0, 0] # (non_cur, max)
+        
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
+        
+        non_cur = l[1] + r[1]
+        cur = max(non_cur, node.val + l[0] + r[0])
+        
+        return [non_cur, cur]
+        
