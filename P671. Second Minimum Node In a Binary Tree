@@ -1,0 +1,56 @@
+# dfs
+# time O(nlgn)
+# space O(n)
+
+class Solution(object):
+    def findSecondMinimumValue(self, root):
+        
+        if not root:
+            return -1
+        
+        self.res = set()
+        self.dfs(root)
+        l = list(self.res)
+        if len(l) == 1:
+            return -1
+        l.sort()
+        return l[1]
+    
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        self.res.add((node.val))
+        self.dfs(node.left)
+        self.dfs(node.right)
+    
+ # 无需sort
+ # time O(n)
+ # space O(n)
+ class Solution(object):
+    def findSecondMinimumValue(self, root):
+        
+        if not root:
+            return -1
+        
+        self.res = set()
+        self.dfs(root)
+        
+        min1 = root.val
+        res = sys.maxsize
+        for v in self.res:
+            if min1 < v < res:
+                res = v
+        if res == sys.maxsize:
+            return -1
+        return res
+            
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        self.res.add((node.val))
+        self.dfs(node.left)
+        self.dfs(node.right)
+    
+ 
