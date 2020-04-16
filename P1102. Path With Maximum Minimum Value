@@ -1,5 +1,6 @@
 # dfs + heap
 # using heap to implement dfs, until get to the end point
+# 每次选择已访问过的所有点周围的没有访问过的点中值最大的点
 # time O(mnlog(mn))
 # space O(mn)
 
