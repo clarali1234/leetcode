@@ -1,3 +1,6 @@
+# idea:set shapes
+# representation of island, relative coordinate to top left corner
+
 At the beginning, we need to find every island, which we can do using a straightforward depth-first search.
 The hard part is deciding whether two islands are the same.
 
