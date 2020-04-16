@@ -1,0 +1,47 @@
+# topo sort
+# start from leavse
+# remove leavse one level by one level
+# until len(leaves) == 1 or 2
+
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def findMinHeightTrees(self, n, edges):
+        if n == 1:
+            return [0]
+        
+        graph = {i : set() for i in range(n)}
+        indegrees = collections.defaultdict(int)
+        for i, j in edges:
+            graph[i].add(j)
+            graph[j].add(i)
+            indegrees[i] += 1
+            indegrees[j] += 1
+            
+        queue = collections.deque([])
+        for node, indegree in indegrees.items():
+            if indegree == 1:
+                queue.append(node)
+        
+        count = n
+        
+        while count > 2:
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                count -= 1
+                for nb in graph[node]:
+                    indegrees[nb] -= 1
+                    if indegrees[nb] == 1:
+                        queue.append(nb)
+           
+        return list(queue)
+                
+                
+            
+            
+            
+            
+            
+            
+            
