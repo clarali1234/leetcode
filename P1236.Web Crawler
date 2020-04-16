@@ -1,3 +1,7 @@
+# 题意: 寻找all urls that has the same host name as the start url
+
+# method: dfs travser all connected (via htmlParser) urls
+
 # time O(v+e)
 # space O(v)
 
