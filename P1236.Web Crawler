@@ -7,24 +7,18 @@
 
 class Solution(object):
     def crawl(self, startUrl, htmlParser):
-        """
-        :type startUrl: str
-        :type htmlParser: HtmlParser
-        :rtype: List[str]
-        """
+        
         self.host_name = startUrl.split('/')[2]
         self.res = []
         self.visited = set()
+        self.visited.add(startUrl)
         self.dfs(startUrl, htmlParser)
         return self.res
     
-    
     def dfs(self, url, htmlParser):
-        if url in self.visited or url.split('/')[2] != self.host_name:
-            return 
-        
-        self.visited.add(url)
         self.res.append(url)
-        nbs = htmlParser.getUrls(url)
-        for nb in nbs:
-            self.dfs(nb, htmlParser)
+        for nb in htmlParser.getUrls(url):
+            if nb not in self.visited and nb.split('/')[2] == self.host_name:
+                self.visited.add(nb)
+                self.dfs(nb, htmlParser)
+        
