@@ -7,23 +7,22 @@
 class Solution(object):
     def shortestDistance(self, maze, start, destination):
         
-        queue = collections.deque([(start[0], start[1], 0)]) # points that have been visited
-        visited = collections.defaultdict(int)
+        visited = {}
+        queue = collections.deque([(start[0], start[1], 0)])
         
         while queue:
             x, y, step = queue.popleft()
-            for dx, dy in [(-1, 0), (1,0), (0, 1), (0, -1)]:
-                new_x = x
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x 
                 new_y = y
                 d = step
                 while 0 <= new_x + dx < len(maze) and 0 <= new_y + dy < len(maze[0]) and maze[new_x + dx][new_y + dy] == 0:
                     new_x += dx
                     new_y += dy
                     d += 1
-                    
-                if (new_x, new_y) not in visited or visited[(new_x, new_y)] > d:
-                    visited[(new_x, new_y)] = d 
-                    if [new_x, new_y] != destination:
-                        queue.append((new_x, new_y, d))
+                if (new_x, new_y) not in visited or visited[(new_x,new_y)] > d:
+                    visited[(new_x,new_y)] = d
+                    queue.append((new_x, new_y, d))
                     
         return visited.get((destination[0], destination[1]), -1)
+                    
