@@ -1,28 +1,20 @@
 # DFS
-# time O(N)
-# space O(N)
+# time O(mn)
+# space O(mn)
 
 class Solution(object):
     def floodFill(self, image, sr, sc, newColor):
-        """
-        :type image: List[List[int]]
-        :type sr: int
-        :type sc: int
-        :type newColor: int
-        :rtype: List[List[int]]
-        """
+        
         self.visited = set()
-        self.old= image[sr][sc]
-        self.dfs(image, sr, sc, newColor)
+        self.visited.add((sr, sc))
+        self.dfs(image, sr, sc, image[sr][sc], newColor)
         return image
     
-    def dfs(self, image, r, c, color):
-        if r < 0 or r >= len(image) or c < 0 or c >= len(image[0]) or (r, c) in self.visited or image[r][c] != self.old:
-            return 
-        
-        self.visited.add((r, c))
-        image[r][c] = color
-        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-            x = r + dx
-            y = c + dy
-            self.dfs(image, x, y, color)
+    def dfs(self, image, x, y, old_c, new_c):
+        image[x][y] = new_c
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(image) and 0 <= new_y < len(image[0]) and (new_x, new_y) not in self.visited and image[new_x][new_y] == old_c:
+                self.visited.add((new_x, new_y))
+                self.dfs(image, new_x, new_y, old_c, new_c)
