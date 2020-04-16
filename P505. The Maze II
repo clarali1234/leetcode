@@ -1,8 +1,5 @@
 
-# 求最短路径的题目一般还是BFS比DFS靠谱
 # idea: bfs travsesal, but we need to travse all the different paths to each point
-# put point and steps into queue, while queue, pop out, try four directions, if x + dx and y + dy is 0, continue roll, else
-stop, check the current step, put current point into visited, if the current is not destination, put into queue again
 
 # time O(m*n * max(m, n)), each points, max road length is max(m, n)
 # space O(mn)
