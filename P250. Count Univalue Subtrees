@@ -1,0 +1,35 @@
+# divide and conquer
+# time O(n)
+# space O(h)
+
+# idea: # dfs: is_univaule, output: true/false
+class Solution(object):
+    def countUnivalSubtrees(self, root):
+        
+        if not root:
+            return 0
+        
+        self.res = 0
+        self.dfs(root)
+        return self.res
+    
+    def dfs(self, node): 
+        # base case
+        if not node.left and not node.right:
+            self.res += 1
+            return True
+        
+        # recursive part
+        is_univ = True
+        if node.left:
+            left = self.dfs(node.left)
+            is_univ = left and node.val == node.left.val and is_univ
+        if node.right:
+            right = self.dfs(node.right)
+            is_univ = right and node.val == node.right.val and is_univ
+            
+        if is_univ:
+            self.res += 1
+        return is_univ
+        
+            
