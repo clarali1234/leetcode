@@ -1,59 +1,39 @@
-# 有bug
+# bfs
+# node: 1. # 1. if run into hole, break, # 2. if cur_s == step, didn't go through this direction
 
 class Solution(object):
     def findShortestWay(self, maze, ball, hole):
-        """
-        :type maze: List[List[int]]
-        :type ball: List[int]
-        :type hole: List[int]
-        :rtype: str
-        """
-        dic = collections.defaultdict(list) # key: reached point, value : (step, dir) # {(0, 1) : (3, '121')}
-        queue = collections.deque([(ball[0], ball[1], 0, '')])
-        dirs = {(-1, 0) : 'u', (1, 0):'d', (0, -1):'l', (0, 1):'r'}
         
-        while queue:
-            x, y, step, cur_dir = queue.popleft()
-            
-            for dx, dy in dirs.keys():
-                i = x
-                j = y
-                d = step
-                dir_ = cur_dir
+        visited = collections.defaultdict(list)
+        q = collections.deque([(ball[0], ball[1], 0, '')])
+        
+        while q:
+            x, y, step, path = q.popleft()
+            for dx, dy, dir_ in [(-1, 0, 'u'), (1, 0, 'd'), (0, -1, 'l'), (0, 1, 'r')]:
+                new_x = x
+                new_y = y
+                cur_s = step
+                cur_p = path + dir_
+                while 0 <= new_x + dx < len(maze) and 0 <= new_y + dy < len(maze[0]) and maze[new_x + dx][new_y + dy] == 0:
+                    new_x += dx
+                    new_y += dy
+                    cur_s += 1
+                    # 1. if run into hole, break
+                    if [new_x, new_y] == hole:
+                        break
                 
-                while 0 <= i + dx < len(maze) and 0 <= j + dy < len(maze[0]) and maze[i + dx][j + dy] == 0 and (i + dx != hole[0] and j + dy != hole[1]):
+                # 2. if cur_s == step, didn't go through this direction
+                if cur_s == step:
+                    continue
                     
-                    i += dx
-                    j += dy
-                    d += 1
-                    
-                if 0 <= i + dx < len(maze) and 0 <= j + dy < len(maze[0]) and (i + dx == hole[0] and j + dy == hole[1]):
-                    if (i, j) not in dic or dic[(i, j)][0] > d:
-                        dic[(i, j)] = [(d,dir_ + dirs[(dx, dy)])]
-                    elif (i, j) in dic and dic[(i, j)][0] == d:
-                        dic[(i, j)].append((d,dir_ + dirs[(dx, dy)]))
-                        
-                else:
-                    if (i, j) not in dic or dic[(i, j)][0] > d:
-                        dic[(i, j)] = [(d,dir_ + dirs[(dx, dy)])]
-                        queue.append((i, j, d, dir_ + dirs[(dx, dy)]))
-                        
-                    elif (i, j) in dic and dic[(i, j)][0] == d:
-                        dic[(i, j)].append((d,dir_ + dirs[(dx, dy)]))
-                        queue.append((i, j, d, dir_ + dirs[(dx, dy)]))
+                if (new_x, new_y) not in visited or [cur_s, cur_p] < visited[(new_x, new_y)]:
+                    visited[(new_x, new_y)] = [cur_s, cur_p]
+                    if [new_x, new_y] != hole:
+                        q.append([new_x, new_y, cur_s, cur_p])
+                    else:
+                        print(visited[(hole[0], hole[1])])
 
-            print(dic)
-            if not (hole[0], hole[1]) in dic:
-                return 'impossible'
-            
-            vals = dic[(hole[0], hole[1])] # [(5, ''), (5, )]
-            vals.sort(key = lambda x: (x[0], x[1]))
-            return vals[0][1]
-        
-            
-            
-            
-                                                                                                            
-                
-                
-                
+        if (hole[0], hole[1]) not in visited:
+            return 'impossible'
+                        
+        return visited[(hole[0], hole[1])][1]
