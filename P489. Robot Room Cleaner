@@ -5,6 +5,8 @@
 # 然后继续move。直到robot到达一个点，这个点前后左右不是blocked就是visited的时候，返回。
 # 找到robot在这个点之前的状态，继续尝试换一个方向move。当所有的搜索返回，clean all the available point
 
+# 换方向, dx, dy, -> -dy, dx (turn right)
+
 class Solution(object):
     def cleanRoom(self, robot):
         """
