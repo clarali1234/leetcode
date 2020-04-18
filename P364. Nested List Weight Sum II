@@ -9,25 +9,25 @@
 class Solution(object):
     def depthSumInverse(self, nestedList):
         
-        return self.dfs(nestedList, 0)
+        self.res = 0
+        self.dfs(nestedList, 0)
+        return self.res
     
-    def dfs(self, nestedList, cum_sum):
-        nxtList = []
-        res = cum_sum # cumulative sum before nxt lists
+    def dfs(self, nestedList, cur_sum):
+        self.res += cur_sum
         
+        ls = []
         for ele in nestedList:
             if ele.isInteger():
-                cum_sum += ele.getInteger()
-                res += ele.getInteger()
+                self.res += ele.getInteger()
+                cur_sum += ele.getInteger()
             else:
-                nxtList += ele.getList()
-                
-        if nxtList:
-            res += self.dfs(nxtList, cum_sum) # if has nxt list, all cum_sum need to be added again
+                ls += ele.getList()
+        if ls:
+            self.dfs(ls, cur_sum)
             
-        return res # final result after this level is done
-                    
-        
+                
+
 
 但是解题思路没有变，还可以用 DFS 来做，由于遍历的时候不知道最终的 depth 有多深，则不能遍历的时候就直接累加结果，
 博主最开始的想法是在遍历的过程中建立一个二维数组，把每层的数字都保存起来，然后最后知道了 depth 后，再来计算权重和，
