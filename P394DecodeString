@@ -14,26 +14,20 @@ class Solution(object):
         
         stack = []
         cur_num = 0
-        res = ''
-        for i, char in enumerate(s):
+        cur_str = ''
+        
+        for char in s:
             if char.isdigit():
                 cur_num = cur_num * 10 + int(char)
+            elif char.isalpha():
+                cur_str = cur_str + char
             elif char == '[':
-                stack.append(res)
+                stack.append(cur_str)
                 stack.append(cur_num)
-                res = ''
+                cur_str = ''
                 cur_num = 0
             elif char == ']':
-                prev_num = stack.pop()
-                prev_res = stack.pop()
-                res = prev_res + prev_num * res
-            else:
-                res = res + char
-                
-        while stack:
-            prev_num = stack.pop()
-            prev_res = stack.pop()
-            res = pre_res + prev_num * res
-            
-        return res
-    
+                pre_num = stack.pop()
+                pre_res = stack.pop()
+                cur_str = pre_res + cur_str * pre_num
+        return cur_str
