@@ -2,23 +2,21 @@
 # time O(v + e) (O(n))
 # space O(n)
 
+# hash table + dfs traverse (divide and conquer)
+
 class Solution(object):
     def getImportance(self, employees, id):
-        """
-        :type employees: List[Employee]
-        :type id: int
-        :rtype: int
-        """
-        emap = {e.id : e for e in employees}
-        return self.dfs(emap, id)
+        
+        id_emp = {}
+        for emp in employees:
+            id_emp[emp.id] = emp
+            
+        self.res = 0
+        self.dfs(id_emp, id)
+        return self.res
     
-    def dfs(self, emap, id):
-        val = emap[id].importance
-        if not emap[id].subordinates:
-            return val
-     
-        else:
-            for sub in emap[id].subordinates:
-                val += self.dfs( emap, sub)
-                
-        return val
+    def dfs(self, id_emp, id):
+        self.res += id_emp[id].importance
+        if id_emp[id].subordinates:
+            for sub in id_emp[id].subordinates:
+                self.dfs(id_emp, sub)
