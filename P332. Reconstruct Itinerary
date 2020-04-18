@@ -1,5 +1,6 @@
 # clarity: traverse all the edges, one only one time
 # step: build graph, sort edges (reverse), call dfs(pop edge one by one until empty), return revserse
+# 如果第一个访问的节点是 “孤岛节点”，最先添加道res, then reverse
 
 # time O(elge + v)
 # space O(v + e)
