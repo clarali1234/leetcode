@@ -1,9 +1,9 @@
 # dfs
 # idea: recursion 
 
-# recursion func, 参数, 当前lists, 当前cum_sum before nxt level lists, recursion part, return res
+# cur_sum, sum of integer meet so far, need to add in next level 
 
-# time O(n+m), n: integers ,相当于node, m: list numbers, 相当于edge 
+# time O(n+m), n: integers , 相当于node, m: list numbers, 相当于edge 
 # space O(n) 
 
 class Solution(object):
