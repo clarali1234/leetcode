@@ -4,38 +4,31 @@
 
 class Solution(object):
     def areSentencesSimilarTwo(self, words1, words2, pairs):
-        """
-        :type words1: List[str]
-        :type words2: List[str]
-        :type pairs: List[List[str]]
-        :rtype: bool
-        """
+        
+        self.graph = collections.defaultdict(list)
+        for w1, w2 in pairs:
+            self.graph[w1].append(w2)
+            self.graph[w2].append(w1)
+        
         if len(words1) != len(words2):
             return False
         
-        # build graph
-        self.graph = collections.defaultdict(set)
-        for p1, p2 in pairs:
-            self.graph[p1].add(p2)
-            self.graph[p2].add(p1)
-            
-        
         for i in range(len(words1)):
-            w1 = words1[i]
-            w2 = words2[i]
-            if w1 == w2:
+            if words1[i] == words2[i]:
                 continue
-            if not self.dfs(w1, w2, set([w1])):
+            visited = set()
+            if not self.dfs(words1[i], words2[i], visited):
                 return False
         return True
     
-    def dfs(self, w1, w2, visited):
-        for nb in self.graph[w1]:
-            if nb == w2:
-                return True
+    def dfs(self, node, target, visited):
+        if node == target:
+            return True
+        
+        for nb in self.graph[node]:
             if nb not in visited:
                 visited.add(nb)
-                if self.dfs(nb, w2, visited):
+                if self.dfs(nb, target, visited):
                     return True
         return False
-            
+        
