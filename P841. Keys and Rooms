@@ -1,3 +1,20 @@
+# dfs
+
+class Solution(object):
+    def canVisitAllRooms(self, rooms):
+        
+        self.visited = set()
+        self.visited.add(0)
+        self.dfs(rooms, 0)
+        return len(self.visited) == len(rooms)
+    
+    def dfs(self, rooms, cur_r):
+        for nb in rooms[cur_r]:
+            if nb not in self.visited:
+                self.visited.add(nb)
+                self.dfs(rooms, nb)
+
+
 # bfs traversal
 # time O(m + n)
 # space O(m)
