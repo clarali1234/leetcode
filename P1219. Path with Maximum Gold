@@ -3,29 +3,29 @@
 # space O(mn)
 class Solution(object):
     def getMaximumGold(self, grid):
-       
-        self.res = 0
+        
+        self.res = -sys.maxsize
         for i in range(len(grid)):
             for j in range(len(grid[0])):
                 if grid[i][j] != 0:
                     visited = set()
                     self.dfs(grid, i, j, visited, 0)
-        return self.res
+                    
+        return self.res 
     
-    def dfs(self, grid, x, y, visited, cur_gold):
     
+    def dfs(self, grid, x, y, visited, cur_sum):
+        cur_sum += grid[x][y]
+        self.res = max(self.res, cur_sum)
         visited.add((x, y))
-        cur_gold += grid[x][y]
-        self.res = max(self.res, cur_gold)
         
-        for dx,  dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             new_x = x + dx
             new_y = y + dy
             if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and (new_x, new_y) not in visited and grid[new_x][new_y] > 0:
-                self.dfs(grid, new_x, new_y, visited, cur_gold)
+                self.dfs(grid, new_x, new_y, visited, cur_sum)
                 
         visited.remove((x, y))
-        cur_gold -= grid[x][y]
+        cur_sum -= grid[x][y]
         
         
-                
