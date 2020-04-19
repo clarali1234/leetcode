@@ -1,3 +1,8 @@
+# 分析,brute force
+# do dfs for each word, time O(mn * L^4 * (num of words))
+# sol2: trie + brute force, 只需要一次dfs for each grid node, time O(mn * 4 ^ L)
+# 相当于空间换时间
+
 # 首先建立字典树，字典树从root开始。利用字母的公共前缀建树。
 # 遍历字母矩阵，将字母矩阵的每个字母，从root开始dfs搜索，搜索到底部时，将字符串存入答案返回即可。
 
