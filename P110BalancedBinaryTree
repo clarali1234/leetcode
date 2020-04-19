@@ -1,23 +1,24 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+# dfs 遍历每一个点    
+# global variable is_balanced
+# dfs funciton, ouput is height, start from leaves, cur_h = max(l, r) + 1 ( recursion part for height)
 
-class Solution:
-    def isBalanced(self, root: TreeNode) -> bool:
-        if not root:
-            return True
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def isBalanced(self, root):
+        
         self.is_balanced = True
         self.dfs(root)
         return self.is_balanced
     
-    def dfs(self, node):
+    def dfs(self, node): # input node, output height
         if not node:
             return 0
-        left = self.dfs(node.left)
-        right  = self.dfs(node.right)
-        if abs(left - right) > 1:
+        
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
+        
+        if abs(l - r) > 1:
             self.is_balanced = False
-        return max(left, right) + 1
+        return max(l, r) + 1
