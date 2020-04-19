@@ -15,7 +15,7 @@
       trie O(trie node)
       dfs O(mn)
      
-node: 找到单词之后，为了避免重复，cur_node.is_word = False
+node: 找到单词之后，为了避免重复，cur_node.is_word = False, 不return
 
 class TrieNode(object):
     def __init__(self):
@@ -26,7 +26,7 @@ class Trie(object):
     def __init__(self):
         self.root = TrieNode()
         
-    def insert(self, word):
+    def add(self, word):
         cur = self.root
         for char in word:
             if char not in cur.children:
@@ -35,39 +35,41 @@ class Trie(object):
         cur.is_word = True
         
 
-
 class Solution(object):
     def findWords(self, board, words):
         
-        # build trie
+        # build Trie
         trie = Trie()
-        for w in words:
-            trie.insert(w)
+        for word in words:
+            trie.add(word)
             
         self.res = []
         for i in range(len(board)):
             for j in range(len(board[0])):
-                self.visited = set()
-                self.dfs(board, i, j, '',  trie.root)
-                
+                visited = set()
+                self.dfs(board, i, j, trie.root, visited, '')
         return self.res
     
-    def dfs(self, board, x, y, cur_path, cur_node):
+    def dfs(self, board, x, y, cur_node, visited, cur_path):
         if cur_node.is_word:
             self.res.append(cur_path)
             cur_node.is_word = False
+
         
-        if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]) or (x, y) in self.visited or board[x][y] not in cur_node.children.keys():
-            return 
+        if x < 0 or x >= len(board) or y < 0 or y >= len(board[0]) or (x, y) in visited or board[x][y] not in cur_node.children:
+            return False
         
-        self.visited.add((x, y))
-        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+        visited.add((x, y))
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             new_x = x + dx
             new_y = y + dy
-            self.dfs(board, new_x, new_y, cur_path + board[x][y], cur_node.children[board[x][y]])
+            char = board[x][y]
+            self.dfs(board, new_x, new_y, cur_node.children[char], visited, cur_path + char)
             
-        self.visited.remove((x, y))
-            
+        visited.remove((x, y))
         
+        
+            
+            
         
         
