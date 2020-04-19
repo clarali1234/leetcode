@@ -1,0 +1,22 @@
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def largestValues(self, root):
+        
+        if not root:
+            return None
+        
+        q = collections.deque([root])
+        res = []
+        while q:
+            cur_max = -sys.maxsize
+            for _ in range(len(q)):
+                cur = q.popleft()
+                cur_max = max(cur_max, cur.val)
+                if cur.left:
+                    q.append(cur.left)
+                if cur.right:
+                    q.append(cur.right)
+            res.append(cur_max)
+        return res
