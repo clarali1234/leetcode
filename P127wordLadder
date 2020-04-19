@@ -2,13 +2,35 @@ BFS
 
 # time O(m*n)
 # space O(m * n)
-time : where MM is the length of words and NN is the total number of words in the input word list. 
-Finding out all the transformations takes MM iterations for each of the NN words. 
-Also, breadth first search in the worst case might go to each of the NN words.
 
-space : to store all MM transformations for each of the NN words, 
-in the all_combo_dict dictionary. Visited dictionary is of NN size. 
-Queue for BFS in worst case would need space for all NN words.
+class Solution(object):
+    def ladderLength(self, beginWord, endWord, wordList):
+        
+        visited = set()
+        words = set(wordList)
+        visited.add(beginWord)
+        q = collections.deque([(beginWord, 1)])
+        while q:
+            w, step = q.popleft()
+            if w == endWord:
+                return step
+            for i, char in enumerate(w):
+                for letter in 'abcdefghijklmnopqrstuvwxyz':
+                    new_word = w[:i] + letter + w[i + 1:]
+                    if new_word in words and new_word != w and new_word not in visited:
+                        visited.add(new_word)
+                        q.append([new_word, step + 1])
+        return 0
+        
+        
+
+time : where M is the length of words and N is the total number of words in the input word list. 
+Finding out all the transformations takes M iterations for each of the N words. 
+Also, breadth first search in the worst case might go to each of the N words.
+
+space : to store all M transformations for each of the N words, 
+in the all_combo_dict dictionary. Visited dictionary is of N size. 
+Queue for BFS in worst case would need space for all N words.
 
 
 class Solution:
