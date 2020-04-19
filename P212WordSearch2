@@ -1,8 +1,11 @@
 # 首先建立字典树，字典树从root开始。利用字母的公共前缀建树。
 # 遍历字母矩阵，将字母矩阵的每个字母，从root开始dfs搜索，搜索到底部时，将字符串存入答案返回即可。
+
+
 1. time complexity 
       construct trie:O(len(words) * max(len(word))
-      dfs search: O(mn * 4 * 3^(l-1), l is the max length of word) -> upper bound to (mn * mn)
+      dfs search: O(mn * 4 ^ l, l is the max length of word) -> upper bound to (mn * mn)
+      
 2. space complextiy
       trie O(trie node)
       dfs O(mn)
