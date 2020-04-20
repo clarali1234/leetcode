@@ -49,22 +49,22 @@ class Solution(object):
 class Solution(object):
     def assignBikes(self, workers, bikes):
         
-        distance = []
-        for i in range(len(workers)):
-            for j in range(len(bikes)):
-                dis = abs(workers[i][0] - bikes[j][0]) + abs(workers[i][1]- bikes[j][1])
-                distance.append((dis, i, j))
-        distance.sort()
+        dis = []
+        m = len(workers)
+        n = len(bikes)
+        res = [-1 for _ in range(m)]
+        bike_s = set()
         
+        for i in range(m):
+            for j in range(n):
+                d = abs(workers[i][0] - bikes[j][0]) + abs(workers[i][1] - bikes[j][1])
+                dis.append([d, i, j])
+        dis.sort()
         
-        res = [-1] * len(workers)
-        bike_set = set()
-       
-        for dis, i, j in distance:
-            if res[i] == -1 and j not in bike_set:
+        for dis, i, j in dis:
+            if res[i] == -1 and j not in bike_s:
                 res[i] = j
-                bike_set.add(j)
-                if len(bike_set) == len(workers):
+                bike_s.add(j)
+                if len(bike_s) == m:
                     break
         return res
-            
