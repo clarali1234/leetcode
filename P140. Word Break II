@@ -35,32 +35,40 @@ class Solution(object):
 # time O(n^2)
 # space O(n^2)
 
+import sys
 class Solution(object):
-    def wordBreak(self, s, dic):
-        return self.dfs(s, dic, 0, len(s) - 1, {})
-    
-    
-    def dfs(self, s, dic, start, end, memo):
-        if (start, end) in memo:
-            return memo[(start, end)]
+    def wordBreak(self, s, words):
+        self.memo = {}
+        self.words = words
+        res = self.dfs(s, 0, len(s) - 1)
+        if res != sys.maxsize:
+            return res
+        return -1
         
-        res = sys.maxsize
-        if s[start : end + 1] in dic:
-            memo[(start, end)] = 1
+    def dfs(self, s, start, end):
+        if (start, end) in self.memo:
+            return self.memo[(start, end)]
+        
+        if s[start : end + 1] in self.words:
+            self.memo[(start, end)] = 1
             return 1
         
-        for j in range(start, end):
-            if s[start: j + 1] in dic:
-                res = min(res,  1 +  self.dfs(s, dic, j + 1, end, memo))
-                
-        memo[(start, end)] = res
+        res = sys.maxsize
+        for j in range(start + 1, end + 1):
+            if s[start : j] in self.words:
+                res = min(res, 1 + self.dfs(s, j, end))
+        self.memo[(start, end)] = res
         return res
-                
+                          
+                          
 
 s = "pineapplepenapple"
 dic =["apple", "pen", "applepen", "pine", "pineapple"]
 
 test = Solution()
 print(test.wordBreak(s, dic))
+
+s2 = 'catsanddog'
+dic2 = ['cat']
+print(test.wordBreak(s2, dic2))
                                        
-        
