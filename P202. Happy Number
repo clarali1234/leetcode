@@ -4,6 +4,21 @@
 
 class Solution(object):
     def isHappy(self, n):
+        
+        num_set = set()
+        
+        while n and n not in num_set:
+            num_set.add(n)
+            sum_square = 0
+            for i in str(n):
+                sum_square += int(i) ** 2
+            n = sum_square
+        return  n == 1
+            
+            
+
+class Solution(object):
+    def isHappy(self, n):
         """
         :type n: int
         :rtype: bool
