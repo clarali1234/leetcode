@@ -49,27 +49,25 @@ class Solution(object):
 # sol3: dp
 
 # dp[i] means s[:i] first i chars can be segmented into words in the wordDicts
-# init dp[0] = True
+# init dp[0] = True, empty string
 # transmation formula: if dp[i] and s[i : j] in dic, dp[j] is True
 # res dp[-1]
 
 # time O(n^2)
 # space O(n)
 
-class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+class Solution(object):
+    def wordBreak(self, s, wordDict):
         
-        dp = [False] * (len(s) + 1)
+        dp = [False for _ in range(len(s) + 1)]
         dp[0] = True
         
         for i in range(len(dp)):
-            # 前i个数 s[:i]
-            if dp[i]:  
-                for j in range(i + 1, len(dp)):
-                    if s[i:j] in wordDict:
-                        dp[j] = True
+            for j in range(i + 1, len(dp)):
+                if dp[i] and s[i : j] in wordDict:
+                    dp[j] = True
+                        
         return dp[-1]
-        
         
  # follow up 1 只输出一组解
  # 思路用dp，因为只输出一组解，所以不需要用dfs
