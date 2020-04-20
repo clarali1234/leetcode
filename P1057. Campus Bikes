@@ -42,8 +42,7 @@ class Solution(object):
 
 
 
-# brute force
-# priority queue/heap, (m * n种距离)
+# brute force, sort
 # time O(mn * lg mn)
 # space O(mn)
 
