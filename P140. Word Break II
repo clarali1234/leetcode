@@ -2,39 +2,41 @@
 # Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
 # space complexity is also O(n ^ 3)
 
+# memo: key: start index of substring, value: valid path
 
 class Solution(object):
     def wordBreak(self, s, wordDict):
         
-        self.dic = {}
-        return self.dfs(s, 0, wordDict)
+        self.words = set(wordDict)
+        self.memo = {} # key, start index, value: valid paths
+        return self.dfs(s, 0)
+    
+    def dfs(self, s, start):
+        if start in self.memo:
+            return self.memo[start]
         
-        
-    def dfs(self, s, cur_index, wordDict):
-        if cur_index in self.dic:
-            return self.dic[cur_index]
-        
-        if cur_index == len(s):
-            self.dic[cur_index] = []
+        if start == len(s):
+            self.memo[start] = []
             return []
         
         res = []
-        for j in range(cur_index, len(s)):
-            if s[cur_index : j + 1] in wordDict:
-                if j + 1 == len(s):
-                    res.append(s[cur_index : j + 1])
+        for j in range(start + 1, len(s) + 1):
+            if s[start : j] in self.words:
+                if j == len(s):
+                    res.append(s[start : j])
                 else:
-                    rests = self.dfs(s, j + 1, wordDict)
+                    rests = self.dfs(s, j)
                     for rest in rests:
-                        res.append(s[cur_index : j + 1] + ' ' + rest)
-        self.dic[cur_index] = res
+                        res.append(s[start : j] + ' ' + rest)
+        self.memo[start] = res
         return res
-                
         
 # follow up  输出最小的分割次数
+# time O(n^2)
+# space O(n^2)
+
 class Solution(object):
     def wordBreak(self, s, dic):
-        
         return self.dfs(s, dic, 0, len(s) - 1, {})
     
     
