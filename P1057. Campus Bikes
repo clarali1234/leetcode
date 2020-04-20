@@ -1,5 +1,13 @@
-# bucket sort, since 0 <= workers[i][j], bikes[i][j] < 1000
-# max distance is 2000
+# 本质是排序问题
+
+# 优化，桶排序，bucket sort
+# since 0 <= workers[i][j], bikes[i][j] < 1000, max distance is 2000
+# 每一个桶是distance, 桶里面的list是在这个distance下的(word, bike) index
+
+# 算法
+# 遍历 每一个distance
+# 如果w,b未被分配，分配，count += 1, 如果分配完w, break并且return res
+
 
 # m, len(worders)
 # n, len(bikes)
@@ -8,14 +16,11 @@
 
 class Solution(object):
     def assignBikes(self, workers, bikes):
-        """
-        :type workers: List[List[int]]
-        :type bikes: List[List[int]]
-        :rtype: List[int]
-        """
+      
         res = [-1] * len(workers)
         visited_bikes = [False] * len(bikes)
         dis = [[]  for _ in range(1999)]
+        
         for i, [x, y] in enumerate(workers):
             for j, [x1, y1] in enumerate(bikes):
                 dist = abs(x - x1) + abs(y - y1)
@@ -37,19 +42,14 @@ class Solution(object):
 
 
 
-
-# sort
-# traverse all the pairs
-# time O(mn*lgmn)
+# brute force
+# priority queue/heap, (m * n种距离)
+# time O(mn * lg mn)
 # space O(mn)
 
 class Solution(object):
     def assignBikes(self, workers, bikes):
-        """
-        :type workers: List[List[int]]
-        :type bikes: List[List[int]]
-        :rtype: List[int]
-        """
+        
         distance = []
         for i in range(len(workers)):
             for j in range(len(bikes)):
