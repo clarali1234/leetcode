@@ -1,5 +1,5 @@
 # divide and conquer
-# time O(lgn)
+# time O(n)
 # space O(n)
 
 class Solution(object):
