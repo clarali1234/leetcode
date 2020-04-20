@@ -14,20 +14,19 @@ class Solution:
  
 class Solution(object):
     def maxDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
+        
         if not root:
             return 0
-        self.res = 0
-        self.dfs(root, 0)
-        return self.res
-    
-    def dfs(self, node, cur_depth):
-        if not node:
-            self.res = max(cur_depth, self.res)
-            return 
         
-        self.dfs(node.left, cur_depth + 1)
-        self.dfs(node.right, cur_depth + 1)
+        return self.dfs(root)
+    
+    def dfs(self, node):
+        if not node:
+            return 0
+        
+        if not node.left and not node.right:
+            return 1
+        
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
+        return max(l, r) + 1
