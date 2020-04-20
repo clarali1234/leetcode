@@ -47,7 +47,12 @@ class Solution(object):
         
 
 # sol3: dp
-# dp[i] means s[:i] can be segmented into words in the wordDicts
+
+# dp[i] means s[:i] first i chars can be segmented into words in the wordDicts
+# init dp[0] = True
+# transmation formula: if dp[i] and s[i : j] in dic, dp[j] is True
+# res dp[-1]
+
 # time O(n^2)
 # space O(n)
 
