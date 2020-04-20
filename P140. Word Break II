@@ -31,5 +31,34 @@ class Solution(object):
         return res
                 
         
-            
+# follow up  输出最小的分割次数
+class Solution(object):
+    def wordBreak(self, s, dic):
+        
+        return self.dfs(s, dic, 0, len(s) - 1, {})
+    
+    
+    def dfs(self, s, dic, start, end, memo):
+        if (start, end) in memo:
+            return memo[(start, end)]
+        
+        res = sys.maxsize
+        if s[start : end + 1] in dic:
+            memo[(start, end)] = 1
+            return 1
+        
+        for j in range(start, end):
+            if s[start: j + 1] in dic:
+                res = min(res,  1 +  self.dfs(s, dic, j + 1, end, memo))
+                
+        memo[(start, end)] = res
+        return res
+                
+
+s = "pineapplepenapple"
+dic =["apple", "pen", "applepen", "pine", "pineapple"]
+
+test = Solution()
+print(test.wordBreak(s, dic))
+                                       
         
