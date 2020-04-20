@@ -25,24 +25,24 @@ class Solution(object):
 
 class Solution(object):
     def wordBreak(self, s, wordDict):
-        
-        self.dic = {}
-        return self.dfs(s, 0, wordDict)
+        self.memo = {} # key, start; val, t/f
+        self.words = set(wordDict)
+        return self.dfs(s, 0)
     
-    def dfs(self, s, cur_index, wordDict):
-        if cur_index in self.dic:
-            return self.dic[cur_index]
+    def dfs(self, s, start):
+        if start == len(s):
+            self.memo[start] = True
+            return True
         
-        if cur_index == len(s):
-            self.dic[cur_index] = True
-            return self.dic[cur_index]
+        if start in self.memo:
+            return self.memo[start]
         
-        for j in range(cur_index, len(s)):
-            if s[cur_index : j + 1] in wordDict and self.dfs(s, j + 1, wordDict):
-                self.dic[cur_index] = True
-                return self.dic[cur_index]
+        for j in range(start, len(s) + 1):
+            if s[start : j] in self.words and (s[j : len(s)] in self.words or self.dfs(s, j)):
+                self.memo[start] = True
+                return True
             
-        self.dic[cur_index] = False
+        self.memo[start] = False
         return False
         
 
