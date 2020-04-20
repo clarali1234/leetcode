@@ -1,49 +1,50 @@
 # bfs/dfs
 
-# step: build graph, for each account, draw edge between first email to each of the other emails in the same account, 
-and build hashtable for every email and name pair, hash table key: email, value:name
+# step: build graph, for each account, draw edge between first email to each of the other emails(include first email)
+# in the same account + build hashtable for every email and name pair, hash table key: email, value:name
 # bfs/dfs 寻找联通块
 
-# time O(sum ai log ai), sort email for the last result
+# time O(sum acc log acc), sort email for the cur account lenght
 # space O(sum ai)
 
-# ai 每个账户的长度
+# 注意: build graph时，graph[first].add(first)
+
 class Solution(object):
     def accountsMerge(self, accounts):
-        """
-        :type accounts: List[List[str]]
-        :rtype: List[List[str]]
-        """
         
-        e_to_n = {}
-        # build_graph
+        # build graph
         self.graph = collections.defaultdict(set)
+        self.e_to_n = {}
         for acc in accounts:
-            n = acc[0]
-            for e in acc[1:]:
-                self.graph[acc[1]].add(e)
-                self.graph[e].add(acc[1])
-                if e not in e_to_n:
-                    e_to_n[e] = n
-                    
-        # dfs 
-        self.visited = set()
+            name = acc[0]
+            first = acc[1]
+            for email in acc[1:]:
+                self.graph[email].add(first)
+                self.graph[first].add(email)
+                self.e_to_n[email] = name
+        
+        # dfs
         res = []
-        for e in self.graph:
-            if e not in self.visited:
-                self.visited.add(e)
-                compnt = []
-                self.dfs(e, compnt)
-                res.append([e_to_n[e]] + sorted(compnt))
+        self.visited = set()
+        for node in self.graph:
+            if node not in self.visited:
+                self.visited.add(node)
+                cur_res = [node]
+                self.dfs(node, cur_res)
+                cur_res.sort()
+                cur_res = [self.e_to_n[node]] + cur_res
+                res.append(cur_res)
         return res
     
-    def dfs(self, email, compnt):
-        compnt.append(email)
-        for nb in self.graph[email]:
+    
+    def dfs(self, node, cur_res):
+        for nb in self.graph[node]:
             if nb not in self.visited:
                 self.visited.add(nb)
-                self.dfs(nb, compnt)
-        
+                cur_res.append(nb)
+                self.dfs(nb, cur_res)
+            
+            
 # bfs
 class Solution(object):
     def accountsMerge(self, accounts):
