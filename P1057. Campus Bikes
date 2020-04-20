@@ -16,27 +16,27 @@
 
 class Solution(object):
     def assignBikes(self, workers, bikes):
-      
-        res = [-1] * len(workers)
-        visited_bikes = [False] * len(bikes)
-        dis = [[]  for _ in range(1999)]
         
-        for i, [x, y] in enumerate(workers):
-            for j, [x1, y1] in enumerate(bikes):
-                dist = abs(x - x1) + abs(y - y1)
-                dis[dist].append((i, j))
+        dis = [[] for _ in range(2000)]
+        m = len(workers)
+        n = len(bikes)
+        res = [-1 for _ in range(m)]
+        bike_s = set()
         
-        #print(dis)
-        count = 0
-        for dis_l in dis:
-            for w, b in dis_l:
-                if res[w] == -1 and not visited_bikes[b]:
+        for i in range(m):
+            for j in range(n):
+                d = abs(workers[i][0] - bikes[j][0]) + abs(workers[i][1] - bikes[j][1])
+                dis[d].append((i, j))
+        
+        for ls in dis:
+            for w, b in ls:
+                if res[w] == -1 and b not in bike_s:
                     res[w] = b
-                    visited_bikes[b] = True
-                    count += 1
-                    if count == len(workers):
+                    bike_s.add(b)
+                    if len(bike_s) == m:
                         break
         return res
+        
             
                 
 
