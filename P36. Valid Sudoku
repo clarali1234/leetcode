@@ -5,20 +5,18 @@
 
 class Solution(object):
     def isValidSudoku(self, board):
-        """
-        :type board: List[List[str]]
-        :rtype: bool
-        """
-        seen = []
-        for i in range(9):
-            for j in range(9):
-                if board[i][j] == '.':
-                    continue
-                cur = board[i][j]
-                if (i, cur) in seen or (cur, j) in seen or (i//3, j//3, cur) in seen:
-                    return False
-                seen.append((i, cur))
-                seen.append((cur, j))
-                seen.append((i//3, j//3, cur))
+        
+        seen = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] != '.':
+                    val = board[i][j]
+                    if (i, val) not in seen and (val, j) not in seen and (i // 3, j // 3, val) not in seen:
+                        seen.add((i, val))
+                        seen.add((val, j))
+                        seen.add((i // 3, j // 3, val))
+                    else:
+                        return False
         return True
+                        
         
