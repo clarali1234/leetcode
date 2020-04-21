@@ -1,3 +1,5 @@
+# we only need to iterate over the columns and assume that we add per queen a line.
+
 # backtracking
 # time O(n!)
 # space O(n)
