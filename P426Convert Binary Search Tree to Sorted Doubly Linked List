@@ -1,4 +1,4 @@
-# inorder traversal (因为sorted)
+# divide and conquer (因为sorted)
 # 递归 
 time O(n), space O(h)
 
