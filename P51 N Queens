@@ -3,8 +3,9 @@
 
 
 # sol2: dfs with constraints
-# using backtracking O(n!)
+当在棋盘上放置了一个皇后后，立即排除当前行，列和对应的两个对角线。该过程传递了 约束 从而有助于减少需要考虑情况数
 
+# using backtracking O(n!)
 There could be the only one queen in a row and the only one queen in a column.
 That means that there is no need to consider all squares on the board. One could just iterate over the columns.
 
