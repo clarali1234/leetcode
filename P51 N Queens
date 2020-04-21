@@ -1,4 +1,8 @@
-# worst case time O(n!)
+# brute force
+# all possible ways, N^N (n queens and each have n possible positions)
+
+
+# sol2: dfs with constraints
 # using backtracking O(n!)
 
 There could be the only one queen in a row and the only one queen in a column.
