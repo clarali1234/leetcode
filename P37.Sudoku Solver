@@ -1,12 +1,17 @@
-数独 9 * 9
-限制条件
-1. 每个row 1-9只能出现一次
-2. 每个col 1-9只能出现一次
-3. 每个3 * 3， 1-9只能出现一次
+# brute force
+# 用1-9填充所有的格子，再判断是否valid
+# time O(9^81)
 
 # dfs + constraint
+# 退出条件，如果没有格子可以填充，return True
+
+# 基本的意思是在放置每个数字时都设置约束
+# 每个dfs 都是在填充一个格子
+
 time: constant, num of operations is O(9!^ 9), 9! for each row
-sapce: constant
+sapce: constant， 递归深度, 81
+
+
 
 class Solution(object):
     def solveSudoku(self, board):
