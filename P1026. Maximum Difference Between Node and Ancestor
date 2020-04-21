@@ -1,0 +1,23 @@
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def maxAncestorDiff(self, root):
+        
+        self.res = -sys.maxsize
+        self.dfs(root, sys.maxsize, -sys.maxsize)
+        return self.res
+    
+    def dfs(self, node, cur_min, cur_max):
+        if not node:
+            self.res = max(self.res, cur_max - cur_min)
+        else:
+            cur_min = min(cur_min, node.val)
+            cur_max = max(cur_max, node.val)
+            self.dfs(node.left, cur_min, cur_max)
+            self.dfs(node.right, cur_min, cur_max)
+            
+                
+            
+                
+        
