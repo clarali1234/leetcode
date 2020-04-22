@@ -1,0 +1,39 @@
+# brute force
+# time O(nlgn) (n, n1 + n2 + n3)
+# space O(n)
+
+class Solution(object):
+    def arraysIntersection(self, arr1, arr2, arr3):
+        
+        l = list(set(arr1) & set(arr2) & set(arr3))
+        return sorted(l)
+        
+        
+# three pointers
+# time O(n)
+# 每次只移动最小val的index
+
+class Solution(object):
+    def arraysIntersection(self, arr1, arr2, arr3):
+        
+        res = []
+        i = 0
+        j = 0
+        k = 0
+        
+        while i < len(arr1) and j < len(arr2) and k < len(arr3):
+            if arr1[i] == arr2[j] and arr2[j] == arr3[k]:
+                res.append(arr1[i])
+                i += 1
+                j += 1
+                k += 1
+            else:
+                cur_min = min(arr1[i], arr2[j], arr3[k])
+                if cur_min == arr1[i]:
+                    i += 1
+                if cur_min == arr2[j]:
+                    j += 1
+                if cur_min == arr3[k]:
+                    k += 1
+        return res
+                    
