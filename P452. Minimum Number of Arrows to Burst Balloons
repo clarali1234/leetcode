@@ -1,0 +1,27 @@
+# greedy
+# sort
+
+# time O(nlgn)
+# space O(1)
+算法：
+如果气球的开始坐标大于 first_end：
+则增加箭的数量。
+将 first_end 设置为当前气球的 x_end。
+返回 arrows。
+
+class Solution(object):
+    def findMinArrowShots(self, points):
+        
+        if not points:
+            return 0
+        
+        points.sort(key = lambda x:x[1])
+        
+        cur_end = points[0][1]
+        res = 1
+        
+        for s, e in points:
+            if s > cur_end:
+                res += 1
+                cur_end = e
+        return res
