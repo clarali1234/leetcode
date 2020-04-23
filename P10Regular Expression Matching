@@ -6,11 +6,10 @@
 
 # tansmation formula:
 # 1. p[j - 1] == '.', we dp[i][j] = dp[i - 1][ j -1]
-# 2. p[j - 1] == '*', 
-    # a) we eliminate p[j - 2], = dp[i][j-2] (j - 1 is empty)
-    #  b) didnt work = dp[i][j-1]             (empty string)
-    # j-1 repeate                           (j - 1 repeat once )
-    # = dp[i-1][j] and (s[i - 1] == p[j -2 ] or p[j - 2] == '.')
+# 2. p[j - 1] == '*', 清除前一个或者重复多次
+
+    当匹配多个时，如 abbb 和 ab*，或者 abbb 和 a.*，我们需要将 s[i] 前面的与 p 重新比较，即 dp[i][j] = dp[i-1][j]
+    
 # 3. not 1 and 2  = dp[i - 1][j - 1] and s[i - 1] == p[j -1]
 
 # time O(len(s) * len(p))
@@ -34,7 +33,10 @@ class Solution(object):
                 elif p[j - 1] == '*':
                     # did not work or remove prev or p[j - 2] appear more than once (例子 s:aa, p:a*)
                     # "aaa" ".*"
-                    dp[i][j] = dp[i][j - 1] or dp[i][j - 2] or dp[i - 1][j] and (p[j - 2] == '.' or s[i - 1] == p[j - 2])
+                    if p[j - 2] == s[i - 1] or p[j - 2] == '.':
+                        dp[i][j] = dp[i - 1][j] or dp[i][j - 2]
+                    else:                       
+                        dp[i][j] = dp[i][j - 2]
                 else:
                     dp[i][j] = dp[i - 1][j - 1] and s[i - 1] == p[j - 1]
                     
