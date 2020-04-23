@@ -11,13 +11,12 @@ class Solution(object):
 
         pre = dummy           # set up pre and cur pointers
         cur = head
+        
         while cur:
             if cur.next and cur.val == cur.next.val:
-                # loop until cur point to the last duplicates
-                while cur and cur.next and cur.val == cur.next.val:
+                while cur and cur.next and cur.val == cur.next.val: # loop until cur point to the last duplicates
                     cur = cur.next
-                pre.next = cur.next  # propose the next for pre
-                                     # this will be verified by next line
+                pre.next = cur.next                  
             else:
                 pre = pre.next 
             cur = cur.next
