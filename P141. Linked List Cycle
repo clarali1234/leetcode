@@ -18,6 +18,7 @@ class Solution(object):
 # O(1) space 
 
 # if there is a cycle, the fast p will always catch up with the slow pointer in the cycle
+# 快慢指针一定会相遇
 # time distance/speed diff = k/1 = k (k is the length of cycle)
 class Solution(object):
     def hasCycle(self, head):
