@@ -2,6 +2,12 @@
 # time O(n^3)
 # space O(1)
 
+# node: same as three sum, 
+# 去重
+# 1. i and nums[i] == nums[i - 1] ; j > i + 1, nums[j] == nums[j - 1]
+# 2. add four nums, then move pointer, then 去重
+
+
 class Solution(object):
     def fourSum(self, nums, target):
         nums.sort()
