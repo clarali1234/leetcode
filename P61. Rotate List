@@ -1,39 +1,41 @@
 # time O(n)
 # space O(1)
 
-# find count and connect tail with head
-# find the new_head and new_tail
+# calc count, tail.next = head
+# k = k % count
+# find node = last kth node as head
+# return node
 
 class Solution(object):
     def rotateRight(self, head, k):
-
+        
+        
         if not head:
             return None
         
-        count = 1
+        c = 0
+        pre = None
         cur = head
-        while cur.next:
-            count += 1
+        while cur:
+            c += 1
+            pre = cur
             cur = cur.next
-        
-        cur.next = head
-        
-        # find new_h, new_t
-        
-        k = k % count
-        
-        # new_t, count - k
-        # new_h, count - k + 1
-        
-        p = head
-        for _ in range(count - k - 1):
-            p = p.next
-        
-        new_t = p
-        new_h = p.next
-        new_t.next = None
-        return new_h
-    
+        pre.next = head
             
+            
+        k = k % c 
+        # last kth == fist c + 1 - k
+        k2 = c + 1 - k
+        cur = head
+        c2 = 0
+        while cur:
+            c2 += 1
+            if c2 == k2 - 1:
+                break
+            cur = cur.next
+        h2 = cur.next
+        cur.next = None
+        return h2
         
         
+                
