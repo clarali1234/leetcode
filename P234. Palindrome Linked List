@@ -1,53 +1,48 @@
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
-
-# Definition for singly-linked list.
-# class ListNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.next = None
+# time O(n)
+# space O(1)
+# steps :
+        # find middle
+        # reverse rgith h
+        # check palindrome
+        
 
 class Solution(object):
     def isPalindrome(self, head):
-        """
-        :type head: ListNode
-        :rtype: bool
-        """
         
-        if not head or not head.next:
+        
+        if not head:
             return True
         
-        # when fast, slow initialize to 0, first n//2 or n//2 + 1
-        fast = head
-        slow = head
-        while fast.next and fast.next.next:
-            slow = slow.next
-            fast = fast.next.next
-            
-        second = slow.next
-        slow.next = None
-        second = self.reverse(second)
+        f = head
+        s = head
         
-        while second:
-            if second.val != head.val:
-                return False
-            second = second.next
-            head = head.next
-        return True
+        while f.next and f.next.next:
+            f = f.next.next
+            s = s.next
         
-        
+        second = s.next 
+        s_h = self.reverse(second)
+        return self.check_palindrome(head, s_h)
     
     def reverse(self, head):
+        pre = None
         cur = head
-        prev = None
-        nxt = None
-        
         while cur:
-            nxt = cur.next 
-            cur.next = prev
-            prev = cur
-            cur = nxt
-        return prev
+            tmp = cur.next
+            cur.next = pre
+            pre = cur
+            cur = tmp
+        return pre
+    
+    def check_palindrome(self, h1, h2):
+        p1 = h1
+        p2 = h2
+        while p1 and p2:
+            if p1.val != p2.val:
+                return False
+            p1 = p1.next
+            p2 = p2.next
+        return True
+                
+            
+        
