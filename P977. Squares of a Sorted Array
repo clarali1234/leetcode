@@ -1,0 +1,37 @@
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def sortedSquares(self, A):
+        """
+        :type A: List[int]
+        :rtype: List[int]
+        """
+        # find fist val >= 2, i
+        # j = i - 1, two pointer
+        
+        for i in range(len(A)):
+            if A[i] < 0:
+                i += 1
+            else:
+                break
+        
+        j = i - 1
+        res = []
+        while j >= 0 and i < len(A):
+            if abs(A[j]) < A[i]:
+                res.append(A[j] ** 2)
+                j -= 1
+            else:
+                res.append(A[i] ** 2)
+                i += 1
+        
+        if j >= 0:
+            while j >= 0:
+                res.append(A[j] ** 2)
+                j -= 1
+        elif i < len(A):
+            while i < len(A):
+                res.append(A[i] ** 2)
+                i += 1
+        return res
