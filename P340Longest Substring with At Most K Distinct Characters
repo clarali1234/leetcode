@@ -4,26 +4,25 @@
 class Solution(object):
     def lengthOfLongestSubstringKDistinct(self, s, k):
         
-        if k == 0:
-            return 0
+        c_s = collections.Counter(s)
+        if c_s <= k:
+            return len(s)
         
-        j = 0
-        dic = collections.defaultdict(int)
         res = 0
-        
-        for i in range(len(s)):
-            while j < len(s) and (len(dic.keys()) < k or s[j] in dic):
-                dic[s[j]] += 1
-                j += 1
-        
-            # s[i : j] j - 1 - i + 1
-            res = max(res, j - i)
-            
-            if dic[s[i]] == 1:
-                del dic[s[i]]
-            else:
-                dic[s[i]] -= 1
-            
-        return res
+        c_s = collections.defaultdict(int)
+        l = 0
+        r = 0
+        for l in range(len(s)):
+            while r < len(s) and (len(c_s) < k or (len(c_s) == k and s[r] in c_s)):
+                c_s[s[r]] += 1
+                r += 1
                 
+            res = max(res, r - l)
+            
+            if c_s[s[l]] == 1:
+                del c_s[s[l]]
+            else:
+                c_s[s[l]] -= 1
+        return res
+            
                 
