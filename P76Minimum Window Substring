@@ -3,36 +3,36 @@
 # time O(n + m) n:len(s)
 # space O(n + m)
 
-from collections import *
+# 最长，扩大 right pointer; min, contract left pointer (l is in while loop)
+
 class Solution(object):
     def minWindow(self, s, t):
         
-        cT = collections.Counter(t)
-        cS = collections.defaultdict(int)
-        need_match = len(cT)
+        c_t = collections.Counter(t)
+        need_match = len(c_t)
         cur_match = 0
-        i_start = 0
+        c_s = collections.defaultdict(int)
+        l = 0
+        r = 0
+        min_sub = sys.maxsize
         res = ''
-        min_length = sys.maxsize
         
-        for i, char in enumerate(s):
-            cS[char] += 1
-            if cS[char] == cT[char]:
+        for r in range(len(s)):
+            c_s[s[r]] += 1
+            if c_s[s[r]] == c_t[s[r]]:
                 cur_match += 1
+                
             if cur_match == need_match:
                 while cur_match == need_match:
-                    if cS[s[i_start]] == cT[s[i_start]]:
-                        cur_match -=1
-                    cS[s[i_start]] -= 1
-                    i_start += 1
-                    
-                if i - i_start + 2 < min_length:
-                    min_length = i - i_start + 2
-                    res = s[i_start - 1 : i + 1]
-                    
+                    if c_s[s[l]] == c_t[s[l]]:
+                        cur_match -= 1
+                    c_s[s[l]] -= 1
+                    l += 1
+                # l - 1 : r 
+                if r - l + 2 < min_sub:
+                    min_sub = r - l + 2
+                    res = s[l - 1 : r + 1]
         return res
-                 
-                 
                 
                         
                     
