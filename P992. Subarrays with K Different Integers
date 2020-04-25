@@ -1,3 +1,36 @@
+# 转换成at most k - at most k - 1
+# time O(n)
+# space O(k)
+
+class Solution(object):
+    def subarraysWithKDistinct(self, A, K):
+        
+        return self.most_k(A, K) - self.most_k(A, K - 1)
+        
+        
+    def most_k(self, A, k):
+        l = 0
+        r = 0
+        res = 0
+        dic = collections.defaultdict(int)
+        
+        for r in range(len(A)):
+            dic[A[r]] += 1
+            while len(dic) > k:
+                if dic[A[l]] == 1:
+                    del dic[A[l]]
+                else:
+                    dic[A[l]] -= 1
+                l += 1
+            res += r - l + 1
+        return res
+            
+            
+            
+
+
+
+
 # - idea: sliding window, iterate each item, add to hashtable, 
 # maintain subarray with k different elements with far and near left points; 
 # if len(counter) > k, delete near ele counter, set near = near + 1, far = near
