@@ -4,6 +4,24 @@
 class Solution(object):
     def commonChars(self, A):
         
+        counters = [collections.Counter(x) for x in A]
+        res = []
+        for char in A[0]:
+            common = True
+            for counter in counters[1:]:
+                if char in counter and counter[char] >= 1:
+                    counter[char] -= 1
+                else:
+                    common = False
+                    break
+            if common:
+                res.append(char)
+        return res
+        
+
+class Solution(object):
+    def commonChars(self, A):
+        
         res = []
         for char in set(A[0]):
             count = A[0].count(char)
