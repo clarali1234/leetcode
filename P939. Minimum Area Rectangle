@@ -1,4 +1,4 @@
-# idea: enumerate each column + hashmap(key: x, value: ys)
+# idea: enumerate x, and (y1, y2) pair
 
 我们将这些点按照 x 轴（即列）排序，那么对于同一列的两个点 (x, y1) 和 (x, y2)，
 我们找出它作为右边界的最小的矩形。这可以通过记录下我们之前遇到的所有 (y1, y2) 点对来做到。
@@ -10,26 +10,24 @@
 class Solution(object):
     def minAreaRect(self, points):
         
-        cols = collections.defaultdict(list)
+        x_ys = collections.defaultdict(list)
         for x, y in points:
-            cols[x].append(y)
-        res = sys.maxsize
-        
+            x_ys[x].append(y)
+            
         last_x = {}
-        for x in sorted(cols):
-            col = cols[x]
-            col.sort()
-            for i, y2 in enumerate(col):
-                for j in range(i):
-                    y1 = col[j]
-                    if (y1, y2) not in last_x:
-                        last_x[(y1, y2)] = x
-                    else:
+        res = sys.maxsize
+        for x in sorted(x_ys.keys()):
+            cols = x_ys[x]
+            cols.sort()
+            for i in range(len(cols) - 1):
+                for j in range(i + 1, len(cols)):
+                    y1 = cols[i]
+                    y2 = cols[j]
+                    if (y1, y2) in last_x:
                         res = min(res, (x - last_x[(y1, y2)]) * (y2 - y1))
                         last_x[(y1, y2)] = x
-                        
+                    else:
+                        last_x[(y1, y2)] = x
         if res == sys.maxsize:
             return 0
         return res
-        
-        
