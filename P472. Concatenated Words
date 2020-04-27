@@ -18,7 +18,7 @@ class Solution(object):
                 return True
         return False
         
-  # time O(m * n ^ 3), n is the average length of words.
+  # time O(m * n ^ 3), n is the average length of words. substring cost n
   # space O(n ^ 2)
  class Solution(object):
     def findAllConcatenatedWordsInADict(self, words):
