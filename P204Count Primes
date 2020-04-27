@@ -4,23 +4,22 @@
 
 class Solution(object):
     def countPrimes(self, n):
-     
+        
         res = 0
-        for i in range(n):
-            if self.is_prime(n):
+        for i in range(2, n):
+            if self.is_prime(i):
                 res += 1
         return res
-        
-
+    
     def is_prime(self, n):
-        if n < 2:
-            return 0
-       
-        for i in range(2, n -1):
+        if n == 2:
+            return True
+        
+        for i in range(2, n - 1):
             if n % i == 0:
-                return 0
-        return 1
-
+                return False
+        return True
+        
 
 # O(n lglgn)接近于 O(n)
 # space O(n)
