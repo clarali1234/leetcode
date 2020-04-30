@@ -1,11 +1,11 @@
+# first go to m - 1 node
+# convert from m to n
+# node, count is m -1 , cur = m + 1 node
+        # count is n - 2, cur = n node
+
 class Solution(object):
     def reverseBetween(self, head, m, n):
-        """
-        :type head: ListNode
-        :type m: int
-        :type n: int
-        :rtype: ListNode
-        """
+        
         
         count = 0
         dummy = ListNode(0)
@@ -20,7 +20,8 @@ class Solution(object):
         mid = pre.next
         cur = pre.next.next # 3
         
-        while count < n - 1:
+        
+        while count <= n - 2:
             next = cur.next # 4
             cur.next = pre.next
             pre.next = cur
