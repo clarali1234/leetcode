@@ -1,4 +1,7 @@
 # quick sort
+# O(nlgn) -> O(n^2)
+# space O(lgn) -> O(n)
+
 class Solution(object):
     def quickSort(self, array):
         self.recursion(array, 0, len(array) - 1)
@@ -37,7 +40,52 @@ test = Solution()
 nums = [2, 7, 4, 5, 5]
 print(test.quickSort(nums))
 
+# merge sort 
+# time O(nlgn) T(n) = T(n/2) + O(n)
+# space O(n)
+class Soltion(object):
+    def merge_sort(self, nums):
+        if not nums or len(nums) == 1:
+            return nums
+        
+        m = len(nums) // 2
+        l = self.merge_sort(nums[:m])
+        r = self.merge_sort(nums[m:])
+        return self.merge(l, r)
+    
+    def merge(self, n1, n2):
+        res = []
+        
+        i = 0
+        j = 0
+        
+        while i < len(n1) and j < len(n2):
+            if n1[i] < n2[j]:
+                res.append(n1[i])
+                i += 1
+            elif n1[i] > n2[j]:
+                res.append(n2[j])
+                j += 1
+            else:
+                res.append(n2[j])
+                res.append(n1[i])
+                i += 1
+                j += 1
+                
+        res += n1[i:]
+        res += n2[j:]
+    
+        return res
+    
+    
+test = Solution()
+nums = [1, 7, 9, 2, 6]
+print(test.merge_sort(nums))
 
+
+# quick select
+# time O(n) -> O(n^2)
+# space O(lgn) -> O(n)
 
 class Solution(object):
 
