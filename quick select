@@ -1,3 +1,44 @@
+# quick sort
+class Solution(object):
+    def quickSort(self, array):
+        self.recursion(array, 0, len(array) - 1)
+        return array
+    
+    def recursion(self, array, low, high):
+        if low >= high:
+            return 
+        
+        index = self.partition(array, low, high)
+        self.recursion(array, low, index - 1)
+        self.recursion(array, index + 1, high)
+        
+    def partition(self, nums, low, high):
+        left = low
+        right = high
+        pivot = nums[high]
+        
+        while left <= right:
+            while left <= right and nums[left] < pivot:
+                left += 1
+
+            while left <= right and nums[right] > pivot:
+                right -= 1
+
+            if left <= right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+                
+        print(low, high, left, right, nums, pivot)
+        return left - 1
+    
+
+test = Solution()
+nums = [2, 7, 4, 5, 5]
+print(test.quickSort(nums))
+
+
+
 class Solution(object):
 
     def find_k_smallest(self, nums, k):
