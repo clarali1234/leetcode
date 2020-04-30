@@ -7,26 +7,24 @@ class Solution(object):
         
         if not root:
             return None
+        
         self.dfs(root)
-        
-        
-    # input: node, output: tail after the flatten
+        return root
+    
     def dfs(self, node):
         if not node:
             return None
         
-        left = self.dfs(node.left)
-        right = self.dfs(node.right)
-        if left:
-            left.right = node.right
+        l_t = self.dfs(node.left)
+        r_t = self.dfs(node.right)
+        
+        if node.left:
+            l_t.right = node.right
             node.right = node.left
             node.left = None
             
-        if right:
-            return right
-        if left:
-            return left
+        if r_t:
+            return r_t
+        if l_t:
+            return l_t
         return node
-        
-    
-            
