@@ -1,7 +1,8 @@
 # first go to m - 1 node
 # convert from m to n
-# node, count is m -1 , cur = m + 1 node
+        1. # node, count is m -1 , cur = m + 1 node
         # count is n - 2, cur = n node
+        2. # mid, pre均不变
 
 class Solution(object):
     def reverseBetween(self, head, m, n):
