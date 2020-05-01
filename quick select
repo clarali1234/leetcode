@@ -3,42 +3,35 @@
 # space O(lgn) -> O(n)
 
 class Solution(object):
-    def quickSort(self, array):
-        self.recursion(array, 0, len(array) - 1)
-        return array
+    def quickSort(self, nums):
+        
+        self.partition(nums, 0, len(nums) - 1)
+        return nums
+        
     
-    def recursion(self, array, low, high):
-        if low >= high:
+    def partition(self, nums, l, r):
+        if l >= r:
             return 
         
-        index = self.partition(array, low, high)
-        self.recursion(array, low, index - 1)
-        self.recursion(array, index + 1, high)
-        
-    def partition(self, nums, low, high):
-        left = low
-        right = high
-        pivot = nums[high]
-        
-        while left <= right:
-            while left <= right and nums[left] < pivot:
-                left += 1
-
-            while left <= right and nums[right] > pivot:
-                right -= 1
-
-            if left <= right:
-                nums[left], nums[right] = nums[right], nums[left]
-                left += 1
-                right -= 1
+        i = l
+        j = r
+        pivot = nums[j]
+        while i <= j:
+            while i <= j and nums[i] < pivot:
+                i += 1
+            while i <= j and nums[j] > pivot:
+                j -= 1
                 
-        print(low, high, left, right, nums, pivot)
-        return left - 1
-    
+            if i <= j:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+                j -= 1
+            
+        self.partition(nums, l, j)
+        self.partition(nums, i, r)
 
 test = Solution()
-nums = [2, 7, 4, 5, 5]
-print(test.quickSort(nums))
+print(test.quickSort([1, 7, 8, 2, 3]))
 
 # merge sort 
 # time O(nlgn) T(n) = T(n/2) + O(n)
