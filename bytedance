@@ -1,0 +1,56 @@
+# 水塘抽样
+
+当内存无法加载全部数据时，如何从包含 未知大小的数据流中 随机选取k个数据，并且要保证每个数据被抽取到的概率相等
+
+抽样策略：
+从S中抽取首k项放入「水塘」中
+对于每一个S[j]项（j ≥ k）：
+   随机产生一个范围0到j的整数r (include)
+   若 r < k 则把水塘中的第r项换成S[j]项
+
+import random
+def sample(nums, k):
+    res = nums[:k]
+    
+    for i in range(k + 1, len(nums)):
+        rand = random.randint(0, i - 1)
+        if rand < k:
+            res[rand] = nums[i]
+    return res
+
+print(sample([2, 4, 7, 9, 3, 5, 11], 4))
+
+
+# 水塘抽样
+# time O(n)
+# space O(1)
+遇到1，概率为1，保留第一个数。
+遇到2，概率为1/2，这个时候，1和2各1/2的概率被保留
+遇到3，3被保留的概率为1/3，(之前剩下的数假设1被保留)，2/3的概率 1 被保留，(此时1被保留的总概率为 2/3 * 1/2 = 1/3)
+遇到4，4被保留的概率为1/4，(之前剩下的数假设1被保留)，3/4的概率 1 被保留，(此时1被保留的总概率为 3/4 * 2/3 * 1/2 = 1/4)
+
+class Solution(object):
+
+    def __init__(self, nums):
+        self.nums = nums
+            
+    def pick(self, target):
+        
+        res = None
+        count = 0
+        for i, num in enumerate(self.nums):
+            if num == target:
+                count += 1
+                chance = random.randint(1, count)
+                if chance == count:
+                    res = i
+        return res
+
+
+k = 1
+p = 1/ i * (i/i + 1) * (i + 1/i + 2) *** ( n - 1/n) = 1/ n
+
+k > 1, nth ele in N (select k) 选中n,n + 1 ... N 所有都未选中
+p = k/n * (n/n + 1) * (n + 1) / (n + 2) **** (N - 1) / N = k/N
+
+
