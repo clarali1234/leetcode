@@ -88,5 +88,41 @@ class Solution(object):
 test = Solution()
 print(test.deleteString('fsakbacsi', 3))
         
+'''       
+1.    给一个tree，每个node标注出以该node为跟的子树的大小，问怎么输出inorder traverse里的k-th node。
+'''    
+    
+class Node(object):
+    def __init__(self, val, c):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.c = c
         
+# left, root, right
+
+#              2
+             1    1       2
+           2   3
+        
+        
+class Solution(object):
+    def find_k(self, root, k):
+        self.cur_c = 0
+        self.k = k
+        return self.dfs(root)
+    
+    def dfs(self, node):
+        if not node:
+            return  
+        
+        self.dfs(node.left)
+        
+        self.cur_c += node.c
+        if node.c == k:
+            return node
+        
+        self.dfs(node.right)
+        
+       
         
