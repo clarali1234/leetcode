@@ -126,3 +126,26 @@ class Solution(object):
         
        
         
+一个数组和target，找出最长的subarray && sum==target， O(n)
+class Solution(object):
+    def largest_sub(self, nums, target):
+        res = 0
+        
+        dic = {0 : -1} # key, subarray, value: index
+        
+        cur_sum = 0
+        for i in range(len(nums)):
+            cur_sum += nums[i]
+            if cur_sum - target in dic:
+                res = max(res, i - dic[cur_sum - target])
+            
+            if cur_sum not in dic:
+                dic[cur_sum] = i
+                
+        return res
+    
+    
+test = Solution()
+print(test.largest_sub([1, -1, 1], 1))
+                
+        
