@@ -7,11 +7,16 @@
 
 class Solution(object):
     def minCost(self, costs):
-        """
-        :type costs: List[List[int]]
-        :rtype: int
-        """
-        red, blue, green = 0, 0, 0
-        for r, b, g in costs:
-            red, blue, green = min(blue, green) + r, min(red, green) + b, min(red, blue) + g
-        return min(red, blue, green)
+       
+        r = 0
+        b = 0
+        g = 0
+        
+        for red, blue, green in costs:
+            new_r = red + min(b, g)
+            new_g = green + min(r, b)
+            new_b = blue + min(r, g)
+            
+            r, b, g = new_r, new_b, new_g
+            
+        return min(r, b, g)
