@@ -54,3 +54,39 @@ k > 1, nth ele in N (select k) 选中n,n + 1 ... N 所有都未选中
 p = k/n * (n/n + 1) * (n + 1) / (n + 2) **** (N - 1) / N = k/N
 
 
+
+
+'''       
+给定一个字符串，对该字符串进行删除操作，保留k个字符且相对位置不变，使字典序最小。如k=2,fskacsbi->ab；k=3,fsakbacsi->aac。字典序，abc>aad
+设个指针记录第一个lexically smallest letter的index, 然后接着往后比，可以O(n)做。
+
+start = 0
+for i in range(k):
+    cur = min(s[start : len(k) - i])
+    res.append(s.index(cur))
+    
+'''    
+
+class Solution(object):
+    def deleteString(self, s, k): 
+        self.res = ''
+        self.start = 0
+        self.dfs(s, 0, k) # string, ith char in res, k
+        return self.res 
+    
+    def dfs(self, s, i, k):
+        if i == k:
+            return 
+        
+        cur_s = min(s[self.start: len(s) - i])
+        cur_index = s.index(cur_s, self.start)
+        self.start = cur_index + 1
+        self.res += cur_s
+        self.dfs(s, i + 1 , k)
+        
+    
+test = Solution()
+print(test.deleteString('fsakbacsi', 3))
+        
+        
+        
