@@ -1,6 +1,6 @@
 # dfs recursion + gloabl variable:
  1. 需要一个全局变量去记录最大的路径和
- 2. For recursion, input is node, ouput is the maximum contribution of this node
+ 2. For recursion, input is node, ouput is the maximum contribution of path passing through this node
  3. 对于任何一个节点，return root.val + max(left, right), 每次递归更新ans = max(ans, left + right + root)
  
  time o(n), space o(h)
