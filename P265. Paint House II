@@ -1,0 +1,22 @@
+# time O(nk^2)
+# space O(k)
+
+class Solution(object):
+    def minCostII(self, costs):
+        
+        if not costs:
+            return 0
+
+        n, k = len(costs), len(costs[0])
+        if k == 1 and n == 1:
+            return costs[0][0]
+        
+        dp = [0] * k
+        
+        for cost in costs: 
+            new_dp = [0]*k
+            for i in range(k):
+                new_dp[i] = cost[i] + min(dp[:i] + dp[i+1:]) #当前ith color,上一个房子只能其他颜色刷
+            dp = new_dp
+        return min(dp)
+
