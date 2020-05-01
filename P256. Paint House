@@ -13,7 +13,7 @@ class Solution(object):
         g = 0
         
         for red, blue, green in costs:
-            new_r = red + min(b, g)
+            new_r = red + min(b, g) #当前红色，上一个房子只能绿色或者蓝色刷
             new_g = green + min(r, b)
             new_b = blue + min(r, g)
             
