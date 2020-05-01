@@ -78,7 +78,7 @@ class Solution(object):
         if i == k:
             return 
         
-        cur_s = min(s[self.start: len(s) - i])
+        cur_s = min(s[self.start: len(s) - (k - i)]) 
         cur_index = s.index(cur_s, self.start)
         self.start = cur_index + 1
         self.res += cur_s
