@@ -1,0 +1,36 @@
+# two pointers
+# 思路: 1. 我们每次分别找到start和end中非X的字符，如果二者不相同的话，直接返回false
+       2. 这个判断完之后，就来验证L只能前移，R只能后移这个限制条件.
+           当i指向start中的L时，那么j指向end中的L必须要在前面，(i >= j)
+           当i指向start中的R，那么j指向end中的R必须在后面，(i <= j)
+       
+# time O(n)
+# space O(1)
+
+class Solution(object):
+    def canTransform(self, start, end):
+        
+        n, m = len(start), len(end)
+        if n != m:
+            return False
+        i, j = 0, 0
+        
+        while True:
+            while i < n and start[i] == 'X':
+                i += 1
+            while j < n and end[j] == 'X':
+                j += 1
+            if i == n or j == n:
+                if i == n and j == n:
+                    return True
+                return False
+            if start[i] != end[j]:
+                return False
+            else:
+                if start[i] == 'L' and i < j:
+                    return False
+                elif start[i] == 'R' and i > j:
+                    return False
+            i += 1
+            j += 1
+
