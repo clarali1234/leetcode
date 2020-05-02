@@ -15,36 +15,29 @@ class Solution(object):
         
         cur = head
         count = 0
-        
-        while cur and count < k:
-            cur = cur.next 
+        while cur:
             count += 1
-            
-        # count == k
+            cur = cur.next 
+            if count == k:
+                break
         if count < k:
             return head
-    
-       
-        nxt_head = cur 
-        new_head, new_tail = self.reverse_k(head, k)
-        new_tail.next = self.reverseKGroup(nxt_head, k)
-        return new_head
-    
-    
-    def reverse_k(self, head, k):
-        prev = None
-        nxt = None
-        cur = head
         
-        while k:
-            #print(cur, k)
-            nxt = cur.next 
+        new_h, new_t = self.reverse(head, k)
+        print(new_h, new_t)
+        new_t.next = self.reverseKGroup(cur, k)
+        return new_h
+    
+    def reverse(self, node, k):
+        prev = None
+        cur = node
+        nxt = None
+        
+        while k > 0:
+            nxt = cur.next
             cur.next = prev
-            prev = cur
-            cur = nxt 
-            
+            prev = cur 
+            cur = nxt
             k -= 1
-            #print(k, cur) 
             
-        return prev, head
-            
+        return prev, node
