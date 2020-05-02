@@ -1,3 +1,12 @@
+# dp
+dp[i] := max sum that has a remainder i when mod 3.
+
+对于任意一种状态，下一步我们都有两种选择，一是选择当前元素，二是不选择当前元素
+dp[(i + num) % 3] = max( dp[(i + num) % 3] , dp[i] + num)
+
+ans: dp[0]
+# time O(n)
+# space O(1)
 
 class Solution(object):
     def maxSumDivThree(self, nums):
