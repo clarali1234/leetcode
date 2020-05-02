@@ -1,4 +1,4 @@
-# greedy
+# greedy + hashtable key: digit in num, value: last index
 # time O(n)
 # space O(1)
 
@@ -7,15 +7,19 @@
 
 class Solution(object):
     def maximumSwap(self, num):
-        """
-        :type num: int
-        :rtype: int
-        """
-        nums = map(int, str(num))
-        map_ = {val:index for index, val in enumerate(nums)}
-        for index, val in enumerate(nums):
-            for digit in range(9, val, -1):
-                if map_.get(digit, None) > index:
-                    nums[index], nums[map_[digit]] = nums[map_[digit]], nums[index]
-                    return int(''.join(map(str, nums)))
+        
+        nums = [int(x) for x in str(num)]
+        dic = {}
+        for i, digit in enumerate(nums):
+            dic[digit] = i
+        
+        for i, d in enumerate(nums):
+            for digit in range(9, d, -1):
+                if dic.get(digit, -1) > i:
+                    nums[dic[digit]], nums[i] = nums[i], nums[dic[digit]]
+                    s = ''
+                    for n in nums:
+                        s += str(n)
+                    return int(s)
         return num
+                
