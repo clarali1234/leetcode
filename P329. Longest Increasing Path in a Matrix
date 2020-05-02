@@ -7,31 +7,27 @@
 # 因为每个点都只访问了一遍
 class Solution(object):
     def longestIncreasingPath(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: int
-        """
-        if len(matrix) == 0 or len(matrix[0]) == 0:
-            return 0
-    
+        
+        self.memo = {}
         res = 0
-        memo = {}
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
-                path = self.dfs(matrix, i, j, memo)
+                path = self.dfs(matrix, i, j)
                 res = max(res, path)
         return res
     
-    def dfs(self, matrix, i, j, memo):
-        if (i,j) in memo:
-            return memo[(i, j)]
+    def dfs(self, matrix, x, y):
+        if (x, y) in self.memo:
+            return self.memo[(x, y)]
+        
         res = 1
-        for dx, dy in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-            x = i + dx
-            y = j + dy
-            if x < 0 or x >= len(matrix) or y < 0 or y >= len(matrix[0]) or matrix[x][y] <= matrix[i][j]:
-                continue
-            path = self.dfs(matrix, x, y, memo)
-            res = max(res, path + 1)
-        memo[(i, j)] = res
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and matrix[new_x][new_y] > matrix[x][y]:
+                res = max(res, self.dfs(matrix, new_x, new_y) + 1)
+                
+        self.memo[(x, y)] = res
+        
         return res
+                
