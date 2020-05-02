@@ -1,7 +1,7 @@
 # we only need to iterate over the columns and assume that we add per queen a line.
 
 # brute force
-# all possible ways, N^N (n queens and each have n possible positions)
+# all possible ways, N^N^2 (n queens and each have n possible positions)
 
 
 # sol2: dfs with constraints
