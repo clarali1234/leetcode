@@ -1,12 +1,14 @@
 # 思路:
-    step 1: revserse k nodes at a time and return new head, return new_h, new_t
-    step 2: new_t.next = reverseKGraoup(after k)
-    step 3: reverse new_h
+    recursion 递归
+    # if len < k, return head
     
+    recursion part, first k reverse, after first k, call recursion fun, return head
+    # revserse first nodes at a time and return new head, return new_h, new_t
+    # new_t.next = reverseKGraoup(after k)
     
     
 # time O(n)
-# space O(1)
+# space O(n/k)
 
 class Solution(object):
     def reverseKGroup(self, head, k):
