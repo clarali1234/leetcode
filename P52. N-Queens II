@@ -6,26 +6,24 @@
 
 class Solution(object):
     def totalNQueens(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
+        
         self.res = 0
-        self.dfs([-1] * n, 0)
-        return self.res
+        self.dfs(n, [-1 for _ in range(n)], 0)
+        return self.res 
     
-    def dfs(self, cols, cur_queen):
-        if cur_queen == len(cols):
+    def dfs(self, n, cols, cur_q):
+        if cur_q == n:
             self.res += 1
             return 
         
-        for i in range(len(cols)):
-            cols[cur_queen] = i
-            if self.is_valid(cols, cur_queen):
-                self.dfs(cols, cur_queen + 1)
+        for i in range(n):
+            cols[cur_q] = i
+            if self.valid(cols, cur_q):
+                self.dfs(n, cols, cur_q + 1)
                 
-    def is_valid(self, cols, cur_queen):
-        for i in range(cur_queen):
-            if cols[i] == cols[cur_queen] or abs(cols[i] - cols[cur_queen]) == cur_queen - i:
+    def valid(self, cols, cur_q):
+        for i in range(cur_q):
+            if cols[i] == cols[cur_q] or abs(cur_q - i ) == abs(cols[cur_q] - cols[i]):
                 return False
         return True
+        
