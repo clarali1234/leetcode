@@ -1,0 +1,40 @@
+# recursion
+# two pass
+
+# steps:
+  1. Find the sum of entire tree s
+  2. post order travsesal
+    a. find the sum of l/ subtree sl, sr
+    b. ans = max((s - sl) * sl, (s - sr) * sr)
+    
+    
+# time O(n)
+# space O(n)
+class Solution(object):
+    def maxProduct(self, root):
+        
+        self.sum = 0
+        self.res = -sys.maxsize
+        self.dfs(root)
+        self.solve(root)
+        return self.res % (10 ** 9 + 7)
+        
+        
+    def dfs(self, node):
+        if not node:
+            return 
+        self.sum += node.val
+        self.dfs(node.left)
+        self.dfs(node.right)
+        
+    def solve(self, node):
+        if not node:
+            return 0
+        
+        l = self.solve(node.left)
+        r = self.solve(node.right)
+        self.res = max(self.res, (self.sum - l) * l, (self.sum - r) * r)
+        return node.val + l + r
+        
+        
+        
