@@ -15,24 +15,22 @@ class Solution(object):
     def solveNQueens(self, n):
         
         self.res = []
-        self.dfs([-1] * n, 0, [])
-        print(self.res)
+        self.dfs(n, [-1 for _ in range(n)], 0, [])
         return self.res
     
-    def dfs(self, cols, cur_queen, cur_path):
-        if cur_queen == len(cols):
-            self.res.append(cur_path)
+    def dfs(self, n, cols, cur_q, cur_p):
+        if cur_q == n:
+            self.res.append(cur_p)
             return 
         
-        for i in range(len(cols)):
-            cols[cur_queen] = i
-            if self.valid(cols, cur_queen):
-                tmp = '.' * len(cols)
-                self.dfs(cols, cur_queen + 1, cur_path + [tmp[:i] + 'Q' + tmp[ i + 1 :]])
+        for i in range(n):
+            cols[cur_q] = i
+            if self.valid(cols, cur_q):
+                tmp = '.' * n
+                self.dfs(n, cols, cur_q + 1, cur_p + [tmp[:i] + 'Q' + tmp[i + 1 : ]])
                 
-    def valid(self, cols, cur_queen):
-        for i in range(cur_queen):
-            if cols[i] == cols[cur_queen] or abs(cols[i] - cols[cur_queen]) == cur_queen - i:
+    def valid(self, cols, cur_q):
+        for i in range(cur_q):
+            if cols[i] == cols[cur_q] or abs(cur_q - i) == abs(cols[cur_q] - cols[i]):
                 return False
         return True
-            
