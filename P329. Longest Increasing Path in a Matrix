@@ -3,6 +3,7 @@
 # 用dp数组记录从(i, j)出发的最长递增路径，以此防止重复计算
 
 # 时间复杂度：O(nm)
+# space O(mn)
 # 因为每个点都只访问了一遍
 class Solution(object):
     def longestIncreasingPath(self, matrix):
