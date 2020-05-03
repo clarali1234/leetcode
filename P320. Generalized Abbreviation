@@ -8,6 +8,9 @@
 保留下一个字符
 将下一个字符缩写
 # time O(n2^n)
+For each leaf node, it needs O(n) time for converting builder to String; 
+for each internal node, it needs only constant time. 
+Thus, the total time complexity is dominated by the leaves. In total that is O(n2^n).
 # space O(n)
 
 class Solution(object):
