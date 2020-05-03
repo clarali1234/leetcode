@@ -1,0 +1,28 @@
+# time O(n)
+方法 1：回溯
+
+对于一个长度为 n 的单次有多少种缩写？答案是 2^n种，因为每个字符可以被缩写或者不被缩写，都将导致不同的缩写。
+
+算法
+部分候选串可以被扩展应该是以下两种情况之一：
+保留下一个字符
+将下一个字符缩写
+
+class Solution(object):
+    def generateAbbreviations(self, word):
+
+        self.res = []
+        self.bfs(word, '', 0)
+        return self.res
+        
+    def bfs(self, word, cur, i):
+        if i == len(word):
+            self.res.append(cur)
+            return
+        self.bfs(word, cur + word[i], i+1)
+        
+        if not (cur and cur[-1].isdigit()):
+            for j in range(i, len(word)):
+                self.bfs(word, cur+str(j-i+1), j+1)
+
+
