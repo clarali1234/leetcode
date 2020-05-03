@@ -1,0 +1,30 @@
+什么是字典序？
+简而言之，就是根据数字的前缀进行排序，
+比如 10 < 9，因为 10 的前缀是 1，比 9 小。
+再比如 112 < 12，因为 112 的前缀 11 小于 12。
+
+class Solution(object):
+    def findKthNumber(self, n, k):
+        
+        cur = 1
+        k -= 1
+        
+        while k > 0:
+            steps = self.cal_steps(n, cur, cur + 1)
+            if steps <= k:
+                k -= steps
+                cur += 1
+            else:
+                k -= 1
+                cur *= 10
+        
+        return cur
+    
+    def cal_steps(self, n, n1, n2):
+        step = 0
+        while n1 <= n:
+            step += min(n2, n + 1) - n1
+            n1 *= 10
+            n2 *= 10
+        return step
+
