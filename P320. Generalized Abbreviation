@@ -1,4 +1,4 @@
-# time O(n)
+
 方法 1：回溯
 
 对于一个长度为 n 的单次有多少种缩写？答案是 2^n种，因为每个字符可以被缩写或者不被缩写，都将导致不同的缩写。
@@ -7,6 +7,8 @@
 部分候选串可以被扩展应该是以下两种情况之一：
 保留下一个字符
 将下一个字符缩写
+# time O(n2^n)
+# space O(n)
 
 class Solution(object):
     def generateAbbreviations(self, word):
