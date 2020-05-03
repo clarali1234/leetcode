@@ -1,0 +1,19 @@
+# ((a-1) * 7 + b - 1) % 10 + 1
+# at least twice
+
+设法用 rand7 生成49 算法就是 7*(rand7()-1) + rand7()-1
+rand7 -> rand49 -> rand40 -> rand10
+注意到此时生成的49每个数的分布律都是 1/49 即平均分布。
+我们再取得 前40个数 显然这40个数也是等概率生成的，
+那答案就很自然了，mod10 +1 取得个位数就好。
+
+class Solution(object):
+    def rand10(self):
+        
+        x, y = rand7()-1, rand7()-1  # 1-7 转为 0-6,, 两位 7进制数，49 种等可能
+        val = x*7+y
+        
+        if val<=39: # 0-9, 10-19, 20-29, 30-39,40-48 
+            return val % 10 + 1  # 0-9 转换为 1-10
+        else:
+            return self.rand10()
