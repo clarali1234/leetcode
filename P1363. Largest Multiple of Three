@@ -1,0 +1,33 @@
+(计数，枚举) O(n)
+我们都知道如果一个数字能够整除3，那么各位数字之和也可以整除3。我们先计算出所有数字的和，然后分三种情况讨论：
+
+数组和恰好是3的倍数，那么我们只需要将所有的数字从大到小拼接起来即可。
+数组和除以3余1，为了使得数字最大，我们需要删除一个[1,4,7]当中的数字，如果找不到，我们就删除两个[2,5,8]当中的数字。
+数组和除以3余2，为了使得数字最大，我们需要删除一个[2,5,8]当中的数字，如果找不到，我们就删除两个[1,4,7]当中的数字。
+
+class Solution(object):
+    def largestMultipleOfThree(self, digits):
+        
+        cnt, modulo = [0] * 10, [0] * 3
+        s = 0
+        for digit in digits:
+            cnt[digit] += 1
+            modulo[digit % 3] += 1
+            s += digit
+        
+        remove_mod, rest = 0, 0
+        if s % 3 == 1:
+            remove_mod, rest = (1, 1) if modulo[1] >= 1 else (2, 2)
+        elif s % 3 == 2:
+            remove_mod, rest = (2, 1) if modulo[2] >= 1 else (1, 2)
+
+        ans = ""
+        for i in range(0, 10):
+            for j in range(cnt[i]):
+                if rest > 0 and remove_mod == i % 3:
+                    rest -= 1
+                else:
+                    ans += str(i)
+        if len(ans) > 0 and ans[-1] == "0":
+            ans = "0"
+        return ans[::-1]
