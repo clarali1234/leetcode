@@ -7,39 +7,22 @@
 class Solution(object):
     def minSubArrayLen(self, s, nums):
         
-        min_len = sys.maxsize
-        sum_ = 0
+        res = sys.maxsize
         j = 0
+        cur_sum = 0
         for i in range(len(nums)):
-            while j < len(nums) and sum_ + nums[j] < s:
-                sum_ += nums[j]
+            while j < len(nums) and cur_sum + nums[j] < s:
+                cur_sum += nums[j]
                 j += 1
-                
-            if j < len(nums) and sum_ + nums[j] >= s:
-                min_len = min(min_len, j - i + 1)
-            sum_ -= nums[i]
             
-        if min_len == sys.maxsize:
+            if j < len(nums) and cur_sum + nums[j] >= s:
+                res = min(res, j - i + 1 )
+            
+            cur_sum -= nums[i]
+        if res == sys.maxsize:
             return 0
-        return min_len
+        return res
             
             
             
 
-class Solution(object):
-    def minSubArrayLen(self, s, nums):
-        
-        min_len = sys.maxsize
-        
-        i = 0
-        sum_ = 0
-        for j in range(len(nums)):
-            sum_ += nums[j]
-            while sum_ >= s:
-                min_len = min(j - i + 1, min_len)
-                sum_ -= nums[i]
-                i += 1
-                
-        if min_len == sys.maxsize:
-            return 0
-        return min_len
