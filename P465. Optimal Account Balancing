@@ -1,0 +1,38 @@
+# hashtable , key: person id, value: balance + dfs
+# balance != 0, 有向图
+
+# dfs recursion, 如果balance a * b < 0, 用a填充b，call recursione fun
+# time O(n!)
+# space O(n)
+
+class Solution(object):
+    def minTransfers(self, transactions):
+        
+        self.res = sys.maxsize
+        dic = collections.defaultdict(int)
+        for x, y, z in transactions:
+            dic[x] += z
+            dic[y] -= z
+            
+        ls = []
+        for p, b in dic.items():
+            if b != 0:
+                ls.append(b)
+        self.dfs(ls, 0, 0)
+        return self.res
+    
+    
+    def dfs(self, ls, cur_id, c):
+        while cur_id < len(ls) and ls[cur_id] == 0:
+            cur_id += 1
+        
+        if cur_id == len(ls):
+            self.res = min(self.res, c)
+            return 
+        
+        for j in range(cur_id + 1, len(ls)):
+            if ls[j ] * ls[cur_id] < 0:
+                ls[j] = ls[j] + ls[cur_id]
+                self.dfs(ls, cur_id + 1, c + 1)
+                ls[j] = ls[j] - ls[cur_id]
+                
