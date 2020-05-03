@@ -15,19 +15,22 @@ Thus, the total time complexity is dominated by the leaves. In total that is O(n
 
 class Solution(object):
     def generateAbbreviations(self, word):
-
+        
         self.res = []
-        self.bfs(word, '', 0)
+        self.dfs(word, 0, '')
         return self.res
+    
+    def dfs(self, word, cur_index, cur_path):
+        if cur_index == len(word):
+            self.res.append(cur_path)
+            return 
         
-    def bfs(self, word, cur, i):
-        if i == len(word):
-            self.res.append(cur)
-            return
-        self.bfs(word, cur + word[i], i+1)
+        # recursive call 1 keep the char
+        self.dfs(word, cur_index + 1, cur_path + word[cur_index])
         
-        if not (cur and cur[-1].isdigit()):
-            for j in range(i, len(word)):
-                self.bfs(word, cur+str(j-i+1), j+1)
-
+        # recursive call2, convert to digit
+        if not cur_path or not cur_path[-1].isdigit():
+            for j in range(cur_index, len(word)):
+                self.dfs(word, j + 1, cur_path + str(j - cur_index + 1))
+        
 
