@@ -1,4 +1,6 @@
 # Index as a hash key.
+尽可能地把数组中不大于n（n为数组长度）的正整数放置到下标+1与其数值相同的位置上
+第一个下标+1与数值不同的数字，即为所求。
 
 # data preparation: we put 0 < ele <= n to the index: ele - 1
 # travse: first ele which index + 1 != ele 
