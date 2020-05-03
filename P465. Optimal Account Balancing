@@ -1,5 +1,4 @@
-# hashtable , key: person id, value: balance + dfs
-# balance != 0, 有向图
+# backtracking
 
 # dfs recursion, 如果balance a * b < 0, 用a填充b，call recursione fun
 # time O(n!)
