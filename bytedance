@@ -7,6 +7,9 @@
 对于每一个S[j]项（j ≥ k）：
    随机产生一个范围0到j的整数r (include)
    若 r < k 则把水塘中的第r项换成S[j]项
+   
+   
+ # 当i>k, 被替换掉的概率，k/i * 1/k = 1/i, 不被替换掉，k/k + 1
 
 import random
 def sample(nums, k):
