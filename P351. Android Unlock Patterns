@@ -20,9 +20,10 @@ class Solution(object):
             count = count + self.dfs(1, k) * 4 + self.dfs(2, k) * 4 + self.dfs(5, k)
         return count
     
-    def dfs(self, cur_digit, k):
+    def dfs(self, cur_digit, k): # dfs k, keys need to add
         if not k:
             return 1
+            
         res = 0
         self.visited[cur_digit - 1] = True
         
