@@ -6,17 +6,20 @@ class Solution(object):
         
         if not costs:
             return 0
-
-        n, k = len(costs), len(costs[0])
-        if k == 1 and n == 1:
+        
+        n = len(costs)
+        k = len(costs[0])
+        
+        if n == 1 and k == 1:
             return costs[0][0]
         
-        dp = [0] * k
-        
-        for cost in costs: 
-            new_dp = [0]*k
-            for i in range(k):
-                new_dp[i] = cost[i] + min(dp[:i] + dp[i+1:]) #当前ith color,上一个房子只能其他颜色刷
-            dp = new_dp
+        dp = [0 for _ in range(k)]
+        for i in range(n):
+            tmp = [0 for _ in range(k)]
+            for j in range(k):
+                cur_c = costs[i][j]
+                tmp[j] = cur_c + min(dp[:j] + dp[j + 1:])
+            dp = tmp
         return min(dp)
+                
 
