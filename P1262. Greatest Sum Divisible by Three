@@ -11,13 +11,11 @@ ans: dp[0]
 class Solution(object):
     def maxSumDivThree(self, nums):
         
-        dp = [0, 0, 0]
+        dp = [0 for _ in range(3)]
         
-        for n in nums:
-            tmp_dp = dp[:]
-            for i in range(len(dp)):
-                c_sum = tmp_dp[i] + n
-                dp[c_sum % 3] = max(dp[c_sum % 3], c_sum)
-
-
+        for num in nums:
+            tmp = dp[:]
+            for i in range(3):
+                cur_sum = tmp[i] + num
+                dp[cur_sum % 3] = max(dp[cur_sum % 3], cur_sum)
         return dp[0]
