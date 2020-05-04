@@ -1,0 +1,51 @@
+# bfs 
+# time O(mn*mn)
+# space O(mn)
+# 1. track the count of all buildings
+# 2. start from each building and do bfs for empty space
+
+class Solution(object):
+    def shortestDistance(self, grid):
+        
+        m = len(grid)
+        n = len(grid[0])
+        dis = [[0 for _ in range(n)] for _ in range(m)]
+        visited = [[0 for _ in range(n)] for _ in range(m)]
+        
+
+        count = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    count += 1
+                    self.visited = set()
+                    self.bfs(grid, i, j, dis, visited)
+                    
+        res = sys.maxsize
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 0 and visited[i][j] == count:
+                    res = min(res, dis[i][j])
+                    
+        if res == sys.maxsize:
+            return -1
+        return res
+    
+    def bfs(self, grid, x, y, dis, visited):
+        q = collections.deque([(x, y, 0)])
+        while q:
+            x, y, cur_d = q.popleft()
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 0 and (new_x, new_y) not in self.visited:
+                    dis[new_x][new_y] += cur_d + 1
+                    visited[new_x][new_y] += 1
+                    q.append([new_x, new_y, cur_d + 1])
+                    self.visited.add((new_x, new_y))
+                    
+                    
+        
+        
+        
+        
