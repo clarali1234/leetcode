@@ -3,6 +3,7 @@
        2. 这个判断完之后，就来验证L只能前移，R只能后移这个限制条件.
            当i指向start中的L时，那么j指向end中的L必须要在前面，(i >= j)
            当i指向start中的R，那么j指向end中的R必须在后面，(i <= j)
+       3. i and j must comes to the end together
        
 # time O(n)
 # space O(1)
