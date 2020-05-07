@@ -1,0 +1,26 @@
+# stack
+# time O(n)
+# space O(n)
+
+将元素依次入栈并统计元素数量。每次入栈判断是否和栈顶元素相同：
+如果与栈顶元素相同，那么将栈顶元素的数量加 1；如果栈顶元素数量达到 3，则将栈顶元素出栈；
+如果待入栈元素与栈顶元素不同，那么直接入栈并将该元素个数置为 1。遍历完字符串之后，将栈中剩余元素拼接即为答案。
+
+
+class Solution(object):
+    def removeDuplicates(self, s, k):
+        
+        stack = []
+        
+        for char in s:
+            if not stack or char != stack[-1][0]:
+                stack.append([char, 1])
+            elif stack[-1][1] + 1 < k:
+                stack[-1][1] += 1
+            else:
+                stack.pop()
+        
+        res = ''
+        for c, count in stack:
+            res += c * count
+        return res
