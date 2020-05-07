@@ -1,0 +1,26 @@
+# two hashtbale
+# time O(1)
+# space O(n)
+
+class UndergroundSystem(object):
+
+    def __init__(self):
+        self.start_info = {} # id : (s, t)
+        self.dic = {} # (s, e) : (t, p)
+         
+    def checkIn(self, id, stationName, t):
+        
+        self.start_info[id] = [stationName, t]
+
+    def checkOut(self, id, stationName, t):
+        
+        s, s_t = self.start_info.get(id)
+        cur_t = t - s_t
+        index = (s, stationName)
+        prev_res = self.dic.get(index, (0, 0))
+        self.dic[index] = [prev_res[0] + cur_t, prev_res[1] + 1]
+
+    def getAverageTime(self, startStation, endStation):
+        
+        t, p = self.dic.get((startStation, endStation))
+        return t * 1.0 / p 
