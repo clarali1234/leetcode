@@ -1,0 +1,21 @@
+
+
+class Solution(object):
+    def invalidTransactions(self, transactions):
+        
+        trans = [x.split(',') for x in transactions] # name, time, amount, city
+        res = []
+        for i, t in enumerate(trans):
+            if int(t[2]) > 1000:
+                res.append(','.join(t))
+                continue
+                
+            else:
+                for j, t2 in enumerate(trans):
+                    if i != j:
+                        if t[0] == t2[0] and t[3] != t2[3] and abs(int(t[1]) - int(t2[1])) <= 60:
+                            res.append(','.join(t))
+                            break
+        return res
+        
+        
