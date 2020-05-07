@@ -1,0 +1,21 @@
+# dfs from 0 to N - 1
+# time O(2^n)
+# space O(2^n)
+
+class Solution(object):
+    def allPathsSourceTarget(self, graph):
+        
+        self.res = []
+        self.dfs(graph, 0, [0])
+        return self.res
+    
+    def dfs(self, graph, cur_node, cur_p):
+        
+        if cur_node == len(graph) - 1:
+            self.res.append(cur_p)
+            return 
+        
+        for nb in graph[cur_node]:
+            self.dfs(graph, nb, cur_p + [nb])
+        
+        
