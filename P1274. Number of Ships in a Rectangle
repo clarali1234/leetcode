@@ -3,8 +3,8 @@ If the current rectangle contains ships, subdivide it into 4 smaller ones until
 1) no ships contained
 2) the current rectangle is a single point (e.g. topRight == bottomRight)
 
-Time complexity: O(logn)
-Space complexity: O(logn)
+Time complexity: O(10 * logmn) (mn, quad search)
+Space complexity: O(logmn)
 
 class Solution(object):
     def countShips(self, sea, topRight, bottomLeft):
