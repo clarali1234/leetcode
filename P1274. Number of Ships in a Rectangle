@@ -1,0 +1,29 @@
+Solution: Divide and Conquer
+If the current rectangle contains ships, subdivide it into 4 smaller ones until
+1) no ships contained
+2) the current rectangle is a single point (e.g. topRight == bottomRight)
+
+Time complexity: O(logn)
+Space complexity: O(logn)
+
+class Solution(object):
+    def countShips(self, sea, topRight, bottomLeft):
+        
+        x1 = bottomLeft.x
+        y1 = bottomLeft.y
+        
+        x2 = topRight.x
+        y2 = topRight.y
+        
+        if x1 > x2 or y1 > y2 or not sea.hasShips(topRight, bottomLeft):
+            return 0
+        
+        if x1 == x2 and y1 == y2:
+            return 1
+        
+        xm = (x1 + x2) // 2
+        ym = (y1 + y2) // 2
+        return self.countShips(sea, Point(xm, ym), Point(x1, y1)) + 
+        self.countShips(sea, Point(x2, y2), Point(xm + 1, ym + 1)) + 
+        self.countShips(sea, Point(xm, y2), Point(x1, ym + 1)) + 
+        self.countShips(sea, Point(x2, ym), Point(xm + 1, y1))
