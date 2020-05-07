@@ -1,3 +1,35 @@
+# dfs, 把child 看作左子树，把next看作右子树，pre-order travsesal
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def flatten(self, head):
+        
+        if not head:
+            return None
+        
+        dummy_head = Node(None, None, head, None)
+        self.dfs(dummy_head, head)
+        dummy_head.next.prev = None
+        return dummy_head.next
+    
+    def dfs(self, prev, cur): # return tail of dfs res
+        if not cur:
+            return prev
+        
+        cur.prev = prev
+        prev.next = cur
+        
+        
+        tmp = cur.next
+        tail = self.dfs(cur, cur.child)
+        cur.child = None
+        
+        return self.dfs(tail, tmp)
+    
+
+
+
 # stack 
 # time O(n)
 # space O(n)
