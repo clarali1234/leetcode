@@ -6,31 +6,48 @@
 
 class Solution(object):
     def candyCrush(self, board):
+        m = len(board)
+        n = len(board[0])
         
-        R, C = len(board), len(board[0])
-        todo = False
-        
-        # 水平方向>3
-        for r in xrange(R):
-            for c in xrange(C-2):
-                if abs(board[r][c]) == abs(board[r][c+1]) == abs(board[r][c+2]) != 0:
-                    board[r][c] = board[r][c+1] = board[r][c+2] = -abs(board[r][c])
-                    todo = True
-        # 竖直方向>3
-        for r in xrange(R-2):
-            for c in xrange(C):
-                if abs(board[r][c]) == abs(board[r+1][c]) == abs(board[r+2][c]) != 0:
-                    board[r][c] = board[r+1][c] = board[r+2][c] = -abs(board[r][c])
-                    todo = True
+        change = False
+        # find candies need to crush
+        # find on each line 
+        for i in range(m):
+            for j in range(n - 2):
+                if abs(board[i][j]) == abs(board[i][j + 1]) == abs(board[i][j + 2]) != 0:
+                    board[i][j] = -abs(board[i][j])
+                    board[i][j + 1] = -abs(board[i][j])
+                    board[i][j + 2] = -abs(board[i][j])
+                    change = True
                     
-        # > 0从下写入
-        for c in xrange(C):
-            wr = R-1
-            for r in xrange(R-1, -1, -1):
-                if board[r][c] > 0:
-                    board[wr][c] = board[r][c]
-                    wr -= 1
-            for wr in xrange(wr, -1, -1):
-                board[wr][c] = 0
-
-        return self.candyCrush(board) if todo else board
+        for j in range(n):
+            for i in range(m - 2):
+                if abs(board[i][j]) == abs(board[i + 1][j]) == abs(board[i + 2][j]) != 0:
+                    board[i][j] = -abs(board[i][j])
+                    board[i + 1][j] = -abs(board[i][j])
+                    board[i + 2][j] = -abs(board[i][j])
+                    change = True
+                    
+        # crush candy
+        for j in range(n):
+            w = m - 1
+            r = m - 1
+            
+            while r >= 0:
+                if board[r][j] > 0:
+                    board[w][j] = board[r][j]
+                    w -= 1
+                r -= 1
+            
+            while w >= 0:
+                board[w][j] = 0
+                w -= 1
+                
+        if change:
+            self.candyCrush(board)
+        return board
+        
+                
+                
+        
+        
