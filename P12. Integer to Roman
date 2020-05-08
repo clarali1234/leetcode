@@ -1,19 +1,21 @@
 # 列举所有的可能Roman symbols (from largetst to smallest)
 # 每一步都使用当前较大的罗马数字作为加法因子，最后得到罗马数字表示就是长度最少的
 
+# greedy
 # time O(1)
 # space O(1)
 
 class Solution(object):
     def intToRoman(self, num):
         
-        nums = [ 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 ]
-        romans = [ "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" ]
+        nums = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9,  5, 4,  1]
+        symbols = ['M', 'CM', 'D','CD', 'C', 'XC', 'L', 'XL','X', 'IX', 'V', 'IV','I']
+        
         res = ''
         
-        for i in range(0, len(nums)):
-            while num >= nums[i]:
-                num -= nums[i]
-                res += romans[i]
+        for i, n in enumerate(nums):
+            while num >= n:
+                num -= n
+                res += symbols[i]
         return res
-    
+                
