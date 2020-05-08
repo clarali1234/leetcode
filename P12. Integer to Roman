@@ -1,3 +1,9 @@
+# 列举所有的可能Roman symbols (from largetst to smallest)
+# 每一步都使用当前较大的罗马数字作为加法因子，最后得到罗马数字表示就是长度最少的
+
+# time O(1)
+# space O(1)
+
 class Solution(object):
     def intToRoman(self, num):
         
