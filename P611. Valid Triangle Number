@@ -1,20 +1,32 @@
+# brute force time O(n^3)
+# 枚举a, b, c (a + b> c, a + c> b, b + c > a)
+
+
+# sort then two pointers, if a > b > c, check if b + c > a
+# sort O(nlgn), two pointer O(n^2)
+
 # time O(n^2)
+
+# sort [2,2,3,4] -> [4, 3, 2, 2]
+
 class Solution(object):
     def triangleNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+        
+        nums.sort(reverse = True)
         count = 0
-        n = len(nums)
-        nums.sort()
-        for i in range(n - 1, 1, -1):
-            low = 0
-            high = i - 1
-            while low < high:
-                if nums[low] + nums[high] > nums[i]:
-                    count += high - low
-                    high -= 1
+        
+        for i in range(len(nums) - 2):
+            m = i + 1
+            n = len(nums) - 1
+            
+            while m < n:
+                if nums[m] + nums[n] > nums[i]:
+                    count += n - m 
+                    m += 1
                 else:
-                    low += 1
+                    n -= 1
+                    
         return count
+                    
+            
+                
