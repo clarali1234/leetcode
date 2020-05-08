@@ -1,0 +1,36 @@
+# time O(mn * mn) each time mn, worst case need to call mn/3 times, total mn * mn
+# space O(1)
+
+1、2重循环，每到一个点，分别从垂直和水平方向尝试是否连续大于3，满足条件则标记
+2、消除重复糖果，然后元素下降
+
+class Solution(object):
+    def candyCrush(self, board):
+        
+        R, C = len(board), len(board[0])
+        todo = False
+        
+        # 水平方向>3
+        for r in xrange(R):
+            for c in xrange(C-2):
+                if abs(board[r][c]) == abs(board[r][c+1]) == abs(board[r][c+2]) != 0:
+                    board[r][c] = board[r][c+1] = board[r][c+2] = -abs(board[r][c])
+                    todo = True
+        # 竖直方向>3
+        for r in xrange(R-2):
+            for c in xrange(C):
+                if abs(board[r][c]) == abs(board[r+1][c]) == abs(board[r+2][c]) != 0:
+                    board[r][c] = board[r+1][c] = board[r+2][c] = -abs(board[r][c])
+                    todo = True
+                    
+        # > 0从下写入
+        for c in xrange(C):
+            wr = R-1
+            for r in xrange(R-1, -1, -1):
+                if board[r][c] > 0:
+                    board[wr][c] = board[r][c]
+                    wr -= 1
+            for wr in xrange(wr, -1, -1):
+                board[wr][c] = 0
+
+        return self.candyCrush(board) if todo else board
