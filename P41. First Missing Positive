@@ -1,6 +1,12 @@
+# brute force hash set
+# time O(n)
+# space O(n)
+
+
+
 # Index as a hash key.
-尽可能地把数组中不大于n（n为数组长度）的正整数放置到下标+1与其数值相同的位置上
-第一个下标+1与数值不同的数字，即为所求。
+num[i] = i + 1
+fisrt num[i] != i + 1, return i + 1
 
 # data preparation: we put 0 < ele <= n to the index: ele - 1
 # travse: first ele which index + 1 != ele 
@@ -12,12 +18,34 @@
 
 class Solution(object):
     def firstMissingPositive(self, nums):
+        
+        
+        # nums[i] = i + 1
+        if not nums:
+            return 1
+        
+        n = len(nums)
+        for i in range(n):
+            while 1 <= nums[i] <= n and nums[i] != i + 1 and nums[i] != nums[nums[i] - 1]:
+                tmp1 = nums[nums[i] - 1]
+                tmp2 = nums[i] 
+                nums[nums[i] - 1] = tmp2
+                nums[i] = tmp1
+                
+        for i in range(n):
+            if i + 1 != nums[i]:
+                return i + 1
+        return n + 1
+                
+                   
+                   
+class Solution(object):
+    def firstMissingPositive(self, nums):
        
         if not nums:
             return 1
         
         n = len(nums)
-        
         for i in range(n):
             while 0 < nums[i] <= n and nums[i] != i + 1 and nums[i] != nums[nums[i] - 1]:
                 nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
