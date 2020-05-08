@@ -1,35 +1,65 @@
+
+# (7 -> 2 -> 4 -> 3) 
+#      (5 -> 6 -> 4)
+# 7 - > 8 -> 0 -> 7
+
 # idea: 遍历两个链表，找出两个num，相加，再构建新的linked list
-# time O(n)
-# space O(n)
+# time O(m + n)
+# space O(m + n)
+
 
 class Solution(object):
     def addTwoNumbers(self, l1, l2):
-       
-        n1 = ''
-        n2 = ''
         
-        p1 = l1
-        p2 = l2
+        s1 = 0
+        s2 = 0
         
-        while p1:
-            n1 = n1 + str(p1.val)
-            p1 = p1.next 
+        while l1:
+            s1 = s1 * 10 + l1.val
+            l1 = l1.next
             
-        while p2:
-            n2 = n2 + str(p2.val)
-            p2 = p2.next 
+        while l2:
+            s2 = s2 * 10 + l2.val
+            l2 = l2.next 
             
-        new_num = str(int(n1) + int(n2))
+        res = s1 + s2
         
         dummy = ListNode(0)
         cur = dummy
         
-        # new_num, '7807'
-        
-        for i in range(len(new_num)):
-            cur.next = ListNode(int(new_num[i]))
-            cur = cur.next
+        for d in list(str(res)):
+            cur.next = ListNode(int(d))
+            cur = cur.next 
         return dummy.next
+            
+            
+ # sol2: stack
+ class Solution(object):
+    def addTwoNumbers(self, l1, l2):
         
+        s1 = []
+        s2 = []
+        
+        while l1:
+            s1.append(l1.val)
+            l1 = l1.next
             
+        while l2:
+            s2.append(l2.val)
+            l2 = l2.next 
             
+        cur = None
+        carry = 0
+        
+        while s1 or s2 or carry:
+            if s1:
+                carry += s1.pop()
+            if s2:
+                carry += s2.pop()   
+            cur_v = carry % 10
+            carry = carry // 10
+            node = ListNode(cur_v)
+            node.next = cur
+            cur = node
+        return cur
+ 
