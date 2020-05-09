@@ -1,3 +1,42 @@
+
+# binary search to find start point
+ # time O(log(N-k) + K)
+ # space O(k)
+Assume we are taking A[i] ~ A[i + k -1].
+We can binary research i
+We compare the distance between x - A[mid] and A[mid + k] - x
+
+case 1: x - A[mid] < A[mid + k] - x, need to move window go left
+-------x----A[mid]-----------------A[mid + k]----------
+
+case 2: x - A[mid] < A[mid + k] - x, need to move window go left again
+-------A[mid]----x-----------------A[mid + k]----------
+
+case 3: x - A[mid] > A[mid + k] - x, need to move window go right
+-------A[mid]------------------x---A[mid + k]----------
+
+case 4: x - A[mid] > A[mid + k] - x, need to move window go right
+-------A[mid]---------------------A[mid + k]----x------
+
+If x - A[mid] > A[mid + k] - x,
+it means A[mid + 1] ~ A[mid + k] is better than A[mid] ~ A[mid + k - 1],
+and we have mid smaller than the right i.
+So assign left = mid + 1.
+     
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        
+        l = 0
+        r = len(arr) - k
+        while l < r:
+            m = (l + r) // 2
+            if x - arr[m] > arr[m + k] - x:
+                l = m + 1
+            else:
+                r = m
+        return arr[l : l + k]
+
+
 # sol1 heap
 # time O(n + klogn), space O(n)
 # step
@@ -20,20 +59,3 @@ class Solution(object):
         
 
 
-# binary search to find start point, O(log(N-k) + K)
-比较区间两端(m, m + k) 的数值和x的距离，如果左边离得远了，就向右边走；如果右边离得远了，就像左边走。这个对二分查找的理解必须很深刻了。
-# 0      M...X...M+K      N-k     N
-     
-class Solution(object):
-    def findClosestElements(self, arr, k, x):
-        
-        l = 0
-        r = len(arr) - k
-        while l < r:
-            m = (l + r) // 2 # m means the start point of the res list
-            if abs(arr[m] - x) > abs(arr[m + k] - x):
-                l = m + 1
-            else:
-                r = m
-            
-        return arr[l : l + k]
