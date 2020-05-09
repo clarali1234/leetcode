@@ -4,7 +4,7 @@
 再比如 112 < 12，因为 112 的前缀 11 小于 12。
 
 构建十叉树，pre-order travsesal kth is kth smallest element.
-# time O(lgn)
+# time O(lgn * lgn), each cal_steps cost lgn times, at most we have 10 * lgn to call cal, lgn is num of digit for n
 # space O(1)
 
 class Solution(object):
