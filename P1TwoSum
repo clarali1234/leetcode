@@ -19,12 +19,11 @@ class Solution:
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         dic = {}
-        for i, ele in enumerate(nums):
-            if target - ele in dic:
-                return [dic[target - ele], i]
-            elif ele not in dic:
-                dic[ele] = i
-            
+        for i, num in enumerate(nums):
+            if target - num in dic:
+                return [dic[target - num], i]
+            dic[num] = i
+        
         
  # two pointers
  # time O(nlgn)
