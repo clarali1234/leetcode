@@ -41,10 +41,6 @@ left_max, right_max => 从左到右和从右到左到 left, right 为止，找�
 每次比较 left_max 和 right_max，如果 left_max 比较小，就挪动 left 到 left + 1。
 与此同时，查看 left 这个位置上能够盛放多少水，这里有两种情况：
 
-一种是 left_max > heights[left]，这种情况下，水可以盛放 left_max - heights[left] 那么多。因为右边有 right_max 挡着，左侧可以到 left_max。
-一种是 left_max <= heights[left]，这种情况下，水无法盛放，会从左侧流走，此时更新 left_max 为 heights[left]
-left_max >= right_max 的情况类似处理。
-
 时间复杂度：O(n)，空间复杂度 O(1)
 class Solution(object):
     def trap(self, height):
