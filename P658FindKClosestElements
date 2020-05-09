@@ -21,6 +21,7 @@ class Solution(object):
 
 
 # binary search to find start point, O(log(N-k) + K)
+比较区间两端(m, m + k) 的数值和x的距离，如果左边离得远了，就向右边走；如果右边离得远了，就像左边走。这个对二分查找的理解必须很深刻了。
 # 0      M...X...M+K      N-k     N
      
 class Solution(object):
