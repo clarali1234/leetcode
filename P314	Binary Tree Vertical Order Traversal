@@ -2,6 +2,9 @@
 # 对于任一非叶子节点，若其位置为x，设其左儿子的位置为x-1，右儿子位置为x+1。
 # 按照以上规则bfs遍历整棵树统计所有节点的位置，然后按位置从小到大输出所有节点
 
+# time O(nlgn)
+# space O(n)
+
 class Solution(object):
     def verticalOrder(self, root):
         
@@ -21,3 +24,34 @@ class Solution(object):
                 
         
         return [vals[i] for i in sorted(vals)]
+        
+        
+ # keep track of low and high of x
+ # do not need to sort
+ # time O(n)
+ # space O(n)
+ 
+ class Solution(object):
+    def verticalOrder(self, root):
+       
+        if not root:
+            return []
+            
+        dic = collections.defaultdict(list)
+        q = collections.deque([(root, 0, 0)])
+        l = 0
+        h = 0
+        while q:
+            node, x, y = q.popleft()
+            l = min(l, x)
+            h = max(h, x)
+            dic[x].append(node.val)
+            if node.left:
+                q.append([node.left, x - 1, y - 1])
+            if node.right:
+                q.append([node.right, x + 1, y - 1])
+
+        res = []
+        for x in range(l, h + 1):
+            res.append(dic[x])
+        return res
