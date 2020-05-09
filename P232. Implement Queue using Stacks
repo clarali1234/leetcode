@@ -1,11 +1,7 @@
 # two stacks
-# s1 used for push, s2 used for pop and peek
-# when call pop and peek, need to revere eles in s1 to s2
-
-# time : push O(1)
-# pop and peak ameotized O(1), worst O(n)
-
-
+# push O(n)
+#  其他 O(1)
+# s2是辅助stack, 目的，把新添加的元素放在s1的前面, last in first out
 class MyQueue(object):
 
     def __init__(self):
@@ -21,20 +17,26 @@ class MyQueue(object):
         :type x: int
         :rtype: None
         """
-        self.s1.append(x)
-        
+        if not self.s1:
+            self.s1.append(x)
+            
+        else:
+            while self.s1:
+                self.s2.append(self.s1.pop())
+                
+            self.s1.append(x)
+            
+            while self.s2:
+                self.s1.append(self.s2.pop())
+            
+              
 
     def pop(self):
         """
         Removes the element from in front of queue and returns that element.
         :rtype: int
         """
-        if self.s2:
-            return self.s2.pop()
-        
-        while self.s1:
-            self.s2.append(self.s1.pop())
-        return self.s2.pop()
+        return self.s1.pop()
         
 
     def peek(self):
@@ -42,19 +44,16 @@ class MyQueue(object):
         Get the front element.
         :rtype: int
         """
-        if self.s2:
-            return self.s2[-1]
-        
-        while self.s1:
-            self.s2.append(self.s1.pop())
-        return self.s2[-1]
+        return self.s1[-1]
 
     def empty(self):
         """
         Returns whether the queue is empty.
         :rtype: bool
         """
-        return not self.s1 and not self.s2
+        if self.s1:
+            return False
+        return True
 
 
 # Your MyQueue object will be instantiated and called as such:
