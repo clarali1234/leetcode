@@ -8,27 +8,26 @@ class Solution(object):
         if not head:
             return None
         
-        dummy = Node(None, None, head, None)
+        dummy = Node(0, None, head, None)
         self.dfs(dummy, head)
-        dummy.next.prev = None
+        head.prev = None
         return dummy.next
     
-    def dfs(self, prev, cur): # return tail of dfs res
-        
+    def dfs(self, prev, cur): # return tail
         if not cur:
             return prev
         
-        cur.prev = prev
         prev.next = cur
+        cur.prev = prev
         
-        tmpNext = cur.next
-        tail_child = self.dfs(cur, cur.child) # left child
+        # call for child
+        tmp_next = cur.next
+        tail_child = self.dfs(cur, cur.child)
         cur.child = None
+        return self.dfs(tail_child, tmp_next) # call for next
         
-        tail = self.dfs(tail_child, tmpNext) # right child
-        return tail
         
-
+        
 # stack 
 # time O(n)
 # space O(n)
