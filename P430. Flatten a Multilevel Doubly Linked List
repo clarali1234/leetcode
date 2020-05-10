@@ -21,12 +21,13 @@ class Solution(object):
         cur.prev = prev
         prev.next = cur
         
-        tmp = cur.next
-        tail_child = self.dfs(cur, cur.child)
+        tmpNext = cur.next
+        tail_child = self.dfs(cur, cur.child) # left child
         cur.child = None
         
-        tail = self.dfs(tail_child, tmp)
+        tail = self.dfs(tail_child, tmpNext) # right child
         return tail
+        
 
 # stack 
 # time O(n)
