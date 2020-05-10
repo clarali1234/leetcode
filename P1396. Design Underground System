@@ -5,22 +5,24 @@
 class UndergroundSystem(object):
 
     def __init__(self):
-        self.start_info = {} # id : (s, t)
-        self.dic = {} # (s, e) : (t, p)
-         
+        self.start = {} # key, id; value: start, t
+        self.ave_info = {} # key, (s, e); value: t, p
+
     def checkIn(self, id, stationName, t):
         
-        self.start_info[id] = [stationName, t]
+        self.start[id] = [stationName, t]
 
     def checkOut(self, id, stationName, t):
         
-        s, s_t = self.start_info.get(id)
-        cur_t = t - s_t
+        s, t1 = self.start[id]
         index = (s, stationName)
-        prev_res = self.dic.get(index, (0, 0))
-        self.dic[index] = [prev_res[0] + cur_t, prev_res[1] + 1]
+        pre_t, pre_p = self.ave_info.get(index, (0, 0))
+        time = pre_t + t - t1
+        people = pre_p + 1
+        self.ave_info[index] = [time, people]
 
     def getAverageTime(self, startStation, endStation):
         
-        t, p = self.dic.get((startStation, endStation))
-        return t * 1.0 / p 
+        t, p = self.ave_info.get((startStation, endStation))
+        return t * 1.0 / p
+
