@@ -2,11 +2,11 @@
 # time O(nlgn)
 # space O(1)
 
-我们这样来看这个问题，公司首先将这 2N 个人全都安排飞往 B 市，
-再选出 N 个人改变它们的行程，让他们飞往 A 市。如果选择改变一个人的行程，那么公司将会额外付出 price_A - price_B 的费用
-
-算法
-按照 price_A - price_B 从小到大排序；将前 N 个人飞往 A 市，其余人飞往 B 市，并计算出总费用。
+idea:
+    # all people to B, choose N from them then fly to A, addtional cost is (costA - costB)
+algorithm:
+    # sort cost by (price A - priceB)
+    # first N people to A, last N people to B
 
 class Solution(object):
     def twoCitySchedCost(self, costs):
