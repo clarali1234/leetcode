@@ -28,7 +28,6 @@ class Solution(object):
             # this is key part. as said before, levelHead.next = node.left
             # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
             node = levelHead.next
-            node = levelHead.next
             levelHead.next = None
         return root
             
