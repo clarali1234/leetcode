@@ -1,12 +1,12 @@
 
 方法 1：回溯
-
 对于一个长度为 n 的单次有多少种缩写？答案是 2^n种，因为每个字符可以被缩写或者不被缩写，都将导致不同的缩写。
 
 算法
 部分候选串可以被扩展应该是以下两种情况之一：
 保留下一个字符
 将下一个字符缩写
+
 # time O(n2^n)
 For each leaf node, it needs O(n) time for converting builder to String; 
 for each internal node, it needs only constant time. 
@@ -16,21 +16,20 @@ Thus, the total time complexity is dominated by the leaves. In total that is O(n
 class Solution(object):
     def generateAbbreviations(self, word):
         
+        if not word:
+            return ['']
+        
         self.res = []
         self.dfs(word, 0, '')
         return self.res
     
-    def dfs(self, word, cur_index, cur_path):
-        if cur_index == len(word):
-            self.res.append(cur_path)
+    def dfs(self, word, index, cur_p):
+        if index == len(word):
+            self.res.append(cur_p)
             return 
         
-        # recursive call 1 keep the char
-        self.dfs(word, cur_index + 1, cur_path + word[cur_index])
+        self.dfs(word, index + 1, cur_p + word[index])
         
-        # recursive call2, convert to digit
-        if not cur_path or not cur_path[-1].isdigit():
-            for j in range(cur_index, len(word)):
-                self.dfs(word, j + 1, cur_path + str(j - cur_index + 1))
-        
-
+        if not cur_p or not cur_p[-1].isdigit():
+            for j in range(index, len(word)):
+                self.dfs(word, j + 1, cur_p + str(j - index + 1))
