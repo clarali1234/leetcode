@@ -9,13 +9,10 @@ class Solution(object):
         self.dfs(graph, 0, [0])
         return self.res
     
-    def dfs(self, graph, cur_node, cur_p):
-        
-        if cur_node == len(graph) - 1:
-            self.res.append(cur_p)
+    def dfs(self, graph, index, path):
+        if index == len(graph) - 1:
+            self.res.append(path)
             return 
         
-        for nb in graph[cur_node]:
-            self.dfs(graph, nb, cur_p + [nb])
-        
-        
+        for nb in graph[index]:
+            self.dfs(graph, nb, path + [nb])
