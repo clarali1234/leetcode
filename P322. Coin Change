@@ -6,19 +6,17 @@ dp[i] = min(dp[i], dp[i - coin] + 1), 假设dp[i]表示凑够i元所需要的最
 # time O(n*amount)
 # space O(amount)
 
-class Solution:
-    def coinChange(self, coins: List[int], amount: int) -> int:
+class Solution(object):
+    def coinChange(self, coins, amount):
         
-        MAX = sys.maxsize
-        dp = [MAX for i in range(amount + 1)]
+        dp = [sys.maxsize for _ in range(amount + 1)]
         dp[0] = 0
         for i in range(1, len(dp)):
             for coin in coins:
                 if i >= coin:
                     dp[i] = min(dp[i], dp[i - coin] + 1)
-        if dp[-1] == MAX:
+        if dp[-1] == sys.maxsize:
             return -1
         return dp[-1]
-        
         
         
