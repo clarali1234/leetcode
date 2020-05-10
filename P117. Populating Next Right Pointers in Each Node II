@@ -6,14 +6,17 @@
 class Solution(object):
     def connect(self, root):
         
-        node = root
+        node = root 
         levelHead = Node(0)
         
-        while node: 
+        while node:  # loop for each level
             needle = levelHead
             
-            while node:
+            while node:  # loop for current level
                 if node.left:
+                    # since needle and levelHead points to the same object. That means after needle.next = node.left. 
+                    # Same for levelHead.next = node.left. 
+                    # this is how levelHead move to next level
                     needle.next = node.left 
                     needle = needle.next 
                     
@@ -22,8 +25,10 @@ class Solution(object):
                     needle = needle.next
 
                 node = node.next
+            # this is key part. as said before, levelHead.next = node.left
+            # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
+            node = levelHead.next
             node = levelHead.next
             levelHead.next = None
         return root
-            
             
