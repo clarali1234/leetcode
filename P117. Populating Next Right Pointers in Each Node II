@@ -14,20 +14,20 @@ class Solution(object):
             
             while node:  # loop for current level
                 if node.left:
-                    # since needle and levelHead points to the same object. That means after needle.next = node.left. 
-                    # Same for levelHead.next = node.left. 
-                    # this is how levelHead move to next level
-                    needle.next = node.left 
-                    needle = needle.next 
+                    
+                    needle.next = node.left     # since needle and levelHead points to the same object. That means after needle.next = node.left. 
+                    needle = needle.next        # Same for levelHead.next = node.left. 
+                                                # this is how levelHead move to next level
+                    
                     
                 if node.right:
                     needle.next = node.right
                     needle = needle.next
 
                 node = node.next
-            # this is key part. as said before, levelHead.next = node.left
-            # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
-            node = levelHead.next
-            levelHead.next = None
+            
+            node = levelHead.next       # this is key part. as said before, levelHead.next = node.left
+            levelHead.next = None        # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
+            
         return root
             
