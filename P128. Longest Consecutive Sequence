@@ -31,22 +31,25 @@ class Solution(object):
 
 class Solution(object):
     def longestConsecutive(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        longest = 0
+        
+        if not nums:
+            return 0
+        
         nums_set = set(nums)
-        cur_num = 0
-        cur_length = 0
+        res = 0
+        cur = 0
+        cur_len = 0
+        
         for num in nums_set:
             if num - 1 not in nums_set:
-                cur_num = num
-                cur_length = 1
-                
-            while cur_num + 1 in nums_set:
-                cur_num += 1
-                cur_length += 1
+                cur = num
+                cur_len = 1
             
-            longest = max(longest, cur_length)
-        return longest
+            while cur + 1 in nums_set:
+                cur = cur + 1
+                cur_len += 1
+                
+            res = max(res, cur_len)
+                
+        return res
+            
