@@ -30,4 +30,32 @@ class Solution(object):
             levelHead.next = None        # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
             
         return root
+     
+     
+     
+     
+ class Solution(object):
+    def connect(self, root):
+        
+        if not root:
+            return None
+        
+        node = root
+        level_head = Node(0)
+        
+        while node:
+            needle = level_head
             
+            while node:
+                if node.left:
+                    needle.next = node.left
+                    needle = needle.next
+                
+                if node.right:
+                    needle.next = node.right
+                    needle = needle.next
+                
+                node = node.next
+            node = level_head.next
+            level_head.next = None
+        return root
