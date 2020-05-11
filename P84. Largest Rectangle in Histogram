@@ -31,7 +31,7 @@ class Solution(object):
 这个题是单调栈的运用，使用一个单调递增栈来维护已经出现了的矩形高度，
 如果后面新来的元素高度比栈里最后的元素高，那么需要入栈，因为面积最大的元素会出现在后面。
 如果后面新来的元素高度比栈里的最后的元素小，那么需要弹出栈里的元素，并且，每次弹出的时候都要对计算目前的宽度，相乘得到面积。
-我们用弹出元素作为高形成的最大面积矩形的宽是当前元素与 stack[top-1]stack[top−1] 之间的那些柱子。
+我们用弹出元素作为高形成的最大面积矩形的宽是当前元素与 stack[top-1] 之间的那些柱子。
 
 # 如果都是递增的怎么办？可以在数组最后面加一个0作为结束的标志。
 
@@ -39,23 +39,24 @@ class Solution(object):
 # space O(n)
 class Solution(object):
     def largestRectangleArea(self, heights):
-        """
-        :type heights: List[int]
-        :rtype: int
-        """
-        stack = []
-        area = 0
+        
+        stack = [] # height 
         heights.append(0)
-        for i in range(len(heights)):
-            if not stack or heights[i] > heights[stack[-1]]:
+        res = 0
+        
+        for i, height in enumerate(heights):
+            if not stack or heights[stack[-1]] <= height:
                 stack.append(i)
             else:
-                while stack and heights[i] <= heights[stack[-1]]:
-                    h = heights[stack[-1]]
-                    stack.pop()
-                    w = i if not stack else i - stack[-1] - 1 # i - 1 - (stack[-1] + 1) + 1
-                    area = max(area, h * w)
+                while stack and heights[stack[-1]] > height:
+                    h = heights[stack.pop()]
+                    if not stack:
+                        w = i
+                    else:
+                        w = (i - 1) - (stack[-1] + 1) + 1
+                    res = max(res, h * w)
                 stack.append(i)
-        return area
+        
+        return res
         
 
