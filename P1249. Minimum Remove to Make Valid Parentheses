@@ -1,7 +1,5 @@
 # stack add current string when we met a '('
 # pop out string from stack when we met a ')' and add to our res
-# the maxmium balanced pairs we add the our res
-# equal to the minimum remove to make valid parenthesis
 
 # time O(n)
 # space O(n)
