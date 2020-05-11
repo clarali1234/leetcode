@@ -1,3 +1,33 @@
+# brute force method
+# shuffle, copy 数组，每次取出一个不放回，知道copy为空
+# time O(n^2)
+# space O(n)
+
+class Solution(object):
+
+    def __init__(self, nums):
+        
+        self.nums = nums
+        self.orig = list(nums)
+
+    def reset(self):
+        
+        self.nums = self.orig
+        self.orig = list(self.orig)
+        return self.nums
+
+    def shuffle(self):
+        
+        copy = list(self.nums)
+        
+        for i in range(len(self.nums)):
+            index = random.randint(0, len(copy) - 1)
+            self.nums[i] = copy[index]
+            copy.remove(copy[index])
+            
+        return self.nums
+        
+
 # time O(n)
 # space O(n)
 
