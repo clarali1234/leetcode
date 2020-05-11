@@ -25,7 +25,7 @@ class Solution(object):
 
 
 # 单调栈(stack)。
-# time O(n)
+# time O(n)  # n 个数字每个会被压栈弹栈各一次。
 # space O(n)
 
 这个题是单调栈的运用，使用一个单调递增栈来维护已经出现了的矩形高度，
