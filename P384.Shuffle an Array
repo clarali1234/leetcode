@@ -40,7 +40,7 @@ Fisher-Yates algorithm
 class Solution(object):
 
     def __init__(self, nums):
-       
+        
         self.nums = nums
         self.orig = list(nums)
 
@@ -53,6 +53,6 @@ class Solution(object):
     def shuffle(self):
         
         for i in range(len(self.nums)):
-            rand_int = random.randint(i, len(self.nums) - 1)
-            self.nums[i], self.nums[rand_int] = self.nums[rand_int], self.nums[i]
+            index = random.randint(i, len(self.nums) - 1)
+            self.nums[i], self.nums[index] = self.nums[index], self.nums[i]
         return self.nums
