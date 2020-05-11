@@ -1,7 +1,7 @@
 
 # brute force 
 # O(n)
-# liear time to find missing(index - 1) < k <= missing(index + 1)
+# liear time to find missing(index) < k <= missing(index + 1)
 
 
 # binary search
