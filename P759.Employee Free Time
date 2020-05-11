@@ -5,24 +5,21 @@
 
 class Solution(object):
     def employeeFreeTime(self, schedule):
-        """
-        :type schedule: [[Interval]]
-        :rtype: [Interval]
-        """
-
+        
         starts = []
         ends = []
-        for employee in schedule:
-            for interval in employee:
-                starts.append(interval.start)
-                ends.append(interval.end)
         
+        for employee in schedule:
+            for t in employee:
+                starts.append(t.start)
+                ends.append(t.end)
+                
         starts.sort()
         ends.sort()
         
         res = []
-        for i in range(len(starts) - 1):
-            if starts[i + 1] > ends[i]:
+        n = len(starts)
+        for i in range(n - 1):
+            if ends[i] < starts[i + 1]:
                 res.append(Interval(ends[i], starts[i + 1]))
         return res
-   
