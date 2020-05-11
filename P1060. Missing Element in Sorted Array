@@ -1,4 +1,9 @@
 
+# brute force 
+# O(n)
+# liear time to find missing(index - 1) < k <= missing(index + 1)
+
+
 # binary search
 time O(lgn)
 space O(1)
