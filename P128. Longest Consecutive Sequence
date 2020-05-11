@@ -27,7 +27,7 @@ class Solution(object):
 # time O(n)
 # space O(n)
 # hashset
-哈希表，遍历每个数，从中间扩展左右两边，不断刷新最长长度
+哈希表，遍历每个数，while 循环在整个运行过程中只会被迭代 n 次
 
 class Solution(object):
     def longestConsecutive(self, nums):
