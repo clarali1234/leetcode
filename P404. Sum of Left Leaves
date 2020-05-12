@@ -1,0 +1,19 @@
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def sumOfLeftLeaves(self, root):
+        
+        self.res = 0
+        self.dfs(root)
+        return self.res 
+    
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        if node.left and not node.left.left and not node.left.right:
+            self.res += node.left.val
+            
+        self.dfs(node.left)
+        self.dfs(node.right)
