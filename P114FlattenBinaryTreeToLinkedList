@@ -23,6 +23,8 @@ class Solution(object):
             node.right = node.left
             node.left = None
             
+            
+        # 易错点：if r_t not if node.right
         if r_t:
             return r_t
         if l_t:
