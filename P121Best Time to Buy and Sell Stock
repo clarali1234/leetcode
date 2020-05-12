@@ -16,18 +16,15 @@ class Solution(object):
 
 class Solution(object):
     def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
+        
         if not prices:
             return 0
-        max_profit = -sys.maxsize
-        min_price = sys.maxsize
         
-        for p in prices:
-            min_price = min(p, min_price)
-            max_profit = max(max_profit, p - min_price)
-        return max_profit
-            
+        min_p = prices[0]
+        res = 0
+        
+        for p in prices[1:]:
+            min_p = min(p, min_p)
+            res = max(res, p - min_p)
+        return res
             
