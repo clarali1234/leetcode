@@ -1,28 +1,32 @@
 # time O(n^2)
 # space O(n)
 
-计算斜率: x1 == x2 斜率是无穷大；float 浮点数精度问题。所以使用了最大公约数这个技巧。greatst common divisor
+计算斜率: x1 == x2 斜率是无穷大；Decimal 解决浮点数精度问题。
+
+from decimal import Decimal
 
 class Solution(object):
     def maxPoints(self, points):
-        n = len(points)
-        res = 0
+        # corner case
+        if len(points) < 3:
+            return len(points)
         
-        for i in range(n):
-            dic = collections.defaultdict(int) # key: slope, value: count
-            duplicates = 1 # 统计重复的点
-            
-            for j in range(i + 1, n):
-                if points[i][0] == points[j][0] and points[i][1] == points[j][1]:
-                    duplicates += 1
+        res = 0
+        n = len(points)
+        
+        for i in range(len(points) - 1):
+            dic = collections.defaultdict(int)
+            dup = 1
+            for j in range(i + 1, len(points)):
+                if points[j][0] == points[i][0] and points[j][1] == points[i][1]:
+                    dup += 1
                     continue
-                dx = points[i][0] - points[j][0]
-                dy = points[i][1] - points[j][1]
-                delta = self.gcd(dx, dy) # highest common divisor
-                
-                dic[(dx / delta, dy / delta)] += 1
-            res = max(res, (max(dic.values()) if dic else 0) + duplicates)
+                if points[i][0] == points[j][0]:
+                    slope = sys.maxsize
+                else:
+                    slope = Decimal(points[j][1] - points[i][1]) / Decimal(points[j][0] - points[i][0])
+                    
+                dic[slope] += 1
+            res = max(res, (max(dic.values()) if dic else 0) + dup)
         return res
-                
-    def gcd(self, x, y):
-        return x if y == 0 else self.gcd(y, x % y)
+                    
