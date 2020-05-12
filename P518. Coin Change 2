@@ -1,0 +1,17 @@
+# dp[i]代表了生成总价值为i有多少方案。
+# 对已有的所有面值的硬币进行遍历，其实思路很简单：dp[i] += dp[i - coin]，价值为i的解决方案应该加上价值为i - coin的解决方案。
+
+time O(n * amount)
+space O(amount)
+
+class Solution(object):
+    def change(self, amount, coins):
+        
+        dp = [0 for _ in range(amount + 1)]
+        dp[0] = 1
+        
+        for coin in coins:
+            for i in range(coin, amount + 1):
+                dp[i] += dp[i - coin]
+                
+        return dp[-1]
