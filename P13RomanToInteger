@@ -6,7 +6,7 @@ Except the last one, if one letter is less than its latter one, this letter is s
 
 class Solution(object):
     def romanToInt(self, s):
-        =
+       
         roman_int = {'M' : 1000, 'D' : 500, 'C' : 100, 'L' : 50, 'X' : 10, 'V' : 5, 'I' : 1}
         res = 0
         for i in range(len(s) - 1):
