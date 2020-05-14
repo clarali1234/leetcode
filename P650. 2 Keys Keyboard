@@ -1,0 +1,21 @@
+# dp
+# dp[i] 生成i个字符的最小操作
+# dp[0, .. , n]初始为∞, dp[0] = dp[1] = 0
+# dp[x] = min(dp[x], dp[y] + x / y) ，y ∈[1, x) 并且 x % y == 0
+
+# time O(n^2)
+# space O(n)
+
+class Solution(object):
+    def minSteps(self, n):
+        
+        dp = [sys.maxsize for _ in range(n + 1)]
+        dp[0] = 0
+        dp[1] = 0
+        
+        for i in range(1, len(dp)):
+            for j in range(1, i):
+                if i % j == 0:
+                    dp[i] = min(dp[i], dp[j] + i // j)
+                    
+        return dp[-1]
