@@ -1,25 +1,43 @@
+把链表分成两条：一条奇数，一条偶数，然后把它们连起来
+
+第一步：头节点肯定是奇数节点，这毋庸置疑。所以odd = head，把头节点拿出来当奇数链表的头节点
+第二步：头节点的下一个节点肯定是偶数节点了，所以even = head.next，把 head.next拿出来当偶数链表的头节
+第三步：找出关系式，奇数链表的下下个节点才会是奇数节点，同样偶数节点的下下个节点才会是偶数节点
+odd.next = odd.next.next
+even.next = even.next.next
+
+第四步：找循环终止的条件，什么时候我们可以把所有的节点全部取完？
+当odd.next == None or even.next == None时，代表奇数或者偶数已经全部取完了，剩下的一个会根据它是奇数还是偶数填充到对应链表中
+所以循环条件为
+while odd.next and even.next:
+odd和even链表的头节点进一位
+odd,even = odd.next,even.next
+
+第五步：我第二步说的，为什么要把头节点拿出来，因为奇数链表的尾节点要跟偶数链表的头节点相连，从而形成完整的链表
+
+odd.next = even_head
+代码
+
 # one pass
 # time O(n)
 # space O(1)
 
 class Solution(object):
     def oddEvenList(self, head):
-        """
-        :type head: ListNode
-        :rtype: ListNode
-        """
+        
         if not head or not head.next:
             return head
         
-        odd = odd_head = head
-        even = even_head = head.next
+        odd = head
+        even = head.next
+        even_head = even
         
-        while even and even.next:
-            odd.next = even.next
+        while odd.next and even.next:
+            odd.next = odd.next.next
+            even.next = even.next.next
             odd = odd.next
-            even.next = odd.next
             even = even.next
             
         odd.next = even_head
-        
-        return odd_head
+        return head
+            
