@@ -1,0 +1,11 @@
+# 我们无法访问我们想要删除的节点 之前 的节点
+# 我们必须将想要删除的节点的值替换为它后面节点中的值，然后删除它之后的节点。
+
+
+# time O(1)
+# space O(1)
+class Solution(object):
+    def deleteNode(self, node):
+        
+        node.val = node.next.val
+        node.next = node.next.next
