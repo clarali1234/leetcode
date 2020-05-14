@@ -52,6 +52,8 @@ class Solution(object):
 test = Solution()
 
 # reucursion + memo
+# time O(n)
+# space O(n)
 class Solution(object):
     def numDecodings(self, s):
         if not s or s[0] == 0:
