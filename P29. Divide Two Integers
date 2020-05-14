@@ -1,5 +1,6 @@
 # binary search
-# time O(log(answer))
+# Say dividend / divisor = N, The complexity will be O((logN)^2).
+# Worst case we can do logn operations logn times in the two nested loops.
 # space O(1)
 
   class Solution(object):
@@ -15,7 +16,6 @@
         else:
             sign = 1
         
-        # 注意1. 用absolute value 做
         dividend = abs(dividend)
         divisor = abs(divisor)
         res = 0
@@ -23,7 +23,6 @@
         while dividend >= divisor:
             tmp = divisor 
             i = 1
-            #注意2. 比较的是要从dividend 减去的数，tmp + tmp
             while dividend >= tmp + tmp:
                 tmp += tmp
                 i += i
