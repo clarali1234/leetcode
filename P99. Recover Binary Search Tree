@@ -13,6 +13,51 @@ class Solution(object):
         self.vals = []
         self.dfs(root)
         x, y = self.find_two()
+        self.exchange(root, x, y)
+        
+    def dfs(self, node):
+        if not node:
+            return 
+        
+        self.dfs(node.left)
+        self.vals.append(node.val)
+        self.dfs(node.right)
+        
+    def find_two(self):
+        x = None 
+        y = None
+        
+        for i in range(len(self.vals) - 1):
+            if self.vals[i] > self.vals[i + 1]:
+                y = self.vals[i + 1]
+                if not x:
+                    x = self.vals[i]
+                else:
+                    break
+        return x, y
+        
+                
+    def exchange(self, node, x, y):
+        if not node:
+            return 
+        
+        if node.val == x or node.val == y:
+            if node.val == x:
+                node.val = y
+
+            else:
+                node.val = x
+
+        self.exchange(node.left, x, y)
+        self.exchange(node.right, x, y)
+
+
+class Solution(object):
+    def recoverTree(self, root):
+        
+        self.vals = []
+        self.dfs(root)
+        x, y = self.find_two()
         self.exchange(root, x, y, 2)
         
     def dfs(self, node):
