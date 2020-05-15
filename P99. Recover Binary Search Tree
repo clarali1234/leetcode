@@ -4,7 +4,7 @@
 
 step 1: inorder tranversal of BST is non-descending
 step 2: find the swapped two values
-step 3: recover
+step 3: recover, 再次遍历树，将值 x 的节点改为 y，将值 y 的节点改为 x。
 
 
 class Solution(object):
