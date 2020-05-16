@@ -1,0 +1,24 @@
+# dfs + dic
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def integerReplacement(self, n):
+        
+        self.dic = {} # key:n, value: min repla to 1
+        return self.dfs(n)
+    
+    def dfs(self, n):
+        if n == 1:
+            self.dic[n] = 0
+            return 0
+        
+        if n in self.dic:
+            return self.dic[n]
+        
+        if n % 2 == 0: # n is even
+            self.dic[n] = 1 + self.dfs(n // 2)
+            return self.dic[n]
+        else:
+            self.dic[n] = 1 + min(self.dfs(n + 1), self.dfs(n - 1))
+            return self.dic[n]
