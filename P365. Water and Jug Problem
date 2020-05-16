@@ -1,6 +1,13 @@
 # time O(log(min(x, y))
 # space O(1)
 
+我们可以认为每次操作只会给水的总量带来 x 或者 y 的变化量。因此我们的目标可以改写成：找到一对整数 a, b，使得
+ax+by=z
+而贝祖定理告诉我们，ax+by=z 有解
+当且仅当 z是 x, y的最大公约数的倍数。因此我们只需要找到 x, y 的最大公约数并判断 z 是否是它的倍数即可。
+
+
+
 class Solution(object):
     def canMeasureWater(self, x, y, z):
         
