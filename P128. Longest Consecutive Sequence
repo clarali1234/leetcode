@@ -27,7 +27,7 @@ class Solution(object):
 # time O(n)
 # space O(n)
 # hashset
-哈希表，遍历每个数，while 循环在整个运行过程中只会被迭代 n 次
+哈希表，遍历每个数，如果num - 1 在当前set里面，不检查，否则起点设为当前num, while 循环在整个运行过程中只会被迭代 n 次
 
 class Solution(object):
     def longestConsecutive(self, nums):
