@@ -8,23 +8,24 @@ class Solution(object):
         if not head:
             return None
         
-        dummy = Node(0, None, head, None)
+        dummy = ListNode(0)
+        dummy.next = head
         self.dfs(dummy, head)
         head.prev = None
         return dummy.next
     
-    def dfs(self, prev, cur): # return tail
+    def dfs(self, pre, cur): # return tail
         if not cur:
-            return prev
+            return pre
         
-        prev.next = cur
-        cur.prev = prev
+        pre.next = cur
+        cur.prev = pre
         
-        # call for child
-        tmp_next = cur.next
+        tmp = cur.next
         tail_child = self.dfs(cur, cur.child)
         cur.child = None
-        return self.dfs(tail_child, tmp_next) # call for next
+        return self.dfs(tail_child, tmp)
+        
         
         
         
