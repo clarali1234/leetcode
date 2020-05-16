@@ -1,0 +1,19 @@
+# hash table + prefix sum
+# time O(n), the number of bricks we have 
+# space O(m), the max width of the bricks
+
+class Solution(object):
+    def leastBricks(self, wall):
+        
+        dic = collections.defaultdict(int) # key: prefix sum, value : count
+        for ws in wall:
+            pre_s = 0
+            for i, w in enumerate(ws):
+                if i != len(ws) - 1:
+                    pre_s += w
+                    dic[pre_s] += 1
+        vals = dic.values()
+        vals.sort()
+        if not vals:
+            return len(wall)
+        return len(wall) - vals[-1]
