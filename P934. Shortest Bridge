@@ -1,0 +1,46 @@
+# dfs找一座岛, 并把Input中属于第一个岛的元素值标记成2
+# bfs 从找到的座岛出发寻找最短路径，到另外一座岛(return 与元素1最近的距离)
+
+# time O(mn)
+# space O(mn)
+
+class Solution(object):
+    def shortestBridge(self, A):
+        
+        self.q = collections.deque([])
+        find = False
+        for i in range(len(A)):
+            if find:
+                break
+            for j in range(len(A[0])):
+                if A[i][j] == 1:
+                    self.dfs(A, i, j)
+                    find = True  
+                    break
+        return self.bfs(A)
+        
+    def dfs(self, A, i, j):
+        self.q.append((i, j, 0))
+        A[i][j] = 2
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+            x = i + dx
+            y = j + dy
+            if 0 <= x < len(A) and 0 <= y < len(A[0]) and A[x][y] == 1:
+                self.dfs(A, x, y)
+      
+    def bfs(self, A):
+        
+        while self.q:
+            for _ in range(len(self.q)):
+                x, y, step = self.q.popleft()
+                for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                    new_x = x + dx
+                    new_y = y + dy
+                    new_s = step + 1
+                    if 0 <= new_x < len(A) and 0 <= new_y < len(A[0]) and A[new_x][new_y] in [0, 1]:
+                        if A[new_x][new_y] == 1:
+                            return new_s - 1
+                        A[new_x][new_y] = 2
+                        self.q.append((new_x, new_y, new_s))
+                
+
