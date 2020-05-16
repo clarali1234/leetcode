@@ -2,34 +2,39 @@
 # time O(n)
 # space O(h)
 
-# idea: # dfs: is_univaule, output: true/false
+给定树中的一个结点，若其满足下面条件中的一个，则子树同值:
+1. base case, None node or 该节点没有子结点 （基本情况）
+2. recursion part 该节点的所有子结点都为同值子树，且结点与其子结点值相同。
+
+
 class Solution(object):
     def countUnivalSubtrees(self, root):
-        
-        if not root:
-            return 0
         
         self.res = 0
         self.dfs(root)
         return self.res
     
-    def dfs(self, node): 
-        # base case
+    def dfs(self, node): # return true/false
+    
+        if not node:
+            return True
+        
         if not node.left and not node.right:
             self.res += 1
             return True
         
-        # recursive part
-        is_univ = True
+        res = True
         if node.left:
-            left = self.dfs(node.left)
-            is_univ = left and node.val == node.left.val and is_univ
-        if node.right:
-            right = self.dfs(node.right)
-            is_univ = right and node.val == node.right.val and is_univ
-            
-        if is_univ:
-            self.res += 1
-        return is_univ
+            l_uni = self.dfs(node.left)
+            if not l_uni or node.val != node.left.val:
+                res = False
         
+        if node.right:
+            r_uni = self.dfs(node.right)
+            if not r_uni or node.val != node.right.val:
+                res = False
+                
+        if res:
+            self.res += 1
+        return res
             
