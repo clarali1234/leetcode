@@ -1,0 +1,3 @@
+# 设计题
+1. 马拉松
+  针对马拉松这个event设计getEvent() 和 leaderboard()
