@@ -1,0 +1,28 @@
+# dp
+# time O(n)
+# space O(1)
+
+# corner case
+    # n == 0, return 0
+    # n == 1, return k
+    # n >= 2, same = k, diff = k * (k - 1)
+    # when n > 3: same = diff, diff = same * (k - 1) + diff * (k - 1)
+    
+ # same, how may ways for i fences, if cur is same with prev one
+ # diff, how may ways for i fences, if cur is diff with prev one
+ 
+class Solution(object):
+    def numWays(self, n, k):
+        
+        if n == 0:
+            return 0
+        if n == 1:
+            return k
+        
+        same = k                                         # cur is same with prev
+        diff = k * (k - 1)                               # cur is diff with prev
+        for i in range(3, n + 1):
+            tmp = diff                                   # cur is same with prev one     
+            diff =  same * (k - 1) + diff * (k - 1)      # cur is diff with prev one
+            same = tmp         
+        return same + diff
