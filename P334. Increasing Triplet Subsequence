@@ -1,15 +1,27 @@
+# 思路 greedy, maintain min1, min2, min1 <= min2
+
+ 1    min1     2     min 2   3
+ 
+ 1. min1 = num
+ 2. min2 = mum
+ 3. return True
+
+
 # time O(n)
 # space O(1)
-保存的first small and second small num
+
 
 class Solution(object):
     def increasingTriplet(self, nums):
-        first = second = sys.maxsize
-        for n in nums:
-            if n <= first:
-                first = n
-            elif n <= second:
-                second = n
+        
+        min1 = sys.maxsize
+        min2 = sys.maxsize
+        
+        for num in nums:
+            if num <= min1:
+                min1 = num
+            elif num <= min2:
+                min2 = num
             else:
                 return True
         return False
