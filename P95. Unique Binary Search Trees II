@@ -4,21 +4,25 @@ class Solution(object):
     def generateTrees(self, n):
         
         if n == 0:
-           return []
-        return self.dfs(1,n)
-       
-    def dfs(self, s, e):# b,e为开始和结束数字
+            return []
+        
+        return self.dfs(1, n)
+    
+    def dfs(self, s, e):
         if s > e:
             return [None]
+        
         res = []
-        for rootVal in range(s, e + 1):
-            leftTree = self.dfs(s, rootVal - 1)
-            rightTree = self.dfs(rootVal + 1, e)
-            for i in leftTree:
-                for j in rightTree:
-                    root = TreeNode(rootVal)
-                    root.left = i
-                    root.right = j
+        for root_val in range(s, e + 1):
+            left_trees = self.dfs(s, root_val - 1)
+            right_trees = self.dfs(root_val + 1, e)
+            
+            for l in left_trees:
+                for r in right_trees:
+                    root = TreeNode(root_val)
+                    root.left = l
+                    root.right = r
                     res.append(root)
         return res
+        
 
