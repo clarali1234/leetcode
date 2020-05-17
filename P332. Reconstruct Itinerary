@@ -1,7 +1,13 @@
 # clarity: traverse all the edges, one only one time
 从示例可以看出每个行程都必须用到且只用一次
+
 # step: build graph, sort edges (reverse), call dfs(pop edge one by one until empty), return revserse
 # 如果第一个访问的节点是 “孤岛节点”，最先添加道res, then reverse
+
+# dfs
+#先pop出字母序最小的点，最先没有edge的点，最先加入res
+#这样既保证了字母序，又可以确保添加所有的行程(edges)
+
 
 # time O(elge + v)
 # space O(v + e)
