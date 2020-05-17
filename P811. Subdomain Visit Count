@@ -1,0 +1,19 @@
+class Solution(object):
+    def subdomainVisits(self, cpdomains):
+        
+        dic = collections.defaultdict(int) # key: domain, value: count
+        
+        for cpd in cpdomains:
+            count, link = cpd.split(' ')
+            count = int(count)
+            links = link.split('.') # [diss, leet, com]
+            for i in range(len(links) - 1):
+                cur_domain = '.'.join(links[i : len(links)])
+                dic[cur_domain] += count
+            dic[links[-1]] += count
+            
+        res = []
+        for domain, count in dic.items():
+            res.append(str(count) + ' ' + domain)
+        return res
+            
