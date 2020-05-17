@@ -11,6 +11,8 @@
 
 from decimal import Decimal
 
+from decimal import Decimal
+
 class Solution(object):
     def maxPoints(self, points):
         # corner case
@@ -20,9 +22,11 @@ class Solution(object):
         res = 0
         n = len(points)
         
+        # 计算通过当前点的最多点的数量，dic: slope, value: points on the current slope (not include point i)
         for i in range(len(points) - 1):
             dic = collections.defaultdict(int)
             dup = 1
+            res_i = 0
             for j in range(i + 1, len(points)):
                 if points[j][0] == points[i][0] and points[j][1] == points[i][1]:
                     dup += 1
@@ -31,8 +35,12 @@ class Solution(object):
                     slope = sys.maxsize
                 else:
                     slope = Decimal(points[j][1] - points[i][1]) / Decimal(points[j][0] - points[i][0])
-                    
                 dic[slope] += 1
-            res = max(res, (max(dic.values()) if dic else 0) + dup)
+                
+            if dic:
+                res_i = max(max(dic.values()) + dup, res_i)
+            else:
+                res_i = max(dup, res_i)
+                
+            res = max(res, res_i)
         return res
-                    
