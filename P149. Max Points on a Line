@@ -1,6 +1,11 @@
 # time O(n^2)
 # space O(n)
 
+# iterate each point, 
+# for j in range(i, n)
+# take care of duplicate points
+# maintain dic, key:slope, value counts 
+
 计算斜率: x1 == x2 斜率是无穷大；Decimal 解决浮点数精度问题；注意duplicate
 
 from decimal import Decimal
