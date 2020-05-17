@@ -9,16 +9,15 @@
 # space O(1)
 class Solution(object):
     def canJump(self, nums):
-       
+        
         reach = 0
-        for i in range(len(nums)):
+        for i, num in enumerate(nums):
             if i > reach:
-                break
-            reach = max(reach, nums[i] + i) # not jump, at the current index, jump
+                return False
+            reach = max(reach, num + i)
         return reach >= len(nums) - 1
-
-
-
+        
+        
 # DP
 # 其中dp[i]表示达到i位置时剩余的步数
 # dp[i] = max(dp[i - 1], nums[i - 1]) - 1
