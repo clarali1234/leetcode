@@ -1,0 +1,39 @@
+使用deque实现队列，利用两个条件变量实现阻塞
+在enqueue时，检查队列长度是否大于等于capacity,如果是，使用wait()阻塞线程，知道有其他线程dequeue时notify_all()来唤醒被阻塞的线程
+在dequeue时，检查队列长度是否为0，如果是，阻塞线程
+
+from threading import Condition
+import threading
+
+class BoundedBlockingQueue(object):
+    def __init__(self, capacity):
+       
+        self.capacity = capacity
+        self.queue = collections.deque([])
+        self.mutex = threading.Lock()
+        self.not_full = Condition(self.mutex)
+        self.not_empty = Condition(self.mutex)
+
+
+    def enqueue(self, element):
+        
+        with self.not_full:
+            while self.size() >= self.capacity:
+                self.not_full.wait()
+            self.queue.appendleft(element)
+            self.not_empty.notify_all()
+
+
+    def dequeue(self):
+    
+        with self.not_empty:
+            while not self.size():
+                self.not_empty.wait()
+            ans = self.queue.pop()
+            self.not_full.notify_all()
+            return ans
+
+
+    def size(self):
+       
+        return len(self.queue)
