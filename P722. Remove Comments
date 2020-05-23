@@ -7,6 +7,8 @@
 如果我们不在注释中（并且它不是注释的开头），我们将记录所遇到的字符。
 在每行的末尾，如果我们不在注释中，我们将记录该行。
 
+# time O(S), S 指的是源代码的长度。
+# space O(S)
 class Solution(object):
     def removeComments(self, source):
         in_block = False
