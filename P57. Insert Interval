@@ -1,0 +1,35 @@
+# sol
+# 首先把interval插入到合适的位置，然后merge intervals (sort by start point)
+# step1 insert interval
+# step2 merge
+
+# time O(n)
+# space O(n)
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        
+        if not newInterval:
+            return intervals
+        if not intervals:
+            return [newInterval]
+        
+        
+        # insert
+        if intervals[-1][0] < newInterval[0]:
+            intervals.append(newInterval)
+            
+        n = len(intervals)
+        for i in range(n):
+            if intervals[i][0] >= newInterval[0]:
+                intervals.insert(i, newInterval)
+                break
+                
+        # merge 
+        res = []
+        print(intervals)
+        for s, e in intervals:
+            if not res or res[-1][1] < s:
+                res.append([s, e])
+            else:
+                res[-1][1] = max(res[-1][1], e)
+        return res
