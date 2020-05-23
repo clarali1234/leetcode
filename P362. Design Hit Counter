@@ -1,10 +1,11 @@
 # sol1
-# using deque ( space (num of count in 300 s)
+# using deque
 那么最直接的方法就是用一个队列queue，每次点击时都将当前时间戳加入queue中，
 然后在需要获取点击数时，我们从队列开头开始看，如果开头的时间戳在5分钟以外了，
 就删掉，直到开头的时间戳在5分钟以内停止，然后返回queue的元素个数即为所求的点击数
 
-# time hit O(1), getHits O(n) for both methods
+# time hit O(1), getHits O(n) 
+# space O(n)
 
 class HitCounter(object):
     def __init__(self):
@@ -24,7 +25,10 @@ class HitCounter(object):
 # key:time, value: num of hits at this time
 
 # sol2
-# using dic space (num of timestamp)
+# using dic 
+
+# time hit/get hit O(1)
+# space O(n)
 class HitCounter(object):
 
     def __init__(self):
