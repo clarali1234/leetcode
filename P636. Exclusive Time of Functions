@@ -1,12 +1,12 @@
+# stack: the onging tasks ; also keep track of pre time 
+# when there is an end, we pop out previous task from stack
+
+# node: 
 当一个函数start了之后，并不需要必须有end，可以直接被另一个程序start的时候强行关闭。
 而且，在某个时间点上调用end时，也不需要前面非得调用start，可以直接在某个时间点来个end，这样也算执行了1秒，
 
-# stack: the onging tasks ; also keep track of pre time 
-# when there is an end, we pop out previous task from stack
-# node: 
-
-#time O(num of logs)
-# space O(n//2) 
+# time O(n) num of logs
+# space O(n) 
 
 class Solution(object):
     def exclusiveTime(self, n, logs):
