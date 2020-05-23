@@ -1,0 +1,52 @@
+Explanation:
+
+Initially, put startUrl in Q and in visited
+each iteration spawn len(q) number of threads to crawl
+Barrier is locked and self.curr_threads is set to len(q) in each iteration.
+each thread will crawl and will update q and visited
+accordingly. Mutex lock is used to keep Q and visited consistent
+Each thread finishes execution and decrements self.curr_threads.
+Last thread to finish exec makes self.curr_threads to 0 and unlocks the barrier
+End of BFS traversal is determined by q becoming empty.
+Finally, set of visited URLs is the result.
+
+
+from Queue import *
+from concurrent.futures import ThreadPoolExecutor
+from threading import Lock
+
+class Solution(object):
+    def __init__(self):
+        self.queue = Queue()
+        self.visited = set()
+        self.result = []
+        self.lock = Lock()
+        
+    def crawl(self, startUrl, htmlParser):
+        
+        self.visited = set([startUrl])
+        self.queue.put(startUrl)
+        with ThreadPoolExecutor() as e:
+            for _ in range(8):
+                e.submit(self.run, htmlParser)
+        return self.result
+    
+    
+    def run(self, htmlParser):
+        try:
+            while True:
+                item = self.queue.get(block=True, timeout=0.1)
+                self.result.append(item)
+                for url in htmlParser.getUrls(item):
+                    with self.lock:
+                        if self.hostname(url) != self.hostname(item):
+                            continue
+                        if url in self.visited:
+                            continue
+                        self.visited.add(url)
+                        self.queue.put(url)
+        except:
+            pass
+
+    def hostname(self, url):
+        return url.split('//')[1].split('/')[0]
