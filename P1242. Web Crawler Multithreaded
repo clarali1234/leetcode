@@ -1,14 +1,13 @@
 Explanation:
 
-Initially, put startUrl in Q and in visited
-each iteration spawn len(q) number of threads to crawl
-Barrier is locked and self.curr_threads is set to len(q) in each iteration.
-each thread will crawl and will update q and visited
-accordingly. Mutex lock is used to keep Q and visited consistent
-Each thread finishes execution and decrements self.curr_threads.
-Last thread to finish exec makes self.curr_threads to 0 and unlocks the barrier
-End of BFS traversal is determined by q becoming empty.
-Finally, set of visited URLs is the result.
+- Initially, put startUrl in Q and in visited
+- each iteration spawn len(q) number of threads to crawl
+- Barrier is locked and self.curr_threads is set to len(q) in each iteration.
+- each thread will crawl and will update q and visited accordingly. Mutex lock is used to keep Q and visited consistent
+- Each thread finishes execution and decrements self.curr_threads.
+- Last thread to finish exec makes self.curr_threads to 0 and unlocks the barrier
+- End of BFS traversal is determined by q becoming empty.
+- Finally, set of visited URLs is the result.
 
 
 from Queue import *
