@@ -1,36 +1,20 @@
 # sol1
 # using deque ( space (num of count in 300 s)
-
-# sol2
-# using dic ( space (num of timestamp)
+那么最直接的方法就是用一个队列queue，每次点击时都将当前时间戳加入queue中，
+然后在需要获取点击数时，我们从队列开头开始看，如果开头的时间戳在5分钟以外了，
+就删掉，直到开头的时间戳在5分钟以内停止，然后返回queue的元素个数即为所求的点击数
 
 # time hit O(1), getHits O(n) for both methods
 
 class HitCounter(object):
-
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
         self.time = collections.deque([])
 
     def hit(self, timestamp):
-        """
-        Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity).
-        :type timestamp: int
-        :rtype: None
-        """
         self.time.append(timestamp)
         
 
-    def getHits(self, timestamp):
-        """
-        Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity).
-        :type timestamp: int
-        :rtype: int
-        """
+    def getHits(self, timestamp):   
         while self.time and timestamp - self.time[0] >= 300:
             self.time.popleft()
         return len(self.time)
@@ -38,31 +22,19 @@ class HitCounter(object):
 
 # follow up: if number of hits per second is large, in order to save space, we can use dic
 # key:time, value: num of hits at this time
+
+# sol2
+# using dic space (num of timestamp)
 class HitCounter(object):
 
     def __init__(self):
-        """
-        Initialize your data structure here.
-        """
         self.dic = collections.defaultdict(int)
         
 
     def hit(self, timestamp):
-        """
-        Record a hit.
-        @param timestamp - The current timestamp (in seconds granularity).
-        :type timestamp: int
-        :rtype: None
-        """
         self.dic[timestamp] += 1
 
     def getHits(self, timestamp):
-        """
-        Return the number of hits in the past 5 minutes.
-        @param timestamp - The current timestamp (in seconds granularity).
-        :type timestamp: int
-        :rtype: int
-        """
         res = 0
         for i in range(timestamp, timestamp - 300, -1):
             res += self.dic[i]
