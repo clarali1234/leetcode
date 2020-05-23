@@ -20,7 +20,7 @@ class Solution(object):
         self.queue = Queue()
         self.visited = set()
         self.result = []
-        self.lock = Lock()
+        self.lock = Lock() #   mutex lock for modifying self.q and self.curr_threads
         
     def crawl(self, startUrl, htmlParser):
         
@@ -34,7 +34,9 @@ class Solution(object):
     
     def run(self, htmlParser):
         try:
-            while True:
+            while True: # in each iteration, we spawn # of threads equal to size of q
+			    # and wait for all threads to finish exec to start over the next thread
+                
                 item = self.queue.get(block=True, timeout=0.1)
                 self.result.append(item)
                 for url in htmlParser.getUrls(item):
