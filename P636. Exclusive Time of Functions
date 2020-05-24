@@ -3,33 +3,30 @@
 
 # node: 
 当一个函数start了之后，并不需要必须有end，可以直接被另一个程序start的时候强行关闭。
-而且，在某个时间点上调用end时，也不需要前面非得调用start，可以直接在某个时间点来个end，这样也算执行了1秒，
 
 # time O(n) num of logs
 # space O(n) 
 
 class Solution(object):
     def exclusiveTime(self, n, logs):
-       
-        res = [0] * n
-        stack = []
-        prev_t = 0
-        for log in logs:
         
-            [fun, s_e, t] = log.split(':')
+        stack = []
+        res = [0 for _ in range(n)]
+        pre_t = 0
+        
+        for log in logs:
+            fun, state, t = log.split(':')
             fun = int(fun)
             t = int(t)
-            if s_e == 'start':
+            if state == 'start':
                 if stack:
-                    res[stack[-1]] += t - prev_t 
+                    res[stack[-1]] += t - pre_t
                 stack.append(fun)
-                prev_t = t
-                    
+                pre_t = t
             else:
-                prev_fun = stack.pop()
-                res[prev_fun] += t - prev_t + 1
-                prev_t = t + 1
-                
+                cur_fun = stack.pop()
+                res[cur_fun] += t - pre_t + 1
+                pre_t = t + 1     
         return res
                     
             
