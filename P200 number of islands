@@ -7,30 +7,23 @@ lands where DFS goes by M×N deep.
 class Solution(object):
     def numIslands(self, grid):
         
-        if not grid:
-            return 0
-        
-        visited = set()
-        count = 0
+        self.res = 0
+        self.visited = set()
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if grid[i][j] == '1' and (i, j) not in visited:
-                    self.dfs(grid, i, j, visited)
-                    count += 1
-        return count
+                if grid[i][j] == '1' and (i, j) not in self.visited:
+                    self.dfs(grid, i, j)
+                    self.res += 1
+        return self.res
     
-    
-    def dfs(self, grid, x, y, visited):
-        # exit case
-        if x < 0 or x >= len(grid) or y < 0 or y >= len(grid[0]) or (x, y) in visited or grid[x][y] == '0':
-            return 
-        
-        visited.add((x, y))
+    def dfs(self, grid, x, y):
+        self.visited.add((x, y))
         for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
             new_x = x + dx
             new_y = y + dy
-            self.dfs(grid, new_x, new_y, visited)
-            
+            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and (new_x, new_y) not in self.visited and grid[new_x][new_y] == '1':
+                self.dfs(grid, new_x, new_y)
+        
         
  
 # bfs 遍历图，对于任何一个未访问过的1，进行一次bfs，把她周围的1放入visited里面
