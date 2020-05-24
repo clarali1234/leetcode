@@ -1,4 +1,5 @@
-# For our problem, If there are N positions, then there are O(N) operations and N objects then total is O(N log*N), when we don't consider the O(mn) for array initialization.
+# For our problem, If there are N positions, then there are O(N) operations and N objects then total is O(N log*N),
+when we don't consider the O(mn) for array initialization.
 
 directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
 
