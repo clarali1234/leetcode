@@ -1,11 +1,12 @@
 使用并查集，每次对于a和b，找到各自的老大哥节点A和B，其中需要路径压缩
 如果A不等于B，将A树指向B树
 
-# union and find, time O(1)
+# union time O(1)
+FIND operation is proportional to the depth of the tree. 
+If N is the number of points added, the average running time is O(logN), 
+and a sequence of 4N operations take O(NlogN). If there is no balancing, the worse case could be O(N^2).
 
-# For our problem, If there are N positions, then there are O(N) operations and N objects then total is O(N log*N),
-when we don't consider the O(mn) for array initialization.
-
+id = n * x + y for (x, y) node
 directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
 
 class Solution:
