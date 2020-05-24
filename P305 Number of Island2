@@ -1,5 +1,12 @@
-使用并查集，每次对于a和b，找到各自的老大哥节点A和B，其中需要路径压缩
-如果A不等于B，将A树指向B树
+The idea is that we build a disjoint set data structure using the formula x * n + y as the index to represent each 
+of the points. First, we iterate over the given points and add it to the UnionFind object by invoking make_set. 
+Then we check its neighbors in four directions (up, down, left, right). 
+If any of the neighbors are also already part of the UnionFInd, it means the neighbor is part of the same island. 
+So, we do a union of the current point with this neighbor. 
+After looking at all the neighbors, we count the total of islands currently present by counting 
+the number of sets stored in the UnionFind data structure.
+
+使用并查集，每次对于a和b，找到各自的老大哥节点A和B，其中需要路径压缩, 如果A不等于B，将A树指向B树
 
 # union time O(1)
 FIND operation is proportional to the depth of the tree. 
