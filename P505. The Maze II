@@ -7,22 +7,26 @@
 class Solution(object):
     def shortestDistance(self, maze, start, destination):
         
-        visited = {}
-        queue = collections.deque([(start[0], start[1], 0)])
+        q = collections.deque([])
+        dis = collections.defaultdict(int)
         
-        while queue:
-            x, y, step = queue.popleft()
+        dis[(start[0], start[1])] = 0
+        q.append((start[0], start[1], 0))
+        
+        while q:
+            x, y, step = q.popleft()
             for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-                new_x = x 
+                new_x = x
                 new_y = y
-                d = step
+                new_s = step
                 while 0 <= new_x + dx < len(maze) and 0 <= new_y + dy < len(maze[0]) and maze[new_x + dx][new_y + dy] == 0:
                     new_x += dx
                     new_y += dy
-                    d += 1
-                if (new_x, new_y) not in visited or visited[(new_x,new_y)] > d:
-                    visited[(new_x,new_y)] = d
-                    queue.append((new_x, new_y, d))
+                    new_s += 1
                     
-        return visited.get((destination[0], destination[1]), -1)
+                if (new_x, new_y) not in dis or dis[(new_x, new_y)] > new_s:
+                    dis[(new_x, new_y)] = new_s
+                    if [new_x, new_y] != destination:
+                        q.append((new_x, new_y, new_s))
                     
+        return dis.get((destination[0], destination[1]), -1)
