@@ -3,38 +3,36 @@
 class Solution(object):
     def topKFrequent(self, words, k):
         
-        # time O(n)
-        count = collections.Counter(words)
-        # space O(n)
-        word = count.keys()
+        c = collections.Counter(words)
+        items = c.items()
+        items.sort(key = lambda x : (-x[1], x[0]))
+        res = [x[0] for x in items]
+        return res[:k]
         
-        # time O(nlgn)
-        word.sort(key = lambda x : (-count[x], x))
-        return word[:k]
-
+        
 # heap size(n)
 # time O(n + klgn)
 # space O(n)
 
-from heapq import *
+from heapq import * 
 class Solution(object):
     def topKFrequent(self, words, k):
-        """
-        :type words: List[str]
-        :type k: int
-        :rtype: List[str]
-        """
-        count = collections.Counter(words)
-        heap = [(-c, ele) for ele, c in count.items()]
+        c = collections.Counter(words)
+        heap = []
+        for w, count in c.items():
+            heap.append((-count, w))
         
         heapify(heap)
-        
         res = []
-        for _ in range(k):
-            c, ele = heappop(heap)
-            res.append(ele)
+        #print(heap)
+        
+        while k:
+            c, w = heappop(heap)
+            res.append(w)
+            k -= 1
         return res
-            
+        
+        
 
 
                              
