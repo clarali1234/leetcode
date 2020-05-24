@@ -8,17 +8,20 @@
 class Solution(object):
     def crawl(self, startUrl, htmlParser):
         
-        self.host_name = startUrl.split('/')[2]
         self.res = []
         self.visited = set()
-        self.visited.add(startUrl)
         self.dfs(startUrl, htmlParser)
         return self.res
     
     def dfs(self, url, htmlParser):
+        self.visited.add(url)
         self.res.append(url)
         for nb in htmlParser.getUrls(url):
-            if nb not in self.visited and nb.split('/')[2] == self.host_name:
-                self.visited.add(nb)
+            if self.get_hostname(nb) == self.get_hostname(url) and nb not in self.visited:
                 self.dfs(nb, htmlParser)
+
+    def get_hostname(self, url):
+        url = url.split('/')
+        return url[2]
+            
         
