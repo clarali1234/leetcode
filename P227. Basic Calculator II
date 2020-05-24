@@ -8,35 +8,33 @@
 
 class Solution(object):
     def calculate(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        num = 0
-        prev_ope = '+'
         
         stack = []
-        for i, ele in enumerate(s):
-            if not ele:
-                continue
-            if ele.isdigit():
-                num = num * 10 + int(ele)
-            if i == len(s) - 1 or ele in '+-*/':
-                if prev_ope == '+':
+        pre_ope = '+'
+        num = 0
+        
+        for i, char in enumerate(s):
+            if char.isdigit():
+                num = num * 10 + int(char)
+            if char in '+-*/' or i == len(s) - 1:
+                if pre_ope == '+':
                     stack.append(num)
-                elif prev_ope == '-':
+                elif pre_ope == '-':
                     stack.append(-num)
-                elif prev_ope == '*':
-                    val = stack.pop()
-                    stack.append(val * num)
-                elif prev_ope == '/':
-                    val = stack.pop()
-                    if val < 0:
-                        stack.append(-(-val//num))
+                elif pre_ope == '*':
+                    pre_num = stack.pop()
+                    stack.append(pre_num * num)
+                elif pre_ope == '/':
+                    pre_num = stack.pop()
+                    if pre_num < 0:
+                        stack.append(-(-pre_num // num))
                     else:
-                        stack.append(val//num)
-                num = 0
-                prev_ope = ele
+                        stack.append(pre_num // num)
                 
+                pre_ope = char
+                num = 0
+
         return sum(stack)
-            
+                    
+                    
+        
