@@ -8,26 +8,23 @@
 
 class Solution(object):
     def numDistinctIslands(self, grid):
+        
         shapes = set()
         self.visited = set()
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if (i, j) not in self.visited and grid[i][j] == 1:
-                    shape = set()
-                    self.dfs(grid, i, j, i, j,  shape)
+                if grid[i][j] == 1 and (i, j) not in self.visited:
+                    shape = []
+                    self.dfs(grid, i, j, shape, i, j)
                     shapes.add(tuple(shape))
         return len(shapes)
     
-    
-    def dfs(self, grid, i, j, i0, j0, shape):
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 0 or (i, j) in self.visited:
-            return 
-        self.visited.add((i, j))
-        shape.add((i - i0, j - j0))
+    def dfs(self, grid, x, y, shape, i, j):
+        self.visited.add((x, y))
+        shape.append((x - i, y - j))
         for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
-            x = i + dx
-            y = j + dy
-            self.dfs(grid, x, y, i0, j0, shape)
-        
-        
-                
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1 and (new_x, new_y) not in self.visited:
+                self.dfs(grid, new_x, new_y, shape, i, j)
+            
