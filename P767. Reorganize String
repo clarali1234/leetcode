@@ -9,32 +9,38 @@
 # time O(nAlgA) -> O(nlgA)
 
 from heapq import *
+
 class Solution(object):
     def reorganizeString(self, S):
         
-        n = len(S)
+        if not S:
+            return ''
+        
         counter = collections.Counter(S)
-        if counter.most_common()[0][1] > (len(S) + 1) / 2 :
+        if counter.most_common()[0][1] > (len(S) + 1) // 2:
             return ''
         
         res = ''
         heap = []
-        for ele, count in counter.items():
-            heappush(heap, (-count, ele))
-            
-        prev_c = 0
+        for char, c in counter.items():
+            heappush(heap, (-c, char))
+        
         prev_char = ''
+        prev_c = 0
         while heap:
-            count, ele = heappop(heap)
-            res += ele
-            count += 1
+            # step1. aad cur char
+            c, char = heappop(heap)
+            res += char
+            c += 1
+            # step2. push prev_char
             if prev_c < 0:
                 heappush(heap, (prev_c, prev_char))
-            prev_char = ele
-            prev_c = count
-                
+            # step3. cur char in prev_char to asure adj chars are not the same
+            prev_c = c
+            prev_char = char
         return res
             
+        
 # greedy
 # time O(nAlgA) A:size of alphebet
 # space O(n)
