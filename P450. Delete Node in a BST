@@ -1,11 +1,14 @@
-被删除节点没有左子树：返回其右子树
-被删除节点节点没有右子树：返回其左子树
-被删除节点既有左子树，又有右子树：
-1）查找到其右子树的最小值的节点，替换掉被删除的节点，并删除找到的最小节点
-2）查找到其左子树的最大值的节点，替换掉被删除的节点，并删除找到的最大节点
+算法:
+1. 如果 key > root.val，说明要删除的节点在右子树，root.right = deleteNode(root.right, key)。
+2. 如果 key < root.val，说明要删除的节点在左子树，root.left = deleteNode(root.left, key)。
+3. 如果 key == root.val，则该节点就是我们要删除的节点，则：
+- 如果该节点是叶子节点，则直接删除它：root = null。
+- 如果该节点不是叶子节点且有右节点，则用它的后继节点的值替代 root.val = successor.val，然后删除后继节点。
+- 如果该节点不是叶子节点且只有左节点，则用它的前驱节点的值替代 root.val = predecessor.val，然后删除前驱节点。
+返回 root。
 
 
-# time O(nlgn)
+# time O(h)
 # space O(h)
 
 class Solution(object):
