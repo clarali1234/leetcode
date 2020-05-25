@@ -1,0 +1,54 @@
+# sol1
+# sort all elements
+# time O(nlgn)
+# space O(n)
+
+
+# sol2:
+# inorder traversal for two trees then merge two sorted lists
+# time O(n)
+# space O(n)
+class Solution(object):
+    def getAllElements(self, root1, root2):
+        
+        v1 = []
+        v2 = []
+        self.dfs(root1, v1)
+        self.dfs(root2, v2)
+        return self.merge(v1, v2)
+    
+    def dfs(self, node, v):
+        if not node:
+            return 
+        
+        self.dfs(node.left, v)
+        v.append(node.val)
+        self.dfs(node.right, v)
+        
+    
+    def merge(self, l1, l2):
+        if not l1 and not l2:
+            return []
+        if not l1 or not l2:
+            return l1 or l2
+        
+        res = []
+        i = 0
+        j = 0
+        while i < len(l1) and j < len(l2):
+            if l1[i] <= l2[j]:
+                res.append(l1[i])
+                i += 1
+            else:
+                res.append(l2[j])
+                j += 1
+                
+        while i < len(l1):
+            res.append(l1[i])
+            i += 1
+        
+        while j < len(l2):
+            res.append(l2[j])
+            j += 1
+        return res
+        
