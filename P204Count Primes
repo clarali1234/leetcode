@@ -26,7 +26,6 @@ class Solution(object):
 
 筛子法:
 如果一个数是质数，则它的倍数一定不是素数
-
 其思想是从小的素数开始，排除该小素数的所有倍数，直到最终剩下的全是素数。具体的算法可以参考：
 如果n不是质数，a * b = n, a <= b => a <= sqrt(n)
 
@@ -37,11 +36,13 @@ class Solution(object):
         if n <= 2:
             return 0
         
-        prime = [1] * n
-        prime[0] = prime[1] = 0
+        prime = [1 for _ in range(n)] # 1 is prime
+        
+        prime[0] = 0
+        prime[1] = 0
         
         for i in range(2, int(sqrt(n)) + 1):
-            if prime[i]:
+            if prime[i]: # i is prime
                 for j in range(i + i, n, i):
-                    prime[j] = 0
+                    prime[j] = 0 # i * 2/ 3/ 4 .. is not prime
         return sum(prime)
