@@ -4,7 +4,7 @@ two methods:
 # serilization: object to string
 # deserilization: string to object
 
-# dfs
+# dfs preorder traversal
 class Codec:
 
     def serialize(self, root):
