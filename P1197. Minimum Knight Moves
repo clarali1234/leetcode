@@ -1,3 +1,7 @@
+# bfs with prune
+# constraint x y in first quardtic area
+# 1. target x = abs(x), target y = abs(y)
+# 2. any new point x, y should be >= -2
 
 class Solution(object):
     def minKnightMoves(self, x, y):
