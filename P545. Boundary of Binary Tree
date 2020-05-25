@@ -1,52 +1,43 @@
 
 class Solution(object):
     def boundaryOfBinaryTree(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
+        
         if not root:
-            return []
+            return None
+        if not root.left and not root.right:
+            return [root.val]
         
         self.res = [root.val]
-        if not root.left and not root.right:
-            return self.res
-        
-        self.dfs_l(root.left)
-        self.dfs_leaves(root)
-        self.dfs_r(root.right)
+        self.l_dfs(root.left)
+        self.leaves(root)
+        self.r_dfs(root.right)
         return self.res
     
-    def dfs_l(self, node):
-        if not node or (not node.left and not node.right):
+    def l_dfs(self, node):
+        if not node or not node.left and not node.right:
             return 
+        
         self.res.append(node.val)
         if node.left:
-            self.dfs_l(node.left)
+            self.l_dfs(node.left)
         elif node.right:
-            self.dfs_l(node.right)
+            self.l_dfs(node.right)
             
-    def dfs_leaves(self, node):
-        if not node:
-            return
+    def r_dfs(self, node):
+        if not node or not node.left and not node.right:
+            return 
         
+        if node.right:
+            self.r_dfs(node.right)
+        elif node.left:
+            self.r_dfs(node.left)
+        self.res.append(node.val)
+        
+    def leaves(self, node):
+        if not node:
+            return 
         if not node.left and not node.right:
             self.res.append(node.val)
-        
-        self.dfs_leaves(node.left)
-        self.dfs_leaves(node.right)
-        
-        
-    def dfs_r(self, node):
-        if not node or (not node.left and not node.right):
-            return 
-        if node.right:
-            self.dfs_r(node.right)
-        elif node.left:
-            self.dfs_r(node.left)
-        self.res.append(node.val)
             
-        
-        
-        
-    
+        self.leaves(node.left)
+        self.leaves(node.right)
