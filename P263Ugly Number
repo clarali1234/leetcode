@@ -1,9 +1,15 @@
-class Solution:
-    def isUgly(self, num: int) -> bool:
+class Solution(object):
+    def isUgly(self, num):
         
         if num <= 0:
             return False
-        for x in [2, 3, 5]:
-            while num % x == 0:
-                num = num / x 
+        
+        if num == 1:
+            return True
+        
+        l = [2, 3, 5]
+        
+        for factor in l:
+            while num % factor == 0:
+                num = num // factor
         return num == 1
