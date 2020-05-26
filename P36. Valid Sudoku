@@ -6,17 +6,14 @@
 class Solution(object):
     def isValidSudoku(self, board):
         
-        seen = set()
-        for i in range(len(board)):
-            for j in range(len(board[0])):
-                if board[i][j] != '.':
-                    val = board[i][j]
-                    if (i, val) not in seen and (val, j) not in seen and (i // 3, j // 3, val) not in seen:
-                        seen.add((i, val))
-                        seen.add((val, j))
-                        seen.add((i // 3, j // 3, val))
-                    else:
+        check = set()
+        for i in range(9):
+            for j in range(9):
+                val = board[i][j]
+                if val != '.':
+                    if (val, i) in check or (j, val) in check or  (i // 3, j // 3, val) in check:
                         return False
+                    check.add((val, i))
+                    check.add((j, val))
+                    check.add((i // 3, j // 3, val))
         return True
-                        
-        
