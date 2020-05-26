@@ -1,3 +1,6 @@
+# 用array实现
+# no need to remove element from the front
+# keep front, rear pointer
 
 class MyCircularQueue(object):
 
