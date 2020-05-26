@@ -1,0 +1,39 @@
+# sol1 dp
+# time O(n)
+# space O(n)
+class Solution(object):
+    def nthUglyNumber(self, n, a, b, c):
+        
+        nums = [1]
+        
+        ia = 1
+        ib = 1
+        ic = 1
+        
+
+        for _ in range(n + 1):
+            ua = ia * a
+            ub = ib * b
+            uc = ic * c
+            
+            ugly = min(ua, ub, uc)
+            if ugly == ua:
+                ia += 1
+            if ugly == ub:
+                ib += 1
+            if ugly == uc:
+                ic += 1
+            nums.append(ugly)
+
+        return nums[n]
+        
+        
+   # sol2 binary search
+   
+For every integer A, F(A) = (total number of positive integers <= A which are divisible by a or b or c.).
+F(A) = A/a + A/b + A/c - A/lcm(a, c) - A/lcm(a, b) - A/lcm(a, c) + A/lcm(a, b, c)(lcm = least common multiple)
+Find the least integer A that satisfies the condition F(A) == n.
+
+
+
+ 
