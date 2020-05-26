@@ -1,55 +1,50 @@
 class Solution(object):
     def searchRange(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
         
         if not nums:
             return [-1, -1]
         
-        left = self.find_left(nums, 0, len(nums) - 1, target)
-        
-        right = 0
-        if left != -1:
-            right = self.find_right(nums, left, len(nums) - 1, target)
-        else:
-            right = -1
-        return [left, right]
+        first = self.find_first(nums, target)
+        if first == -1:
+            return [-1, -1]
+        last = self.find_last(nums, target)
+        return [first, last]
     
-    def find_left(self, nums, left, right, target):
+    def find_first(self, nums, target):
+        l = 0
+        r = len(nums) - 1
         
-        while left + 1 < right:
-            mid = (left + right) // 2
-            if nums[mid] == target:
-                right = mid
-            elif nums[mid] < target:
-                left = mid + 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if nums[m] < target:
+                l = m + 1
+            elif nums[m] > target:
+                r = m - 1
             else:
-                right = mid
+                r = m
                 
-        if nums[left] == target:
-            return left
-        if nums[right] == target:
-            return right
-        else:
-            return -1
+        if nums[l] == target:
+            return l
+        if nums[r] == target:
+            return r
+        return -1
+    
+    def find_last(self, nums, target):
+        l = 0
+        r = len(nums) - 1
         
-    def find_right(self, nums, left, right, target):
-        while left + 1 < right:
-            mid = (left + right) // 2
-            if nums[mid] == target:
-                left = mid
-            elif nums[mid] < target:
-                left = mid + 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if nums[m] < target:
+                l = m + 1
+            elif nums[m] > target:
+                r = m - 1
             else:
-                right = mid
+                l = m
                 
-        if nums[right] == target:
-            return right
-        if nums[left] == target:
-            return left
-        else:
-            return -1
-            
+        if nums[r] == target:
+            return r
+        if nums[l] == target:
+            return l
+        return -1
+        
