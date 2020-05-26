@@ -1,6 +1,53 @@
 # 用array实现
 # no need to remove element from the front
 # keep front, rear pointer
+# all the time complexity for each method is O(1)
+
+class MyCircularQueue(object):
+
+    def __init__(self, k):
+        self.k = k
+        self.arr = [None for _ in range(k)]
+        self.front = 0
+        self.rear = 0
+
+    def enQueue(self, value):
+        if not self.isFull():
+            self.arr[self.rear] = value
+            self.rear = (self.rear + 1) % self.k
+            return True
+            
+        return False
+        
+
+    def deQueue(self):
+        if not self.isEmpty():
+            self.arr[self.front] = None
+            self.front = (self.front + 1) % self.k
+            return True
+        return False
+        
+
+    def Front(self):
+        
+        if not self.isEmpty():
+            return self.arr[self.front]
+        return -1
+
+    def Rear(self):
+        if not self.isEmpty():
+            return self.arr[self.rear - 1]
+        return -1
+
+    def isEmpty(self):
+        return self.front == self.rear and self.arr[self.front] == None
+
+    def isFull(self):
+        return self.front == self.rear and self.arr[self.front] != None
+            
+       
+
+
 
 class MyCircularQueue(object):
 
