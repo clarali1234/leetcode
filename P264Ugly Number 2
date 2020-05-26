@@ -16,20 +16,30 @@ sol1: dynamic programming
 
 class Solution(object):
     def nthUglyNumber(self, n):
+        
+        if n == 1:
+            return 1
+        
         nums = [1]
+        
         i2 = 0
         i3 = 0
         i5 = 0
         
-        for i in range(1690):
-            ugly = min(2 * nums[i2], 3 * nums[i3], 5 * nums[i5])
-            if ugly == 2 * nums[i2]:
+        for _ in range(n):
+            u2 = nums[i2] * 2
+            u3 = nums[i3] * 3
+            u5 = nums[i5] * 5
+            
+            ugly = min(u2, u3, u5)
+            if ugly == u2:
                 i2 += 1
-            if ugly == 3 * nums[i3]:
+            if ugly == u3:
                 i3 += 1
-            if ugly == 5 * nums[i5]:
+            if ugly == u5:
                 i5 += 1
-            nums.append(ugly)     
+                
+            nums.append(ugly)
         return nums[n - 1]
             
 
