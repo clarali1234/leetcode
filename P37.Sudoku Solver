@@ -2,9 +2,7 @@
 # 用1-9填充所有的格子，再判断是否valid
 # time O(9^81)
 
-# dfs + constraint
-# 退出条件，如果没有格子可以填充，return True
-
+# dfs + constraint + backtracking
 # 基本的意思是在放置每个数字时都设置约束
 # 每个dfs 都是在填充一个格子
 
