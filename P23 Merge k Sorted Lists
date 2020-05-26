@@ -1,3 +1,33 @@
+# method 1: priority queue
+# 遍历所有的node, 每次从长度为k的priority queue里面取出最小的
+# time O(nlgk)， space O(k)
+
+# priority queue 本质上是list，但是给val 赋予了priority， 每次都会pop出priority最小的值，因为size为k，所以time, space complexity会减少
+
+from Queue import * 
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        
+        q = PriorityQueue()
+        for l in lists:
+            if l:
+                q.put((l.val, l))
+        
+        dummy = ListNode(0)
+        cur = dummy
+        while not q.empty():
+            val, node = q.get()
+            cur.next = node
+            cur = cur.next
+            
+            if node.next:
+                q.put((node.next.val, node.next))
+        return dummy.next
+                     
+        
+
+
 # brute force
 # traverse all list -> array 
 # sort
@@ -31,38 +61,6 @@ class Solution(object):
             pointer = pointer.next
         return head.next
 
-# method 1: priority queue
-# 遍历所有的node, 每次从长度为k的priority queue里面取出最小的
-# time O(nlgk)， space O(k)
-
-# priority queue 本质上是list，但是给val 赋予了priority， 每次都会pop出priority最小的值，因为size为k，所以time, space complexity会减少
-
-from Queue import PriorityQueue
-class Solution(object):
-    def mergeKLists(self, lists):
-        """
-        :type lists: List[ListNode]
-        :rtype: ListNode
-        """
-        q = PriorityQueue()
-        for l in lists:
-            if l:
-                q.put((l.val, l))
-        
-        dummy = ListNode(0)
-        p = dummy
-        
-        while not q.empty():
-            val, node = q.get()
-            new_node = ListNode(val)
-            p.next = new_node
-            p = p.next
-            if node.next:
-                q.put((node.next.val, node.next))
-            
-        return dummy.next
-            
-           
 
 # method 2: divide and conquer
 # time O(nlgk), space O(lgk) -> O(1)
