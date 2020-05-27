@@ -28,23 +28,26 @@ class Solution:
 
 class Solution(object):
     def inorderTraversal(self, root):
-        
         if not root:
-            return None
+            return []
         
-        res = []
         stack = []
-        cur = root
+        node = root
+        res = []
         
-        while stack or cur:
-            if cur:
-                stack.append(cur)
-                cur = cur.left
-            else:
-                node = stack.pop()
-                res.append(node.val)
-                cur = node.right
+        while stack or node:
+            while node:
+                stack.append(node)
+                node = node.left
+                
+            node = stack.pop()
+            res.append(node.val)
+            node = node.right
+            while node:
+                stack.append(node)
+                node = node.left
         return res
+        
                 
                 
                 
