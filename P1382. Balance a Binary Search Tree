@@ -1,0 +1,38 @@
+
+# step1 inorder travsesal 
+# step 2 build b-bst (recursive)
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def balanceBST(self, root):
+        
+        
+        
+        if not root:
+            return None
+        
+        self.vals = []
+        self.dfs(root)
+        return self.build_tree(0, len(self.vals) - 1)
+        
+        
+    def dfs(self, node):
+        if not node:
+            return None
+        
+        # inorder traversal
+        self.dfs(node.left)
+        self.vals.append(node.val)
+        self.dfs(node.right)
+        
+    def build_tree(self, l, r):
+        if l > r:
+            return None
+        
+        m = (l + r) // 2
+        node = TreeNode(self.vals[m])
+        node.left = self.build_tree(l, m - 1)
+        node.right = self.build_tree(m + 1, r)
+        return node
+        
