@@ -2,6 +2,33 @@
 # sol1
 # two pointers
 # time O(n), space O(1)
+version 1
+
+class Solution(object):
+    def swapPairs(self, head):
+        
+        if not head:
+            return None
+        if not head.next:
+            return head
+        
+        dummy = ListNode(0)
+        dummy.next = head
+        
+        prev = dummy
+        cur = head
+        while cur and cur.next:
+            tmp = cur.next.next
+            prev.next = cur.next
+            cur.next.next = cur
+            cur.next = tmp
+            cur = cur.next
+            prev = prev.next.next
+        
+        return dummy.next
+            
+            
+            
 
 class Solution(object):
     def swapPairs(self, head):
