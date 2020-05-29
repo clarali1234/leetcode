@@ -6,7 +6,7 @@
 
 # sol2
 http://bookshadow.com/weblog/2016/11/22/leetcode-lfu-cache/
-双向链表（Doubly Linked List） + 哈希表（Hash Table）
+Two Doubly Linked List + Hash Table
 
 首先定义双向链表节点：KeyNode（Key节点）与FreqNode（频度节点）。
 
