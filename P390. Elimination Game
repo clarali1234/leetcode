@@ -1,3 +1,35 @@
+# time O(lgn)
+# space O(lgn)
+
+# divide and conquer 
+# reduce n to 1
+
+class Solution(object):
+    def lastRemaining(self, n):
+        
+        return self.remaining(n, True) # remaining nums after cur delete
+    
+    
+    def emaining(self, n, from_left):
+        if n == 1:
+            return 1
+            
+        # base case 
+        if from_left: # [1. 2. 3. 4], [2, 4]
+            return 2 * self.remaining(n // 2, False) # eliminate even
+        else:
+            if n % 2 == 0: # eliminate from right , eliminate even, [1, 2, 3, 4]
+                return 2 * self.remaining(n // 2, True) - 1 # 2 * [1, 2] - 1
+            else:
+                return 2 * self.remaining(n // 2, True)  # [1, 2, 3, 4, 5] # [2, 4]
+
+
+
+
+
+
+
+
 # # f(2k) = 2(k + 1 - f(k))
 # time O(lgn)
 class Solution(object):
