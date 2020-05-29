@@ -10,17 +10,24 @@
 class Solution(object):
     def removeDuplicates(self, s, k):
         
+        if not s:
+            return ''
+        
         stack = []
         
         for char in s:
             if not stack or char != stack[-1][0]:
                 stack.append([char, 1])
-            elif stack[-1][1] + 1 < k:
+            elif char == stack[-1][0]:
                 stack[-1][1] += 1
-            else:
-                stack.pop()
+                if stack[-1][1] == k:
+                    del stack[-1]
+                elif stack[-1][1] > k:
+                    stack[-1][1] -= k
         
         res = ''
-        for c, count in stack:
-            res += c * count
+        for char, count in stack:
+            res = res + char * count
         return res
+            
+            
