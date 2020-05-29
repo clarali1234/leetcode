@@ -1,13 +1,19 @@
-http://bookshadow.com/weblog/2016/11/22/leetcode-lfu-cache/
+# sol1
+# hashtable + balanced binary search tree
+# treenode(key, value, freq, ticket(time))
+# get and put, time O(lgc), c is capacity
+# helper function less(n1, n2), freq then ticket
 
+# sol2
+http://bookshadow.com/weblog/2016/11/22/leetcode-lfu-cache/
 双向链表（Doubly Linked List） + 哈希表（Hash Table）
 
 首先定义双向链表节点：KeyNode（Key节点）与FreqNode（频度节点）。
 
-KeyNode中保存key（键），value（值），freq（频度），prev（前驱），next（后继）
-FreqNode中保存freq（频度）、prev（前驱）、next（后继）、first（指向最新的KeyNode），last（指向最老的KeyNode）
-在数据结构LFUCache中维护如下属性：
+KeyNode中保存[key，value，freq，prev，next]
+FreqNode中保存[freq, prev, next, first（指向最新的KeyNode, last（指向最老的KeyNode)]
 
+在数据结构LFUCache中维护如下属性：
 capacity：缓存的容量
 keyDict：从key到KeyNode的映射
 freqDict：从freq到FreqNode的映射
