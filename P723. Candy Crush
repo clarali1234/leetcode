@@ -7,13 +7,15 @@
         
 class Solution(object):
     def candyCrush(self, board):
+        
+        if not board:
+            return board
+        
+        change = False
         m = len(board)
         n = len(board[0])
         
-        change = False
-        
-        # step1, find candies need to crush
-        # find on each line 
+        # check row
         for i in range(m):
             for j in range(n - 2):
                 if abs(board[i][j]) == abs(board[i][j + 1]) == abs(board[i][j + 2]) != 0:
@@ -21,8 +23,7 @@ class Solution(object):
                     board[i][j + 1] = -abs(board[i][j])
                     board[i][j + 2] = -abs(board[i][j])
                     change = True
-                    
-        # find on each col        
+        
         for j in range(n):
             for i in range(m - 2):
                 if abs(board[i][j]) == abs(board[i + 1][j]) == abs(board[i + 2][j]) != 0:
@@ -31,11 +32,10 @@ class Solution(object):
                     board[i + 2][j] = -abs(board[i][j])
                     change = True
                     
-        # step2, crush candy, 从下往上读并且写入>0 value, 剩下的w, 都写为0
+        # crush
         for j in range(n):
             w = m - 1
             r = m - 1
-            
             while r >= 0:
                 if board[r][j] > 0:
                     board[w][j] = board[r][j]
@@ -46,12 +46,7 @@ class Solution(object):
                 board[w][j] = 0
                 w -= 1
                 
-        # step3, repeate or return 
         if change:
-            self.candyCrush(board)
+            return self.candyCrush(board)
         return board
-        
-                
-                
-        
         
