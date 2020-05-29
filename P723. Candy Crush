@@ -1,16 +1,18 @@
 # time O(mn * mn) each time mn, worst case need to call mn/3 times, total mn * mn
 # space O(1)
 
-1、2重循环，每到一个点，分别从垂直和水平方向尝试是否连续大于3，满足条件则标记
-2、消除重复糖果，然后元素下降
-
+# step1, find curshed candies (each row or cols check if there are there repeated)
+# step2, crush them, take care of empty cells
+# step3, repeat
+        
 class Solution(object):
     def candyCrush(self, board):
         m = len(board)
         n = len(board[0])
         
         change = False
-        # find candies need to crush
+        
+        # step1, find candies need to crush
         # find on each line 
         for i in range(m):
             for j in range(n - 2):
@@ -20,6 +22,7 @@ class Solution(object):
                     board[i][j + 2] = -abs(board[i][j])
                     change = True
                     
+        # find on each col        
         for j in range(n):
             for i in range(m - 2):
                 if abs(board[i][j]) == abs(board[i + 1][j]) == abs(board[i + 2][j]) != 0:
@@ -28,7 +31,7 @@ class Solution(object):
                     board[i + 2][j] = -abs(board[i][j])
                     change = True
                     
-        # crush candy
+        # step2, crush candy, 从下往上读并且写入>0 value, 剩下的w, 都写为0
         for j in range(n):
             w = m - 1
             r = m - 1
@@ -43,6 +46,7 @@ class Solution(object):
                 board[w][j] = 0
                 w -= 1
                 
+        # step3, repeate or return 
         if change:
             self.candyCrush(board)
         return board
