@@ -1,7 +1,9 @@
 Solution: Divide and Conquer
+
 If the current rectangle contains ships, subdivide it into 4 smaller ones until
-1) no ships contained
-2) the current rectangle is a single point (e.g. topRight == bottomRight)
+1)base case 1: no ships contained
+2)base case2: the current rectangle is a single point (e.g. topRight == bottomRight)
+
 
 Time complexity: O(10 * logmn) (mn, quad search)
 Space complexity: O(logmn)
@@ -11,16 +13,18 @@ class Solution(object):
         
         x1 = bottomLeft.x
         y1 = bottomLeft.y
-        
         x2 = topRight.x
         y2 = topRight.y
         
+        # base case 1
         if x1 > x2 or y1 > y2 or not sea.hasShips(topRight, bottomLeft):
             return 0
         
+        # base case 2
         if x1 == x2 and y1 == y2:
             return 1
         
+        # recursion part
         xm = (x1 + x2) // 2
         ym = (y1 + y2) // 2
         return self.countShips(sea, Point(xm, ym), Point(x1, y1)) + 
