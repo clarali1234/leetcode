@@ -1,13 +1,7 @@
-# sol1 recursion
 
-
-# sol2 stack
-# 这个题，遇到’[‘就把之前的字符串进行进栈操作。遇到’]'进行出栈操作。
-# curstring保存的是出栈操作完成后的字符串。
-# 注意这一步：curstring = prestring + prenum * curstring，
-# prestring是前面的字符串，prenum * curstring是这一步骤结束之后的字符串，所以是前面的字符串+现在的字符串得到目前已有的字符串。
-# time O(k_max * n) (O(n))?? (n is the length of input, linear time)
-# space O(k_max * n) O(max depth of stack)
+# stack
+# time O(n) , travsese + stack
+# space O(n) 
 
 class Solution(object):
     def decodeString(self, s):
