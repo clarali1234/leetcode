@@ -1,6 +1,6 @@
 # dfs, 把child 看作左子树，把next看作右子树，pre-order travsesal
 # time O(n)
-# space O(n)
+# space O(h), worst case is O(n)
 
 class Solution(object):
     def flatten(self, head):
