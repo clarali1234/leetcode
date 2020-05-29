@@ -1,4 +1,7 @@
 # dfs from 0 to N - 1
+# if ignore the output path, time complexity is O(v) + O(e)
+# else, time O(2^n) 
+
 # time O(2^n)
 # space O(2^n)
 
