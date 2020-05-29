@@ -12,21 +12,22 @@
 class Solution(object):
     def triangleNumber(self, nums):
         
-        nums.sort(reverse = True)
-        count = 0
+        if not nums:
+            return 0
         
-        for i in range(len(nums) - 2):
-            m = i + 1
-            n = len(nums) - 1
+        nums.sort(reverse = True)
+        
+        res = 0
+        for index, num in enumerate(nums):
+            i = index + 1
+            j = len(nums) - 1
             
-            while m < n:
-                if nums[m] + nums[n] > nums[i]:
-                    count += n - m 
-                    m += 1
+            while i < j:
+                if nums[i] + nums[j] > num:
+                    res += j - i 
+                    i += 1
                 else:
-                    n -= 1
-                    
-        return count
-                    
+                    j -= 1
+        return res
             
-                
+                    
