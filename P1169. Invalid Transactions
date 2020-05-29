@@ -1,21 +1,23 @@
 
+time O(n^2)
+space O(n)
 
 class Solution(object):
     def invalidTransactions(self, transactions):
         
-        trans = [x.split(',') for x in transactions] # name, time, amount, city
+        if not transactions:
+            return []
+        
+        trans = [x.split(',') for x in transactions]
         res = []
-        for i, t in enumerate(trans):
-            if int(t[2]) > 1000:
-                res.append(','.join(t))
-                continue
-                
+        for i in range(len(trans)):
+            name, time, amount, city = trans[i]
+            if int(amount) > 1000:
+                res.append(','.join(trans[i]))
             else:
-                for j, t2 in enumerate(trans):
-                    if i != j:
-                        if t[0] == t2[0] and t[3] != t2[3] and abs(int(t[1]) - int(t2[1])) <= 60:
-                            res.append(','.join(t))
-                            break
+                for j in range(len(trans)):
+                    n2, t2, a2, c2 = trans[j]
+                    if i != j and n2 == name and abs(int(t2) - int(time)) <= 60 and city != c2:
+                        res.append(','.join(trans[i]))
+                        break
         return res
-        
-        
