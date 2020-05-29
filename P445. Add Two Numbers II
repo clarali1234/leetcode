@@ -34,32 +34,40 @@ class Solution(object):
             
             
  # sol2: stack
+ # time O(m + n)
+ # space O(m + n)
  class Solution(object):
     def addTwoNumbers(self, l1, l2):
+
+        if not l1 and not l2:
+            return None
+        
+        if not l1 or not l2:
+            return l1 or l2
         
         s1 = []
         s2 = []
-        
         while l1:
             s1.append(l1.val)
             l1 = l1.next
             
         while l2:
             s2.append(l2.val)
-            l2 = l2.next 
+            l2 = l2.next
             
-        cur = None
+        tail = ListNode(0)
+        cur = tail
         carry = 0
-        
         while s1 or s2 or carry:
             if s1:
                 carry += s1.pop()
             if s2:
-                carry += s2.pop()   
-            cur_v = carry % 10
+                carry += s2.pop()
+            
+            cur.val = carry % 10
             carry = carry // 10
-            node = ListNode(cur_v)
-            node.next = cur
-            cur = node
+            if s1 or s2 or carry:
+                new_node = ListNode(0) # 注意，生成的点在head部位
+                new_node.next = cur
+                cur = new_node
         return cur
- 
