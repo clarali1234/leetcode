@@ -1,5 +1,5 @@
 # brute force 
-# time O(n^n) eg: 'aaaaa'
+# time O(n * 2^n) eg: 'aaaaa',for each space, add space or not 
 # spce O(n)，递归的深度,递归在内存中同时存在的最大次数
 
 class Solution(object):
@@ -20,7 +20,8 @@ class Solution(object):
 # problem with sol1, many subproblems are redundant, we were calling recursive funtions many times for a particular string
 # so we use hash table to store the result of subproblems that we've calculated.
 
-# sol2 recursion time O(n^2), space O(n) (memo O(n), max depth of recursion is O(n))
+# sol2 recursion time O(n^3), tree size O(n^2), string slice takes O(n)
+# space O(n) (memo O(n), max depth of recursion is O(n))
 # key: start index, value: res of the recursive function for this start index
 
 class Solution(object):
@@ -53,7 +54,7 @@ class Solution(object):
 # transmation formula: if dp[i] and s[i : j] in dic, dp[j] is True
 # res dp[-1]
 
-# time O(n^2)
+# time O(n^3)
 # space O(n)
 
 class Solution(object):
