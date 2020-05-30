@@ -1,7 +1,7 @@
 # brute force
 # dfs 
 # time O(n^n)
-# space O(n^3)
+# space O(n^3),  In worst case the depth of recursion tree can go up to n and nodes can contain n strings each of length n.
 
 
 
