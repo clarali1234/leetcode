@@ -3,6 +3,27 @@
 # time O(n * 2^n), 
 # space O(2^n),  In worst case the depth of recursion tree can go up to n and nodes can contain n strings each of length n.
 
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        return self.dfs(s, 0, wordDict)
+    
+    def dfs(self, s, index, wordDict):
+        if index == len(s):
+            return []
+        
+        res = []
+        for j in range(index, len(s)):
+            if s[index : j + 1] in wordDict:
+                if j == len(s) - 1:
+                    res.append(s[index : j + 1])
+                else:
+                    rests = self.dfs(s, j + 1, wordDict)
+                    for rest in rests:
+                        res.append(s[index : j + 1] + ' ' + rest)
+                        
+        return res
+                
+            
 
 
 # dfs + memo (top down dp)
