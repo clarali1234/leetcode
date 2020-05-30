@@ -34,22 +34,23 @@ node:
 binary search to find index, missing(index) < k <= missing(index + 1), 
 so the result is nums[index] + k
 
+
 class Solution(object):
     def missingElement(self, nums, k):
-        missing_c = nums[-1] - nums[0] + 1 - len(nums)
-        if k > missing_c:
-            return nums[-1] + (k - missing_c)
+        
+        missing_c = (nums[-1] - nums[0] + 1) - (len(nums))
+        if missing_c < k:
+            return nums[-1] + k - missing_c
         
         l = 0
         r = len(nums) - 1
+        
         while l + 1 < r:
             m = (l + r) // 2
-            missing_l_m = nums[m] - nums[l] - (m - l)
+            missing_l_m = (nums[m] - nums[l] + 1) - (m - l + 1)
             if missing_l_m < k:
                 l = m
                 k -= missing_l_m
             else:
                 r = m
         return nums[l] + k
-            
-        
