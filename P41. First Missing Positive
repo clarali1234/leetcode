@@ -1,7 +1,20 @@
-# brute force hash set
+# brute force
+# iterate positve num from 1 to n, check i in nums
+# time O(n^2)
+# space O(1)
+
+hash set
 # time O(n)
 # space O(n)
-
+class Solution(object):
+    def firstMissingPositive(self, nums):
+        
+        n = len(nums)
+        hashset = set(nums)
+        for i in range(1, n + 1):
+            if i not in hashset:
+                return i
+        return n + 1
 
 
 # Index as a hash key.
