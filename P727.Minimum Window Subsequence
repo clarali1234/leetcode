@@ -27,42 +27,40 @@ class Solution(object):
         m = len(S)
         n = len(T)
         
-        start = -1
-        min_len = sys.maxsize
-        res = ''
+        self.min_len = sys.maxsize
+        self.res = ''
         i = 0
         j = 0
         
         while i < m:
             if S[i] != T[j]:
                 i += 1
-                
             else:
                 if j + 1 != n:
                     i += 1
                     j += 1
                 else:
                     end = i 
-                    while j >= 0:
-                        while S[i] != T[j]:
-                            i -= 1
-                        j -= 1
-                        i -= 1
+                    i, j = self.move_back(S, T, i, j)
+                    self.check_candidate(S, i, end)
                     i += 1
-                    if end - i + 1 < min_len:
-                        min_len = end - i + 1
-                        res = S[i : end + 1]
-                        start = i + 1
-                    i += 1
-                    j += 1
                     
-        if min_len == sys.maxsize:
+        if self.min_len == sys.maxsize:
             return ''
-        return res 
-
-
-
-
-
-
-
+        return self.res 
+    
+    def move_back(self, S, T, i, j):
+        while j >= 0:
+            while S[i] != T[j]:
+                i -= 1
+            j -= 1
+            i -= 1
+        return [i + 1, 0]
+    
+    def check_candidate(self, S, i, end):
+        
+        if end - i + 1 < self.min_len:
+            self.min_len = end - i + 1
+            self.res = S[i : end + 1]
+        
+        
