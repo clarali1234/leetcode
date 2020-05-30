@@ -1,14 +1,13 @@
 # brute force
 # dfs 
-# time O(n^n)
-# space O(n^3),  In worst case the depth of recursion tree can go up to n and nodes can contain n strings each of length n.
+# time O(n * 2^n), 
+# space O(2^n),  In worst case the depth of recursion tree can go up to n and nodes can contain n strings each of length n.
 
 
 
 # dfs + memo (top down dp)
 # Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
-# space complexity is also O(n ^ 3), the depth of the recursion tree can go up to n and each activation record can
-# contains a string list of size n.
+# space complexity is also O(2^n), the depth of the recursion tree can go up to n , the number of results is 2^n
 
 # memo: key: start index of substring, value: valid path
 
