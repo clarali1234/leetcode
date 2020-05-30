@@ -41,12 +41,12 @@ class Solution(object):
         if not root:
             return None
         
-        left_most = root # level i
-        level_head = Node(0) # level i + 1
+        parent = root # level i
+        child_head = Node(0) # level i + 1
         
-        while left_most:
-            cur = left_most
-            prev = level_head
+        while parent:
+            cur = parent
+            prev = child_head
             
             while cur:
                 if cur.left:
@@ -59,8 +59,8 @@ class Solution(object):
                 
                 cur = cur.next
             
-            left_most = level_head.next
-            level_head.next = None
+            parent = child_head.next
+            child_head.next = None
             
         return root
         
