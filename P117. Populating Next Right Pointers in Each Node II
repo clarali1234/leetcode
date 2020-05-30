@@ -37,6 +37,8 @@ idea:
 
 class Solution(object):
     def connect(self, root):
+        if not root:
+            return None
         
         left_most = root 
         level_head = Node(0)
