@@ -1,0 +1,51 @@
+# brute force
+# each substring in s, check if t is subsequence in this substring
+# O(m^2 * n)
+
+
+# two pointer
+# time O(mn)
+# space O(1)
+
+# Find subsequence in S containing T, and return ending index in S
+# Improve subsequence by searching from right-left, to find best starting index in S
+
+e.g.
+
+S = a b a c b c d f e g .
+T = bcde
+
+i = 0 1 2 3 4 5 6 7 8 9
+find subsequence - bacbcdfe, end = 8
+improve subsequence- bcdfe, start = 4
+length = 5
+Repeat next subsequence search at index 5 (start+1)
+
+class Solution(object):
+    def minWindow(self, S, T):
+        
+        res = ""
+        start = -1
+        while True:
+            first = start + 1
+            for c in T:
+                start = S.find(c, start + 1)
+                if start == -1:
+                    return res
+            
+            start = end = start + 1
+            for c in reversed(T):
+                start = S.rfind(c, first, start)
+            
+            if res == "" or len(res) > end - start:
+                res = S[start:end]
+                    
+
+
+
+
+
+
+
+
+
