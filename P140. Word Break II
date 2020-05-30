@@ -1,3 +1,10 @@
+# brute force
+# dfs 
+# time O(n^n)
+# space O(n^3)
+
+
+
 # dfs + memo (top down dp)
 # Time complexity: O(n^3). Size of recursion tree can go up to n^2. The creation of the 'res' List takes n time.
 # space complexity is also O(n ^ 3)
