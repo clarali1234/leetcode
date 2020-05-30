@@ -37,33 +37,31 @@ idea:
 
 class Solution(object):
     def connect(self, root):
+        
         if not root:
             return None
         
-        left_most = root 
-        level_head = Node(0)
+        left_most = root
+        dummy_level = Node(0)
         
-        while left_most:  
+        while left_most:
             cur = left_most
-            prev = level_head
+            prev = dummy_level
             
-            while cur:  
+            while cur:
                 if cur.left:
-                    
-                    prev.next = cur.left     
-                    prev = prev.next        
-
+                    prev.next = cur.left
+                    prev = prev.next
                 if cur.right:
                     prev.next = cur.right
                     prev = prev.next
-
                 cur = cur.next
             
-            left_most = level_head.next       
-            level_head.next = None        
+            left_most = dummy_level.next
+            dummy_level.next = None
         return root
-
-
+        
+        
 class Solution(object):
     def connect(self, root):
         
