@@ -1,5 +1,5 @@
 # brute force is get best score among all kinds of division
-# Cn(k)
+# Cn(k) (k is 1 to K)
 # time O(n!)/(n - k)!
 
 # dfs + memo key, (n, k), value: max sum ave
