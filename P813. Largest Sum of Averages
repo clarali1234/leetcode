@@ -1,9 +1,10 @@
 # brute force is get best score among all kinds of division
-# Cn(k) (k is 1 to K)
+# Cn(k) 
 # time O(n!)/(n - k)!
 
-# dfs + memo key, (n, k), value: max sum ave
+# dfs + memo key, (n, k), value: max sum ave of k groups for fist n elements 
 # dfs # return the result for n first numbers to at most k groups.
+
 # recursion, partition first i elements to k - 1 group, and i to n to 1 group
 
 # time O(kn ^ 2)
@@ -11,28 +12,28 @@
 
 class Solution(object):
     def largestSumOfAverages(self, A, K):
+        self.memo = {}
+        return self.dfs(A, len(A), K)        
         
-        self.memo = {} # key, (n, k), value: max sum ave
-        return self.dfs(A, len(A), K)
-    
-    def dfs(self, A, n, k):
+    def dfs(self, A, n, k): # first n element, k groups
         
-        if (n, k) in self.memo: 
+        if (n, k) in self.memo:
             return self.memo[(n, k)]
-        if n < k: 
+        
+        if n < k:
             return 0
+        
         if k == 1:
-            self.memo[(n, k)] = sum(A[:n]) / float(n)
+            self.memo[(n, k)] = sum(A[:n]) * 1.0 / n
             return self.memo[(n, k)]
         
-        cur_sum = 0
         res = 0
-        
-        # recursion part, 0 to i to at most k - 1 groups, and i + 1 to n is 1 group
         for i in range(n - 1, 0, -1):
-            cur_sum += A[i]
-            res = max(res, self.dfs(A, i, k - 1) + cur_sum / float(n - i))
-            
+            res = max(res, self.dfs(A, i, k - 1) + sum(A[i : n]) * 1.0 / (n - i)) # n - 1 - i + 1
+        
         self.memo[(n, k)] = res
         return res
+        
+        
+        
         
