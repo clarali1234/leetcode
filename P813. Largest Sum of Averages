@@ -1,4 +1,5 @@
 # dfs + memo key, (n, k), value: max sum ave
+# dfs # return the result for n first numbers to at most k groups.
 
 # time O(kn ^ 2)
 # space O(kn)
@@ -22,6 +23,7 @@ class Solution(object):
         cur_sum = 0
         res = 0
         
+        # recursion part 
         for i in range(n - 1, 0, -1):
             cur_sum += A[i]
             res = max(res, self.dfs(A, i, k - 1) + cur_sum / float(n - i))
