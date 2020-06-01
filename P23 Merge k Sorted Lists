@@ -3,6 +3,8 @@
 # time O(nlgk)， space O(k)
 
 # priority queue 本质上是list，但是给val 赋予了priority， 每次都会pop出priority最小的值，因为size为k，所以time, space complexity会减少
+# 不需要create new list node for node value, just use the input nodes, so the space complexity is O(k), is the space for 
+# priority queue
 
 from Queue import * 
 
