@@ -1,29 +1,31 @@
 # 序列化
-# for each node + hash table, key: serialization of subtree, value: times
+# for each node + hash table, 
+#  dic, key:serialization of current node, value: times
 
 # time O(n ^ 2)
 # space O(n ^ 2)
 
-
-
  class Solution(object):
     def findDuplicateSubtrees(self, root):
-        self.paths = collections.defaultdict(int)
+        
+        if not root:
+            return None
+        
+        self.dic = collections.defaultdict(int)
         self.res = []
         self.dfs(root)
         return self.res
     
-    
-    def dfs(self, node):
+    def dfs(self, node): # return seris result 
         if not node:
             return '#'
         
-        path = str(node.val) + ',' self.dfs(node.left) + ',' + self.dfs(node.right)
-        if self.paths[path] == 1:
+        seris = str(node.val) + ',' + self.dfs(node.left) + ',' + self.dfs(node.right) 
+        self.dic[seris] += 1
+        if self.dic[seris] == 2:
             self.res.append(node)
-        self.paths[path] += 1
-        return path
-
+            
+        return seris
 
 # sol2 
 # assign a unique id for each unique substree
@@ -36,22 +38,26 @@ don't need to storage serialization of subtree, can use key(root.val, id(leftChi
 class Solution(object):
     def findDuplicateSubtrees(self, root):
         
-        self.dic = collections.defaultdict(int)
-        self.count = collections.defaultdict(int)
+        if not root:
+            return None
+        
+        self.dic = collections.defaultdict(int) # key, node, value unique id
+        self.count = collections.defaultdict(int) # key, id, value: count
         self.res = []
-        self.lookup(root)
-
+        self.dfs(root)
         return self.res
-
-    def lookup(self, node):
+    
+    def dfs(self, node):
         if not node:
             return 0
-            
-        seris = (node.val, self.lookup(node.left), self.lookup(node.right))
+        
+        seris = (node.val, self.dfs(node.left), self.dfs(node.right))
         if seris in self.dic:
             uid = self.dic[seris]
         else:
-            uid = self.dic[seris] = len(self.dic) + 1
+            uid = len(self.dic) + 1
+            self.dic[seris] = uid
+        
         self.count[uid] += 1
         if self.count[uid] == 2:
             self.res.append(node)
