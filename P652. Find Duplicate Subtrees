@@ -26,5 +26,33 @@
 
 
 # sol2 
+# assign a unique id for each unique substree
 # time O(n)
 # space O(n)
+
+don't need to storage serialization of subtree, can use key(root.val, id(leftChild), id(rightChild))
+# default_factory is a function returning the default value for the dictionary defined.
+
+class Solution(object):
+    def findDuplicateSubtrees(self, root):
+        
+        self.dic = collections.defaultdict(int)
+        self.count = collections.defaultdict(int)
+        self.res = []
+        self.lookup(root)
+
+        return self.res
+
+    def lookup(self, node):
+        if not node:
+            return 0
+            
+        seris = (node.val, self.lookup(node.left), self.lookup(node.right))
+        if seris in self.dic:
+            uid = self.dic[seris]
+        else:
+            uid = self.dic[seris] = len(self.dic) + 1
+        self.count[uid] += 1
+        if self.count[uid] == 2:
+            self.res.append(node)
+        return uid
