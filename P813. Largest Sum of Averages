@@ -3,6 +3,7 @@
 
 # dfs + memo key, (n, k), value: max sum ave
 # dfs # return the result for n first numbers to at most k groups.
+# recursion, partition first i elements to k - 1 group, and i to n to 1 group
 
 # time O(kn ^ 2)
 # space O(kn), dfs max depth is O(n)
