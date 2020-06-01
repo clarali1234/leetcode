@@ -1,3 +1,4 @@
+# dfs + memo key, (n, k), value: max sum ave
 
 # time O(kn ^ 2)
 # space O(kn)
@@ -6,20 +7,17 @@ class Solution(object):
     def largestSumOfAverages(self, A, K):
         
         self.memo = {} # key, (n, k), value: max sum ave
-        
         return self.dfs(A, len(A), K)
     
     def dfs(self, A, n, k):
         
         if (n, k) in self.memo: 
-            return self.memo[n, k]
-        
+            return self.memo[(n, k)]
         if n < k: 
             return 0
-        
         if k == 1:
-            self.memo[n, k] = sum(A[:n]) / float(n)
-            return self.memo[n, k]
+            self.memo[(n, k)] = sum(A[:n]) / float(n)
+            return self.memo[(n, k)]
         
         cur_sum = 0
         res = 0
