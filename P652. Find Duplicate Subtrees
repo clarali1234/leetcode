@@ -1,4 +1,6 @@
-# 序列化 for each node + hash table 
+# 序列化
+# for each node + hash table, key: serialization of subtree, value: times
+
 # time O(n ^ 2)
 # space O(n ^ 2)
 
@@ -16,8 +18,13 @@
         if not node:
             return '#'
         
-        path = str(node.val) + self.dfs(node.left) + self.dfs(node.right)
+        path = str(node.val) + ',' self.dfs(node.left) + ',' + self.dfs(node.right)
         if self.paths[path] == 1:
             self.res.append(node)
         self.paths[path] += 1
         return path
+
+
+# sol2 
+# time O(n)
+# space O(n)
