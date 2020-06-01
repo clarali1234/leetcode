@@ -1,8 +1,11 @@
+# brute force is get best score among all kinds of division
+# time O(combination of 0 to n, 1 to k, .... n to k)
+
 # dfs + memo key, (n, k), value: max sum ave
 # dfs # return the result for n first numbers to at most k groups.
 
 # time O(kn ^ 2)
-# space O(kn)
+# space O(kn), dfs max depth is O(n)
 
 class Solution(object):
     def largestSumOfAverages(self, A, K):
