@@ -2,7 +2,7 @@
 # Cn(k) 
 # time O(n!)/(n - k)!
 
-# dfs + memo key, (n, k), value: max sum ave of k groups for fist n elements 
+# dfs + memo key, (n, k), value: max sum ave of k groups for fisrt n elements 
 # dfs # return the result for n first numbers to at most k groups.
 
 # recursion, partition first i elements to k - 1 group, and i to n to 1 group
@@ -12,28 +12,21 @@
 
 class Solution(object):
     def largestSumOfAverages(self, A, K):
+        
         self.memo = {}
-        return self.dfs(A, len(A), K)        
-        
-    def dfs(self, A, n, k): # first n element, k groups
-        
+        return self.dfs(A, len(A), K)
+    
+    def dfs(self, A, n, k):
         if (n, k) in self.memo:
             return self.memo[(n, k)]
-        
-        if n < k:
-            return 0
         
         if k == 1:
             self.memo[(n, k)] = sum(A[:n]) * 1.0 / n
             return self.memo[(n, k)]
         
         res = 0
-        for i in range(n - 1, 0, -1):
-            res = max(res, self.dfs(A, i, k - 1) + sum(A[i : n]) * 1.0 / (n - i)) # n - 1 - i + 1
-        
+        for i in range(k - 1, n):
+            res = max(res, self.dfs(A, i, k - 1) + (sum(A[:n]) - sum(A[:i])) * 1.0 / (n - i))
+            
         self.memo[(n, k)] = res
         return res
-        
-        
-        
-        
