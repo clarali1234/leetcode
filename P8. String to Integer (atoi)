@@ -1,33 +1,35 @@
 class Solution(object):
     def myAtoi(self, str):
         
-        
-        str = str.strip()
-        if not str:
+        s = str.strip()
+        if not s:
             return 0
         
         sign = 1
-        num = 0
-        
-        if str[0] == '-':
+        if s[0] == '-':
             sign = -1
-            str = str[1:]
-        elif str[0] == '+':
+            s = s[1:]
+        elif s[0] == '+':
             sign = 1
-            str = str[1:]
-            
-        for char in str:
-            print(char, char.isdigit())
+            s = s[1:]
+        
+        res = ''
+        for char in s:
             if char.isdigit():
-                num = num * 10 + int(char)
-                print(char)
-                
+                res = res + char
             else:
                 break
                 
-        num = num * sign   
-        if num > 2 ** 31 - 1:
-            num = 2 ** 31 - 1
-        elif num < -2 ** 31:
-            num = -2 ** 31
-        return num
+        
+        if not res:
+            return 0
+        
+        res = int(res) * sign
+        if res < -2 ** 31:
+            return -2 ** 31
+        if res > 2 ** 31 - 1:
+            return 2 ** 31 - 1
+        return res                
+        
+        
+        
