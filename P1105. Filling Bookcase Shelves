@@ -26,13 +26,15 @@ class Solution(object):
         dp = [sys.maxsize for _ in range(len(books) + 1)]
         dp[0] = 0
         n = len(books)
+        
         for i in range (1, n + 1):
             max_width = shelf_width
             max_height = 0
             j = i-1
+            # 将前i - 1本书从第i - 1本开始放在与i同一层，直到这一层摆满或者所有的书都摆好
             while j >= 0 and max_width - books[j][0] >= 0:
-                max_width -= books[j][0]
-                max_height = max(max_height, books[j][1])
+                max_width -= books[j][0] 
+                max_height = max(max_height, books[j][1]) // 每层的高度由最高的那本书决定
                 dp[i] = min(dp[i], dp[j] + max_height)
                 j -= 1
         return dp[n]
