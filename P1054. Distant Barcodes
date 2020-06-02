@@ -1,0 +1,28 @@
+# heap
+# time O(ngln)
+# space O(n)
+# 思路类似 strings with no adj chars
+
+from heapq import *
+class Solution(object):
+    def rearrangeBarcodes(self, barcodes):
+        
+        counter = collections.Counter(barcodes)
+        heap = []
+        for barc, c in counter.items():
+            heappush(heap, (-c, barc))
+            
+        res = []
+        prev_code = -1
+        prev_c = 0
+        
+        while heap:
+            c, cur_code = heappop(heap)
+            res.append(cur_code)
+            if prev_c < 0:
+                heappush(heap, (prev_c, prev_code))
+            c += 1
+            prev_code = cur_code
+            prev_c = c
+        return res
+                
