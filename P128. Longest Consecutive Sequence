@@ -31,28 +31,21 @@ class Solution(object):
 
 class Solution(object):
     def longestConsecutive(self, nums):
-        
         if not nums:
             return 0
+        if len(nums) == 1:
+            return 1
         
-        nums_set = set(nums)
+        num_set = set(nums)
         res = 0
-        cur = 0
-        cur_len = 0
-        
-        for num in nums_set:
-            if num - 1 in nums_set:
-                continue 
-            
-            cur = num
-            cur_len = 1
-            
-            while cur + 1 in nums_set:
-                cur = cur + 1
+        cur_len = 1
+        for num in nums:
+            if num - 1 in num_set:
+                continue
+            while num + 1 in num_set:
                 cur_len += 1
-                
+                num += 1
             res = max(res, cur_len)
-                
+            cur_len = 1
         return res
-            
             
