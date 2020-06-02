@@ -7,32 +7,42 @@
 # space O(mn)
 class Solution(object):
     def pacificAtlantic(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: List[List[int]]
-        """
-        if not matrix:
+        
+        if not matrix or not matrix[0]:
             return []
         
+        p_set = set()
+        a_set = set()
         m = len(matrix)
         n = len(matrix[0])
-        set_pacific = set([(0, i) for i in range(n)] + [(j, 0) for j in range(m)])
-        set_atlantic = set([(m - 1, j) for j in range(n)] + [(i, n - 1) for i in range(m)])
         
-        return self.bfs(matrix, set_pacific) & self.bfs(matrix, set_atlantic)
+        for j in range(n):
+            p_set.add((0, j))
+            a_set.add((m - 1, j))
+        
+        for i in range(m):
+            p_set.add((i, 0))
+            a_set.add((i, n - 1))
+            
+        self.bfs(matrix, p_set)
+        self.bfs(matrix, a_set)
+        
+        return p_set & a_set
     
-    def bfs(self, matrix, reachable_nodes):
-        queue = collections.deque(reachable_nodes)
-        #queue.append(reachable_nodes)
-        
-        while queue:
-            (x, y) = queue.popleft()
-            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+    def bfs(self, matrix, r_set):
+        q = collections.deque([])
+        for x, y in r_set:
+            q.append((x, y))
+            
+        while q:
+            x, y = q.popleft()
+            
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
                 new_x = x + dx
                 new_y = y + dy
-                if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and matrix[new_x][new_y] >= matrix[x][y] and (new_x, new_y) not in reachable_nodes:
-                    reachable_nodes.add((new_x, new_y))
-                    queue.append((new_x,new_y))
-        return reachable_nodes
-                
+                if 0 <= new_x < len(matrix) and 0 <= new_y < len(matrix[0]) and matrix[new_x][new_y] >= matrix[x][y] and (new_x, new_y) not in r_set:
+                    r_set.add((new_x, new_y))
+                    q.append((new_x, new_y))
+                    
         
+            
