@@ -1,3 +1,23 @@
+# brute force 
+# time O(2 ^ n)
+# space O(n)
+class Solution(object):
+    def integerReplacement(self, n):
+        
+        if n == 1:
+            return 0
+        
+        return self.dfs(n)
+    
+    def dfs(self, n):
+        if n == 1:
+            return 0
+        
+        if n % 2 == 0:
+            return 1 + self.dfs(n // 2)
+        
+        return min(self.dfs(n + 1), self.dfs(n - 1)) + 1
+
 # dfs + dic
 # time O(n)
 # space O(n)
