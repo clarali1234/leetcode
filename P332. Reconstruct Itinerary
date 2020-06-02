@@ -7,35 +7,32 @@
 # dfs
 #先pop出字母序最小的点，最先没有edge的点，最先加入res
 #这样既保证了字母序，又可以确保添加所有的行程(edges)
-
-
 # time O(elge + v)
 # space O(v + e)
-
 # dfs
 class Solution(object):
     def findItinerary(self, tickets):
-        # build graph
-        self.graph = collections.defaultdict(list)
-        for fro, to in tickets:
-            self.graph[fro].append(to)
-           
-        # sort
-        for fro, tos in self.graph.items():
-            #sorted(tos)[::-1]
-            tos.sort(reverse = True)
         
-        # call dfs
+        graph = collections.defaultdict(list)
+        for s, e in tickets:
+            graph[s].append(e)
+            
+        for s, vals in graph.items():
+            vals.sort(reverse = True)
+            graph[s] = vals
+            
         self.res = []
-        self.dfs('JFK')
+        self.dfs(graph, 'JFK')
         return self.res[::-1]
     
-    def dfs(self, port):
-        while self.graph[port]:
-            nxt = self.graph[port].pop()
-            self.dfs(nxt)
+    def dfs(self, graph, node):
         
-        self.res.append(port)
+        while graph[node]:
+            nb = graph[node].pop()
+            self.dfs(graph, nb)
+            
+        self.res.append(node)
+            
         
   # non-recursion
   class Solution(object):
