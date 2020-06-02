@@ -25,16 +25,17 @@ So assign left = mid + 1.
      
 class Solution(object):
     def findClosestElements(self, arr, k, x):
-        
         l = 0
         r = len(arr) - k
+        
         while l < r:
             m = (l + r) // 2
-            if x - arr[m] > arr[m + k] - x:
-                l = m + 1
+            if x - arr[m] <= arr[m + k] - x:
+                r = m 
             else:
-                r = m
+                l = m + 1
         return arr[l : l + k]
+                
 
 
 # sol1 heap
