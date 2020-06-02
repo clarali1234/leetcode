@@ -1,4 +1,5 @@
-# sort then enumerate
+# sort then enumerate 
+# 注意take care of dupliation values [0, 1, 1, 2] 
 # time O(nlgn)
 # space O(1)
 
@@ -8,22 +9,21 @@ class Solution(object):
         if not nums:
             return 0
         
+        if len(nums) == 1:
+            return 1
+        
         nums.sort()
         res = 1
-        cur = 1
-        
+        cur_len = 1
         for i in range(1, len(nums)):
-            if nums[i] == nums[i - 1]:
+            if i > 0 and nums[i] == nums[i - 1]: # take care of dupliation values
                 continue
-                
-            if nums[i] == nums[i - 1] + 1:
-                cur += 1
-                res = max(res, cur)
+            if nums[i] - nums[i - 1] == 1:
+                cur_len += 1
+                res = max(res, cur_len)
             else:
-                cur = 1
+                cur_len = 1
         return res
-                  
-
 # time O(n)
 # space O(n)
 # hashset
