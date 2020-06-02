@@ -2,9 +2,9 @@
 # binary search to find start point
  # time O(log(N-k) + K)
  # space O(k)
-Assume we are taking A[i] ~ A[i + k -1].
-We can binary research i
+ 
 We compare the distance between x - A[mid] and A[mid + k] - x
+our goal is to let x as in the middle of res array as possible
 
 case 1: x - A[mid] < A[mid + k] - x, need to move window go left
 -------x----A[mid]-----------------A[mid + k]----------
