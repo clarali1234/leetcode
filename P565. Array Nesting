@@ -5,28 +5,29 @@
 class Solution(object):
     def arrayNesting(self, nums):
         
+        self.dic = {} # key : start index, value: longest length 
         res = 0
-        self.memo = {} # key: i, value : count
         for i in range(len(nums)):
-            if i in self.memo:
-                res = max(res, self.memo[i])
-            else:
-                self.visited = set()
-                self.visited.add(i)
-                self.count = 1
-                self.dfs(nums, i)
-                res = max(res, self.count)
+            cur_len = self.dfs(nums, i, set())
+            res = max(cur_len, res)
         return res
     
-    def dfs(self, nums, index):
-        if nums[index] in self.memo:
-            self.count += self.memo[nums[index]]
-            return
-            
-            
-        if nums[index] not in self.visited:
-            self.visited.add(nums[index])
-            self.count += 1
-            self.dfs(nums, nums[index])
-            self.memo[nums[index]] = self.count
+    def dfs(self, nums, index, visited): # 
+        if index in self.dic:
+            return self.dic[index]
         
+        visited.add(index)
+        if nums[index] in visited:
+            self.dic[index] = 1
+            return 1
+        
+        res = 1 + self.dfs(nums, nums[index], visited)
+        self.dic[index] = res
+        return res
+        
+        
+        
+        
+        
+        
+            
