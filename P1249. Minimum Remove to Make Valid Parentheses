@@ -6,20 +6,23 @@
 
 class Solution(object):
     def minRemoveToMakeValid(self, s):
+        
+        if not s:
+            return ''
+        
         stack = []
-        res = ''
+        cur_str = ''
         
         for char in s:
             if char == '(':
-                stack.append(res)
-                res = ''
+                stack.append(cur_str)
+                cur_str = ''
             elif char == ')':
                 if stack:
-                    res = stack.pop() + '(' + res + ')'
+                    cur_str = stack.pop() + '(' + cur_str + ')'
             else:
-                res = res + char 
-                
+                cur_str += char
+        
         while stack:
-            res = stack.pop() + res # corner case 'a(b(c'
-        return res
-                        
+            cur_str = stack.pop() + cur_str
+        return cur_str
