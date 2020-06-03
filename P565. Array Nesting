@@ -8,26 +8,23 @@ class Solution(object):
         self.dic = {} # key : start index, value: longest length 
         res = 0
         for i in range(len(nums)):
-            cur_len = self.dfs(nums, i, set())
-            res = max(cur_len, res)
+            cur_len = self.dfs(nums, i, set()) 
+            res = max(res, cur_len)
         return res
     
-    def dfs(self, nums, index, visited): # 
-        if index in self.dic:
-            return self.dic[index]
-        
-        visited.add(index)
-        if nums[index] in visited:
-            self.dic[index] = 1
+    
+    def dfs(self, nums, i, visited):
+        if i in self.dic:
+            return self.dic[i]
+
+        visited.add(i)
+        # recursion 1, don't have nb
+        if nums[i] in visited:
+            self.dic[i] = 1
             return 1
         
-        res = 1 + self.dfs(nums, nums[index], visited)
-        self.dic[index] = res
+        # recursion, call dfs for nb
+        res = 1 + self.dfs(nums, nums[i], visited)
+        self.dic[i] = res
         return res
         
-        
-        
-        
-        
-        
-            
