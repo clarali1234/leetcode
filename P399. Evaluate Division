@@ -2,8 +2,6 @@
 # time O(q(v + e)), worst case e is v^2
 # space O(v + q)
 
-import collections
-
 class Solution(object):
     def calcEquation(self, equations, values, queries):
         
@@ -26,8 +24,6 @@ class Solution(object):
         return res
     
     def dfs(self, graph, n1, target, cur_val, visited):
-        if n1 in visited:
-            return -1
         
         if n1 == target:
             return cur_val
@@ -35,9 +31,15 @@ class Solution(object):
         visited.add(n1)
         res = -1
         for n2, w in graph[n1].items():
-            cur_res = self.dfs(graph, n2, target, cur_val * w, visited)
-            if cur_res > 0:
-                return cur_res
+            if n2 not in visited:
+                cur_res = self.dfs(graph, n2, target, cur_val * w, visited)
+                if cur_res > 0:
+                    return cur_res
         return res
                 
             
+                
+            
+        
+            
+        
