@@ -1,10 +1,55 @@
+# brute force 
+# all kinds of d^f, calcute sum
+# time (d^f)
+# space O(d)
+
+
+
+
+
+# dfs + memo
+# memo: key(d, target), value: num
+# time O(d * target * f)
+# space O(d * target)
+
+class Solution(object):
+    def numRollsToTarget(self, d, f, target):
+        
+        self.memo = {} # key, (d, t) val:num 
+        return self.dfs(d, f, target) % (10 ** 9 + 7)
+        
+    def dfs(self, d, f, target):
+        if (d, target) in self.memo:
+            return self.memo[(d, target)]
+        
+        if d == 0 and target == 0:
+            self.memo[(d, target)] = 1
+            return 1
+        
+        if d < 0 or target < 0:
+            return 0
+        
+        res = 0
+        for val in range(1, f + 1):
+            res += self.dfs(d - 1, f, target - val)
+            
+        self.memo[(d, target)] = res
+        return res
+            
+
+
+
+
+
+
+
+
+
+
 # dp 2 * 2, 行 
-
 # dp[i][j], (d * (target + 1)) 前i次掷骰子的和为j的次数
-
 # dp[0][0] = 1
 # 转移方程 dp[i][j]=sum(dp[i−1][k] for k < j and k <= f)
-
 k = j; k <= target
 
 # time O(d * f * target)
