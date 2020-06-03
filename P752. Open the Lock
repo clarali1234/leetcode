@@ -11,35 +11,32 @@ class Solution(object):
         
         if '0000' in deadends:
             return -1
-    
-        deads = set(deadends)
+        
         seen = set()
         q = collections.deque([('0000', 0)])
         seen.add('0000')
+        self.deads = set(deadends)
         
+
         while q:
-            node, step = q.popleft()
-            if node in deads:
-                continue
-            if node == target:
+            cur_num, step = q.popleft()
+            if cur_num == target:
                 return step
-            
-            for nb in self.get_neighbors(node):
-                nb = str(nb)
+            for nb in self.get_nbs(cur_num):
                 if nb not in seen:
-                    q.append([nb, step + 1])
                     seen.add(nb)
-        return -1      
-                
-    def get_neighbors(self, node):
+                    q.append([nb, step + 1])
+        return -1
+                    
+
+    def get_nbs(self, s):
         nbs = []
-        for i in range(4):
-            cur_d = int(node[i])
-            nbs.append(node[:i] + str((cur_d + 1) % 10) + node[i + 1:])
-            nbs.append(node[:i] + str((cur_d - 1) % 10) + node[i + 1:])
+        for i, char in enumerate(s):
+            new_nb1 = s[:i] + str((int(char) + 1) % 10) + s[i + 1:]
+            new_nb2 = s[:i] + str((int(char) - 1) % 10) + s[i + 1:]
+            if new_nb1 not in self.deads:
+                nbs.append(new_nb1)
+            if new_nb2 not in self.deads:
+                nbs.append(new_nb2)
         return nbs
-
-
-
-
-
+        
