@@ -2,6 +2,9 @@
 # if s[:i] match p[:j] s[i - 1] p[j -1]
 
 # dp[0][0] = 1 True 
+# s : ''
+# p : 'a*a*'
+
 # empty s , p[j - 1] = *, then dp[0][j] = dp[0][j - 2]
 
 # tansmation formula:
