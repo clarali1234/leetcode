@@ -14,7 +14,7 @@
     当匹配多个时，
     # abbb                                           # abbb
     #  ab*                                           #  a.*
-    if p[j - 2] == s[i - 1] or p[j - 2] == '*':
+    if p[j - 2] == s[i - 1] or p[j - 2] == '.':
         dp[i][j] = dp[i - 1][j] or dp[i][j - 2]
     
     
