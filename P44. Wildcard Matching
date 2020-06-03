@@ -1,7 +1,12 @@
 # state variable, dp[i][j], first i in s, match first j in p
+
+# s:''
+# p:'**', p can't contain char which is not *
 # initialize, dp[0][j] = True, if p[j - 1] == '*' # s is empty, p[j - 1] '*
+
+
 # transmation formula: 1) p[j - 1] == s[j - 1] or p[j - 1] == '?', dp[i][j] = dp[i - 1][j - 1]
-                       2) p[j - 1] == '*', dp[i][j - 1](empty)/dp[i-1][j](any string)
+                       2) p[j - 1] == '*', dp[i][j - 1](empty)/dp[i-1][j](any string, s add char i, * add one more char)
 
 
 class Solution(object):
