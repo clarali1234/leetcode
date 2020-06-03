@@ -5,47 +5,39 @@
 import collections
 
 class Solution(object):
-    def calEquation(self, euqations, values, queries):
+    def calcEquation(self, equations, values, queries):
+        
         # build graph
+        # dfs 
         graph = collections.defaultdict(dict)
-        for (x,y), value in zip(equations, values):
-            graph[x][y] = value
-            graph[y][x] = 1.0 / value
+        for i in range(len(equations)):
+            n1, n2 = equations[i]
+            val = values[i]
+            graph[n1][n2] = val      # n1/n2 = val
+            graph[n2][n1] = 1.0 / val
         
-        res  = []
-        for i, j in queries:
-            res.append(self.dfs(graph, i, j, set(), 1.0))
+        res = []
+        for n1, n2 in queries:
+            if n1 not in graph:
+                res.append(-1)
+            else:
+                cur_r = self.dfs(graph, n1, n2, 1, set())
+                res.append(cur_r)
         return res
-                       
-    def dfs(self, graph, i, j, visited, value):
-        if i not in graph or j not in graph or i in visited:
-            return -1.0
-        if i == j:
-            return value
+    
+    def dfs(self, graph, n1, target, cur_val, visited):
+        if n1 in visited:
+            return -1
         
-        visited.add(i)
-        temp = 0
-        for n in graph[i]:
-            temp = self.dfs(graph, n,j, visited, value * graph[i][n])
-            if temp != -1.0:
-                return temp
-        return -1.0
-
-
-if __name__ == '__main__':
-    equations = [['a','b'],['b','c']]
-    values = [2, 3]
-    queries = [['a','c'], ['x','a']]
-    test = Solution()
-    res = test.calEquation(equations, values, queries)
-    print(res)
-            
-            
+        if n1 == target:
+            return cur_val
         
+        visited.add(n1)
+        res = -1
+        for n2, w in graph[n1].items():
+            cur_res = self.dfs(graph, n2, target, cur_val * w, visited)
+            if cur_res > 0:
+                return cur_res
+        return res
+                
             
-            
-# sol2 union find
-# time (e + q)
-# space (e)
-
-
