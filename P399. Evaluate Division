@@ -1,6 +1,6 @@
 # sol1 build graph + dfs q:query; e:equation
 # time O(q(v + e)), worst case e is v^2
-# space O(e)
+# space O(v + q)
 
 import collections
 
