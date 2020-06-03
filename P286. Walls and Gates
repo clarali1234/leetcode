@@ -1,4 +1,51 @@
-# bfs and dfs
+sol:
+bfs, 从门开始出发，bfs, 记录step, 碰到room, 更新step
+node: 遇到过的room不加入q里面
+# time O(mn)
+# space O(mn)
+
+class Solution(object):
+    def wallsAndGates(self, rooms):
+        
+        if not rooms or not rooms[0]:
+            return rooms
+        
+        q = collections.deque()
+        for i in range(len(rooms)):
+            for j in range(len(rooms[0])):
+                if rooms[i][j] == 0:
+                    q.append((i, j, 0))
+        
+        
+        while q:
+            x, y, step = q.popleft()
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                new_x = x + dx
+                new_y = y + dy
+                new_s = step + 1
+                if 0 <= new_x < len(rooms) and 0 <= new_y < len(rooms[0]):
+                    if rooms[new_x][new_y] > 2**30: # 表示遇到没遇到过的room
+                        rooms[new_x][new_y] = new_s
+                        q.append([new_x, new_y, new_s])
+                        
+                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bfs and dfs
 # worst case O((mn)^2)
 # space O(mn)
 
