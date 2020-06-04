@@ -11,42 +11,42 @@
 class Solution(object):
     def removeInvalidParentheses(self, s):
         
-        res = []
-        left, right = self.left_right_count(s)
-        self.dfs(s, left, right, 0, res)
-        return res
+        left, right = self.count_l_r(s)
+        self.res = []
+        self.dfs(s, left, right, 0)
+        return self.res
     
-    def dfs(self, s, left, right, start, res):
-        if left == 0 and right == 0:
-            if self.is_valid(s):
-                res.append(s)
-            return # backtracking: return to previous state
-    
-        for i in range(start, len(s)):
-            if i > start and s[i] == s[i-1]:
-                continue
-            if s[i] == '(' and left > 0:
-                self.dfs(s[:i] + s[i + 1:], left - 1, right, i, res)
-            if s[i] == ')' and right > 0:
-                self.dfs(s[:i] + s[i + 1:], left, right - 1, i, res)
-                
-    def is_valid(self, s):
-        left, right = self.left_right_count(s)
-        return left == 0 and right == 0
-    
-    def left_right_count(self, s):
-        left = right = 0
-        for ch in s:
-            if ch == '(':
-                left += 1
-            if ch == ')':
-                if left > 0:
-                    left -= 1
-                else:
-                    right += 1
-        return left, right
+    def dfs(self, s, l, r, start):
+        if l == r == 0:
+            if self.check_valid(s):
+                self.res.append(s)
+            return 
         
-                
+        for i in range(start, len(s)):
+            if i > start and s[i] == s[i - 1]:
+                continue
+            if s[i] == '(' and l > 0:
+                self.dfs(s[:i] + s[i + 1:], l - 1, r, i)
+            elif s[i] == ')' and r > 0:
+                self.dfs(s[:i] + s[i + 1:],  l , r - 1, i)
+    
+    def check_valid(self, s):
+        l, r = self.count_l_r(s)
+        return l == r == 0
+    
+    def count_l_r(self, s):
+        l = 0
+        r = 0
+        
+        for char in s:
+            if char == '(':
+                l += 1
+            elif char == ')':
+                if l:
+                    l -= 1
+                else:
+                    r += 1
+        return l, r
                 
   # BFS
 这道题首先可以用BFS来解，我们先把给定字符串排入队中，然后取出检测其是否合法，若合法直接返回，
