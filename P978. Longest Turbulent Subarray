@@ -1,4 +1,6 @@
 # sliding window
+从左往右扫描这个数组，如果我们扫描到了一个块的末尾（不再交替或者符号序列已经结束，
+那么就记录下这个块的答案并将其作为一个候选答案，然后设置下一个元素（如果有的话）为下一个块的开头。
 
 # Scan the array from left to right. 
 # If we are at the end of a block (last elements OR it stopped alternating), 
@@ -11,13 +13,17 @@
 class Solution(object):
     def maxTurbulenceSize(self, A):
         
-        i = 0
+        if not A:
+            return 0
+        if len(A) == 1:
+            return 1
+        
         res = 1
+        i = 0
         for j in range(1, len(A)):
-            if A[j] - A[j - 1] == 0:
+            if A[j] == A[j - 1]: # [9, 9]
                 i = j
             elif j == len(A) - 1 or (A[j] - A[j - 1]) * (A[j + 1] - A[j]) >= 0:
                 res = max(res, j - i + 1)
                 i = j
         return res
-                
