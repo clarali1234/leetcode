@@ -7,14 +7,14 @@ class Solution(object):
         if target in self.memo:
             return self.memo[target]
         
-        if target < 0:
+        if target < 0: # can't sum up to target
             return -1
         
-        if target == 0:
+        if target == 0: # don't need any more coins
             return 0
             
         res = sys.maxsize 
-        for coin in coins:
+        for coin in coins: # recursion part, try each coin
             cur_res = self.dfs(coins, target - coin)
             if cur_res >= 0 and cur_res + 1 < res:
                 res = 1 + cur_res
