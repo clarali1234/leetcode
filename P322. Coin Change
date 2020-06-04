@@ -1,3 +1,38 @@
+class Solution(object):
+    def coinChange(self, coins, amount):
+        self.memo = {}
+        return self.dfs(coins, amount)
+    
+    def dfs(self, coins, target): # fewest count to sum up to target
+        if target in self.memo:
+            return self.memo[target]
+        
+        if target < 0:
+            return -1
+        
+        if target == 0:
+            return 0
+            
+        res = sys.maxsize 
+        for coin in coins:
+            cur_res = self.dfs(coins, target - coin)
+            if cur_res >= 0 and cur_res + 1 < res:
+                res = 1 + cur_res
+        
+        if res == sys.maxsize:
+            res = -1
+            self.memo[target] = -1
+        else:
+            self.memo[target] = res
+        return res
+            
+                
+                
+                
+
+
+
+
 需要构建一个长度是amount + 1的dp数组，其含义是能够成面额从0到amount + 1需要使用的最少硬币数量
 for each coin, for i in range(amount + 1)
 dp[i] = min(dp[i], dp[i - coin] + 1), 假设dp[i]表示凑够i元所需要的最少硬币数
