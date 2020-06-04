@@ -10,7 +10,7 @@
 class Solution(object):
     def getIntersectionNode(self, headA, headB):
         
-        if not headA and not headB:
+        if not headA or not headB:
             return None
         
         p1 = headA
