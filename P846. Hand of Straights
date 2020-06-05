@@ -1,0 +1,24 @@
+# 思路
+# start from smallest value, form group of size w, repeat unitl no cards in hand
+# time O(n/w * n), average case O(n^2) (min takes O(n))
+# space O(n)
+
+class Solution(object):
+    def isNStraightHand(self, hand, W):
+        
+        if len(hand) % W:
+            return False
+        
+        counter = collections.Counter(hand)
+        while counter:
+            start = min(counter.keys())
+            for ele in range(start, start + W):
+                if ele not in counter:
+                    return False
+                counter[ele] -= 1
+                if counter[ele] == 0:
+                    del counter[ele]
+        
+        return not counter
+        
+        
