@@ -6,7 +6,7 @@
 4. thousand, mill, bill
 
 # recursive time O(n)
-# space O(1)
+# space O(n), recursion depth
 
 class Solution(object):
     def numberToWords(self, num):
