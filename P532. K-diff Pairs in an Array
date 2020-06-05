@@ -1,0 +1,26 @@
+# hashtable + iterate 
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def findPairs(self, nums, k):
+        if k < 0:
+            return 0
+        
+        if k == 0:
+            res = 0
+            counter = collections.Counter(nums)
+            for val, c in counter.items():
+                if c >= 2:
+                    res += 1
+            return res
+        
+        res = 0
+        num_set = set(nums)
+        for num in num_set:
+            if num + k in num_set:
+                res += 1
+        return res
+                
+                    
+                                         
