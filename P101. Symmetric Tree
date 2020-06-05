@@ -8,20 +8,18 @@ class Solution(object):
         if not root:
             return True
         
-        return self.dfs(root.left, root.right)
+        return self.mirror(root.left, root.right)
     
-    def dfs(self, left, right):
-
-        if not left and not right:
+    def mirror(self, l, r):
+        if not l and not r:
             return True
-        
-        if not left or not right:
+        if not l or not r:
             return False
         
-        if left.val != right.val:
-            return False
+        return l.val == r.val and self.mirror(l.left, r.right) and self.mirror(l.right, r.left)
         
-        return self.dfs(left.left, right.right) and self.dfs(left.right, right.left)
+        
+        
   # iterative, like BFS
   # time O(n)
   # space O(n)
