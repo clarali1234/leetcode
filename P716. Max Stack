@@ -1,148 +1,50 @@
+# two stacks
+# time popMax O(n), others O(1)
+# space O(n)
+
+思路:
+一个普通的栈可以支持前三种操作 push(x)，pop() 和 top()，所以我们需要考虑的仅为后两种操作 peekMax() 和 popMax()。
+对于 peekMax()，我们可以另一个栈来存储每个位置到栈底的所有元素的最大值。在 push(x) 操作时，只需要将第二个栈的栈顶和 x 的最大值入栈
+
+例如，如果当前第一个栈中的元素为 [2, 1, 5, 9, 3, 2]， -> [2, 1, 5, 3] ( popmax)  
+那么第二个栈中的元素为         [2, 2, 5, 9, 9, 9]。 ->  [2, 2, 5, 5] 
+tmp [2, 3]
+
 class MaxStack(object):
 
     def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        self.stack = []
-        self.max_stack = []
-
+        self.s1 = []
+        self.s2 = [] # max stack
+        
     def push(self, x):
-        """
-        :type x: int
-        :rtype: None
-        """
-        self.stack.append(x)
-        if not self.max_stack or x >= self.max_stack[-1]:
-            self.max_stack.append(x)
-        
-        
-    def pop(self):
-        """
-        :rtype: int
-        """
-        if self.stack:
-            node = self.stack.pop()
-            if node == self.max_stack[-1]:
-                self.max_stack.pop()
-            return node
-
-    def top(self):
-        """
-        :rtype: int
-        """
-        if self.stack:
-            return self.stack[-1]
-
-    def peekMax(self):
-        """
-        :rtype: int
-        """
-        if self.max_stack:
-            return self.max_stack[-1]
-    # stack [5, 1]
-    # max stack [5]
-    # popped [1, 2]
-    def popMax(self):
-        """
-        :rtype: int
-        """
-        if self.max_stack:
-            node = self.max_stack.pop()
-            popped = []
-            # 
-            while node != self.stack[-1]:
-                popped.append(self.stack.pop())
-            self.stack.pop()
-            
-            while popped:
-                n = popped.pop()
-                self.stack.append(n)
-                if not self.max_stack or n > self.max_stack[-1]:
-                    self.max_stack.append(n)
-            return node
-        
-        
-
-
-
-# can't be O(lgn) using python
-# can't be O(1)
-
-# sol1 two stacks
-# popMax O(n); others O(1)
-class MaxStack(object):
-
-    def __init__(self):
-        """
-        initialize your data structure here.
-        """
-        self.stack = []
-        self.max_stack = []
-        
-
-    def push(self, x):
-        """
-        :type x: int
-        :rtype: None
-        """
-        self.stack.append(x)
-        if self.max_stack:
-            self.max_stack.append(max(x, self.max_stack[-1]))
+        self.s1.append(x)
+        if not self.s2 or self.s2[-1] <= x:
+            self.s2.append(x)
         else:
-            self.max_stack.append(x)
-        
+            self.s2.append(self.s2[-1])  
 
     def pop(self):
-        """
-        :rtype: int
-        """
-        self.max_stack.pop()
-        return self.stack.pop()
-        
-        
+        val = self.s1.pop()
+        self.s2.pop()
+        return val
 
     def top(self):
-        """
-        :rtype: int
-        """
-        return self.stack[-1] if self.stack else None
+        return self.s1[-1]
         
-
     def peekMax(self):
-        """
-        :rtype: int
-        """
-        return self.max_stack[-1] if self.stack else None
+        return self.s2[-1]
         
-
     def popMax(self):
-        """
-        :rtype: int
-        """
-        num_max = self.max_stack[-1]
-        temp = []
-        while num_max != self.stack[-1]:
-            temp.append(self.stack.pop())
-            self.max_stack.pop()
         
-        self.stack.pop()
-        self.max_stack.pop()
-        
-        for n in temp[::-1]:
-            self.push(n)
-        return num_max
+        val = self.s2.pop()
+
+        tmp = []
+        while self.s1 and self.s1[-1] != val:
+            tmp.append(self.s1.pop())
+            self.s2.pop()
             
-       
-
-
-# Your MaxStack object will be instantiated and called as such:
-# obj = MaxStack()
-# obj.push(x)
-# param_2 = obj.pop()
-# param_3 = obj.top()
-# param_4 = obj.peekMax()
-# param_5 = obj.popMax()
-
-
-
+        self.s1.pop()
+        while tmp:
+            self.push(tmp.pop())
+        return val
+            
