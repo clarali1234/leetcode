@@ -2,7 +2,7 @@
 # True/False
 # transmation formula dp[i][j] = dp[i - 1][j] and s1[i - 1] == s3[i + j - 1] or dp[i][j - 1] and s2[j - 1] == s3[i + j - 1]
 # dp[i][j] comes from first i - 1 in s1, first j in s2, and s1[i - 1] == s3[i + j - 1]
-or first i in s1, first j - 1 in s2 and s2[j - 1] == s3[i + j - 1
+or first i in s1, first j - 1 in s2 and s2[j - 1] == s3[i + j - 1]
 
 # time O(m*n)
 # space O(m * n)
