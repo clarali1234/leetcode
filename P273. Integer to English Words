@@ -10,29 +10,25 @@
 
 class Solution(object):
     def numberToWords(self, num):
-        
         if num == 0:
             return 'Zero'
         
         self.to_19 = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
         self.tens = ['Twenty','Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty',  'Ninety']
         
-        words = self.dfs(num)
-        return ' '.join(words)
+        return ' '.join(self.recursion(num))
     
-    
-    def dfs(self, num):
-        if num < 20:
-            return self.to_19[num - 1 : num]
-        if num < 100:
-            return [self.tens[num // 10 - 2]] + self.dfs(num % 10)
-        if num < 1000:
-            return [self.to_19[num // 100 - 1]] + ['Hundred'] + self.dfs(num % 100)
+    def recursion(self, n):
+        if n < 20:
+            return self.to_19[n - 1 : n]
         
-        vals = ['Thousand', 'Million', 'Billion']
+        if n < 100:
+            return [self.tens[n // 10 - 2]] + self.recursion(n % 10)
         
-        for i, val in enumerate(vals): # 1000, thousand; 1000 * 1000 million; 1000 ** 3 billion
-            if num < 1000 ** (i + 2):
-                return self.dfs(num // (1000 ** (i + 1))) + [vals[i]] + self.dfs(num % (1000 ** (i + 1)))
-                
+        if n < 1000:
+            return [self.to_19[n // 100 - 1]] + ['Hundred'] + self.recursion(n % 100)
+        
+        for i, val in enumerate(['Thousand', 'Million', "Billion"]):
+            if n < 1000 ** (i + 2):
+                return self.recursion(n // (1000 ** (i + 1))) + [val] + self.recursion(n % (1000 ** (i + 1)))
         
