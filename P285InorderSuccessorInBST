@@ -1,5 +1,5 @@
 #sol1: recursion
-    time O(n), space O(h)
+    time O(h), space O(h)
 class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
         if not root:
