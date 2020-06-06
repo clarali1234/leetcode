@@ -25,18 +25,26 @@ class Solution(object):
 time O(m + n)
 space O(m + n)
 
-# max stack
 class Solution(object):
     def nextGreaterElement(self, nums1, nums2):
         
-        # key : num, value: next greater num
-        dic = {}
-        # space O(n), time O(n)
         stack = []
-        for num in nums2:
+        dic = {}
+        
+        for i in range(len(nums2) - 1, -1, -1):
+            num = nums2[i]
             while stack and stack[-1] < num:
-                dic[stack.pop()] = num
+                stack.pop() 
+            if not stack:
+                dic[num] = -1
+            else:
+                dic[num] = stack[-1] 
             stack.append(num)
             
-        # time O(m), space O(m)
-        return [dic.get(num, -1) for num in nums1]
+        
+        res = []
+        for num in nums1:
+            res.append(dic[num])
+        return res
+        
+            
