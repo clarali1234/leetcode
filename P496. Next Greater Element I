@@ -19,9 +19,9 @@ class Solution(object):
         return -1
             
             
-
-
 2. stack + hashmap
+思路: 先处理 nums2, -> hashtable, key: num, ele: next greater element
+
 time O(m + n)
 space O(m + n)
 
