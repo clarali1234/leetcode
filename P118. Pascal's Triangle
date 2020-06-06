@@ -5,15 +5,23 @@
 class Solution(object):
     def generate(self, numRows):
         
-        triangle = []
+        if numRows == 0:
+            return []
         
-        for i in range(numRows):
-            row = [None for _ in range(i + 1)]
-            row[0] = 1
-            row[-1] = 1
+        if numRows == 1:
+            return [[1]]
+        
+        if numRows == 2:
+            return [[1], [1, 1]]
             
-            for j in range(1, i):
-                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]
-            triangle.append(row)
+        # n > 2:
+        res = [[1], [1, 1]]
+        
+        for n in range(2, numRows):
+            cur = [1] + [0 for _ in range(n - 1)] + [1]  # len is n + 1
+            for i in range(1, n): # 
+                prev_line = res[-1]
+                cur[i] = prev_line[i] + prev_line[i - 1]
+            res.append(cur)
+        return res
             
-        return triangle
