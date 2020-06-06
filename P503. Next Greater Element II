@@ -1,23 +1,42 @@
 # time O(n)
 # space O(n)
-# stack  # stack store index that has not been found next greater element
+# stack 和496思路类似
+
+# expand num by 2 times
+# iterate from right most point
+# if cur_num >= top in the stack, pop stack
 
 class Solution(object):
     def nextGreaterElements(self, nums):
         
-        n = len(nums)
-        new_num = nums + nums
+        if not nums:
+            return []
+        
         stack = []
-        res = [-1 for _ in range(2 * n)]
+        m = len(nums)
+        n2 = nums + nums
+        n = len(n2)
+        res = [-1 for _ in range(n)]
         
-        # [1 2 1 1 2 1 ]
         
-        for i, num in enumerate(new_num):
-            while stack and new_num[stack[-1]] < num:
-                res[stack.pop()] = new_num[i]
-            stack.append(i)
+        for i in range(n - 1, -1, -1):
+            num = n2[i]
+            while stack and stack[-1] <= num:
+                stack.pop()
+                
+            if not stack:
+                res[i] = -1
+            else:
+                res[i] = stack[-1]
+                
+            stack.append(num)
             
-        return res[:n]
+        return res[:m]
+                
+            
+            
+            
+
         
         
 # brute force 
