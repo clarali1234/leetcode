@@ -18,7 +18,6 @@ class Solution(object):
         n = len(n2)
         res = [-1 for _ in range(n)]
         
-        
         for i in range(n - 1, -1, -1):
             num = n2[i]
             while stack and stack[-1] <= num:
