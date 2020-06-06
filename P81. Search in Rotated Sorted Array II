@@ -16,22 +16,23 @@ class Solution(object):
         r = len(nums) - 1
         
         while l + 1 < r:
-            while nums[l] == nums[l + 1] and l + 1 < r:
+            while l + 1 < r and nums[l] == nums[l + 1]:
                 l += 1
-            while nums[r] == nums[r - 1] and l + 1 < r - 1:
+                
+            while l + 1 < r and nums[r] == nums[r - 1]:
                 r -= 1
                 
             m = (l + r) // 2
-            if nums[m] >= nums[l]:
+            
+            if nums[l] <= nums[m]:
                 if nums[l] <= target <= nums[m]:
                     r = m
                 else:
                     l = m
-            
             else:
                 if nums[m] <= target <= nums[r]:
                     l = m
                 else:
                     r = m
-            
+                    
         return target in [nums[l], nums[r]]
