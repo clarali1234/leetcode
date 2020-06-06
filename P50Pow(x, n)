@@ -1,4 +1,7 @@
+ 
+ 
  # sol1: recursion
+ # x ^ n = (x ^ (2 * n/2))
  # time O(lgn)
  # space O(lgn)
  
