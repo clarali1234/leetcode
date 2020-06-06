@@ -7,77 +7,33 @@ dp1[i]+dp2[i]的最大值就是所要求的最大值
 
 class Solution(object):
     def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
+        
         if not prices:
             return 0
-        
         n = len(prices)
-        dp1 = [0 for _ in range(n)] # max profit for day i , the transaction take before day i
-        dp2 = [0 for _ in range(n)] # max profit for day i, the transaction take after day i
+        
+        dp1 = [0 for _ in range(n)]
+        dp2 = [0 for _ in range(n)]
         
         min_price = prices[0]
-        max_prof1 = -sys.maxsize
-        for i in range(1, len(prices)):
-            min_price = min(min_price, prices[i])
-            max_prof1 = max(max_prof1, prices[i] - min_price)
-            dp1[i] = max_prof1
-         
+        max_profit1 = -sys.maxsize
         
-        max_price = prices[n - 1] 
-        max_prof2 = -sys.maxsize 
-        for j in range(n - 2, -1 , -1):
-            max_price = max(max_price, prices[j])
-            max_prof2 = max(max_prof2, max_price - prices[j])
-            dp2[j] = max_prof2
+        for i in range(1, n):
+            min_price = min(prices[i], min_price)
+            max_profit1 = max(max_profit1, prices[i] - min_price)
+            dp1[i] = max_profit1
             
-            
+        
+        max_price = prices[-1]
+        max_profit2 = -sys.maxsize
+        
+        for j in range(n - 2, -1, -1):
+            max_price = max(prices[j], max_price)
+            max_profit2 = max(max_profit2, max_price - prices[j])
+            dp2[j] = max_profit2
+
+        
         res = 0
         for i in range(n):
             res = max(res, dp1[i] + dp2[i])
         return res
-        
-
-
-1. 今天刚买的
-那么 Local(i, j) = Global(i-1, j-1)
-相当于啥都没干
-
-2. 昨天买的
-那么 Local(i, j) = Global(i-1, j-1) + diff
-等于Global(i-1, j-1) 中的交易，加上今天干的那一票
-
-3. 更早之前买的
-那么 Local(i, j) = Local(i-1, j) + diff
-昨天别卖了，留到今天卖
-
-我们定义local[i][j]为在到达第i天时最多可进行j次交易并且最后一次交易在最后一天卖出的最大利润，此为局部最优。
-然后我们定义global[i][j]为在到达第i天时最多可进行j次交易的最大利润，此为全局最优
-
-local[i][j] = max(global[i - 1][j - 1] + max(diff, 0), local[i - 1][j] + diff)
-            = max(global[i - 1][j - 1], local[i - 1][j]) + diff
-global[i][j] = max(local[i][j], global[i - 1][j])
-
-
-class Solution(object):
-    def maxProfit(self, prices):
-        """
-        :type prices: List[int]
-        :rtype: int
-        """
-        if not prices: return 0
-        N = len(prices)
-        g = [[0] * 3 for _ in range(N)]
-        l = [[0] * 3 for _ in range(N)]
-        for i in range(1, N):
-            diff = prices[i] - prices[i - 1]
-            for j in range(1, 3):
-              # 第j次交易在昨天买的，或者第j次交易在之前买的
-                l[i][j] = max(g[i - 1][j - 1]+ diff, l[i - 1][j]+ diff) 
-                g[i][j] = max(l[i][j], g[i - 1][j])
-        return g[-1][-1]
-
-
-
