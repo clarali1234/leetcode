@@ -10,38 +10,41 @@
 
 计算斜率: x1 == x2 斜率是无穷大；Decimal 解决浮点数精度问题；注意duplicate
 
-from decimal import Decimal
+
+from decimal import * 
 
 class Solution(object):
     def maxPoints(self, points):
         
-        if len(points) < 3:
-            return len(points)
+        if not points:
+            return 0
         
         res = 0
-        n = len(points)
-        for i in range(n - 1):
-            dic = collections.defaultdict(int)
-            res_i = 0
-            dup = 1
-            for j in range(i + 1, n):
-                # check duplicates 
-                if points[i][0] == points[j][0] and points[i][1] == points[j][1]:
-                    dup += 1
-                    continue
-                # cal slope
-                if points[i][0] == points[j][0]:
-                    slope = sys.maxsize
+        for i, p in enumerate(points):
+            x1 = p[0]
+            y1 = p[1]
+            dic = collections.defaultdict(int) # key: slope, value: counts
+            duplicates = 1
+            for j in range(i + 1, len(points)):
+                if points[j][0] == x1 and points[j][1] == y1:
+                    duplicates += 1
                 else:
-                    slope = Decimal(points[i][1] - points[j][1]) / Decimal(points[i][0] - points[j][0])
-                dic[slope] += 1
-            
-            # current max points
-            if dic:
-                res_i = max(res_i, max(dic.values()) + dup)
+                    if x1 == points[j][0]:
+                        dic[sys.maxsize] += 1
+                    else: # y2 - y1 / x2 - x1
+                        slope = Decimal(points[j][1] - y1) / Decimal(points[j][0] - x1)
+                        dic[slope] += 1
+            local_res = 0
+            if not dic:
+                local_res = 0 + duplicates
             else:
-                res_i = max(res_i, dup)
-            # update result
-            res = max(res, res_i)
-            
+                local_res = max(dic.values()) + duplicates
+        
+            res = max(res, local_res)
         return res
+        
+                        
+                
+                
+                
+                
