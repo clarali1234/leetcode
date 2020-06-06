@@ -1,27 +1,24 @@
-# brute - foce (hashtable)
+# brute force
 # time O(mn)
-# space O(m + n) m: lenght of lookup nums
+# space O(m)
 
 class Solution(object):
     def nextGreaterElement(self, nums1, nums2):
-       
-        dic = {}
-        for i, num in enumerate(nums2):
-            dic[num] = i
-            
+        
         res = []
-        for i, num in enumerate(nums1):
-            j = dic[num]
-            if j == len(nums2) - 1:
-                res.append(-1)
-            else:
-                for index in range(j + 1, len(nums2)):
-                    if num < nums2[index]:
-                        res.append(nums2[index])
-                        break
-                if index == len(nums2) - 1 and num >= nums2[index]:
-                    res.append(-1)
+        for num in nums1:
+            nxt_greater = self.next_greater(nums2, num)
+            res.append(nxt_greater)
         return res
+    
+    def next_greater(self, nums2, num):
+        index = nums2.index(num)
+        for i in range(index, len(nums2)):
+            if nums2[i] > num:
+                return nums2[i]
+        return -1
+            
+            
 
 
 2. stack + hashmap
