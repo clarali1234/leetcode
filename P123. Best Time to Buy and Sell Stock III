@@ -1,8 +1,9 @@
 # dp
-只允许做两次交易，这道题就比前两道要难多了。解法很巧妙，有点动态规划的意思：开辟两个数组f1和f2，
-f1[i]表示在price[i]之前进行一次交易所获得的最大利润，
-f2[i]表示在price[i]之后进行一次交易所获得的最大利润。
-则f1[i]+f2[i]的最大值就是所要求的最大值，而f1[i]和f2[i]的计算就需要动态规划了，看代码不难理解。
+只允许做两次交易，这道题就比前两道要难多了。解法很巧妙，有点动态规划的意思：开辟两个数组dp1和dp2，
+dp1[i]表示在max profit for current day i that transaction complete before day i
+dp2[i]表示在max profit for current day i that transaction complete after day i
+
+dp1[i]+dp2[i]的最大值就是所要求的最大值
 
 class Solution(object):
     def maxProfit(self, prices):
