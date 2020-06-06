@@ -15,22 +15,21 @@ class Solution(object):
         if not root:
             return False
         
-        return self.dfs(root, 0, sum)
+        self.res = False
+        self.dfs(root, root.val, sum)
+        return self.res
     
-    
-    def dfs(self, node, cur_s, target):
+    def dfs(self, node, cur_sum, sum):
+        if not node:
+            return 
+        
         if not node.left and not node.right:
-            cur_s += node.val
-            if cur_s == target:
-                return True
-            return
-            
+            if cur_sum == sum:
+                self.res = True
+            return 
+        
         if node.left:
-            if self.dfs(node.left, cur_s + node.val, target):
-                return True
+            self.dfs(node.left, cur_sum + node.left.val, sum)
         
         if node.right:
-            if self.dfs(node.right, cur_s + node.val, target):
-                return True
-        return False
-        
+            self.dfs(node.right, cur_sum + node.right.val, sum)
