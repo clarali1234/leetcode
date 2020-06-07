@@ -1,18 +1,16 @@
 # dp
-令最大乘积为f，最小乘积为g。那么有：
+keep track of min_prod, max_prod for current element
+update cur_max = max(pre_min * cur, pre_max * cur, cur)
+res = max(res, cur_max)
 
-当前的最大值等于已知的最大值、最小值和当前值的乘积，当前值，这三个数的最大值。
-当前的最小值等于已知的最大值、最小值和当前值的乘积，当前值，这三个数的最小值。
-结果是最大值数组中的最大值。
 时间复杂度是O(N)，空间复杂度是O(1). N是数组大小。
+
 class Solution(object):
     def maxProduct(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+        
         if not nums:
             return 0
+            
         n = len(nums)
         min_cur = max_cur = res = nums[0]
         for i in range(1, n):
