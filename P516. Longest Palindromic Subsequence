@@ -7,6 +7,7 @@
 # transmation formula
 dp[i][j] = dp[i + 1][j - 1] + 2           if s[i] == s[j]
 dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])    otherwise s[i], s[j] can't both be in res 
+# 为了保证每次计算 dp[i][j]，左下右方向的位置已经被计算出来，只能斜着遍历或者反着遍历：
 
 # comptuter from i n - 1, -1, 0; j i + 1 to n
 
