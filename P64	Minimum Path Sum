@@ -1,26 +1,8 @@
-1. brute force recursion, time O(2^(m+n)), space O(m + n)
-python 超时
-class Solution(object):
-    def minPathSum(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-        return self.helper(grid, 0, 0)
-    
-    def helper(self, grid, i, j):
-        if i == len(grid) or j == len(grid[0]):
-            return sys.maxsize
-        if i == len(grid) - 1 and j == len(grid[0]) - 1:
-            return grid[i][j]
-        
-        return grid[i][j] + min(self.helper(grid, i + 1, j), self.helper(grid, i, j + 1))
-
-
 
 # dp
 # dp[i][j] 到达i-1, j-1时最小sum
 # 转移方程:f[i][j]=min{f[i-1][j],f[i][j-1]}+A[i][j]
+
   • 初始条件和边界情况:
   – f[0][0] = A[0][0]
   – i = 0 或 j = 0，则前一步只能有一个方向过来
@@ -29,22 +11,26 @@ class Solution(object):
   
  class Solution(object):
     def minPathSum(self, grid):
-      
-        if not grid:
-            return 0
+        
         m = len(grid)
         n = len(grid[0])
         
-        dp = [[0 for j in range(n)] for i in range(m)]
+        dp = [[0 for _ in range(n)] for _ in range(m)]
+        
         dp[0][0] = grid[0][0]
-        for j in range(1, n):
-            dp[0][j] = dp[0][j - 1] + grid[0][j]
+        
         for i in range(1, m):
             dp[i][0] = dp[i - 1][0] + grid[i][0]
-        for x in range(1, m):
-            for y in range(1, n):
-                dp[x][y] = min(dp[x - 1][y], dp[x][y - 1]) + grid[x][y]
-        return dp[m - 1][n - 1]
+        
+        for j in range(1, n):
+            dp[0][j] = dp[0][j - 1] + grid[0][j]
+            
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + grid[i][j]
+                
+        return dp[-1][-1]
+        
  
  # dp space O(n)
  这里我们并不提前更新第一行或是第一列，而是在遍历的时候判断，若j等于0时，说明是第一列，
