@@ -1,5 +1,20 @@
 class Solution(object):
     def coinChange(self, coins, amount):
+        
+        dp = [sys.maxsize for _ in range(amount + 1)]
+        dp[0] = 0
+        for i in range(len(dp)):
+            for coin in coins:
+                if i >= coin:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+                    
+        if dp[-1] == sys.maxsize:
+            return -1
+        return dp[-1]
+
+
+class Solution(object):
+    def coinChange(self, coins, amount):
         self.memo = {}
         return self.dfs(coins, amount)
     
