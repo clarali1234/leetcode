@@ -5,21 +5,26 @@
 # l = 0, r = n - 1, compare m with nums[0], if m is less, means m in the right half, r = m; else l = m + 1
 
 # time O(lgn), space O(1)
+
 class Solution(object):
-    
-    def findMin(self, nums):  
-        # corner case
+    def findMin(self, nums):
+        
         if nums[0] < nums[-1]:
             return nums[0]
         
         l = 0
         r = len(nums) - 1
+        
         while l + 1 < r:
             m = (l + r) // 2
-            if nums[m] > nums[0]:
+            if nums[m] > nums[0]: # m in the left half
                 l = m + 1
             else:
                 r = m
-        if nums[l] > nums[r]:
-            return nums[r]
-        return nums[l]
+            #print(l, r)
+       
+        if nums[l] < nums[r]:
+            return nums[l]
+        return nums[r]
+                
+                
