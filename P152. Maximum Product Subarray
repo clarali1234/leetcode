@@ -8,16 +8,17 @@ res = max(res, cur_max)
 class Solution(object):
     def maxProduct(self, nums):
         
-        if not nums:
-            return 0
-            
-        n = len(nums)
-        min_cur = max_cur = res = nums[0]
-        for i in range(1, n):
-            pre_min = min_cur
-            pre_max= max_cur
-            min_cur = min(pre_min * nums[i], pre_max * nums[i], nums[i])
-            max_cur = max(pre_min * nums[i], pre_max * nums[i], nums[i])
-            res = max(res, max_cur)
-        return res
+        min_prod = nums[0]
+        max_prod = nums[0]
+        res = nums[0]
         
+        for num in nums[1:]:
+            pre_min = min_prod
+            pre_max = max_prod
+            min_prod = min(num, num * pre_min, num * pre_max)
+            max_prod = max(num, num * pre_min, num * pre_max)
+            res = max(res, max_prod)
+        return res
+            
+            
+            
