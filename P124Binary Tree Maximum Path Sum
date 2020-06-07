@@ -7,23 +7,21 @@
  
 class Solution(object):
     def maxPathSum(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
         if not root:
             return 0
         
-        self.max_sum = -sys.maxsize
+        self.res = -sys.maxsize
         self.dfs(root)
-        return self.max_sum
+        return self.res
     
     def dfs(self, node):
         if not node:
             return 0
         
-        left = max(0, self.dfs(node.left))
-        right = max(0, self.dfs(node.right))
-        self.max_sum = max(self.max_sum, left + right + node.val)
+        l = max(0, self.dfs(node.left))
+        r = max(0, self.dfs(node.right))
         
-        return max(left, right) + node.val
+        self.res = max(self.res, l + r + node.val)
+        
+        return max(l, r) + node.val
+    
