@@ -5,33 +5,29 @@
 class Solution(object):
     def isHappy(self, n):
         
-        num_set = set()
+        num_set = set([n])
         
-        while n and n not in num_set:
-            num_set.add(n)
-            sum_square = 0
-            for i in str(n):
-                sum_square += int(i) ** 2
-            n = sum_square
-        return  n == 1
-            
+        while True:
+            num = self.sum_square(n)
+            #print(num)
+            if num not in num_set:
+                num_set.add(num)
+                n = num
+            else:
+                break
+        #print(num_set)
+        if num == 1:
+            return True
+        return False
+        
+        
+    def sum_square(self, n):
+        num = 0
+        s = str(n)
+        for char in s:
+            num = num + int(char) ** 2
+        return num
+        
+        
             
 
-class Solution(object):
-    def isHappy(self, n):
-        """
-        :type n: int
-        :rtype: bool
-        """
-        num_set = set()
-        while n and n not in num_set:
-            num_set.add(n)
-            sum_square = 0
-            while n:
-                digit = n % 10
-                sum_square += digit * digit 
-                n = n // 10
-            n = sum_square
-            
-        return n == 1
-        
