@@ -6,7 +6,7 @@
 # dp[i][j] Longest Palindromic Subsequence for s[i:j] include
 # transmation formula
 dp[i][j] = dp[i + 1][j - 1] + 2           if s[i] == s[j]
-dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])    otherwise
+dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])    otherwise s[i], s[j] can't both be in res 
 
 # comptuter from i n - 1, -1, 0; j i + 1 to n
 
