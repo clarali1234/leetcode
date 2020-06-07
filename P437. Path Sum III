@@ -3,7 +3,6 @@
 # time O(nlgn) ~ O(n ^ 2)
 # space O(n)
 
-
 class Solution(object):
     def pathSum(self, root, sum):
         
@@ -14,14 +13,13 @@ class Solution(object):
     def dfs(self, node, sum): # num of paths that start from node, path sum == sum
         
         if not node:
-            return count
+            return 0
         
         res = (node.val == sum)
-        res += self.dfs(node.left, sum)
-        res += self.dfs(node.right, sum)
+        res += self.dfs(node.left, sum - node.val)
+        res += self.dfs(node.right, sum - node.val)
         return res
-
-
+        
 sol2 : memo with path sum
 # time O(n)
 # space O(n)
