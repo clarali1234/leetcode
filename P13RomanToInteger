@@ -6,12 +6,16 @@ Except the last one, if one letter is less than its latter one, this letter is s
 
 class Solution(object):
     def romanToInt(self, s):
-       
-        roman_int = {'M' : 1000, 'D' : 500, 'C' : 100, 'L' : 50, 'X' : 10, 'V' : 5, 'I' : 1}
+        
+        dic = {'I' : 1, 'V' : 5, 'X' : 10, 'L' : 50, 'C' : 100, 'D' : 500, 'M' : 1000}
         res = 0
+        
         for i in range(len(s) - 1):
-            if roman_int[s[i]] < roman_int[s[i + 1]]:
-                res -= roman_int[s[i]]
+            if dic[s[i]] < dic[s[i + 1]]:
+                res -= dic[s[i]]
             else:
-                res += roman_int[s[i]]
-        return res + roman_int[s[-1]]
+                res += dic[s[i]]
+        res += dic[s[len(s) - 1]]
+        return res
+            
+              
