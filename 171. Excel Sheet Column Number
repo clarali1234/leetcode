@@ -5,15 +5,15 @@
 以ZY为例，Z的值为26，Y的值为25，则结果为26 * 26 + 25=701
 时间复杂度：O(n)
 
-# base 26
+# num base on 26
 
 # zy 26 * 26 + 25
 class Solution(object):
     def titleToNumber(self, s):
         
         res = 0
-
-        for i, char in enumerate(s):
-            num  = ord(char) - ord('A') + 1
-            res = res * 26 + num
+        for char in s:
+            cur_num = ord(char) - ord('A') + 1
+            res = res * 26 + cur_num
+            #print(res, cur_num)
         return res
