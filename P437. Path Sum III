@@ -20,7 +20,8 @@ class Solution(object):
         res += self.dfs(node.right, sum - node.val)
         return res
         
-sol2 : memo with path sum
+sol2 : memo with prefix sum
+
 # time O(n)
 # space O(n)
 
@@ -30,19 +31,22 @@ class Solution(object):
         self.memo = {0:1}
         return self.dfs(root, 0, sum)
     
-    def dfs(self, root, prevSum, sum):
-        if not root:
+    def dfs(self, node, prev_sum, sum):
+        if not node:
             return 0
         
-        count = 0
-        currSum = prevSum + root.val
-        if currSum - sum in self.memo:
-            count += self.memo[currSum - sum]
-        if currSum in self.memo:
-            self.memo[currSum] += 1
+        res = 0
+        cur_sum = prev_sum + node.val
+        if cur_sum - sum in self.memo:
+            res += self.memo[cur_sum - sum]
+            
+        if cur_sum in self.memo:
+            self.memo[cur_sum] += 1
         else:
-            self.memo[currSum] = 1
-        count += self.dfs(root.left, currSum, sum)
-        count += self.dfs(root.right, currSum, sum)
-        self.memo[currSum] -= 1
-        return count
+            self.memo[cur_sum] = 1
+            
+        res += self.dfs(node.left, cur_sum, sum)
+        res += self.dfs(node.right, cur_sum, sum)
+        self.memo[cur_sum] -= 1
+        
+        return res
