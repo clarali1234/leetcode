@@ -3,9 +3,8 @@
 # space O(n^2)
 
 
-# step 1dp[i][j] Longest Palindromic Subsequence for s[i:j] include
-
-# step2: transmation formula
+# dp[i][j] Longest Palindromic Subsequence for s[i:j] include
+# transmation formula
 dp[i][j] = dp[i + 1][j - 1] + 2           if s[i] == s[j]
 dp[i][j] = max(dp[i][j - 1], dp[i + 1][j])    otherwise
 
