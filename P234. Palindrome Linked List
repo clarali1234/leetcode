@@ -9,40 +9,40 @@
 class Solution(object):
     def isPalindrome(self, head):
         
-        
-        if not head:
+        if not head or not head.next:
             return True
         
-        f = head
-        s = head
+        slow = head
+        fast = head.next
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            
         
-        while f.next and f.next.next:
-            f = f.next.next
-            s = s.next
+        h2 = slow.next
+        slow.next = None
+        h2 = self.reverse(h2)
+        return self.palindrom(head, h2)
         
-        second = s.next 
-        s_h = self.reverse(second)
-        return self.check_palindrome(head, s_h)
     
-    def reverse(self, head):
-        pre = None
-        cur = head
+    def reverse(self, h):
+        prev = None
+        cur = h
         while cur:
             tmp = cur.next
-            cur.next = pre
-            pre = cur
+            cur.next = prev
+            prev = cur
             cur = tmp
-        return pre
+        
+        return prev
     
-    def check_palindrome(self, h1, h2):
-        p1 = h1
-        p2 = h2
-        while p1 and p2:
-            if p1.val != p2.val:
+    def palindrom(self, l1, l2):
+        while l1 and l2:
+            if l1.val != l2.val:
                 return False
-            p1 = p1.next
-            p2 = p2.next
+            l1 = l1.next
+            l2 = l2.next
         return True
-                
             
+    
         
