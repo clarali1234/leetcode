@@ -1,0 +1,38 @@
+
+# bfs
+# time O(n)
+# space O(n)
+class Solution(object):
+    def isCousins(self, root, x, y):
+        
+        if not root:
+            return False
+        
+        q = collections.deque([(root, 0, None)])
+        count = 2
+        dep_x = dep_y = 0
+        part_x = part_y = None
+        while q:
+            for _ in range(len(q)):
+                node, dep, parent = q.popleft()
+                if node.val == x or node.val == y:
+                    if node.val == x:
+                        dep_x = dep
+                        part_x = parent
+                    else:
+                        dep_y = dep
+                        part_y = parent
+                    count -= 1
+                if count == 0:
+                    break
+                if node.left:
+                    q.append((node.left, dep + 1, node))
+                
+                if node.right:
+                    q.append((node.right, dep + 1, node))
+        
+        print(dep_x, dep_y, part_x, part_y)
+        if dep_x == dep_y and part_x != part_y:
+            return True
+        return False
+            
