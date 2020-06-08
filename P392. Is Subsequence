@@ -5,6 +5,9 @@
 class Solution(object):
     def isSubsequence(self, s, t):
         
+        if len(s) > len(t):
+            return False
+        
         i = 0
         j = 0
         
@@ -15,10 +18,17 @@ class Solution(object):
             else:
                 j += 1
                 
-        return  i == len(s)
-        
+        if i == len(s):
+            return True
+        return False
 
 
 # follow up: 大量的s
 # dic, key: ele, values: indexes 
 # interate each ele in s, binary search first index > cur index in s
+Binary search:
+
+record the indexes for each character in t, if s[i] matches t[j], then s[i+1] 
+should match a character in t with index bigger than j. 
+This can be reduced to find the first element larger than a value in an sorted array (find upper bound), 
+which can be achieved using binary search.
