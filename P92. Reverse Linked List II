@@ -7,27 +7,28 @@
 class Solution(object):
     def reverseBetween(self, head, m, n):
         
-        
-        count = 0
-        dummy = ListNode(0)
-        dummy.next = head
-        pre = dummy
-        
-        while count < m - 1:
-            pre = pre.next
-            count += 1
-    
-        # pre 1, m = 2
-        mid = pre.next
-        cur = pre.next.next # 3
-        
-        
-        while count <= n - 2:
-            next = cur.next # 4
-            cur.next = pre.next
-            pre.next = cur
-            mid.next = next
-            cur = next
+        dummy = ListNode(0, head)
+        cur = dummy
+        c = 0
+        while c < m - 1:
+            cur = cur.next
+            c += 1
             
-            count += 1
+        prev = cur
+        mid = prev.next
+        cur = mid.next
+        c += 2
+        
+        while c <= n :
+            nxt = cur.next
+            cur.next = prev.next
+            prev.next = cur
+            mid.next = nxt
+            cur = nxt
+            c += 1
+            
         return dummy.next
+            
+            
+            
+        
