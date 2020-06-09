@@ -1,0 +1,14 @@
+但是如果石头堆里有八块石头，你就不可避免地会输掉，因为不管你从一堆石头中挑出一块、两块还是三块，
+你的对手都可以选择三块、两块或一块，以确保在再一次轮到你的时候，你会面对四块石头。
+
+You can't win if there are four stones left.
+
+class Solution(object):
+    def canWinNim(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        if n % 4 == 0:
+            return False
+        return True
