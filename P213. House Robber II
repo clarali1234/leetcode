@@ -10,24 +10,36 @@ class Solution(object):
         
         if not nums:
             return 0
+        
         if len(nums) == 1:
             return nums[0]
         
         if len(nums) == 2:
             return max(nums)
         
-        n = len(nums)
-        dp1 = self.dp(nums[0 : n - 1])
-        dp2 = self.dp(nums[1 : n])
-        return max(dp1, dp2)
-    
-    def dp(self, nums):
+        nums1 = nums[1:]
+        nums2 = nums[:-1]
+        max_rob1 = self.rob_linear(nums1)
+        max_rob2 = self.rob_linear(nums2)
+        return max(max_rob1, max_rob2)
+        
+        
+    def rob_linear(self, nums):
+        if not nums:
+            return 0
+        
+        if len(nums) == 1:
+            return nums[0]
+        
         if len(nums) == 2:
             return max(nums)
         
-        dp = [0] * len(nums)
+        
+        dp = [0 for _ in range(len(nums))]
         dp[0] = nums[0]
-        dp[1] = max(nums[0], nums[1])
+        dp[1] = max(nums[:2])
+        
         for i in range(2, len(dp)):
-            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
-        return max(dp)
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
+        return dp[-1]
+        
