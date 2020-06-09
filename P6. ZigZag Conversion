@@ -1,12 +1,11 @@
 # time O(n)
 # space O(n)
 
-idea: 模拟这个行索引的变化，在遍历 s 中把每个字符填到正确的行 res[i]
+idea: iterate each char in s, write char in certain rows.
 
 算法流程： 按顺序遍历字符串 s；
 res[i] += c： 把每个字符 c 填入对应行 i
-i += flag： 更新当前字符 c 对应的行索引；
-flag = - flag： 在达到 Z 字形转折点时，执行反向。
+
 
 class Solution(object):
     def convert(self, s, numRows):
