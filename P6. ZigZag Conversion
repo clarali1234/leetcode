@@ -1,7 +1,7 @@
 # time O(n)
 # space O(n)
 
-idea: iterate each char in s, write char in certain rows.
+idea: iterate each char in s, write char in certain rows. upate row index for each char.
 
 算法流程： 按顺序遍历字符串 s；
 res[i] += c： 把每个字符 c 填入对应行 i
