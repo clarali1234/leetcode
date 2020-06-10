@@ -8,42 +8,23 @@
 - Subsets 一个数只能选一次，Combination Sum 一个数可以选很多次
 • 搜索时从 index 开始而不是从 index + 1
 
-class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        result = []
-        if not candidates:
-            return result
-        self.dfs(candidates, target, 0, [], result)
-        return result
-    
-    def dfs(self, nums, target, index, path, result):
-        # 记得return 
-        if target < 0:
-            return 
-        if target == 0:
-            result.append(path)
-            return
-         # next dfs call, start index 是 i 而不是index
-        for i in range(index, len(nums)):
-            self.dfs(nums, target - nums[i], i, path + [nums[i]], result)
-        
+
 class Solution(object):
     def combinationSum(self, candidates, target):
-        """
-        :type candidates: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
+        
+
         self.res = []
         self.dfs(candidates, target, 0, 0, [])
         return self.res
     
-    def dfs(self, candidates, target, cur_sum, index, cur_path ):
-        if target == cur_sum:
-            self.res.append(cur_path)
-            return 
-        if target < cur_sum:
+    
+    def dfs(self, nums, target, index, cur_sum, cur_path):
+        if cur_sum > target:
             return 
         
-        for i in range(index, len(candidates)):
-            self.dfs(candidates, target, cur_sum + candidates[i], i, cur_path + [candidates[i]])
+        if cur_sum == target:
+            self.res.append(cur_path)
+            return 
+        
+        for i in range(index, len(nums)):
+            self.dfs(nums, target, i, cur_sum + nums[i], cur_path + [nums[i]])
