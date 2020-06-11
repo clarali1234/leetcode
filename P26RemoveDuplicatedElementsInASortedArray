@@ -1,15 +1,22 @@
-然后用两根指针，一根指针走得快一些遍历整个数组，另外一根指针，一直指向当前不重复部分的最后一个数。
-快指针发现一个和慢指针指向的数不同的数之后，就可以把这个数丢到慢指针的后面一个位置，并把慢指针++。
 
-class Solution:
-    def removeDuplicates(self, nums: List[int]) -> int:
+
+数组完成排序后，我们可以放置两个指针 i 和 j，其中 i 是慢指针，而 j 是快指针。
+只要 nums[i] = nums[j]，我们就增加 j 以跳过重复项。
+当我们遇到 nums[j] != nums[i] 时，跳过重复项的运行已经结束，因此我们必须把它（nums[j]）的值复制到 nums[i + 1]。
+然后递增 i，接着我们将再次重复相同的过程，直到 j 到达数组的末尾为止。
+
+
+class Solution(object):
+    def removeDuplicates(self, nums):
+        
+        
         if not nums:
             return 0
         
-        slow = 1
-        for fast in range(1, len(nums)):
-            if nums[fast]  != nums[fast - 1]:
-                nums[slow] = nums[fast]
-                slow += 1
-                
-        return slow 
+        i = 0
+        for j in range(1, len(nums)):
+            if nums[j] != nums[i]:
+                i += 1
+                nums[i] = nums[j]
+        return i + 1
+            
