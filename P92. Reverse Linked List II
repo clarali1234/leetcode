@@ -7,28 +7,33 @@
 class Solution(object):
     def reverseBetween(self, head, m, n):
         
-        dummy = ListNode(0, head)
+        # go in to m - 1 nodes
+        # revser from m node
+        
+        dummy = ListNode(0)
+        dummy.next = head
         cur = dummy
         c = 0
+        
         while c < m - 1:
             cur = cur.next
             c += 1
             
+        c += 2
         prev = cur
         mid = prev.next
         cur = mid.next
-        c += 2
         
-        while c <= n :
+        
+        while c <= n:
             nxt = cur.next
             cur.next = prev.next
             prev.next = cur
             mid.next = nxt
+            
             cur = nxt
             c += 1
-            
         return dummy.next
             
             
             
-        
