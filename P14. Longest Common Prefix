@@ -1,10 +1,41 @@
+# brute force:
+# time O(n^2)
+# space O(1)
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        
+        if not strs:
+            return ''
+        
+        # O(m * n)
+        min_len = sys.maxsize
+        for s in strs:
+            min_len = min(min_len, len(s))
+            
+        # O(n ^ 2)
+        res = ''
+        for i in range(min_len + 1):
+            pre = strs[0][:i]
+            #print(pre, '+')
+            is_prefix = True
+            for s in strs[1:]:
+                if pre != s[:i]:
+                    is_prefix = False
+                    break
+            
+            if is_prefix:
+                res = pre
+                
+        return res
+            
+
+
+# time O(m * n) or O(S), all chars in strs
+# space O(1)
 # 很直观的思路，从任意一个字符串开始，扫描该字符串，依次检查其他字符串的同一位置是否是一样的字符，当遇到不一样时则返回当前得到的前缀。
 class Solution(object):
     def longestCommonPrefix(self, strs):
-        """
-        :type strs: List[str]
-        :rtype: str
-        """
+        
         
         if not strs:
             return ''
