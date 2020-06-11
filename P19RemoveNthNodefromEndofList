@@ -3,10 +3,12 @@
 # one pass find total number of nodes
 # second pass remove n - k + 1 the node
 # need to add dummy node, to take care of [1], 1 situation
+
 class Solution(object):
     def removeNthFromEnd(self, head, n):
-        dummy = ListNode(0)
-        dummy.next = head
+        
+        # count all nodes c, remove c + 1 - n from begin
+        # go to c - n, remove
         
         c = 0
         cur = head
@@ -14,16 +16,23 @@ class Solution(object):
             c += 1
             cur = cur.next
             
-        m = c - n
-        c2 = m
-    
-        cur2 = dummy
-        while c2 > 0:
-            c2 -= 1
-            cur2 = cur2.next
-        cur2.next = cur2.next.next
+        n = c + 1 - n
+        
+        i = 0
+        dummy = ListNode(0)
+        dummy.next = head
+        cur = dummy
+        
+        
+        while i < n - 1: # go to n - 1
+            cur = cur.next
+            i += 1
+        
+        cur.next = cur.next.next
         return dummy.next
-
+        
+           
+            
 # optimal method
 # two pointers
 # move fast to n steps, then move fast and slow together until fast to the end, 
@@ -36,13 +45,7 @@ class Solution(object):
 
 class Solution(object):
     def removeNthFromEnd(self, head, n):
-        """
-        :type head: ListNode
-        :type n: int
-        :rtype: ListNode
-        """
         
-       
         dummy = ListNode(0)
         dummy.next = head
         
