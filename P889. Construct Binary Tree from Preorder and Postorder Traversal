@@ -1,0 +1,21 @@
+# time O(n^2), when the tree is balanced, time O(nlgn), worst case O(n^2)
+# space O(n^2)
+
+# preorder : root, left, right
+# post order: left, right, root
+
+class Solution(object):
+    def constructFromPrePost(self, pre, post):
+        
+        if not pre:
+            return None
+        
+        root = TreeNode(pre[0])
+        if len(pre) == 1:
+            return root
+        
+        L = post.index(pre[1]) + 1 # num of nodes in left sub tree
+        root.left = self.constructFromPrePost(pre[1 : 1 + L], post[:L])
+        root.right = self.constructFromPrePost(pre[1 + L :], post[L: -1])
+        return root
+        
