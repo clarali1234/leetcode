@@ -13,61 +13,49 @@ the player X's count would be 1 more than player O)
 
 class Solution(object):
     def validTicTacToe(self, board):
-        
-        c_x = 0
-        c_o = 0
-        
-        for i in range(3):
-            for j in range(3):
-                if board[i][j] == 'X':
-                    c_x += 1
-                elif board[i][j] == 'O':
+        """
+        :type board: List[str]
+        :rtype: bool
+        """
+        # count the num of x and o
+        c_o = c_x = 0
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == 'O':
                     c_o += 1
-                    
-                    
-        if not (c_x == c_o or c_x - c_o == 1):
+                elif board[i][j] == 'X':
+                    c_x += 1
+        
+        if (not c_o == c_x) and (not c_x - c_o == 1):
             return False
         
-        if self.check_win(board, 'X'):
-            if self.check_win(board, 'O') or c_x - c_o != 1:
-                
+        if self.check_win(board, "X"):
+            if self.check_win(board, "O") or (not c_x - c_o == 1):
                 return False
             
         if self.check_win(board, 'O'):
-            if self.check_win(board, 'X') or c_x != c_o:
+            if self.check_win(board, 'X') or (not c_x == c_o):
                 return False
-        
+            
         return True
+    
+    def check_win(self, board, offset):
         
-        
-    def check_win(self, board, player):
-        # check row
-        for i in range(3):
-            if board[i][0] == board[i][1] == board[i][2] == player:
+        # check_row
+        for i in range(len(board)):
+            if board[i][0] == board[i][1] == board[i][2] == offset:
+                return True
+        # check_col
+        for j in range(len(board[0])):
+            if board[0][j] == board[1][j] == board[2][j] == offset:
                 return True
             
-        # check col
-        for i in range(3):
-            if board[0][i] == board[1][i] == board[2][i] == player:
-                return True
-        
-        # check diag
-        if board[0][0] == board[1][1] == board[2][2] == player:
+        # check_diag
+        if board[0][0] == board[1][1] == board[2][2] == offset:
             return True
         
-        # check anti
-        if board[0][2] == board[1][1] == board[2][0] == player:
+        if board[0][2] == board[1][1] == board[2][0] == offset:
             return True
-        
         return False
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+                
+                
