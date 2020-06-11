@@ -1,14 +1,37 @@
-class Solution:
-    def removeElement(self, nums: List[int], val: int) -> int:
-        if not nums:
-            return 0
-        begin, end = 0, len(nums) - 1
-        while  begin <= end:
-            if nums[begin] == val:
-                nums[begin] = nums[end]
-                end -= 1
+# two pointers
+# idea: two pointers, j iterate each ele, if == val, exchange with nums[i], move i by 1
+# time O(n)
+# space O(1)
+class Solution(object):
+    def removeElement(self, nums, val):
+        
+        i = 0
+        j = 0
+        
+        for j in range(len(nums)):
+            if nums[j] != val:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+        return i
+
+
+# if only few vals 
+# two pointer, begin and end 
+# while i <=j 
+
+class Solution(object):
+    def removeElement(self, nums, val):
+        
+        i = 0
+        j = len(nums) - 1
+        
+        while i <= j:
+            if nums[i] == val:
+                nums[i], nums[j] = nums[j], nums[i]
+                j -= 1
             else:
-                begin += 1
-        return begin
+                i += 1
+                
+        return i
             
       
