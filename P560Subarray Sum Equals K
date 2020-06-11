@@ -23,18 +23,19 @@ class Solution(object):
 class Solution(object):
     def subarraySum(self, nums, k):
         
+        dic = {0 : 1} # key: sum
+        cur_sum = 0
         
         res = 0
-        dic = {0 : 1} # key: prefix sum, val: c
-        
-        cur_sum = 0
         for num in nums:
             cur_sum += num
-            if cur_sum - k in dic:
-                res += dic[cur_sum - k]
+            res += dic.get(cur_sum - k, 0)
             dic[cur_sum] = dic.get(cur_sum, 0) + 1
-                
         return res
+            
+            
+            
+        
         
         
   # follow-up if all non-negative number
