@@ -11,7 +11,7 @@ BST + linkedlist，BST update写起来都是个 medium了
 
 # sol1: heap + hashmap
 # initial heapify, time O(n)
-# time: update : pop stock from heap, add new to heap, O(n), if not in dic, update O(lgn)
+# time: update : pop stock from heap, add new to heap, O(n), if not in dic, update O(lgn) 
 
 # sol2 : hashtable + double linked list
 # initial hashtable, sort by values, and build k size linked list, smallest is head, O(nlgn)  
