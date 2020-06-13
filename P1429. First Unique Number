@@ -1,0 +1,98 @@
+# brute force 
+# array + hashtable key: val, value: count
+# time show first unique char O(n)
+
+class FirstUnique(object):
+
+    def __init__(self, nums):
+        
+        self.q = nums
+        self.counter = collections.Counter(nums)
+        
+
+    def showFirstUnique(self):
+       
+        for num in self.q:
+            if self.counter[num] == 1:
+                return num
+        return -1
+
+    def add(self, value):
+        
+        self.q.append(value)
+        self.counter[value] = self.counter.get(value, 0) + 1
+
+
+# sol2 : duoubly linked list + hash table 
+# time first unique num O(1)
+class ListNode(object):
+    def __init__(self, val):
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class FirstUnique(object):
+
+    def __init__(self, nums):
+        
+        self.dic = {} # key,  ele, value:node
+        self.dummy_head = ListNode(0)
+        self.dummy_tail = ListNode(0)
+        self.dummy_head.next = self.dummy_tail
+        self.dummy_tail.prev = self.dummy_head
+        
+        self.counter = collections.Counter(nums)
+        for num in nums:
+            if self.counter[num] == 1:
+                node = ListNode(num)
+                self.insert(node)
+                self.dic[num] = node
+                
+    def showFirstUnique(self):
+        
+        if self.dummy_head.next != self.dummy_tail:
+            return self.dummy_head.next.val
+        return -1
+
+    def add(self, value):
+        
+        if value not in self.counter:
+            self.counter[value] = 1
+            node = ListNode(value)
+            self.insert(node)
+            self.dic[value] = node
+        elif self.counter[value] == 1:
+            self.counter[value] += 1
+            self.delete(self.dic[value])
+        else:
+            self.counter[value] += 1                    
+        
+        
+    def insert(self, node): # insert from tail
+        prev = self.dummy_tail.prev
+        prev.next = node
+        node.prev = prev
+        node.next = self.dummy_tail
+        self.dummy_tail.prev = node
+        
+        
+    def delete(self, node):
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
