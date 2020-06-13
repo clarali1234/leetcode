@@ -63,5 +63,100 @@ print(test.get_top_k(2))
 test.update('Microsoft', 2000)
 print(test.get_top_k(2))
 
+# sol2, two hashtable + linked list
+# dic1: key: stock, val: vol
+# dic2: key: stock, val: linked list node 
+# initialize :time O(nlgn)
+# update: time O(k)
+
+from heapq import * 
+import collections
+
+class ListNode(object):
+    def __init__(self, stock, vol):
+        self.stock = stock
+        self.vol = vol
+        self.prev = None
+        self.next = None
+        
+class StockSystem(object):
+    def __init__(self, stocks, k):
+        self.dic = {}  # key: name, val: stock node in heap
+        self.dic_node = {} # key: stock, val: list node 
+        self.heap = []
+        self.dummy_head = ListNode('', 0)      
+        self.dummy_tail = ListNode('', 0)
+        self.dummy_head.next = self.dummy_tail
+        self.dummy_tail.prev = self.dummy_head
+        
+        
+        l = []
+        for s, v in stocks:
+            self.dic[s] = v
+            l.append([s, v])
+            
+        l.sort(key = lambda x:-x[1])
+        cur = self.dummy_head
+        
+        for i in range(k):
+            stock, vol = l[i]
+            node = ListNode(stock, vol)
+            node.prev = cur
+            cur.next = node
+            cur = cur.next
+            self.dic_node[stock] = node
+        cur.next = self.dummy_tail # tail is smallest
+        self.dummy_tail.prev = cur
+        
+            
+    def update(self, stock, vol):
+        if stock in self.dic_node:
+            self.delete[self.dic_node[stock]]
+            
+        prev_val = self.dic[stock]
+        cur_val = prev_val + vol
+        self.dic[stock] = cur_val
+        
+        
+        if cur_val > self.dummy_tail.prev.vol:
+            # find first node such that cur_val > node.val
+            node = ListNode(stock, cur_val)
+            cur = self.dummy_head.next
+            while cur.next.vol > cur_val:
+                cur = cur.next
+            self.insert(cur, node)
+            self.dic[stock] = node
+    
+        
+    def get_top_k(self, k):
+        res = []
+        cur = self.dummy_head.next
+        
+        for _ in range(k):
+            res.append([cur.stock, cur.vol])
+            cur = cur.next
+        return res
+            
+    
+    def delete(self, node): # remove tail
+        prev = node.prev
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+        
+    def insert(self, node, new):
+        nxt = node.next
+        node.next = new
+        new.prev = node
+        new.next = nxt
+        nxt.prev = new
+        
+        
+        
+
+test = StockSystem([('Amazon', 500), ('Facebook',800), ('Google', 1000)], 2)
+print(test.get_top_k(2))
+test.update('Amazon', 700)
+print(test.get_top_k(2))
 
 
