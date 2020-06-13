@@ -25,3 +25,27 @@ class Solution(object):
                 pre_res = stack.pop()
                 cur_str = pre_res + cur_str * pre_num
         return cur_str
+        
+class Solution(object):
+    def decodeString(self, s):
+        
+        return self.dfs(s, 0)
+
+
+    def dfs(self, s, i):
+        res, num = "", 0
+        
+        while i < len(s):
+            if s[i].isdigit():
+                num = num * 10 + int(s[i])
+            elif s[i] == '[':
+                i, tmp = self.dfs(s, i + 1)
+                res += num * tmp
+                num = 0
+            elif s[i] == ']':
+                return i, res
+            else:
+                res += s[i]
+                
+            i += 1
+        return res
