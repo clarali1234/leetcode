@@ -1,5 +1,6 @@
 
 # stack
+
 # time O(n) , travsese + stack
 # space O(n) 
 
@@ -26,6 +27,15 @@ class Solution(object):
                 cur_str = pre_res + cur_str * pre_num
         return cur_str
         
+ 
+# recursion time O(n)
+# space O(n)
+
+当 s[i] == ']' 时，返回当前括号内记录的 res 字符串与 ] 的索引 i （更新上层递归指针位置）；
+当 s[i] == '[' 时，开启新一层递归，记录此 [...] 内字符串 tmp 和递归后的最新索引 i，并执行 res + multi * tmp 拼接字符串。
+遍历完毕后返回 res。
+
+
 class Solution(object):
     def decodeString(self, s):
         
