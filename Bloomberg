@@ -1,3 +1,67 @@
-# 设计题
-1. 马拉松
-  针对马拉松这个event设计getEvent() 和 leaderboard()
+1.	Get top K
+
+我拿到的是说会有一个（公司名，值）的数据流，让你实现加值进去（如果公司已经存在了就把值加上去）和返回topK股票价值的公司
+
+第一个是add vol 给的 ticker 和 vol， 比如amzn 本来是 300，给amzn 500后 amzn 得对应 800， 第二个接口是返还 top k 要求sorted
+hashmap + heap 实在太慢了
+BST + linkedlist，BST update写起来都是个 medium了
+
+思路:
+'''
+
+# sol1: heap + hashmap
+# initial heapify, time O(n)
+# time: update : pop stock from heap, add new to heap, O(n), if not in dic, update O(lgn)
+
+# sol2 : hashtable + double linked list
+# initial hashtable, sort by values, and build k size linked list, smallest is head, O(nlgn)  
+# update: O(k)
+case 1: update one in top k      
+    remove the node from linked list
+    compare from smallest
+    insert/add
+    
+    2. not in top k
+    compare from smallest O(k)
+    insert/add O(1)
+'''
+# sol1: heap + hashtable, # key: name, val: stock node in heap
+
+from heapq import * 
+import collections
+class StockSystem(object):
+    def __init__(self, stocks):
+        self.dic = {}  # key: name, val: stock node in heap
+        self.heap = []
+        for (stock, vol) in stocks:
+            entry = [-vol, stock]
+            self.heap.append(entry)
+            self.dic[stock] = entry
+            
+        heapify(self.heap)
+                
+    def update(self, stock, vol):
+        if stock in self.dic:
+            self.dic[stock][0] -= vol
+            heapify(self.heap)    
+        else:
+            new = [-vol, stock]
+            heappush(self.heap, new)
+            self.dic[stock] = new
+                     
+        
+    def get_top_k(self, k):
+        res = self.heap[:k]
+        res = [[x[1], -x[0]] for x in res]
+        return res
+    
+
+test = StockSystem([('Amazon', 500), ('Facebook',800), ('Google', 1000)])
+print(test.get_top_k(2))
+test.update('Amazon', 700)
+print(test.get_top_k(2))
+test.update('Microsoft', 2000)
+print(test.get_top_k(2))
+
+
+
