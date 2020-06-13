@@ -38,71 +38,31 @@ class TicTacToe(object):
  class TicTacToe(object):
 
     def __init__(self, n):
-        self.row = [0] * n
-        self.col = [0] * n
-        self.diag = 0
-        self.anti_diag = 0
-        self.n = n
         
+        self.rows = [0 for _ in range(n)]
+        self.cols = [0 for _ in range(n)]
+        self.diag = 0
+        self.anti = 0
+        self.n = n
 
     def move(self, row, col, player):
+        
         if player == 1:
             offset = 1
         else:
             offset = -1
             
-        self.row[row] += offset
-        self.col[col] += offset
+        self.rows[row] += offset
+        self.cols[col] += offset
         if row == col:
             self.diag += offset
-        if row + col == self.n - 1:
-            self.anti_diag += offset
         
-        if self.n in [self.row[row], self.col[col], self.diag, self.anti_diag]:
-            return 1
-        if -self.n in [self.row[row], self.col[col], self.diag, self.anti_diag]:
-            return 2
-        return 0
-       
-class Solution(object):
-    def __init__(self):
-        self.board = [[0] * 3 for _ in range(3)]
-        self.n = 3
-        
-    def move(self):
-        row, col, player = [int(x) for x in input('Please enter the row, col, player:').split(',')]
-        
-        offset = 0
-        if player == 1:
-            offset = 1
-        else:
-            offset = 2
+        if row == self.n - 1 - col:
+            self.anti += offset
             
-        self.board[row][col] = offset
-        print(self.board)
-        # check win
         
-        check_row = sum(self.board[row][c] == offset for c in range(self.n))
-        check_col = sum(self.board[r][col] == offset for r in range(self.n))
-        check_diag = sum(self.board[i][i] == offset for i in range(self.n))
-        check_anti = sum(self.board[j][self.n - 1 - j] == offset for j in range(self.n))
-        
-        if self.n in [check_row, check_col, check_diag, check_anti]:
+        if offset * self.n in [self.rows[row], self.cols[col], self.diag, self.anti]:
             return player
-        else:
-            return 0
         
+        return 0
         
-test = Solution()
-print(test.move())
-print(test.move())
-print(test.move())
-
-      
-            
-        
-                     
-            
-
- 
- 
