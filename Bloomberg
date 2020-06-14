@@ -185,6 +185,34 @@ test = Solution()
 print(test.findDeepstChars('(((ab))(c))'))
         
                 
-        
+3. '''
+6.    UDP那个题前人写过。就是写一个函数，输入是一个数据包，比如1 -> A, 2 -> B, 4->C, 3->D。数字是UDP数据包的标号，字母是内容。如果新接收到的数据包是下个期待的包,就打印出来，如果不是就存下来，等期待的包到之后一起打印。上面例子打印. 输出应该是1 -> A, 2 -> B, 3 -> D, r->C。
+就是如果遇见1就输出，如果没遇见1，只遇2，就得等遇到1再同时输出1，2，依次类推按序输出。
+比如input:(2,x) (1,x) (3,x)
+output: (1,x) (2,x) (3,x)
+
+就用了hashmap存储和一个index记录需要print的package id.
+follow up: 如果某一个package被drop了该怎么处理
+'''
+
+from heapq import *
+class Solution(object):
+    def print(self, seq):
+        self.cur_print = 1
+        self.q = []
+        for time, char in seq:
+            if time == self.cur_print:
+                print((time, char))
+                while self.q and self.q[0][0] == self.cur_print + 1:
+                    print(heappop(self.q))
+                    self.cur_print += 1
+                self.cur_print += 1
+            else:
+                heappush(self.q, (time, char))
+                
+                         
+test = Solution()
+test.print([(2, 'x'), (1, 'x'), (3, 'x')])
+       
 
         
