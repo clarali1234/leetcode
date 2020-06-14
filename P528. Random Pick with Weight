@@ -4,18 +4,12 @@
 
 # step 1: Compute the prefix sum array pp
 # step 2: Generate a random integer in the range [0,tot)
-# step 3: Use binary search to find the index x where x is the lowest index such that targ < p[x]
+# step 3: Use binary search to find the index x where x is the first index in prefix sum > random int
 
-w : [1, 3, 2], prefix sum[1, 4, 6] p[i - 1] <= v < p[i] -> i
-For some index i, all integers v where p[i] - w[i] ≤ v < p[i] map to this index. 
-Therefore, indexes will be sampled proportionally to the index weights.
+# w:[1, 9]
+# Prefix sum [1, 10]
+# index 0 [0, 1), index 1 [1, 10)
 
-# prefix[i - 1] + w[i] = prefix[i]
-# prefix[i-1] <= val < prefix[i] w[i]
-# [1, 3]
-# [1, 4]
-
-# first index > pick sum
 
 class Solution(object):
 
