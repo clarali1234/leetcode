@@ -214,5 +214,60 @@ class Solution(object):
 test = Solution()
 test.print([(2, 'x'), (1, 'x'), (3, 'x')])
        
+4.'''
+3.    马拉松
+Assume racers passing through diff gates... we design to track the record, that when the racers passed the gates.. and an API to return the ordering of runners when called.
+e.g
+G0       G1        G2       G3
+R1       R3        R4       R5
+         R2
 
+When get order is called, return R5, R4, R3, R2, R1
+
+just LRU 變種，用LinkedList and hashmap to make tracking O(1), get order is then just iterate through the List of  LinkedList (each gate a doubly linkedlist)
+
+设计一个马拉松class，包括一个运动员跑过marker的function以及随时可能被调用的return top k players的function. 用dictionary 和double linked list 做的
+'''
+
+import collections
+class ListNode(object):
+    def __init__(self, gate):
+        self.gate = gate
+        self.prev = None
+        self.next = None
+
+
+class Solution(object):
+    def __init__(self, gates):
+        self.dic1 = collections.defaultdict(list) # key: gate, value: list of racers
+        self.dummy_head = ListNode(-1)
+        self.dummy_tail = ListNode(-1)
+        self.dummy_head.next = self.dummy_tail
+        self.dummy_tail.prev = self.dummy_head
+        cur = self.dummy_head
+        
+        for i, players in gates:
+            node = ListNode(i)
+            cur.next = node
+            node.prev = cur
+            self.dic1[node] = players
+            cur = cur.next
+        cur.next = self.dummy_tail
+        self.dummy_tail.prev = cur
+        
+    def get_order(self):
+        
+        cur = self.dummy_tail
+        res = []
+        
+        while cur.prev.gate >= 0:
+            res += self.dic1[cur.prev]
+            cur = cur.prev
+        return res
+    
+test = Solution([(0, ['R0']),(1, ['R3', 'R2']), (2, ['R4']), (3, ['R5'])])           
+print(test.get_order())
+        
+        
+        
         
