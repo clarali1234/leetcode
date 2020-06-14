@@ -11,26 +11,30 @@
 There could be the only one queen in a row and the only one queen in a column.
 That means that there is no need to consider all squares on the board. One could just iterate over the columns.
 
-class Solution(object):
+cclass Solution(object):
     def solveNQueens(self, n):
         
         self.res = []
-        self.dfs(n, [-1 for _ in range(n)], 0, [])
+        cols = [-1 for _ in range(n)]
+        self.dfs(cols, n, 0, [])
         return self.res
     
-    def dfs(self, n, cols, cur_q, cur_p):
+    def dfs(self, cols, n, cur_q, cur_path):
         if cur_q == n:
-            self.res.append(cur_p)
+            self.res.append(cur_path)
             return 
         
         for i in range(n):
-            cols[cur_q] = i
-            if self.valid(cols, cur_q):
-                tmp = '.' * n
-                self.dfs(n, cols, cur_q + 1, cur_p + [tmp[:i] + 'Q' + tmp[i + 1 : ]])
-                
-    def valid(self, cols, cur_q):
-        for i in range(cur_q):
-            if cols[i] == cols[cur_q] or abs(cur_q - i) == abs(cols[cur_q] - cols[i]):
+            if self.is_valid(cols, cur_q, i):
+                cols[cur_q] = i
+                cur_q_path = '.' * n
+                cur_q_path = [cur_q_path[:i] + 'Q' + cur_q_path[i + 1:]]
+                self.dfs(cols, n, cur_q + 1, cur_path + cur_q_path)
+        
+    def is_valid(self, cols, cur_q, i):
+        cols[cur_q] = i
+        for q in range(cur_q):
+            if cols[q] == cols[cur_q] or abs(q - cur_q) == abs(cols[q] - cols[cur_q]):
                 return False
         return True
+    
