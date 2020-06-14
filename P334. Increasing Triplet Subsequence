@@ -1,11 +1,6 @@
-# 思路 greedy, maintain min1, min2, min1 <= min2
-
- 1    min1     2     min 2   3
- 
- 1. min1 = num
- 2. min2 = mum
- 3. return True
-
+首先，新建两个变量 small 和 mid ，分别用来保存题目要我们求的长度为 3 的递增子序列的最小值和中间值。
+接着，我们遍历数组，每遇到一个数字，我们将它和 small 和 mid 相比，若小于等于 small ，则替换 small；
+否则，若小于等于 mid，则替换 mid；否则，若大于 mid，则说明我们找到了长度为 3 的递增数组！
 
 # time O(n)
 # space O(1)
@@ -14,14 +9,15 @@
 class Solution(object):
     def increasingTriplet(self, nums):
         
-        min1 = sys.maxsize
-        min2 = sys.maxsize
+        min_ = sys.maxsize
+        mid = sys.maxsize
         
         for num in nums:
-            if num <= min1:
-                min1 = num
-            elif num <= min2:
-                min2 = num
+            if num <= min_:
+                min_ = num
+            elif num <= mid:
+                mid = num
             else:
                 return True
+            
         return False
