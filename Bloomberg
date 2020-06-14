@@ -1,14 +1,10 @@
 1.	Get top K
 
 我拿到的是说会有一个（公司名，值）的数据流，让你实现加值进去（如果公司已经存在了就把值加上去）和返回topK股票价值的公司
-
 第一个是add vol 给的 ticker 和 vol， 比如amzn 本来是 300，给amzn 500后 amzn 得对应 800， 第二个接口是返还 top k 要求sorted
-hashmap + heap 实在太慢了
-BST + linkedlist，BST update写起来都是个 medium了
 
 思路:
 '''
-
 # sol1: heap + hashmap
 # initial heapify, time O(n)
 # time: update : pop stock from heap, add new to heap, O(n), if not in dic, update O(lgn) 
