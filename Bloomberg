@@ -156,3 +156,35 @@ test.update('Amazon', 700)
 print(test.get_top_k(2))
 
 
+2. # 找括号深度最深的元素e.g. (((ab))(c)) return ab, 
+
+# stack 
+# '(' , depth + 1
+# ')' , depth - 1
+# dic: key, depth , value:char
+
+class Solution(object):
+    def findDeepstChars(self, s):
+        dic = {} # key: depth, value: char
+        depth = 0
+        for char in s:
+            if char == '(':
+                depth += 1
+
+            elif char == ')':
+                depth -= 1
+            
+            else: 
+                dic[depth] = dic.get(depth, '') + char
+                
+        max_depth = max(dic.keys())
+        print(dic)
+        return dic[max_depth]
+    
+test = Solution()
+print(test.findDeepstChars('(((ab))(c))'))
+        
+                
+        
+
+        
