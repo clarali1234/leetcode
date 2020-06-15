@@ -2,7 +2,7 @@
 # for each node + hash table, 
 #  dic, key:serialization of current node, value: times
 
-# time O(n ^ 2)
+# time O(n ^ 2), visted each node once, but serialization takes O(n) for each node
 # space O(n ^ 2)
 
  class Solution(object):
