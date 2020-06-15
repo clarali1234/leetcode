@@ -29,7 +29,7 @@
 
 # sol2 
 # assign a unique id for each unique substree
-# time O(n)
+# time O(n^2)
 # space O(n)
 
 don't need to storage serialization of subtree, can use key(root.val, id(leftChild), id(rightChild))
