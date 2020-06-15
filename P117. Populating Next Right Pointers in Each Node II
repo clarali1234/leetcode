@@ -41,82 +41,30 @@ class Solution(object):
         if not root:
             return None
         
-        parent = root # level i
-        child_head = Node(0) # level i + 1
+        parent = root
+        child_pointer = ListNode(0)
         
         while parent:
             cur = parent
-            prev = child_head
+            cur_c = child_pointer
             
             while cur:
                 if cur.left:
-                    prev.next = cur.left
-                    prev = prev.next
+                    cur_c.next = cur.left
+                    cur_c = cur_c.next
                 
                 if cur.right:
-                    prev.next = cur.right
-                    prev = prev.next
+                    cur_c.next = cur.right
+                    cur_c = cur_c.next
                 
                 cur = cur.next
             
-            parent = child_head.next
-            child_head.next = None
-            
+            parent = child_pointer.next
+            child_pointer.next = None
         return root
-        
-        
-class Solution(object):
-    def connect(self, root):
-        
-        node = root 
-        levelHead = Node(0)
-        
-        while node:  # loop for each level
-            needle = levelHead
             
-            while node:  # loop for current level
-                if node.left:
-                    
-                    needle.next = node.left     # since needle and levelHead points to the same object. That means after needle.next = node.left. 
-                    needle = needle.next        # Same for levelHead.next = node.left. 
-                                                # this is how levelHead move to next level
-                    
-                if node.right:
-                    needle.next = node.right
-                    needle = needle.next
-
-                node = node.next
             
-            node = levelHead.next       # this is key part. as said before, levelHead.next = node.left
-            levelHead.next = None        # so that node moves to its upper level's leftmost node's left child. meaning the head of this next level
+        
             
-        return root
-     
-     
-     
-     
- class Solution(object):
-    def connect(self, root):
         
-        if not root:
-            return None
-        
-        node = root
-        level_head = Node(0)
-        
-        while node:
-            needle = level_head
-            
-            while node:
-                if node.left:
-                    needle.next = node.left
-                    needle = needle.next
-                
-                if node.right:
-                    needle.next = node.right
-                    needle = needle.next
-                
-                node = node.next
-            node = level_head.next
-            level_head.next = None
-        return root
+       
