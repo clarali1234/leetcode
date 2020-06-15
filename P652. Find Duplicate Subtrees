@@ -1,6 +1,6 @@
 # 序列化
 # for each node + hash table, 
-#  dic, key:serialization of current node, value: times
+#  dic, key:serialization, value: times
 
 # time O(n ^ 2), visted each node once, but serialization takes O(n) for each node
 # space O(n ^ 2)
@@ -41,7 +41,7 @@ class Solution(object):
         if not root:
             return None
         
-        self.dic = collections.defaultdict(int) # key, node, value unique id
+        self.dic = collections.defaultdict(int) # key, serialization, value unique id
         self.count = collections.defaultdict(int) # key, id, value: count
         self.res = []
         self.dfs(root)
