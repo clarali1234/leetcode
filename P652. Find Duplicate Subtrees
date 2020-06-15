@@ -11,22 +11,26 @@
         if not root:
             return None
         
-        self.dic = collections.defaultdict(int)
+        self.dic = collections.defaultdict(int)# key: serialization, value: count
         self.res = []
         self.dfs(root)
         return self.res
     
-    def dfs(self, node): # return seris result 
+    def dfs(self, node):
         if not node:
             return '#'
         
-        seris = str(node.val) + ',' + self.dfs(node.left) + ',' + self.dfs(node.right) 
-        self.dic[seris] += 1
-        if self.dic[seris] == 2:
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
+        seria = str(node.val) + ' ' + l + ' ' + r
+        self.dic[seria] += 1
+        
+        if self.dic[seria] == 2:
             self.res.append(node)
             
-        return seris
-
+        return seria
+        
+        
 # sol2 
 # assign a unique id for each unique substree
 # time O(n^2)
