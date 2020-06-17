@@ -2,7 +2,23 @@
 # O(n^3)
 # iterate each subarray pair and check if arithematic
 
-
+# dp:
+# time O(n)
+# space O(n)
+# dp[i], num of arithemetic slices end with num[i]
+# transmation formula, for i in range(2, len(dp)), if n[i] - n[i - 1] == n[i - 1] - n[i - 2], dp[i] = dp[i - 1] + 1
+# sum += dp[i]
+class Solution(object):
+    def numberOfArithmeticSlices(self, A):
+        
+        dp = [0 for _ in range(len(A))]
+        res = 0
+        for i in range(2, len(dp)):
+            if A[i] - A[i - 1] == A[i - 1] - A[i - 2]:
+                dp[i] = dp[i - 1] + 1
+                res += dp[i]
+        return res
+        
 # dp
 # time O(n)
 # space O(1)
