@@ -1,4 +1,5 @@
 # hashtable + most_common()
+# O(nlng)
 class Solution(object):
     def frequencySort(self, s):
         
@@ -18,10 +19,7 @@ class Solution(object):
 from heapq import * 
 class Solution(object):
     def frequencySort(self, s):
-        """
-        :type s: str
-        :rtype: str
-        """
+        
         res = ''
         counter = collections.Counter(s)
         heap = []
@@ -34,3 +32,26 @@ class Solution(object):
             
         return res
         
+
+# bucket sort by max frequency
+# time O(n)
+# space O(n)
+
+from heapq import * 
+
+class Solution(object):
+    def frequencySort(self, s):
+        if not s:
+            return ''
+        
+        counter = collections.Counter(s)
+        max_freq = max(counter.values())
+        bucket = [[] for _ in range(max_freq + 1)]
+        for char, c in counter.items():
+            bucket[c].append(char)
+            
+        res = ''
+        for i in range(len(bucket) - 1, 0, -1):
+            for char in bucket[i]:
+                res = res + char * i
+        return res
