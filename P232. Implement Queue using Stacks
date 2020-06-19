@@ -1,5 +1,7 @@
 # two stacks
-# instack and outstackclass MyQueue(object):
+# instack and outstack
+
+class MyQueue(object):
 
     def __init__(self):
         self.s1 = []
