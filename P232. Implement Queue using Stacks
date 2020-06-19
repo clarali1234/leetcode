@@ -1,5 +1,6 @@
 # two stacks
-# instack and outstack
+# push, append at s1; pop, popout element from s1 to s2 and pop from s2.
+# time, append O(1), pop and peek average O(1), worst case O(n)
 
 class MyQueue(object):
 
