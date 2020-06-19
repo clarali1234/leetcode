@@ -10,14 +10,12 @@
 
 class Solution(object):
     def numTrees(self, n):
-        
-        if n == 1:
-            return 1
-        
+
         dp = [0 for _ in range(n + 1)]
-        dp[0] = dp[1] = 1
+        dp[0] = 1
         
-        for i in range(2, n + 1): # num of nodes
-            for root in range(1, i + 1): # iterate root 1, .. i
+        for i in range(1, len(dp)):
+            for root in range(1, i + 1):
                 dp[i] += dp[root - 1] * dp[i - root]
         return dp[-1]
+                
