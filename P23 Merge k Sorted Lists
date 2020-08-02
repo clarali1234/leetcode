@@ -6,27 +6,31 @@
 # 不需要create new list node for node value, just use the input nodes, so the space complexity is O(k), is the space for 
 # priority queue
 
-from Queue import * 
+The problem while adding ListNode objects as tasks is that the Tuple comparison breaks for (priority, task) pairs 
+if the priorities are equal and the tasks do not have a default comparison order. The solution is to store entries as 3-element list including the priority,
+an entry count, and the task.
+The entry count serves as a tie-breaker so that two tasks with the same priority are returned in the order they were added.
+And since no two entry counts are the same, the tuple comparison will never attempt to directly compare two tasks.
 
-class Solution(object):
-    def mergeKLists(self, lists):
-        
-        q = PriorityQueue()
-        for l in lists:
+from heapq import * 
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        heap = []
+        for i in range(len(lists)):
+            l = lists[i]
             if l:
-                q.put((l.val, l))
+                heappush(heap, (l.val, i, l))
         
         dummy = ListNode(0)
-        cur = dummy
-        while not q.empty():
-            val, node = q.get()
-            cur.next = node
-            cur = cur.next
-            
+        p = dummy
+        while heap:
+            cur_val, index, node = heappop(heap)
+            p.next = node
+            p = p.next
             if node.next:
-                q.put((node.next.val, node.next))
+                i += 1
+                heappush(heap, (node.next.val, i, node.next))
         return dummy.next
-                     
         
 
 
