@@ -162,5 +162,42 @@ print(sortItems(3, {"item1": [10, 15], "item2": [3, 4], "item3": [17, 8]},
         
 
 
-  
+ # queries cities
+ import collections
+def queryCities(cities, x, y, queries):
+    x_map = collections.defaultdict(list)
+    y_map = collections.defaultdict(list)
+    
+    for i, x_v in enumerate(x):
+        x_map[x_v].append(cities[i])
+    
+    for j, y_v in enumerate(y):
+        y_map[y_v].append(cities[j])
+        
+    res = []
+    
+    for c in queries:
+        nb = []
+        index = cities.index(c)
+        x_value = x[index]
+        y_value = y[index]
+        
+        if len(x_map[x_value]) > 1 or  len(y_map[y_value]) > 1:
+            nbs = x_map[x_value] + y_map[y_value]
+            for ele in nbs:
+                if ele != c:
+                    nb.append(cities.index(ele))
+                    
+            nb.sort(key = lambda cur_index : (abs(x[index] - x[cur_index]) + abs(y[index] - y[cur_index])))
+            res.append(cities[nb[0]])
+                    
+                                        
+        else:
+            res.append("NONE")
+    return res
+
+print(queryCities(["c1", "c2", "c3"], [3, 2 ,1], [3, 2, 3], ["c1", "c2", "c3"]))
+            
+        
+        
             
