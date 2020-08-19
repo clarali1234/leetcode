@@ -234,4 +234,14 @@ def maxSlidingWindow(nums, k):
 print(maxSlidingWindow([8, 2, 4], 2))
     
     
+def breakPalindrome(palindrome):
+    S = palindrome
+    #if len(S)
+    for i in range(len(S) // 2):
+        if S[i] != 'a':
+            return S[:i] + 'a' + S[i + 1:]
+    return "IMPOSSIBLE"
+print(breakPalindrome("aaa"))
+
+    
             
