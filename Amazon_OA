@@ -124,5 +124,46 @@ class Solution(object):
 
 test = Solution()
 print(test.splitString("11373"))
+
+
+# pages
+import math
+
+def sortItems(numOfItems, items, sortPara, sortOrder, itemsPerP, pageNum): 
+    items_name = list(items.keys())
+    if sortOrder == 0: # increasing
+        if sortPara == 0: 
+            items_name.sort()
+        elif sortPara == 1:
+            items_name.sort(key = lambda x : items[x][0])
+        else:
+            items_name.sort(key = lambda x : items[x][1])
+    else:
+        if sortPara == 0: 
+            items_name.sort(key = lambda x : -x)
+        elif sortPara == 1:
+            items_name.sort(key = lambda x : -items[x][0])
+        else:
+            items_name.sort(key = lambda x : -items[x][1])
+            
+    total_page = math.ceil(numOfItems / itemsPerP)
+    if pageNum > total_page - 1:
+        return []
+    
+    if pageNum < total_page - 1:
+        return items_name[itemsPerP * pageNum  : itemsPerP * (pageNum + 1)]
+    
+    if pageNum == total_page - 1:
+        return items_name[itemsPerP * pageNum : ]
+
+    
+    
+    
+    
+print(sortItems(3, {"item1": [10, 15], "item2": [3, 4], "item3": [17, 8]}, 
+                1, 0, 2, 1))
+        
+
+
   
             
