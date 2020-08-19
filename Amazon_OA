@@ -1,0 +1,60 @@
+# prob1 
+
+# num = 6
+# skills = [12, 4, 6, 13, 5, 10]
+# minAssociates = 3
+# minLevel = 4
+# maxLevel = 10
+
+
+# numAsso >= 3
+# [4, 6, 5, 10]
+
+# num = 3
+# num = 4 
+
+class Solution(object):
+    def combination(self, num, skills, minAsso, minL, maxL):
+        new_skills = []
+        for skill in skills:
+            if skill >= minL and skill <= maxL:
+                new_skills.append(skill)
+        
+        candidates = []
+        if minAsso > len(new_skills):
+            return 0
+        candidates = [x for x in range(minAsso,(len(new_skills) + 1))]
+        
+        print(new_skills, candidates)
+        self.res = 0
+        for ele in candidates:  
+            self.dfs(new_skills, 0, 0, ele)
+        return self.res
+    
+# [4, 6, 5, 10]
+
+# num = 3 / 4
+# num = 4 
+    def dfs(self, nums, cur_num, start_index, count):
+        
+        if cur_num == count:
+            self.res += 1
+            return 
+        
+        if not nums:
+            return 
+        
+        for i in range(start_index, len(nums)):
+            self.dfs(nums[:i] + nums[i + 1:], cur_num + 1, i, count)
+            
+        #self.dfs(nums, cur_num + 1, cur_index, count)
+        #self.dfs(nums, cur_num, cur_index + 1, count)
+        
+            
+test = Solution()
+print(test.combination(6, [12, 4, 6, 13, 5, 10], 3, 4, 10))
+
+
+
+        
+            
