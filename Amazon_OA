@@ -198,6 +198,20 @@ def queryCities(cities, x, y, queries):
 
 print(queryCities(["c1", "c2", "c3"], [3, 2 ,1], [3, 2, 3], ["c1", "c2", "c3"]))
             
+            
+# remove ids
+import collections        
+def removeIDs(num, ids, rem):
+    cnt = collections.Counter(ids)
+    mst_cmn = cnt.most_common()
+    while mst_cmn and rem >= mst_cmn[-1][1]:
+        rem -= mst_cmn[-1][1]
+        mst_cmn.pop()
+    #print(mst_cmn)
+    return len(mst_cmn)
+    
+print(removeIDs(6, [1,1,1,2,3,2], 2))
+
         
         
             
