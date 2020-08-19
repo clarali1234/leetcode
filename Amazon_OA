@@ -54,7 +54,7 @@ class Solution(object):
 test = Solution()
 print(test.combination(6, [12, 4, 6, 13, 5, 10], 3, 4, 10))
 
-
+# prob2 
 import heapq
 
 def maxUnits(num, boxes, unitSize, unitsPerBox, truckSize):
@@ -79,7 +79,7 @@ def maxUnits(num, boxes, unitSize, unitsPerBox, truckSize):
 print(maxUnits(3, [1,2,3], 3, [3,2,1], 3))
 print(maxUnits(3, [2,5,3], 3, [3,2,1], 50))
     
-               
+# prob3                
 # s = "11373"
 
 # [11, 37, 3), [113, 7, 3), [11, 3, 73), [11, 37, 3), (113, 73) and [11, 373)
@@ -126,6 +126,7 @@ test = Solution()
 print(test.splitString("11373"))
 
 
+# prob4 
 # pages
 import math
 
@@ -155,11 +156,7 @@ def sortItems(numOfItems, items, sortPara, sortOrder, itemsPerP, pageNum):
     
     if pageNum == total_page - 1:
         return items_name[itemsPerP * pageNum : ]
-
-    
-    
-    
-    
+ 
 print(sortItems(3, {"item1": [10, 15], "item2": [3, 4], "item3": [17, 8]}, 
                 1, 0, 2, 1))
         
