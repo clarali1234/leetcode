@@ -244,4 +244,21 @@ def breakPalindrome(palindrome):
 print(breakPalindrome("aaa"))
 
     
+from heapq import * 
+# # def maxProfit(numSupp, inven, order):
+# #     inven = [-x for x in inven]
+# #     res = 0
+# #     heapify(inven)
+# #     #print(inven)
+# #     while order and inven:
+# #         cur_prof = heappop(inven)
+# #         res -= cur_prof
+# #         #print(inven, res)
+# #         cur_prof += 1
+# #         order -= 1
+# #         if cur_prof < 0:
+# #             heappush(inven, cur_prof)
+# #     return res
+# # 
+# # print(maxProfit(2, [3, 5], 6))
             
