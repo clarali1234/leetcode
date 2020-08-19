@@ -214,4 +214,24 @@ print(removeIDs(6, [1,1,1,2,3,2], 2))
 
         
         
+# sliding window
+import sys
+def maxSlidingWindow(nums, k):
+    
+    q = collections.deque([])
+    res = -sys.maxsize
+    for i, num in enumerate(nums):
+        while q and num > nums[q[-1]]:
+            q.pop()
+        q.append(i)
+        if i >= k - 1:
+            #res.append(nums[q[0]])
+            res = max(res, nums[q[0]])
+            
+        if i - q[0] + 1 == k:
+            q.popleft()
+    return res
+print(maxSlidingWindow([8, 2, 4], 2))
+    
+    
             
