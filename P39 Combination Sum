@@ -1,4 +1,7 @@
 # combination dfs recursion'
+# time complexity:
+# < len(nums) ** max_count 
+
 - Combination Sum 限制了组合中的数之和
 • 加入一个新的参数来限制
 
