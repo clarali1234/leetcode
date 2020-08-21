@@ -1,3 +1,6 @@
+# brute force, itereate each pair i, j, check if palindrome
+# time O(n^3)
+
 # method1, DP, O(n^2)
 # method2, emumeration, O(n^2)
 
