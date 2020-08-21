@@ -1,4 +1,4 @@
-# dfs + recursiom
+# dfs + recursion
 # time  O(n * 2^n)
 # space O(n * 2 ^ n)
 
@@ -28,8 +28,8 @@ class Solution(object):
         self.dfs(nums, index + 1, cur_sub)
         
 # combination 
-# time O(2^n)
-# space o(2^n)
+# time O(n * 2^n)
+# space o(n * 2^n)
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         result = []
