@@ -1,33 +1,25 @@
 # step1 : sort candidates list
 # step2 : do dfs
-# step3 :注意，remove duplidate; if candidates[i] > target, break 省时间
+# step3 :注意，remove duplidate
 
-class Solution(object):
-    def combinationSum2(self, candidates, target):
-        
-        if not candidates:
-            return []
-            
-        candidates.sort()
-        
+# time O(n * 2 ^ n)
+
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
         self.res = []
-        self.dfs(candidates, target,  0, 0, [])
+        candidates.sort()
+        self.dfs(candidates, 0, 0, target, [])
         return self.res
     
-    def dfs(self, candidates, target, cur_sum, index, cur_path):
-        if target == cur_sum:
-            self.res.append(cur_path)
+    def dfs(self, nums, cur_index, cur_sum, target, cur_path):
+        if cur_sum == target:
+            self.res.append(cur_path[:])
             return 
         
-        if target < cur_sum:
+        if cur_sum > target:
             return 
         
-        for i in range(index, len(candidates)):
-              # 注意1， remove duplicate
-            if i > index and candidates[i] == candidates[i - 1]:
+        for i in range(cur_index, len(nums)):
+            if i > cur_index and nums[i] == nums[i - 1]:
                 continue
-              # 注意2， 省时间提前break
-            #if candidates[i] > target:
-                #break
-            else:
-                self.dfs(candidates, target, cur_sum + candidates[i], i + 1, cur_path + [candidates[i]] )
+            self.dfs(nums, i + 1, cur_sum + nums[i], target, cur_path + [nums[i]])
