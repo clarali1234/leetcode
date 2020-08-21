@@ -24,27 +24,28 @@ class Solution(object):
 # space O(n) (memo O(n), max depth of recursion is O(n))
 # key: start index, value: res of the recursive function for this start index
 
-class Solution(object):
-    def wordBreak(self, s, wordDict):
-        self.memo = {} # key, start; val, t/f
-        self.words = set(wordDict)
-        return self.dfs(s, 0)
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        self.memo = {} #key: start Index, value: true/false
+        return self.dfs(s, wordDict, 0)
     
-    def dfs(self, s, start):
-        if start == len(s):
-            self.memo[start] = True
+    def dfs(self, s, wordDict, cur_index):
+        if cur_index == len(s):
+            self.memo[cur_index] = True
             return True
         
-        if start in self.memo:
-            return self.memo[start]
+        if cur_index in self.memo:
+            return self.memo[cur_index]
         
-        for j in range(start, len(s) + 1):
-            if s[start : j] in self.words and (s[j : len(s)] in self.words or self.dfs(s, j)):
-                self.memo[start] = True
+        for j in range(cur_index, len(s)):
+            if s[cur_index : j + 1] in wordDict and self.dfs(s, wordDict, j + 1):
+                self.memo[cur_index] = True
                 return True
-            
-        self.memo[start] = False
+        
+        self.memo[cur_index] = False
         return False
+                
+            
         
 
 # sol3: dp
