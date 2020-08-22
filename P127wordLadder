@@ -1,6 +1,6 @@
 BFS
 
-# time O(m*n)
+# time O(m*m*n) # m is length of words, n is word numbers, m * n possible words, and takes m to get each new word
 # space O(m * n)
 
 class Solution(object):
