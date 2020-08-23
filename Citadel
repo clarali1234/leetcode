@@ -1,6 +1,28 @@
 # OA1 Prefix Sum of Matrix (Or 2D Array)
 
-# calculating new array 
+def findBeforeMatrix(after):
+    if not after or not after[0]:
+        return []
+    C = len(after[0])
+    R = len(after)
+    
+    for i in range(0, R):
+        for j in range(C - 1, 0, -1):
+            after[i][j] -= after[i][j - 1];
+ 
+    for i in range(R-1, 0, -1):
+        for j in range(C - 1, -1, -1):
+            after[i][j] -= after[i - 1][j]
+
+    return after
+    
+a2 = []
+a3 = [[]]
+after = [[1, 2, 3, 4, 5], [2, 4, 6, 8, 10], [3, 6, 9, 12, 15], [4, 8, 12, 16, 20]]
+print(findBeforeMatrix(after))
+print(findBeforeMatrix(a2))
+print(findBeforeMatrix(a3))
+
 def prefixSum2D(a) : 
     if not a or not a[0]:
         return []
@@ -24,6 +46,19 @@ def prefixSum2D(a) :
             psa[i][j] = psa[i - 1][j] + psa[i][j - 1] - psa[i - 1][j - 1] +  a[i][j]
     return psa
   
+# Driver Code 
+a = [[ 1, 1, 1, 1, 1 ], 
+     [ 1, 1, 1, 1, 1 ], 
+     [ 1, 1, 1, 1, 1 ], 
+     [ 1, 1, 1, 1, 1 ]] 
+a2 = []
+a3 = [[]]
+  
+print(prefixSum2D(a))
+print(prefixSum2D(a2))
+print(prefixSum2D(a3))
+  
+
 # Driver Code 
 a = [[ 1, 1, 1, 1, 1 ], 
      [ 1, 1, 1, 1, 1 ], 
