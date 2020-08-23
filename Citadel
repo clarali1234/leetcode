@@ -1,6 +1,5 @@
 # OA1 Prefix Sum of Matrix (Or 2D Array)
 
-
 # calculating new array 
 def prefixSum2D(a) : 
     if not a or not a[0]:
@@ -36,5 +35,16 @@ a3 = [[]]
 print(prefixSum2D(a))
 print(prefixSum2D(a2))
 print(prefixSum2D(a3))
+
+
+# OA2 Consecutive sum
+class Solution:
+    def consecutiveNumbersSum(self, N: int) -> int:
+        count = 0
+        upper_limit = ceil((2 * N + 0.25)**0.5 - 0.5) + 1
+        for k in range(1, upper_limit):
+            if (N - k * (k + 1) // 2) % k == 0:
+                count += 1
+        return count
   
 
