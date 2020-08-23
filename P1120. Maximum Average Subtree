@@ -8,11 +8,10 @@ For recursion
 base case: 根结点返回0, 0
 不是base case, recursively 解决，总问题和左右子树的关系。
 
-class Solution(object):
-    def maximumAverageSubtree(self, root):
-        
-        self.res = -sys.maxsize 
-        self.dfs(root)
+class Solution:
+    def maximumAverageSubtree(self, root: TreeNode) -> float:
+        self.res = -sys.maxsize
+        self.dfs(root) # return sum, count of cur substree
         return self.res 
     
     def dfs(self, node):
@@ -21,8 +20,7 @@ class Solution(object):
         
         l_s, l_c = self.dfs(node.left)
         r_s, r_c = self.dfs(node.right)
-        cur_s = l_s + r_s + node.val 
-        cur_c = l_c + r_c + 1.0
-        self.res = max(self.res, cur_s/cur_c)
         
-        return cur_s, cur_c
+        self.res = max(self.res, (l_s + r_s + node.val) * 1.0 / (l_c + r_c + 1))
+        return l_s + r_s + node.val, l_c + r_c + 1
+    
