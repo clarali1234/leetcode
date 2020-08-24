@@ -12,6 +12,31 @@ an entry count, and the task.
 The entry count serves as a tie-breaker so that two tasks with the same priority are returned in the order they were added.
 And since no two entry counts are the same, the tuple comparison will never attempt to directly compare two tasks.
 
+from queue import * 
+
+class Solution:
+    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+        if not lists or len(lists) == 1 and not lists[0]:
+            return []
+        
+        q = PriorityQueue()
+        count = 0
+        for l in lists:
+            if l:
+                q.put((l.val, count, l))
+                count += 1
+        print(q)
+        
+        dummy = ListNode(0)
+        cur = dummy
+        while not q.empty():
+            val, c, node = q.get()
+            cur.next = node
+            if node.next:
+                q.put((node.next.val, c + 1, node.next))
+            cur = cur.next
+        return dummy.next
+
 from heapq import * 
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
