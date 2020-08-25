@@ -83,3 +83,47 @@ class Solution:
         return count - 1
   
 
+
+def getUnallottedUsers(bids, totalShares):
+    # Write your code here
+    id_share = {}
+    for bid in bids:
+        id_share[bid[0]] = bid[1]
+    
+    bids.sort(key = lambda x : (-x[2], x[3]))
+
+    for bid in bids:
+        if totalShares == 0:
+            break
+        else:
+            if bid[1] < totalShares:
+                alloted = bid[1]
+            else:
+                alloted = totalShares
+            bid[1] -= alloted
+            totalShares -= alloted
+
+    bids.sort(key = lambda x : x[0])
+
+    res = []
+    for bid in bids:
+        if bid[1] == id_share[bid[0]]:
+            res.append(bid[0])
+
+    users = [0 for _ in range(len(res))]
+    for i in range(0, len(res)):
+        users[i] = res[i]
+    return users
+        
+            
+
+
+
+
+
+
+
+
+
+
+
