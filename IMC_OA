@@ -37,3 +37,13 @@ def artit(N, artifacts, searched):
     return res
 
 print(artit(12, '1A 2A,12A 12A', '12A'))
+
+test case:
+[4, '1B 2C,2D 4D', '2B']
+[4, '1B 2C,2D 4D', '2B 3D']
+[5, '1B 2C,2D 4D', '1A']
+[12, '1A 1A,12A 12A', '1A']
+[12, '1A 1A,12A 12A', '13A']
+[26, '1A 2A,26A 26A', '1A, 2A, 12A']
+[26, '1A 2A,12A 26A', '1A, 2A, 12A']
+[26, '1A 2A,12A 26A', '1A']
