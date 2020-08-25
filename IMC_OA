@@ -1,0 +1,39 @@
+def all_searched(arts, searched):
+    arts = arts.split(" ")
+    l_t = arts[0]    
+    r_b = arts[1]   
+    # convert col to ord num
+    row1 = int(l_t[:-1])
+    col1 = ord(l_t[-1]) 
+    row2 = int(r_b[:-1])
+    col2 = ord(r_b[-1])
+    count = (row2 - row1 + 1) * (col2 - col1 + 1)
+    
+    not_searched_c = 0
+    searched_c = 0
+    for i in range(row1, row2 + 1):
+        for j in range(col1, col2 + 1):
+            cur_cord = str(i) + chr(j)
+            if cur_cord not in searched:
+                not_searched_c += 1
+            else:
+                searched_c += 1
+    if searched_c == count and not_searched_c == 0:
+        return "all_search"
+    if searched_c > 0 and 0 < not_searched_c < count:
+        return "not_all_searched"
+            
+            
+def artit(N, artifacts, searched):
+    res = [0, 0]
+    searched = searched.split(" ")
+    arts = artifacts.split(',')
+    for art in arts:
+        if all_searched(art, searched) == "all_search":
+            res[0] += 1
+        elif all_searched(art, searched) == "not_all_searched":
+            res[1] += 1
+    
+    return res
+
+print(artit(12, '1A 2A,12A 12A', '12A'))
