@@ -83,7 +83,7 @@ class Solution:
         return count - 1
   
 
-
+有bug
 def getUnallottedUsers(bids, totalShares):
     # Write your code here
     id_share = {}
