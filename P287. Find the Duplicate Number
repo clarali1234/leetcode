@@ -18,24 +18,22 @@ class Solution(object):
 sol2: piginhole principle + binary search
 # time O(nlgn)
 # space O(1)
-class Solution(object):
-    def findDuplicate(self, nums):
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        i = 1
+        j = len(nums) - 1 # n + 1 - n
         
-        n = len(nums) - 1
-        l = 1
-        r = n
-        
-        while l + 1 < r:
-            m = (l + r) // 2
-            count = sum(x <= m for x in nums)
-            if count > m:
-                r = m 
+        while i < j:
+            m = (i + j) // 2
+            less_eq_m = sum([1 if x <= m else 0 for x in nums])
+            #print(i, j, m, less_eq_m)
+            if less_eq_m > m:
+                j = m
             else:
-                l = m + 1
-        
-        if sum(x <= l for x in nums) <= l:
-            return r
-        return l
+                i = m + 1
+            
+                
+        return i
                 
 (1) 两者一定会相遇 (2) 它们会在环的入口相遇。 要理解这两点，我们注意由于slow位于x_{l'}，如果我们向前走c步，
 那么slow会到达位置x_{l' + c}。由于l'是环长度的倍数，相当于向前走了c步，然后绕环几圈回到原位。
