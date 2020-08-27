@@ -35,5 +35,43 @@ class Solution(object):
         return res
                 
                         
-                    
+    
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if len(s) < len(t):
+            return ''
+        
+        c_t = collections.Counter(t)
+        c_s = collections.defaultdict(int)
+        cur_match = 0
+        need_match = len(c_t)
+        
+        i = 0
+        res = ''
+        min_len = sys.maxsize
+        
+        for j in range(len(s)):
+            c_s[s[j]] += 1
+        
+            if c_s[s[j]] == c_t[s[j]]:
+                cur_match += 1
+                
+                if cur_match == need_match:  
+                    while cur_match == need_match:
+                        if c_s[s[i]] == c_t[s[i]]:
+                            cur_match -= 1
+                        c_s[s[i]] -= 1
+                        if c_s[s[i]] == 0:
+                            del c_s[s[i]]
+                        i += 1
+                      
+                    # s[i - 1 : j + 1]
+                    if j - i + 2 < min_len:
+                        min_len = j - i + 2
+                        res = s[i - 1 : j + 1]
+        return res  
+                
+                
+             
+                
                 
