@@ -24,7 +24,7 @@ class Solution(object):
                 
             m = (l + r) // 2
             
-            if nums[l] <= nums[m]:
+            if nums[m] >= nums[0]:
                 if nums[l] <= target <= nums[m]:
                     r = m
                 else:
