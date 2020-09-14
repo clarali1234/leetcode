@@ -37,16 +37,28 @@ class toyDatabase(object):
         table.sort(key = lambda x : x[column] if column in x else 0)
         return table[0]
         
-
     def minByOrder(self, table, columns):
-        
+        if len(columns) == 1:
+            return self.minByColumn(table, columns[0])
+ 
+        table.sort(key = lambda x : [x[c] if c in x else 0 for c in columns])
+        return table[0]
         
 toyDB = toyDatabase([])
 table1 = [{"a": 1}, {"a": 2}, {"a": 3}]
 table2 = [{"a": 1, "b": 2},{"a": 3, "b": 0}]
 table3 = [{"a": 1, "b": -2}, {"a": 3}]
 table4 = [{"a": 1, "b": 2},{"a": 3}]
-print(toyDB.minByColumn(table1, 'a'))
-print(toyDB.minByColumn(table2, 'b'))
-print(toyDB.minByColumn(table3, 'b'))
-print(toyDB.minByColumn(table4, 'b'))
+print(toyDB.minByColumn(table1, 'a')) # {'a': 1}
+print(toyDB.minByColumn(table2, 'b')) # {'a': 3, 'b': 0}
+print(toyDB.minByColumn(table3, 'b')) # {'a': 1, 'b': -2}
+print(toyDB.minByColumn(table4, 'b')) # {'a': 3}
+
+table5 = [{"x": 1, "y": 3}, {"x": 1, "y": 0}]
+table6 = [{"x": 2, "y": 3},{"x": 2, "y": 1}, {"x": 1, "y": 10}]
+table7 = [{"x": 3, "y": -1, "z": 0},{"x": 1, "y": 10, "z": 1},{"x": 1, "y": 10, "z": 0}]
+table8 = [{"x": 1, "y": 2, "z": 3},{"x": 2, "y": 2, "z": 2}]
+print(toyDB.minByOrder(table5, ["x", "y"])) # {"x": 1, "y": 0}
+print(toyDB.minByOrder(table6, ["x", "y"])) # {"x": 1, "y": 10}
+print(toyDB.minByOrder(table7, ["x", "y", 'z'])) # {"x": 1, "y": 10, "z": 0}
+print(toyDB.minByOrder(table8, ["x", "y", 'z'])) # {"x": 1, "y": 2, "z": 3}
