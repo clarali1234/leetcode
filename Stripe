@@ -23,48 +23,7 @@ If only one column is provided, then the behavior of minByOrder is identical to 
 comparator class然后还是一样pass 到 sort function 里
 
 '''
-
-class toyDatabase(object):
-    def __init__(self, records):
-        self.records  = records
-        
-    def minByColumn(self, table, column):
-        # return row that contains min val for given col
-        # row not exist, return 0
-        # b -> {'a' : 1, 'b': 1}; a -> {'b' : 2}
-        if not table:
-            return {}
-        table.sort(key = lambda x : x[column] if column in x else 0)
-        return table[0]
-        
-    def minByOrder(self, table, columns):
-        if len(columns) == 1:
-            return self.minByColumn(table, columns[0])
- 
-        table.sort(key = lambda x : [x[c] if c in x else 0 for c in columns])
-        return table[0]
-        
-toyDB = toyDatabase([])
-table1 = [{"a": 1}, {"a": 2}, {"a": 3}]
-table2 = [{"a": 1, "b": 2},{"a": 3, "b": 0}]
-table3 = [{"a": 1, "b": -2}, {"a": 3}]
-table4 = [{"a": 1, "b": 2},{"a": 3}]
-print(toyDB.minByColumn(table1, 'a')) # {'a': 1}
-print(toyDB.minByColumn(table2, 'b')) # {'a': 3, 'b': 0}
-print(toyDB.minByColumn(table3, 'b')) # {'a': 1, 'b': -2}
-print(toyDB.minByColumn(table4, 'b')) # {'a': 3}
-
-table5 = [{"x": 1, "y": 3}, {"x": 1, "y": 0}]
-table6 = [{"x": 2, "y": 3},{"x": 2, "y": 1}, {"x": 1, "y": 10}]
-table7 = [{"x": 3, "y": -1, "z": 0},{"x": 1, "y": 10, "z": 1},{"x": 1, "y": 10, "z": 0}]
-table8 = [{"x": 1, "y": 2, "z": 3},{"x": 2, "y": 2, "z": 2}]
-print(toyDB.minByOrder(table5, ["x", "y"])) # {"x": 1, "y": 0}
-print(toyDB.minByOrder(table6, ["x", "y"])) # {"x": 1, "y": 10}
-print(toyDB.minByOrder(table7, ["x", "y", 'z'])) # {"x": 1, "y": 10, "z": 0}
-print(toyDB.minByOrder(table8, ["x", "y", 'z'])) # {"x": 1, "y": 2, "z": 3}
-
-
-# writing code using assert and python function
+# step1 
 def min_by_key(table, column):
     if not table or not column:
         return {}
@@ -72,6 +31,7 @@ def min_by_key(table, column):
     table.sort(key = lambda x : x[column] if column in x else 0)
     return table[0]
 
+# step2
 def min_by_keys(table, cols):
     if not table or not cols or (len(cols) == 1 and not cols[0]):
         return {}
@@ -81,29 +41,23 @@ def min_by_keys(table, cols):
     table.sort(key = lambda x : [x[c] if c in x else 0 for c in cols])
     return table[0]
     
+# test min_by_key
+assert(min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "a") == {"a": 1})
+assert(min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "a") == {'a' : 1, 'b' : 2})
+assert(min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "b") == {'a' : 3})
+assert(min_by_key([{"a" : 1, "b" : -2}, {"a" : 3}], "b") == {"a" : 1, "b" : -2})
+assert(min_by_key([], "a") == {})
+assert(min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "") == {})
+            
+# test min_by_keys
+assert(min_by_keys([], [])== {})
+assert(min_by_keys([{'a' : 1, 'b' : 1}, {'a' : 1, 'b' : 2}], ['a', 'b']) == {'a' : 1, 'b' : 1})
+assert(min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b']) == {'a' : 1, 'b' : -1})
+assert(min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b']) == {'a' : 1, 'b' : -1})
+assert(min_by_keys([{'a' : 1, 'b' : 2, 'c' : -5}, {'a' : 1}], ['a', 'c']) == {'a' : 1, 'b' : 2, 'c' : -5})
 
-res = min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "a")
-assert(res == {"a": 1})
-res = min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "a")
-assert(res == {'a' : 1, 'b' : 2})
-res = min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "b")
-assert(res == {'a' : 3})
-res = min_by_key([{"a" : 1, "b" : -2}, {"a" : 3}], "b")
-assert(res == {"a" : 1, "b" : -2})
-res = min_by_key([], "a")
-assert(res == {})
-res = min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "")
-assert(res == {})
-               
-res = min_by_keys([], [])
-assert(res == {})
-res = min_by_keys([{'a' : 1, 'b' : 1}, {'a' : 1, 'b' : 2}], ['a', 'b'])
-assert(res == {'a' : 1, 'b' : 1})
-res = min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b'])
-assert(res == {'a' : 1, 'b' : -1})
-res = min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b'])
-assert(res == {'a' : 1, 'b' : -1})
-res = min_by_keys([{'a' : 1, 'b' : 2, 'c' : -5}, {'a' : 1}], ['a', 'c'])
-assert(res == {'a' : 1, 'b' : 2, 'c' : -5})
+
+
+# old version
 
 
