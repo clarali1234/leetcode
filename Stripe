@@ -62,3 +62,48 @@ print(toyDB.minByOrder(table5, ["x", "y"])) # {"x": 1, "y": 0}
 print(toyDB.minByOrder(table6, ["x", "y"])) # {"x": 1, "y": 10}
 print(toyDB.minByOrder(table7, ["x", "y", 'z'])) # {"x": 1, "y": 10, "z": 0}
 print(toyDB.minByOrder(table8, ["x", "y", 'z'])) # {"x": 1, "y": 2, "z": 3}
+
+
+# writing code using assert and python function
+def min_by_key(table, column):
+    if not table or not column:
+        return {}
+    
+    table.sort(key = lambda x : x[column] if column in x else 0)
+    return table[0]
+
+def min_by_keys(table, cols):
+    if not table or not cols or (len(cols) == 1 and not cols[0]):
+        return {}
+    
+    if len(cols) == 1:
+        return min_by_key(table, cols[0])
+    table.sort(key = lambda x : [x[c] if c in x else 0 for c in cols])
+    return table[0]
+    
+
+res = min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "a")
+assert(res == {"a": 1})
+res = min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "a")
+assert(res == {'a' : 1, 'b' : 2})
+res = min_by_key([{"a" : 1, "b" : 2}, {"a" : 3}], "b")
+assert(res == {'a' : 3})
+res = min_by_key([{"a" : 1, "b" : -2}, {"a" : 3}], "b")
+assert(res == {"a" : 1, "b" : -2})
+res = min_by_key([], "a")
+assert(res == {})
+res = min_by_key([{"a": 1}, {"a": 2}, {"a" : 3}], "")
+assert(res == {})
+               
+res = min_by_keys([], [])
+assert(res == {})
+res = min_by_keys([{'a' : 1, 'b' : 1}, {'a' : 1, 'b' : 2}], ['a', 'b'])
+assert(res == {'a' : 1, 'b' : 1})
+res = min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b'])
+assert(res == {'a' : 1, 'b' : -1})
+res = min_by_keys([{'a' : 1, 'b' : -1}, {'a' : 1}], ['a', 'b'])
+assert(res == {'a' : 1, 'b' : -1})
+res = min_by_keys([{'a' : 1, 'b' : 2, 'c' : -5}, {'a' : 1}], ['a', 'c'])
+assert(res == {'a' : 1, 'b' : 2, 'c' : -5})
+
+
