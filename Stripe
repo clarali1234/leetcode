@@ -1,0 +1,52 @@
+# toy database 
+
+# build a new databse
+# records are maps , key: string, value: integers
+# records are in an array, no order
+
+# ['a' : 1, 'b' : 2]
+'''
+# minByColumn
+Write a function minByColumn that takes a database table (as above), along with a column, and returns the row that contains the minimum value for the given column.
+
+If a row doesn't have any value for the column, it should behave as though the value for that column was zero.
+
+
+思路: sort + lambda function
+
+可以允许用任何方法写，这两个function我都用了comparator的写法，然后collections sort，取第一个。这样的话，minByOrder function就只需要稍微修改一下就可以了。最后面试大叔告诉我其实collections可以直接用min的function。。。
+
+# minByOrder
+Write a function minByOrder that takes a database table and a list of columns, and returns the row with the minimum column values using the tie-breaking logic above.
+If only one column is provided, then the behavior of minByOrder is identical to passing that column to minByColumn:
+
+comparator class然后还是一样pass 到 sort function 里
+
+'''
+
+class toyDatabase(object):
+    def __init__(self, records):
+        self.records  = records
+        
+    def minByColumn(self, table, column):
+        # return row that contains min val for given col
+        # row not exist, return 0
+        # b -> {'a' : 1, 'b': 1}; a -> {'b' : 2}
+        if not table:
+            return {}
+        table.sort(key = lambda x : x[column] if column in x else 0)
+        return table[0]
+        
+
+    def minByOrder(self, table, columns):
+        
+        
+toyDB = toyDatabase([])
+table1 = [{"a": 1}, {"a": 2}, {"a": 3}]
+table2 = [{"a": 1, "b": 2},{"a": 3, "b": 0}]
+table3 = [{"a": 1, "b": -2}, {"a": 3}]
+table4 = [{"a": 1, "b": 2},{"a": 3}]
+print(toyDB.minByColumn(table1, 'a'))
+print(toyDB.minByColumn(table2, 'b'))
+print(toyDB.minByColumn(table3, 'b'))
+print(toyDB.minByColumn(table4, 'b'))
