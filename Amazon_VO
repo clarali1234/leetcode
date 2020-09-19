@@ -1,0 +1,99 @@
+1. def breakPalindrome(palindrome):
+    S = palindrome
+    #if len(S)
+    for i in range(len(S) // 2):
+        if S[i] != 'a':
+            return S[:i] + 'a' + S[i + 1:]
+    return "IMPOSSIBLE"
+print(breakPalindrome("aaa"))
+
+
+
+Follow up: didn't require the new id is lower than the old id
+
+class Solution:
+    def breakPalindrome(self, palindrome: str) -> str:
+        S = palindrome
+        for i in range(len(S) // 2):
+            if S[i] != 'a':
+                return S[:i] + 'a' + S[i + 1:]
+        return S[:-1] + 'b' if S[:-1] else ''
+        
+        
+        
+  
+2. 
+import math
+def sortItems(numOfItems, items, sortPara, sortOrder, itemsPerP, pageNum): 
+    items_name = list(items.keys())
+    if sortOrder == 0:
+        if sortPara == 0:
+            items_name.sort()
+        elif sortPara == 1:
+            items_name.sort(key = lambda x : items[x][0])
+        else:
+            items_name.sort(key = lambda x : items[x][1])
+    else:
+        if sortPara == 0:
+            items_name.sort(reverse = True)
+        elif sortPara == 1:
+            items_name.sort(key = lambda x : -items[x][0])
+        else:
+            items_name.sort(key = lambda x : -items[x][1])
+    
+    total_pages = math.ceil(numOfItems / itemsPerP)
+    if pageNum > total_pages - 1:
+        return []
+    elif pageNum < total_pages - 1:
+        return items_name[itemsPerP * pageNum : itemsPerP * (pageNum + 1)]
+    else:
+        return items_name[itemsPerP * pageNum : ]
+
+from heapq import * 
+def sortItems2(numOfItems, items, sortPara, sortOrder, itemsPerP, pageNum): 
+    items_name = list(items.keys())
+    heap = []
+    if sortOrder == 0:
+        if sortPara == 0:
+            for name in items_name:
+                heap.append([name, name])
+        elif sortPara == 1:
+            for name in items_name:
+                heap.append([items[name][0], name])
+        else:
+            for name in items_name:
+                heap.append([items[name][1], name])
+         
+    else:
+        if sortPara == 0:
+            for name in items_name:
+                heap.append([''.join(chr(ord('z') - ord(c) + ord('a')) for c in name), name])
+        elif sortPara == 1:
+            for name in items_name:
+                heap.append([-items[name][0], name])
+        else:
+            for name in items_name:
+                heap.append(-[items[name][1], name])
+         
+    heapify(heap)
+    res = []
+    pop_count = min(len(heap), itemsPerP * (pageNum + 1))
+    while pop_count and heap:
+        rule, item = heappop(heap)
+        res.append(item)
+        pop_count -= 1
+        
+    total_pages = math.ceil(numOfItems / itemsPerP)
+    if pageNum > total_pages - 1:
+        return []
+    elif pageNum < total_pages - 1:
+        return res[itemsPerP * pageNum : itemsPerP * (pageNum + 1)]
+    else:
+        return res[itemsPerP * pageNum : ]
+    
+    
+print(sortItems(3, {"item1": [10, 15], "item2": [3, 4], "item3": [17, 8]}, 
+                0, 1, 2, 1))
+
+print(sortItems2(3, {"item1": [10, 15], "item2": [3, 4], "item3": [17, 8]}, 
+                0, 1, 2, 1))
