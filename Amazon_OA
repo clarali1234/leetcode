@@ -141,7 +141,7 @@ def sortItems(numOfItems, items, sortPara, sortOrder, itemsPerP, pageNum):
             items_name.sort(key = lambda x : items[x][1])
     else:
         if sortPara == 0: 
-            items_name.sort(key = lambda x : -x)
+            items_name.sor(reverse = True)
         elif sortPara == 1:
             items_name.sort(key = lambda x : -items[x][0])
         else:
