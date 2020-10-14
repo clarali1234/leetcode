@@ -1,0 +1,27 @@
+'''
+given four arrays representing prices of four clothing items and a total budget, find number of combinations of possible purchases where you have to buy one of each clothing item.
+e.g. input: [1,2,3] [2] [3] [2,3],  budget = 10
+output: 5 combinations ([1,2,3,2] [1,2,3,3] [2,2,3,2] [2,2,3,3] [3,2,3,2])
+
+'''
+
+class Solution(object):
+    def numCombination(self, l, target):
+        prev_dp = [0] * (target + 1)
+        for num in l[0]:
+            prev_dp[num] = 1
+            
+        for cur_l in l[1:]:
+            cur_dp = [0] * (target + 1)
+            for coin in cur_l:
+                for index, num in enumerate(prev_dp):
+                    if num > 0 and index + coin <= target:
+                        cur_dp[index + coin] += 1
+            prev_dp = cur_dp
+        return sum(prev_dp)
+            
+                        
+test = Solution()
+print(test.numCombination([[1,2,3], [2], [3], [2,3]], 10))
+print(test.numCombination([[1,2], [2, 3]], 4))
+      
