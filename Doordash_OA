@@ -25,3 +25,43 @@ test = Solution()
 print(test.numCombination([[1,2,3], [2], [3], [2,3]], 10))
 print(test.numCombination([[1,2], [2, 3]], 4))
       
+1.	第一题国际象棋，求起终点的步数，bfs + memo
+n x n chessboard, given the start and end position of two knights, find smallest number of steps to get from one place to the other or -1 if impossible
+
+
+def isInside(x, y, N): 
+    if (x >= 1 and x <= N and 
+        y >= 1 and y <= N):  
+        return True
+    return False
+
+def minStepToReachTarget(knightpos, targetpos, N): 
+    dx = [2, 2, -2, -2, 1, 1, -1, -1] 
+    dy = [1, -1, 1, -1, 2, -2, 2, -2] 
+      
+    queue = []
+    queue.append([knightpos[0], knightpos[1], 0]) 
+    visited = [[False for i in range(N + 1)]  
+                      for j in range(N + 1)]  
+    visited[knightpos[0]][knightpos[1]] = True
+      
+    while queue: 
+        t = queue[0] 
+        queue.pop(0)  
+        if(t[0] == targetpos[0] and 
+           t[1] == targetpos[1]): 
+            return t[2]
+        
+        for i in range(8): 
+            x = t[0] + dx[i] 
+            y = t[1] + dy[i] 
+            if (isInside(x, y, N) and not visited[x][y]): 
+                visited[x][y] = True
+                queue.append([x, y, t[2] + 1]) 
+    return -1
+  
+N = 30
+knightpos = [1, 1] 
+targetpos = [30, 30] 
+print(minStepToReachTarget(knightpos, 
+                               targetpos, N))
