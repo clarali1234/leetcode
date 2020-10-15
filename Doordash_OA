@@ -5,21 +5,39 @@ output: 5 combinations ([1,2,3,2] [1,2,3,3] [2,2,3,2] [2,2,3,3] [3,2,3,2])
 
 '''
 
-class Solution(object):
-    def numCombination(self, l, target):
-        prev_dp = [0] * (target + 1)
-        for num in l[0]:
-            prev_dp[num] = 1
+def getNumberOfOptions(priceOfJeans, priceOfShoes, priceOfSkirts, priceOfTops, budgeted):
+    if budgeted >= max(priceOfJeans) + max(priceOfShoes) + max(priceOfSkirts) + max(priceOfTops):
+        return len(priceOfJeans) * len(priceOfShoes) * len(priceOfSkirts) * len(priceOfTops)
+    
+    c1 = []
+    c2 = []
+    for i in priceOfJeans:
+        for j in priceOfShoes:
+            c1.append(i + j)
+        
+    for m in priceOfSkirts:
+        for n in priceOfTops:
+            c2.append(m + n)
+                
+    c1.sort()
+    c2.sort()
+
+    i = 0
+    j = 0
+    count = 0
+    m = len(c1)
+    n = len(c2)
+    for i in range(m):
+        j = 0
+        while j < n and c1[i] + c2[j] <= budgeted:
+             j += 1      
+        if j < n and c1[i] + c2[j] > budgeted:
+            count += n - j
             
-        for cur_l in l[1:]:
-            cur_dp = [0] * (target + 1)
-            for coin in cur_l:
-                for index, num in enumerate(prev_dp):
-                    if num > 0 and index + coin <= target:
-                        cur_dp[index + coin] += 1
-            prev_dp = cur_dp
-        return sum(prev_dp)
-            
+    return m * n - count   
+    
+
+
                         
 test = Solution()
 print(test.numCombination([[1,2,3], [2], [3], [2,3]], 10))
