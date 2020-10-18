@@ -1,0 +1,23 @@
+class Solution:
+    def findMissingRanges(self, nums: List[int], lower: int, upper: int) -> List[str]:
+        self.res = []
+        if not nums:
+            self.format_interval(lower, upper)
+            return self.res
+        
+        if nums[0] > lower:
+            self.format_interval(lower, nums[0] - 1)
+        for i in range(1, len(nums)):
+            if nums[i] > nums[i - 1] + 1:
+                self.format_interval(nums[i - 1] + 1, nums[i] - 1)
+        if nums[-1] < upper:
+            self.format_interval(nums[-1] + 1, upper)
+        return self.res
+        
+        
+    def format_interval(self, l, u):
+        if l == u:
+            self.res.append(str(l))
+        else:
+            self.res.append(str(l) + '->' + str(u))
+            
