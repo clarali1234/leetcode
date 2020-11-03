@@ -1,0 +1,54 @@
+class Twitter:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.t = 0
+        self.follow_dict = collections.defaultdict(set)
+        self.user_twit = collections.defaultdict(list)
+        
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        """
+        Compose a new tweet.
+        """
+        self.t += 1
+        self.user_twit[userId].append([-self.t, tweetId])
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        """
+        res = []
+        cur_heap = []
+        
+        if userId not in self.follow_dict[userId]:
+            self.follow_dict[userId].add(userId)
+        for f in list(self.follow_dict[userId]):
+            cur_heap += self.user_twit[f]
+        
+        heapify(cur_heap)
+        print(cur_heap)
+        count = 10
+        while cur_heap and count > 0:
+            time, lastest_p = heappop(cur_heap)
+            res.append(lastest_p)
+            count -= 1
+        return res
+        
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        """
+        
+        self.follow_dict[followerId].add(followeeId)
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        """
+        if followeeId in self.follow_dict[followerId]:
+            self.follow_dict[followerId].remove(followeeId)
+
