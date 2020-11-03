@@ -23,3 +23,31 @@ class Solution(object):
             if ends[i] < starts[i + 1]:
                 res.append(Interval(ends[i], starts[i + 1]))
         return res
+
+
+# sol2: keep track of latest time anchor, starts from the min start
+# heap [cur_start, emp_id, emp_index]
+# time O(nlgC) c is num of employee
+# space O(n)
+
+from heapq import *
+class Solution:
+    def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
+        heap = []
+        for emp_id, time in enumerate(schedule):
+            heap.append([time[0].start, emp_id, 0])
+        #print(heap)
+        
+        # latest time
+        res = []
+        anchor = min(cur.start for employee in schedule for cur in employee) 
+        heapify(heap)
+        while heap:
+            cur_start, emp, emp_index = heappop(heap)
+            if anchor < cur_start:
+                res.append(Interval(anchor, cur_start))
+            anchor = max(anchor, schedule[emp][emp_index].end)
+            if emp_index + 1 < len(schedule[emp]):
+                heappush(heap, [schedule[emp][emp_index + 1].start, emp, emp_index + 1])
+        return res
+                
