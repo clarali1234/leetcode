@@ -1,0 +1,18 @@
+# greedy
+# time O(n*lgn + nlgk)
+# space O(n)
+
+from heapq import *
+class Solution:
+    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
+        heap = []
+        res = 0
+        total_s = 0
+        mod = 10 ** 9 + 7
+        for e, s in sorted(zip(efficiency, speed), reverse = True):
+            heappush(heap, s)
+            total_s += s
+            if len(heap) > k:
+                total_s -= heappop(heap)
+            res = max(res, total_s * e)
+        return res % mod
