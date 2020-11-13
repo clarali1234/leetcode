@@ -1,0 +1,17 @@
+# time O(n), space O(1)
+# DP
+# n = 1, res = 1
+
+# transmation formation 
+# n - 1 pairs -> n pairs / 2 (n - 1) items
+# first insert pickup 2 * (n - 1) + 1 / 2n - 1 items
+# second insert delivery 2 * n
+# pickup is ahead delivery
+
+class Solution:
+    def countOrders(self, n: int) -> int:
+        res = 1
+        mod = 10 ** 9 + 7
+        for i in range(2, n + 1):
+            res *= (2 * i - 1) * i
+        return res % mod
