@@ -2,6 +2,13 @@
 # time O(n*lgn + nlgk)
 # space O(n)
 
+# 思路:
+# sort employee by efficiency from high to low
+# iterate each employee and push to heap
+# if len(heap) > k: pop out lowest s from heap
+# update res
+
+
 from heapq import *
 class Solution:
     def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
