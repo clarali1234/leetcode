@@ -1,5 +1,5 @@
 
-# number of island 
+# 1. number of island 
 # area of each island 
 
 class Solution(object):
@@ -32,7 +32,8 @@ grid = [['1', '0', '1'],
 print(test.areaIsland(grid)) # return 2
 
 
-# food delivery
+# 2. food delivery
+# return all possibility
 class Solution(object):
     def foodDelivery(self, n):
         if n == 0:
