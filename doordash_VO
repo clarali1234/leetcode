@@ -30,3 +30,37 @@ grid = [['1', '0', '1'],
         ['1', '0', '1']]
         
 print(test.areaIsland(grid)) # return 2
+
+
+# food delivery
+class Solution(object):
+    def foodDelivery(self, n):
+        if n == 0:
+            return []
+        if n == 1:
+            return [['P1', 'D1']]
+                     
+        self.n = n
+        self.res = []
+        self.dfs(1, 1, ['P1', 'D1'])
+        return self.res
+        
+    
+    def dfs(self, P, D, cur):
+        if P == self.n and D == self.n:
+            self.res.append(cur)
+            return 
+        # [p1, d1]
+        for i in range(len(cur)): # insert p at (0, len(cur) -1)
+            cur1 = cur[:i] + ['P' + str(P + 1)] + cur[i:]
+            for j in range(i + 1, len(cur1)):
+                cur_path = cur1[:j] + ['D' + str(D + 1)] + cur1[j:]
+                self.dfs(P + 1, D + 1, cur_path)
+            cur1.append('D' + str(D + 1))
+            self.dfs(P + 1, D + 1, cur1)
+                           
+        self.dfs(P + 1, D + 1, cur + ['P' + str(P + 1), 'D' + str(D + 1)])
+                 
+test = Solution()
+print(test.foodDelivery(2)) # return 2
+         
