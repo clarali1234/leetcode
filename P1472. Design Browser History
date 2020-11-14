@@ -1,0 +1,26 @@
+# stack
+# time O(1), space O(1)
+
+class BrowserHistory:
+
+    def __init__(self, homepage: str):
+        self.stack = ['' for _ in range(5001)]
+        self.stack[0] = homepage
+        self.cur_pos = 0
+        self.end = 0
+
+    def visit(self, url: str) -> None:
+        self.cur_pos += 1
+        self.stack[self.cur_pos] = url
+        self.end = self.cur_pos
+        
+
+    def back(self, steps: int) -> str:
+        self.cur_pos = max(0, self.cur_pos - steps)
+        return self.stack[self.cur_pos]
+        
+
+    def forward(self, steps: int) -> str:
+        self.cur_pos = min(self.end, self.cur_pos + steps)
+        return self.stack[self.cur_pos]
+
