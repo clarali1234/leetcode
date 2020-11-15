@@ -3,6 +3,15 @@
     dfs recursion + visited set, time O(mn), space O(mn)
     dfs recursion + change grid cell, time O(mn), space O(depth of recursion)
     iterative dfs to aviod stack overflow
+    # bfs vs dfs
+    both bfs and dfs are used to search for graph
+    bfs is queue based implementation, when we visited a node, we visited all of its 
+    neighrbo first which means that we go wide then go deep
+    dfs is stack based implementatio, when we visited a node, we visited its neighbor
+    and call dfs for this neighbor then go wide
+
+    bfs is used to find shortest path for simple graph
+    dfs is used to explore all the possibility
     
 # iterative dfs
 class Solution(object):
