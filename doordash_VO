@@ -1,6 +1,78 @@
 
 # 1. number of island 
-# area of each island 
+    dfs recursion + visited set, time O(mn), space O(mn)
+    dfs recursion + change grid cell, time O(mn), space O(depth of recursion)
+    iterative dfs to aviod stack overflow
+    
+# iterative dfs
+class Solution(object):
+    def numberIslands(self, grid):
+        self.res = 0
+        self.visited = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1' and (i, j) not in self.visited:
+                    self.stack = [[i, j]]
+                    self.visited.add((i, j))
+                    self.dfs(grid)
+                    self.res += 1
+        return self.res
+                    
+    
+    def dfs(self, grid):
+        
+        while self.stack:
+            x, y = self.stack.pop()
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == '1' and (new_x, new_y) not in self.visited:
+                    self.visited.add((new_x, new_y))
+                    self.stack.append((new_x, new_y))
+        
+test = Solution()
+grid = [['1', '0', '1'],
+        ['1', '1', '1'],
+        ['1', '0', '1']]
+print(test.numberIslands(grid)) # return 2
+
+
+# bfs
+import collections
+class Solution(object):
+    def numberIslands(self, grid):
+        self.res = 0
+        self.visited = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1' and (i, j) not in self.visited:
+                    self.q = collections.deque([(i, j)])
+                    self.visited.add((i, j))
+                    self.bfs(grid)
+                    self.res += 1
+        return self.res
+                    
+    
+    def bfs(self, grid):
+        
+        while self.q:
+            x, y = self.q.popleft()
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == '1' and (new_x, new_y) not in self.visited:
+                    self.visited.add((new_x, new_y))
+                    self.q.append((new_x, new_y))
+        
+test = Solution()
+grid = [['1', '0', '1'],
+        ['1', '1', '1'],
+        ['1', '0', '1']]
+print(test.numberIslands(grid)) # return 2
+
+
+
+# follow up1: area of each island 
 
 class Solution(object):
     def areaIsland(self, grid):
@@ -30,6 +102,8 @@ grid = [['1', '0', '1'],
         ['1', '0', '1']]
         
 print(test.areaIsland(grid)) # return 2
+
+
 
 
 # 2. food delivery
