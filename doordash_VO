@@ -237,3 +237,137 @@ class BrowserHistory:
     def forward(self, steps: int) -> str:
         self.cur = min(len(self.stack) - 1, self.cur + steps)
         return self.stack[self.cur]
+        
+        
+4. 355. Design Twitter
+# brute force 
+# followers dic
+# tweet dic
+# time = 0
+
+# get news feed: O(nlgn), sort by time then take 10, n is num of tweets
+# heap, O(10 * lgn + n), put all followees' tweets into heap
+# dic + heap + sorted linked list, O(10 * logk) k: num of followees
+class TweetNode(object):
+    def __init__(self, time, val, nxt = None):
+        self.time = time
+        self.val = val
+        self.next = nxt
+        
+
+class Twitter:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.followers = collections.defaultdict(set) # key: followerId, val: followee
+        self.tweets = {}
+        self.time = 1
+        
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        """
+        Compose a new tweet.
+        """
+        self.time += 1
+        node = TweetNode(-self.time, tweetId)
+        if userId not in self.tweets:
+            self.tweets[userId] = node
+        else:
+            node.next = self.tweets[userId]
+            self.tweets[userId] = node
+
+        
+    def getNewsFeed(self, userId: int) -> List[int]:
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        """
+        heap = []
+        if userId not in self.followers[userId]:
+            self.followers[userId].add(userId)
+        
+        for followee in list(self.followers[userId]):
+            if followee in self.tweets:
+                heappush(heap, (self.tweets[followee].time, self.tweets[followee]))
+        
+        res = []
+        k = 10
+        while heap and k > 0:
+            time, cur_node = heappop(heap)
+            res.append(cur_node.val)
+            if cur_node.next:
+                heappush(heap, (cur_node.next.time, cur_node.next))
+            k -= 1
+        return res
+            
+
+    def follow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        """
+        if followeeId not in self.followers[followerId]:
+            self.followers[followerId].add(followeeId)
+        
+
+    def unfollow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        """
+        if followeeId in self.followers[followerId]:
+            self.followers[followerId].remove(followeeId)
+
+
+# heap + dic
+class Twitter:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.t = 0
+        self.follow_dict = collections.defaultdict(set)
+        self.user_twit = collections.defaultdict(list)
+        
+
+    def postTweet(self, userId: int, tweetId: int) -> None:
+        """
+        Compose a new tweet.
+        """
+        self.t += 1
+        self.user_twit[userId].append([-self.t, tweetId])
+
+    def getNewsFeed(self, userId: int) -> List[int]:
+        """
+        Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent.
+        """
+        res = []
+        cur_heap = []
+        
+        if userId not in self.follow_dict[userId]:
+            self.follow_dict[userId].add(userId)
+        for f in list(self.follow_dict[userId]):
+            cur_heap += self.user_twit[f]
+        
+        heapify(cur_heap)
+        count = 10
+        while cur_heap and count > 0:
+            time, lastest_p = heappop(cur_heap)
+            res.append(lastest_p)
+            count -= 1
+        return res
+   
+   def follow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower follows a followee. If the operation is invalid, it should be a no-op.
+        """
+        
+        self.follow_dict[followerId].add(followeeId)
+
+   def unfollow(self, followerId: int, followeeId: int) -> None:
+        """
+        Follower unfollows a followee. If the operation is invalid, it should be a no-op.
+        """
+        if followeeId in self.follow_dict[followerId]:
+            self.follow_dict[followerId].remove(followeeId)
+
+
