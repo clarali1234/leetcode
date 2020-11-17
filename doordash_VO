@@ -371,3 +371,35 @@ class Twitter:
             self.follow_dict[followerId].remove(followeeId)
 
 
+5. '''
+implement 一个in memory database，需要有get，set，unset， begin，rollback，commit等功能
+API都定义好了，直接paste一大段题目自己读，有10个test cases，这轮写的还算顺利，很快就pass all test cases
+'''
+
+class Database(object):
+    def __init__(self):
+        self.database = {}
+        self.transaction = []
+    
+    def get(self, key):
+        if key in self.database:
+            return self.database[key]
+        return -1
+    
+    def dbset(self, key, val):
+        pre_val = self.database[key] if key in self.database else -1
+        self.transaction.append([key, pre_val])
+        self.database[key] = val
+        
+        
+    def unset(self, key):
+        del self.database[key]
+        
+    def rollback(self):
+        while self.transaction:
+            key, pre_val = self.transaction.pop()
+            self.database[key] = pre_val
+            
+    def commit(self):
+        self.transaction = []
+            
