@@ -1,0 +1,31 @@
+dp
+# time O(m^3)
+# space O(m^2)
+
+Define dp[i][j] as the minimum cost of finishing all the cuts between ith and jth cut exclusively, 
+while ith and jth cut is already done. Then we just loop through each cut as the first cut and find the minimum cost.
+
+# dp table: 0, (m + 2) * (m + 2)
+# dp[i][j]: min cost to cut i to j point 
+# transmation formation
+
+# 'i, i + 1, .. k, k + 1, ... j'
+# dp[i][j] = min(dp[i][k] + dp[k][j]) + cuts[j] - cuts[i], for k in range(i + 1, j) 
+
+class Solution:
+    def minCost(self, n: int, cuts: List[int]) -> int:
+
+        cuts = [0] + sorted(cuts) + [n]
+        m = len(cuts)
+        dp = [[0 for _ in range(m)] for _ in range(m)]
+        
+        for i in range(m - 1, -1, -1):
+            for j in range(i + 1, m):
+                if i + 1 == j:
+                    dp[i][j] = 0
+                else:
+                    dp[i][j] = sys.maxsize
+                    for k in range(i + 1, j):
+                        dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j])
+                    dp[i][j] += cuts[j] - cuts[i]
+        return dp[0][-1]
