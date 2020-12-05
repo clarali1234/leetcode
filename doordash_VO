@@ -125,26 +125,31 @@ print(test.areaIsland(grid)) # return 2
 '''
 
 import collections
-class Solution(object):
-    def validOrder(self, orders):
-        p_set = set() # set of all pickup
-        set_ = set() # set of pickup and delivery pair
+class Solution:
+    def validOrders(self, orders):
+        pairs = set()
+        pickups = set()
         for ele in orders:
-            if ele.startswith('P'): # pickup
-                if ele in p_set:
+            if ele.startswith('P'):
+                if ele in pickups or ele in pairs:
                     return False
-                p_set.add(ele)
-                set_.add(ele)
-            else: # delivery
-                if 'P' + ele[1] not in set_:
+                pairs.add(ele)
+                pickups.add(ele)
+            else:
+                cur_pickup = 'P' + ele[1]
+                if cur_pickup not in pairs:
                     return False
-                set_.remove('P' + ele[1])
-
-        return len(set_) == 0
-        
+                pairs.remove(cur_pickup)
+        return len(pairs) == 0
+                
+                
 test = Solution()
-orders = ['P1', 'D1', 'D2', 'P2']
-print(test.validOrder(orders)) # return 2
+order1 = ['P1', 'D1']
+order2 = ['P1', 'D2']
+order3 = ['D1', 'P1']
+order4 = ['P1', 'P1']
+order5 = ['P1', 'D1','P1', 'D1' ]
+print(test.validOrders(order5))
 
 # return all possibility
 class Solution(object):
