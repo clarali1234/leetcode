@@ -2,24 +2,26 @@
 # time O(1)
 # space O(n)
 
-class UndergroundSystem(object):
+
+class UndergroundSystem:
 
     def __init__(self):
-        self.person_start = {} # dic, id(people) : (start_sta, t)
-        self.s_e = {}          # dic, (s, e) : (time, people)
-
-    def checkIn(self, id, stationName, t): 
-        self.person_start[id] = (stationName, t)
-
-    def checkOut(self, id, stationName, t):  
+        self.passengers = {} # key: id, val: (start_station, start_time)
+        self.stations = collections.defaultdict(list) # key: (start, end station), val: (time, count)
         
-        start, t1 = self.person_start.get(id)
-        pre_t, pre_p = self.s_e.get((start, stationName), [0, 0])
-        self.s_e[(start, stationName)] = [pre_t + (t - t1), pre_p + 1]
+    def checkIn(self, id: int, stationName: str, t: int) -> None:
+        self.passengers[id] = (stationName,t)
         
 
-    def getAverageTime(self, startStation, endStation): 
+    def checkOut(self, id: int, stationName: str, t: int) -> None:
+        start_station, start_time = self.passengers[id]
+        prev_time, prev_c = self.stations.get((start_station, stationName), (0, 0))
+        self.stations[(start_station, stationName)] = (prev_time + t - start_time, prev_c + 1)
         
-        t, p = self.s_e.get((startStation, endStation))
-        return t * 1.0 / p
+
+    def getAverageTime(self, startStation: str, endStation: str) -> float:
+        total_time, total_c = self.stations.get((startStation, endStation))
+        return total_time / total_c * 1.0
         
+        
+
