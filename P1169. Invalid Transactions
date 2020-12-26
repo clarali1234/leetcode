@@ -1,4 +1,4 @@
-
+# brute force
 time O(n^2)
 space O(n)
 
@@ -21,3 +21,35 @@ class Solution(object):
                         res.append(','.join(trans[i]))
                         break
         return res
+
+# optimize
+# time O(n^2)
+# space O(n)
+class Solution:
+    def invalidTransactions(self, transactions: List[str]) -> List[str]:
+        dic = collections.defaultdict(list) # key: name, value: trans,index
+        flag = [False for i in range(len(transactions))]
+        for index, trans in enumerate(transactions):
+            name, time, amount, city = trans.split(',')
+            dic[name].append([(time, amount, city), index])
+        
+        for name in dic.keys():
+            vals = dic[name]
+            vals.sort(key = lambda x : x[0][0])
+            for j in range(len(vals)):
+                t, a, c = vals[j][0]
+                i = vals[j][1]
+                if int(a) > 1000:
+                    flag[i] = True
+                else:
+                    for m in range(len(vals)):
+                        t2, a1, c2 = vals[m][0]
+                        i2 = vals[m][1]
+                        if abs(int(t2) - int(t)) <= 60 and c2 != c and i2 != i:
+                            flag[i] = True
+                            break
+        return [transactions[i] for i in range(len(transactions)) if flag[i]  ]
+                            
+            
+            
+        
