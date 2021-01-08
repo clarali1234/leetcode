@@ -1,8 +1,7 @@
-# brute force 
-# hash table
-# add store O(1)
+# brute force, hash table 
+# add, reset O(1)
 # top k (O(nlgn)
-# reset O(1)
+# space: O(n)
 
 class Leaderboard(object):
 
@@ -22,76 +21,99 @@ class Leaderboard(object):
        
         self.dic[playerId] = 0
 
-# sol2 improve topk by using heapk.nlargest
-# time O(nlgk)
-# other steps are O(1)
-from heapq import * 
+# sol2 improve top k by using heap + dic
+# add and reset O(1)
+# reduce top k by O(nlgk) 
+# space O(n + k)
+from heapq import *
 
-class Leaderboard(object):
-
-    def __init__(self):
-        self.dic = {} # key: id, value: heap node
-        self.heap = []
-        
-
-    def addScore(self, playerId, score):
-        
-        if playerId not in self.dic:
-            node = [-score, playerId]
-            self.heap.append(node)
-            self.dic[playerId] = node
-        else:
-            node = self.dic[playerId]
-            self.dic[playerId][0] -= score
-
-    def top(self, K):
-        res = 0
-        for v in nsmallest(K, self.heap):
-            res -= v[0]
-        return res
-        
-        
-    def reset(self, playerId):
-        self.dic[playerId][0] = 0
-        
-# sol3:
-# heap + hashtable
-# top k, klgn, 牺牲add O(lgn), worst case O(n)
-
-from heapq import * 
-
-class Leaderboard(object):
+class Leaderboard:
 
     def __init__(self):
-        self.dic = {} # key: id, value: heap node
-        self.heap = []
+        self.dic = {} #k: playerId, value: score
         
-    def addScore(self, playerId, score):
-        
-        if playerId not in self.dic:
-            node = [-score, playerId]
-            heappush(self.heap, node)
-            self.dic[playerId] = node
+    def addScore(self, playerId: int, score: int) -> None:
+        if playerId in self.dic:
+            self.dic[playerId] += score
         else:
-            node = self.dic[playerId]
-            self.dic[playerId][0] -= score
-            heapify(self.heap)
+            self.dic[playerId] = score
+
+    def top(self, K: int) -> int:
+        heap = []
+        for ele in self.dic.values():
+            if len(heap) < K:
+                heappush(heap, ele)
+            else:
+                heappushpop(heap, ele)
             
+        return sum(x for x in heap)
+            
+    def reset(self, playerId: int) -> None:
+        self.dic[playerId] = 0
+        
 
-    def top(self, K):
+
+
+# sol3 using Ordered Dict # key:score, value: number of players
+# add and reset lg(n)
+# topk O(k)
+# space O(n)
+
+from sortedcontainers import SortedDict
+
+class Leaderboard:
+
+    def __init__(self):
+        self.dic = {} # key: id, val: score
+        self.sorted_dic = SortedDict() #k: score, values: num of players
+        
+    def addScore(self, playerId: int, score: int) -> None:
+        if playerId in self.dic:
+            pre_score = self.dic[playerId]
+            self.dic[playerId] -= score
+            val = self.sorted_dic[pre_score]
+            if val == 1:
+                del self.sorted_dic[pre_score]
+            else:
+                self.sorted_dic[pre_score] = val - 1
+            self.sorted_dic[pre_score - score] = self.sorted_dic.get(pre_score - score, 0) + 1
+        else:
+            self.dic[playerId] = -score
+            self.sorted_dic[-score] = self.sorted_dic.get(-score, 0) + 1
+        
+    def top(self, K: int) -> int:
         res = 0
-        tmp = []
-        for _ in range(K):
-            node = heappop(self.heap)
-            res -= node[0]
-            tmp.append([node[1], -node[0]])
-            del self.dic[node[1]]
+        count = 0
         
-        for p, s in tmp:
-            self.addScore(p, s)
+        for key, val in self.sorted_dic.items():
+            for _ in range(val):
+                res -= key
+                count += 1
+                if count == K:
+                    break
+            if count == K:
+                break
         return res
+            
+        
+    def reset(self, playerId: int) -> None:
+        score = self.dic[playerId]
+        del self.dic[playerId]
+        
+        val = self.sorted_dic[score]
+        if val == 1:
+            del self.sorted_dic[score]
+        else:
+            self.sorted_dic[score] = val - 1
+            
+            
         
         
-    def reset(self, playerId):
-        self.dic[playerId][0] = 0
-        heapify(self.heap)
+
+
+
+
+
+
+        
+        
