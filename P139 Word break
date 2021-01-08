@@ -1,5 +1,5 @@
 # brute force 
-# time O(n * 2^n) eg: 'aaaaa',for each space, add space or not 
+# time O(2^n) eg: 'aaaaa',for each space, add space or not 
 # spce O(n)，递归的深度,递归在内存中同时存在的最大次数
 
 class Solution(object):
