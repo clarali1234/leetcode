@@ -39,4 +39,40 @@ class Solution(object):
                     return candidate
         return res
             
+ 
+ 
+ class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        
+        # build graph with weight
+        graph = collections.defaultdict(list)
+        for i, [n1, n2] in enumerate(equations):
+            graph[n1].append([n2, values[i]])
+            graph[n2].append([n1, 1.0 / values[i]])
+        self.res = []
+        
+        # calcu by dfs
+        for x, y in queries:
+            if x not in graph or y not in graph:
+                self.res.append(-1.0)
+            else:
+                self.find = False
+                self.visited = set()
+                self.visited.add(x)
+                self.dfs(graph, x, y, 1)
+                if self.find == False:
+                    self.res.append(-1.0)
+        return self.res
+    
+    def dfs(self, graph, cur, target, cur_val):
+        if cur == target:
+            self.res.append(cur_val)
+            self.find = True
+            return 
+        
+        for nb, weight in graph[cur]:
+            if nb not in self.visited:
+                self.visited.add(nb)
+                self.dfs(graph, nb, target, cur_val * weight)
             
+        
