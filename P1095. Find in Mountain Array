@@ -1,0 +1,56 @@
+# time O(lgn)
+# space O(1)
+# 思路： 先寻找peak, 然后在 0, peak/peak, end 搜索
+# 注意: while l + 1 < r, l = m, r = m
+
+class Solution:
+    def findInMountainArray(self, target: int, mountain_arr: 'MountainArray') -> int:
+        # find the peak index
+        l = 0
+        r = mountain_arr.length() - 1
+        peak = -1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if mountain_arr.get(m) < mountain_arr.get(m + 1):
+                l = m + 1
+            else:
+                r = m
+                
+        if mountain_arr.get(l) < mountain_arr.get(r):
+            peak = r
+        else:
+            peak = l
+        
+        
+        # search in left half, 0, peak
+        l = 0
+        r = peak
+        while l + 1 < r:
+            m = (l + r) // 2
+            if mountain_arr.get(m) == target:
+                return m
+            elif mountain_arr.get(m) < target:
+                l = m 
+            else:
+                r = m
+        if mountain_arr.get(l) == target:
+            return l
+        elif mountain_arr.get(r) == target:
+            return r
+    
+        # search in right half, peak, len() - 1
+        l = peak
+        r = mountain_arr.length() - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if mountain_arr.get(m) == target:
+                return m
+            elif mountain_arr.get(m) < target:
+                r = m 
+            else:
+                l = m 
+        if mountain_arr.get(l) == target:
+            return l
+        elif mountain_arr.get(r) == target:
+            return r
+        return -1
