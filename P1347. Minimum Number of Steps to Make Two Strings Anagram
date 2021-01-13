@@ -1,0 +1,18 @@
+
+
+# time O(m + n)
+# space O(1)
+
+class Solution:
+    def minSteps(self, s: str, t: str) -> int:
+        c_s = collections.Counter(s)
+        res = 0
+        for char in t:
+            if char in c_s:
+                c_s[char] -= 1
+                if c_s[char] == 0:
+                    del c_s[char]
+            else:
+                res += 1
+        return res
+                
