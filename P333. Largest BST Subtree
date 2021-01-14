@@ -1,0 +1,51 @@
+# brute force
+# 思路：for every node, check if it is a valid binary search tree, if it is, count number of nodes
+
+# time O(n^2)
+# space O(n)
+
+class Solution:
+    def largestBSTSubtree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        if self.is_valid(root, -sys.maxsize, sys.maxsize):
+            return self.count(root)
+        return max(self.largestBSTSubtree(root.left), self.largestBSTSubtree(root.right))
+            
+            
+    def is_valid(self, node, min_, max_):
+        if not node:
+            return True
+        if node.val >= max_ or node.val <= min_:
+            return False
+        
+        return self.is_valid(node.left, min_, node.val) and self.is_valid(node.right, node.val, max_)
+    
+    def count(self, node):
+        if not node:
+            return 0
+        
+        return self.count(node.left) + self.count(node.right) + 1
+        
+        
+        
+# divide and conquer
+# time O(n)
+# space O(1)
+class Solution:
+    def largestBSTSubtree(self, root: TreeNode) -> int:
+        return self.dfs(root)[2] # output: min_, max_, size
+    
+    def dfs(self, node):
+        if not node:
+            return sys.maxsize, -sys.maxsize, 0
+        
+        l_min, l_max, l_size = self.dfs(node.left)
+        r_min, r_max, r_size = self.dfs(node.right)
+        if node.val > l_max and node.val < r_min:
+            return min(node.val, l_min), max(node.val, r_max), l_size + r_size + 1
+        
+        return -sys.maxsize, sys.maxsize, max(l_size, r_size)
+        
+    
