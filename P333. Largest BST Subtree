@@ -36,20 +36,23 @@ class Solution:
 
 
 # time O(n)
-# space O(1)
+# space O(h)
 class Solution:
     def largestBSTSubtree(self, root: TreeNode) -> int:
-        return self.dfs(root)[2] # output: min_, max_, size
+        return self.dfs(root)[2]
     
-    def dfs(self, node):
+    def dfs(self, node): # return min_, max_, size
+        # base case
         if not node:
             return sys.maxsize, -sys.maxsize, 0
         
+        # divide 
         l_min, l_max, l_size = self.dfs(node.left)
         r_min, r_max, r_size = self.dfs(node.right)
+        
+        # conquer
         if node.val > l_max and node.val < r_min:
             return min(node.val, l_min), max(node.val, r_max), l_size + r_size + 1
         
         return -sys.maxsize, sys.maxsize, max(l_size, r_size)
-        
     
