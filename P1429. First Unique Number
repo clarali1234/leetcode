@@ -26,52 +26,54 @@ class FirstUnique(object):
 # sol2 : duoubly linked list + hash table 
 # time first unique num O(1)
 class ListNode(object):
-    def __init__(self, val):
-        self.val = val
-        self.prev = None
-        self.next = None
+    def __init__(self, num, prev = None, nxt = None):
+        self.num = num
+        self.prev = prev
+        self.next = nxt
 
-class FirstUnique(object):
+class FirstUnique:
 
-    def __init__(self, nums):
-        
-        self.dic = {} # key,  ele, value:node
+    def __init__(self, nums: List[int]):
+        self.nums = nums
+        self.counter = collections.Counter(nums)
+        self.dic = {} #k: num, value: node
         self.dummy_head = ListNode(0)
         self.dummy_tail = ListNode(0)
         self.dummy_head.next = self.dummy_tail
         self.dummy_tail.prev = self.dummy_head
         
-        self.counter = collections.Counter(nums)
         for num in nums:
-            if self.counter[num] == 1:
+            if num not in self.dic and self.counter[num] == 1:
                 node = ListNode(num)
+
                 self.insert(node)
                 self.dic[num] = node
-                
-    def showFirstUnique(self):
-        
+
+    def showFirstUnique(self) -> int:
         if self.dummy_head.next != self.dummy_tail:
-            return self.dummy_head.next.val
+            return self.dummy_head.next.num
         return -1
 
-    def add(self, value):
-        
-        if value not in self.counter:
-            self.counter[value] = 1
+    def add(self, value: int) -> None:
+        prev_c = self.counter.get(value, 0)
+        if prev_c == 0:
             node = ListNode(value)
             self.insert(node)
             self.dic[value] = node
-        elif self.counter[value] == 1:
-            self.counter[value] += 1
-            self.delete(self.dic[value])
-        else:
-            self.counter[value] += 1                    
+            
+        elif prev_c == 1:
+            node = self.dic[value]
+            self.delete(node)
+            del self.dic[value]
         
-        
-    def insert(self, node): # insert from tail
-        prev = self.dummy_tail.prev
-        prev.next = node
-        node.prev = prev
+        self.counter[value] = prev_c + 1
+            
+            
+    
+    def insert(self, node): # insert from the tail
+        tail = self.dummy_tail.prev
+        tail.next = node
+        node.prev = tail
         node.next = self.dummy_tail
         self.dummy_tail.prev = node
         
@@ -81,18 +83,3 @@ class FirstUnique(object):
         nxt = node.next
         prev.next = nxt
         nxt.prev = prev
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
