@@ -1,11 +1,52 @@
+# two pointer start from the begining
+# need to copy nums1 
+
+# time O(m + n)
+# space O(m)
+
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        
+        
+        index = 0
+        i = 0
+        j = 0
+        nums1_copy = [x for x in nums1]
+
+        while i < m and j < n:
+            if nums1_copy[i] <= nums2[j]:
+                nums1[index] = nums1_copy[i]
+                i += 1
+            else:
+                nums1[index] = nums2[j]
+                j += 1
+            index += 1
+            
+        #print(i, j, res, index)
+        if j < n:
+            while j < n:
+                nums1[index] = nums2[j]
+                index += 1
+                j += 1
+                
+                
+        if i < m:
+            while i < m:
+                nums1[index] = nums1_copy[i]
+                index += 1
+                i += 1
+        return nums1
+            
+
+
+
+
 # time O(m + n)
 # space O(1)
 
 class Solution:
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        """
-        Do not return anything, modify nums1 in-place instead.
-        """
+        
         index1 = m - 1
         index2 = n - 1 
         index3 = m + n - 1
