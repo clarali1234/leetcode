@@ -13,34 +13,38 @@ class Solution(object):
         return dp[-1]
 
 
-class Solution(object):
-    def coinChange(self, coins, amount):
-        self.memo = {}
-        return self.dfs(coins, amount)
-    
-    def dfs(self, coins, target): # fewest count to sum up to target
-        if target in self.memo:
-            return self.memo[target]
-        
-        if target < 0: # can't sum up to target
-            return -1
-        
-        if target == 0: # don't need any more coins
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        if not amount:
             return 0
-            
-        res = sys.maxsize 
-        for coin in coins: # recursion part, try each coin
-            cur_res = self.dfs(coins, target - coin)
-            if cur_res >= 0 and cur_res + 1 < res:
-                res = 1 + cur_res
         
+        self.memo = {}
+        res = self.dfs(coins, amount)
         if res == sys.maxsize:
-            res = -1
-            self.memo[target] = -1
-        else:
-            self.memo[target] = res
+            return -1
         return res
-            
+        
+    
+    def dfs(self, coins, cur):
+        if cur in self.memo:
+            return self.memo[cur]
+        
+        if cur == 0:
+            self.memo[0] = 0
+            return 0
+        
+        if cur < 0:
+            return sys.maxsize
+        
+        
+        res = sys.maxsize
+        for coin in coins:
+            if cur >= coin:
+                res = min(self.dfs(coins, cur - coin) + 1, res)
+                
+        self.memo[cur] = res
+        return res
+        
                 
                 
                 
