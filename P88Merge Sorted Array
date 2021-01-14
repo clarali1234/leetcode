@@ -1,5 +1,5 @@
 # two pointer start from the begining
-# need to copy nums1 
+# need to keep the first m ele in nums1 aside 
 
 # time O(m + n)
 # space O(m)
