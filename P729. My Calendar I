@@ -1,0 +1,21 @@
+# brute force
+# time O(n^2)
+# space O(n)
+
+class MyCalendar:
+
+    def __init__(self):
+        self.calendar = []
+        
+    def book(self, start: int, end: int) -> bool:
+        if not self.calendar:
+            self.calendar.append([start, end])
+            return True
+        
+        for i, j in self.calendar:
+            if start >= j or end <= i:
+                continue
+            else:
+                return False
+        self.calendar.append([start, end])
+        return True
