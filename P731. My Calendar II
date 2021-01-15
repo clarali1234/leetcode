@@ -1,0 +1,27 @@
+# time O(n^2)
+# space O(n)
+
+class MyCalendarTwo:
+
+    def __init__(self):
+        self.calendar = []
+        self.overlaps = []
+        
+
+    def book(self, start: int, end: int) -> bool:
+
+        for i, j in self.overlaps:
+            if start >= j or end <= i: # non overlap
+                continue
+            else:
+                return False
+            
+        for i, j in self.calendar:
+            if start >= j or end <= i:
+                continue
+            else:
+                self.overlaps.append([max(start, i), min(end, j)])
+                
+        self.calendar.append([start, end])
+        return True
+                
