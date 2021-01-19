@@ -8,9 +8,32 @@ example: n = 5
 return 5
 it is guaranteed that there will not be any cycles in the sequence
 
+
+Q2: optimize previous question
+if at first we call collatz(5), we return 5 and we know the time complexity is O(n). optimize the solution such that if we call collatz(16), we return 4 and time complexity needs to be O(1).
+In other words, if it is the first time we have seen the input, the time complexity can be O(n). If we have seen the number before, the time complexity must be O(1).
+
 '''
-# time O(n)
-# space O(n)
+
+class Solution1(object):
+    def collatzConjecture(self, n):
+        self.dic = {} # key: n, val: steps
+        return self.dfs(n)
+    
+    def dfs(self, n): 
+        if n == 1:
+            return 0
+        
+        if n % 2:
+            return 1 + self.dfs(n * 3 + 1)
+        return 1 + self.dfs(n // 2)
+    
+        
+test1 = Solution1()
+print(test1.collatzConjecture(10))
+print(test1.collatzConjecture(5))
+print(test1.collatzConjecture(16))
+            
 
 class Solution(object):
     def collatzConjecture(self, n):
@@ -35,10 +58,9 @@ class Solution(object):
     
 test = Solution()
 print(test.collatzConjecture(10))
-
-
-
-
+print(test.collatzConjecture(5))
+print(test.collatzConjecture(16))
+            
 
 
 
