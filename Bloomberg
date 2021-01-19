@@ -62,6 +62,67 @@ print(test.collatzConjecture(5))
 print(test.collatzConjecture(16))
             
 
+2.'''
+第一个OOD是记录访问网站的URL，并按照访问次序（先进后出）输出，要求不能出现重复的URL
+
+比如依次访问ABCB，要求输出BCA
+
+我是用hashset+array做的，一个保证不重复，一个保证次序
+
+'''
+
+class Solution1(object):
+    def printURL(self, l):
+        
+        res = []
+        url_set = set()
+        for i in range(len(l) - 1, -1, -1):
+            if l[i] in url_set:
+                continue
+            res.append(l[i])
+            url_set.add(l[i])
+        return res
+        
+
+test1 = Solution1()
+print(test1.printURL(['A', 'B', 'C', 'B']))
+
+3. 
+'''
+第二道题：
+
+给一个string，要求输出最内层括号中的字符串
+
+
+"ab(cd(e)fg)" => "e"
+"Hello World!" =>"Hello World!"
+"ab{cd[ef]}gh(hello{hi}a)" =>"ef", "hi"
+
+
+'''
+
+class Solution(object):
+    def interString(self, s):
+        depth = 0
+        dic = {}# key: depth, val: str
+        l_paren = ['(', '[', '{']
+        r_paren = [']', '}', ')']
+        max_depth = 0
+        for i, char in enumerate(s):
+            if char in l_paren:
+                depth += 1
+                max_depth = max(max_depth, depth)
+            elif char in r_paren:
+                depth -= 1
+            else:
+                dic[depth] = dic.get(depth, '') + char
+        print(dic)
+        return dic[max_depth]
+
+test = Solution()
+print(test.interString('ab(cd(e)fg)'))
+print(test.interString('Hello World!'))
+print(test.interString('ab{cd[ef]}gh(hello{hi}a)'))
 
 
 
@@ -227,34 +288,6 @@ test.update('Amazon', 700)
 print(test.get_top_k(2))
 
 
-2. # 找括号深度最深的元素e.g. (((ab))(c)) return ab, 
-
-# stack 
-# '(' , depth + 1
-# ')' , depth - 1
-# dic: key, depth , value:char
-
-class Solution(object):
-    def findDeepstChars(self, s):
-        dic = {} # key: depth, value: char
-        depth = 0
-        for char in s:
-            if char == '(':
-                depth += 1
-
-            elif char == ')':
-                depth -= 1
-            
-            else: 
-                dic[depth] = dic.get(depth, '') + char
-                
-        max_depth = max(dic.keys())
-        print(dic)
-        return dic[max_depth]
-    
-test = Solution()
-print(test.findDeepstChars('(((ab))(c))'))
-        
                 
 3. '''
 6.    UDP那个题前人写过。就是写一个函数，输入是一个数据包，比如1 -> A, 2 -> B, 4->C, 3->D。数字是UDP数据包的标号，字母是内容。如果新接收到的数据包是下个期待的包,就打印出来，如果不是就存下来，等期待的包到之后一起打印。上面例子打印. 输出应该是1 -> A, 2 -> B, 3 -> D, r->C。
