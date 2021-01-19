@@ -1,3 +1,52 @@
+1. '''
+Q1: Collatz conjecture
+Given a number n, return number of steps it takes to bring n down to 1 using the following operations:
+if n is even, n = n / 2;
+if n is odd, n = 3n + 1
+example: n = 5
+5 → 16 → 8 → 4 → 2 → 1
+return 5
+it is guaranteed that there will not be any cycles in the sequence
+
+'''
+# time O(n)
+# space O(n)
+
+class Solution(object):
+    def collatzConjecture(self, n):
+        self.dic = {} # key: n, val: steps
+        return self.dfs(n)
+    
+    def dfs(self, n):
+        if n in self.dic:
+            return self.dic[n]
+        
+        if n == 1:
+            self.dic[n] = 0
+            return 0
+        
+        res = 1
+        if n % 2:
+            res += self.dfs(3 * n + 1)
+        else:
+            res += self.dfs( n // 2)
+        self.dic[n] = res
+        return res
+    
+test = Solution()
+print(test.collatzConjecture(10))
+
+
+
+
+
+
+
+
+
+
+
+
 1.	Get top K
 
 我拿到的是说会有一个（公司名，值）的数据流，让你实现加值进去（如果公司已经存在了就把值加上去）和返回topK股票价值的公司
