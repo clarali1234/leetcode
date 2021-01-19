@@ -1,3 +1,36 @@
+# hash table
+# time O(n^2)
+# space O(n)
+# dic k: name, value: [time, amount, city]
+# traverse first time,  build dic 
+# traverse second time, each check value in dic
+
+class Solution:
+    def invalidTransactions(self, transactions: List[str]) -> List[str]:
+        
+        res = []
+        dic = collections.defaultdict(list)
+        for i, trans in enumerate(transactions):
+            name, time, amount, city = trans.split(',')
+            dic[name].append([i, time, city])
+                
+        for i, trans in enumerate(transactions):
+            #  注意 if it occurs within (and including) 60 minutes of another transaction with the same name in a different city 的判断包括非法交易
+            name, time, amount, city = trans.split(',')
+            if int(amount) > 1000:
+                res.append(trans)
+            else:
+                if len(dic[name]) == 1:
+                    continue
+                else:
+                    for j, t2, c2 in dic[name]:
+                        if j != i and abs(int(t2) - int(time)) <= 60 and c2 != city:
+                            res.append(trans)
+                            break
+        return res
+            
+
+
 # brute force
 time O(n^2)
 space O(n)
