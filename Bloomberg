@@ -124,9 +124,24 @@ print(test.interString('ab(cd(e)fg)'))
 print(test.interString('Hello World!'))
 print(test.interString('ab{cd[ef]}gh(hello{hi}a)'))
 
+4. trapping water那一题，中间是有0的，表示水可以漏出去
+# 是0的话不可以存水， 那我们可以把这个array分成好几个array，在0的地方砍开，然后一段一段算能存多少水。
 
+class Solution(object):
+    def trappingRainWater(self, heights):
+        res = []
+        tmp = []
+        for i, h in enumerate(heights):
+            if h == 0 or i == len(heights) - 1:
+                if tmp:    
+                    res.append(tmp)
+                    tmp = []
+            else:
+                tmp.append(h)
+        return res
+    
 
-
+5. 
 
 
 
