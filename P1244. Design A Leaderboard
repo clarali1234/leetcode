@@ -55,6 +55,9 @@ class Leaderboard:
 
 
 # sol3 using Ordered Dict # key:score, value: number of players
+# TreeMap in Java/SortedDict in Python
+# sorted based on keys, balanced BST
+
 # add and reset lg(n)
 # topk O(k)
 # space O(n)
