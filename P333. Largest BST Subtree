@@ -31,8 +31,9 @@ class Solution:
         
         
 # divide and conquer
-# 我们进行递归判断，为空节点时，返回float("inf"), float("-inf")，这样它的任何父节点都将合法
-# 如果当前节点不满足约束条件，返回float("-inf"), float("inf")，这样它的任何父节点都将不合法
+# recursion
+# input: tree node, output: min_ val of cur BST subtree, max_ of cur BST subtree with root node, size of cur BST substree
+# base case
 
 
 # time O(n)
