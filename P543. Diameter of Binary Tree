@@ -23,10 +23,10 @@ class Solution:
         if not node:
             return 0
         
-        # 对于任意一个节点，res = max(res, left + right)
         left = self.dfs(node.left)
         right = self.dfs(node.right)
+        # max path start a new path, hightest point is the current node
         self.res = max(self.res, left + right)
-        # return 左/右一条路径
+        # continue with the current path
         return 1 + max(left, right)
 
