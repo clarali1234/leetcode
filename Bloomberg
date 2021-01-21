@@ -141,7 +141,24 @@ class Solution(object):
         return res
     
 
-5. 
+5. 连续三个以上糖果会消除，返回多次消除后的结果
+def solution(s):
+    res = []
+    temp = 0
+    for char in s:
+        if char != temp:
+            res.append(char)
+        if len(res) > 2:
+            if res[-3] == res[-2] == res[-1]:
+                temp = res[-1]
+                res = res[:-3]
+    return "".join(res)
+
+print(solution('ABCDDDDCCB'))
+print(solution("aabbbbaccddddc"))
+print(solution("aabba"))
+print(solution("12221"))
+print(solution("1222113331"))
 
 
 
