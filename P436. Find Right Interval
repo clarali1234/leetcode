@@ -1,0 +1,39 @@
+# dic , key: start : index
+# sort by start point
+# iterate, binary search
+# time O(nlgn)
+# space O(n)
+
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        # key: start, end val:index
+        dic = {}
+        for index, [start, end] in enumerate(intervals):
+            dic[start] = index
+        # sort interval by start date
+        starts = [x[0] for x in intervals]
+        starts.sort()
+        # iterate each interval, binary search find start point of next right interval, (lgn)
+        res = []
+        for s, e in intervals:
+            cur_res = self.binary_search(dic, starts, e)
+            res.append(cur_res)
+        return res
+    
+    def binary_search(self, dic, nums, target): #find first element >= target
+        
+        l = 0
+        r = len(nums) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if nums[m] < target:
+                l = m + 1
+            else:
+                r = m
+            
+        if nums[l] >= target:
+            return dic[nums[l]]
+        if nums[r] >= target:
+            return dic[nums[r]]
+        return -1
+        
