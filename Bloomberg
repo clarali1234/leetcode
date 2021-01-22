@@ -160,6 +160,41 @@ print(solution("aabba"))
 print(solution("12221"))
 print(solution("1222113331"))
 
+6. '''
+a string contains only 1 and 0. "?" could be either one. What are the combinations of "??10" etc. 
+
+'''
+
+
+
+class Solution(object):
+    def stringCombination(self,s):
+        self.dic = {}
+        self.res = []
+        self.dfs(s, 0, '')
+        return self.res
+    
+    def dfs(self, s, index, cur_res):
+        
+        if index == len(s):
+            self.res.append(cur_res)
+            return 
+        
+        if s[index] == '?':
+            self.dfs(s, index + 1, cur_res + '1')
+            self.dfs(s, index + 1, cur_res + '0')
+        else:
+            self.dfs(s, index + 1, cur_res + s[index])
+
+  
+        
+test = Solution()
+print(test.stringCombination('??10'))
+
+
+# 1,2,2,2,1,1,3,3,3,1
+
+
 
 
 1.	Get top K
