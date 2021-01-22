@@ -220,6 +220,92 @@ case 1: update one in top k
     compare from smallest O(k)
     insert/add O(1)
 '''
+
+# brute force 
+# time get top k O(nlgn)
+
+class Solution(object):
+    def StockTicket(self, stocks):
+        self.dic = {}
+        for name, amount in stocks:
+            if name in self.dic:
+                self.dic[name] += amount
+            else:
+                self.dic[name] = amount
+        
+    def add_vol(self, ticket, vol):
+        self.dic[ticket] += vol
+    
+    def get_top_k(self, K):
+        paires = list(self.dic.items())
+        paires.sort(key = lambda x : -x[1])
+        return [x[0] for x in paires[:K]]
+        
+           
+test = Solution()
+test.StockTicket([('Amazon', 500), ('Facebook',800), ('Google', 1000)])
+test.add_vol('Amazon', 2000)
+print(test.get_top_k(2))
+
+# sorted dict
+# key: -amount, value: name
+# get top k O(K)
+# add_vol O(lgn)
+    
+from sortedcontainers import SortedDict
+    
+class Solution2(object):
+    def StockTicket(self, stocks):
+        self.dic = {}
+        self.sortedDict = SortedDict() # key :amount, value:set(names)
+        for name, amount in stocks:
+            if name in self.dic:
+                self.dic[name] -= amount
+            else:
+                self.dic[name] = -amount
+            
+            if amount not in self.sortedDict:
+                self.sortedDict[-amount] = set()
+            self.sortedDict[-amount].add(name)
+            
+        
+    def add_vol(self, ticket, vol):
+        
+        if ticket in self.dic:
+            prev_vol =  self.dic[ticket]
+            self.sortedDict[prev_vol].remove(ticket)
+            new_vol = prev_vol - vol
+            if new_vol not in self.sortedDict:
+                self.sortedDict[new_vol] = set()
+            self.sortedDict[new_vol].add(ticket)
+        else:
+            if -vol not in self.sortedDict:
+                self.sortedDict[-vol] = set()
+            self.sortedDict[-vol].add(ticket)
+        self.dic[ticket] = self.dic.get(ticket, 0) - vol
+            
+            
+    def get_top_k(self, K):
+        res  = []
+        c = 0
+        for amount, names in self.sortedDict.items():
+            for name in names:
+                res.append(name)
+            c += 1
+            if c == K:
+                break
+        return res
+                
+            
+        
+
+test2 = Solution2()
+test2.StockTicket([('Amazon', 500), ('Facebook',800), ('Google', 1000)])
+test2.add_vol('Amazon', 2000)
+print(test2.get_top_k(2))
+
+
+
 # sol1: heap + hashtable, # key: name, val: stock node in heap
 
 from heapq import * 
