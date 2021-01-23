@@ -27,7 +27,8 @@ class Solution(object):
 
 2. 递归。
     time O(n), space O(h)
-# Definition for a binary tree node.
+   
+# dfs travsesal of each node within the range limit
 # class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
@@ -46,4 +47,20 @@ class Solution:
         if node.val >= maximum or node.val <= minimum:
             return False
         return self.helper(node.left, node.val, minimum) and self.helper(node.right, maximum, node.val)
+             
+# recursion with stack
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        stack = [(root, -sys.maxsize, sys.maxsize)]
+        while stack:
+            cur, min_, max_ = stack.pop()
+            if not cur:
+                continue
+            if cur.val >= max_ or cur.val <= min_:
+                return False
+            stack.append([cur.left, min_, cur.val])
+            stack.append([cur.right, cur.val, max_])
+        return True
         
