@@ -32,7 +32,30 @@ class Solution(object):
         return res
                 
         
-               
+ class Solution:
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        
+        res = []
+        q = collections.deque([root])
+        c = 1
+        while q:
+            level = collections.deque()
+            for _ in range(len(q)):
+                node = q.popleft()
+                if c % 2:
+                    level.append(node.val)
+                else:
+                    level.appendleft(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            c += 1
+            res.append(level)
+        return res
+                        
 
 # Definition for a binary tree node.
 # class TreeNode:
