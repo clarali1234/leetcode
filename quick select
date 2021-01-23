@@ -1,6 +1,10 @@
 # quick sort
+# divide and conquer algorithm
+# choose a pivot, partition the array into two halves, recusivly call quick sort for these two halves
+
+
 # O(nlgn) -> O(n^2)
-# space O(lgn) -> O(n)
+# space O(lgn) -> O(n) (inplace, depth of recursion)
 
 class Solution(object):
     def quickSort(self, nums):
@@ -34,6 +38,9 @@ test = Solution()
 print(test.quickSort([1, 7, 8, 2, 3]))
 
 # merge sort 
+# divide and conquer algorithm
+# divide the array into two half -> call merge sort for these two half -> merge two sorted halves
+
 # time O(nlgn) T(n) = T(n/2) + O(n)
 # space O(n)
 class Soltion(object):
