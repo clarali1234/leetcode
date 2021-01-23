@@ -43,44 +43,41 @@ print(test.quickSort([1, 7, 8, 2, 3]))
 
 # time O(nlgn) T(n) = T(n/2) + O(n)
 # space O(n)
-class Soltion(object):
-    def merge_sort(self, nums):
+class Solution(object):
+    def mergeSort(self, nums):
         if not nums or len(nums) == 1:
             return nums
         
-        m = len(nums) // 2
-        l = self.merge_sort(nums[:m])
-        r = self.merge_sort(nums[m:])
-        return self.merge(l, r)
+        m = len(nums) // 2 
+        l = self.mergeSort(nums[:m])
+        r = self.mergeSort(nums[m:])
+
+        return self.merge_two(l, r)
     
-    def merge(self, n1, n2):
-        res = []
+    def merge_two(self, l, r):
         
+        res = []
         i = 0
         j = 0
-        
-        while i < len(n1) and j < len(n2):
-            if n1[i] < n2[j]:
-                res.append(n1[i])
+        while i < len(l) and j < len(r):
+            if l[i] <= r[j]:
+                res.append(l[i])
                 i += 1
-            elif n1[i] > n2[j]:
-                res.append(n2[j])
-                j += 1
             else:
-                res.append(n2[j])
-                res.append(n1[i])
-                i += 1
+                res.append(r[j])
                 j += 1
-                
-        res += n1[i:]
-        res += n2[j:]
-    
+            
+        
+        if i < len(l):
+            res += l[i:]
+        
+        if j < len(r):
+            res += r[j:]
         return res
     
-    
+
 test = Solution()
-nums = [1, 7, 9, 2, 6]
-print(test.merge_sort(nums))
+print(test.mergeSort([7, 2, 8, 19, 2, 3, 6]))
 
 
 # quick select
