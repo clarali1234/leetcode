@@ -1,3 +1,54 @@
+# brute force 
+# time O(2^(m + n))
+# space O(m + n)
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        self.res = sys.maxsize
+        self.dfs(grid, 0, 0, grid[0][0])
+        return self.res
+    
+    def dfs(self, grid, x, y, c_sum):
+        
+        if x == len(grid) - 1 and y == len(grid[0]) - 1:
+            self.res = min(self.res, c_sum)
+            return
+        
+        for dx, dy in [(1, 0), (0, 1)]:
+            cur_x = x + dx
+            cur_y = y + dy
+            if 0 <= cur_x < len(grid) and 0 <= cur_y < len(grid[0]):
+                self.dfs(grid, cur_x, cur_y, c_sum + grid[cur_x][cur_y])
+
+# dfs + memo
+# time O(m * n)
+# space O(m * n)
+
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        self.dic = {}
+        return self.dfs(grid, 0, 0)
+        
+    
+    def dfs(self, grid, x, y):
+        if (x, y) in self.dic:
+            return self.dic[(x, y)]
+        
+        if x == len(grid) - 1 and y == len(grid[0]) - 1:
+            self.dic[(x, y)] = grid[x][y]
+            return grid[x][y]
+        
+        res = sys.maxsize
+        for dx, dy in [(1, 0), (0, 1)]:
+            cur_x = x + dx
+            cur_y = y + dy
+            if 0 <= cur_x < len(grid) and 0 <= cur_y < len(grid[0]):
+                res = min(self.dfs(grid, cur_x, cur_y) + grid[x][y], res) 
+        
+        self.dic[(x, y)] = res
+        return res
+                
+
 
 # dp
 # dp[i][j] 到达i-1, j-1时最小sum
