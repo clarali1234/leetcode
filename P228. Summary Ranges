@@ -1,22 +1,19 @@
 # two pointer
+# time O(n)
+# spaceO(n)
 
-class Solution(object):
-    def summaryRanges(self, nums):
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        if not nums:
+            return []
         
         res = []
-        start = 0
-        end = 0
-        while start <= len(nums) - 1 and end <= len(nums) - 1:
-            while end < len(nums) - 1 and nums[end] == nums[end + 1] - 1:
-                end += 1
-                
-            if end - start >= 1:
-                res.append(str(nums[start]) + '->' + str(nums[end]))
-                start = end + 1
-                end = start 
-                
-            else:
-                res.append(str(nums[start]))
-                start += 1
-                end += 1
+        i = 0
+        for j in range(len(nums)):
+            if j == len(nums) - 1 or nums[j + 1] - nums[j] > 1:
+                if nums[j] == nums[i]:
+                    res.append(str(nums[j]))
+                else:
+                    res.append(str(nums[i]) + '->' + str(nums[j]))
+                i = j + 1
         return res
