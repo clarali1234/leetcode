@@ -1,0 +1,21 @@
+# two pointer
+# time O(n)
+# sapce O(1)
+class Solution:
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        if k == 0:
+            return 0
+        
+        res = 0
+        prod = 1
+        j = 0
+        for i in range(len(nums)):
+            while j < len(nums) and prod * nums[j] < k:
+                prod *= nums[j]
+                j += 1
+            # i: j - 1
+            if j >= i:
+                res += (j - 1) - i + 1
+                prod /= nums[i]
+        return res
+            
