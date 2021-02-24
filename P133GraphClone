@@ -1,8 +1,9 @@
 # BFS
 # time O(v+e)
 # space O(v)
-方法也是使用了字典保存每一个对应关系。当新构造出一个节点之后，必须同时把它放到字典中保存，这个很重要。
-另外就是每遍历到一个节点时，都要把它的所有邻居放到队列中。
+clone each node, put the node, copy pair into dic, add just copied node into queue, bfs traversal copied node
+pop out, traverse each nb, if nb not copy, copy it and put into q, add copied neighbors
+
 
 class Solution(object):
     def cloneGraph(self, node):
