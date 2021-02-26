@@ -36,21 +36,24 @@ class Solution:
 当我们到达连续区块的结尾时，就从 write 写入压缩的结果。chars[anchor] 为字符，read - anchor + 1 （若大于 1）为长度。
 
 
-class Solution(object):
-    def compress(self, chars):
-        
-        read = 0
-        write = 0
-        repeat_index = 0
-        
-        for read, char in enumerate(chars):
-            if read == len(chars) - 1 or chars[read + 1] != char:
-                chars[write] = char
-                write += 1
-                
-                if read > repeat_index:
-                    for digit in str(read - repeat_index + 1):
-                        chars[write] = digit
-                        write += 1
-                repeat_index = read + 1
-        return write
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        w = 0
+        r = 0
+        anchor = 0
+        while r < len(chars):
+            while r < len(chars) and chars[r] == chars[anchor]:
+                r += 1
+            # anchor : r - 1
+            cur_len = r - 1 - anchor + 1
+            if cur_len == 1:
+                chars[w] = chars[anchor]
+                w = w + 1
+            else:
+                chars[w] = chars[anchor]
+                digits = len(str(cur_len))
+                chars[w + 1 : w + digits + 1] = str(cur_len)
+                w = w + digits + 1
+            anchor = r
+        return w
+            
