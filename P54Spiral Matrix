@@ -1,5 +1,37 @@
 simulation
 
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix or not matrix[0]:
+            return []
+        
+        dirs = [(0, 1), (0, -1), (-1, 0), (1, 0)]
+        count = 1
+        res = [matrix[0][0]]
+        x = 0
+        y = 0
+        m = len(matrix)
+        n = len(matrix[0])
+        dirs_index = 0
+        dx = 0
+        dy = 1
+        visited = set()
+        visited.add((x, y))
+        while count < m * n:
+            while 0 <= x + dx < m and 0 <= y + dy < n and (x + dx, y + dy) not in visited:
+                x += dx
+                y += dy
+                visited.add((x, y))
+                count += 1
+                res.append(matrix[x][y])
+            dirs_index = (dirs_index + 1) % 4
+            dx, dy = dirs[dirs_index]
+        return res
+            
+            
+            
+            
+
 # sol1 : simulation + hashset
 # time O(mn)
 # space O(mn)
