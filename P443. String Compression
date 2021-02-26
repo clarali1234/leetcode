@@ -1,3 +1,29 @@
+# brute force 
+# simulation
+
+# time O(n)
+# space O(1)
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        if len(chars) <= 1:
+            return len(chars)
+        cur = chars[0]
+        res = ''
+        length = 1
+        for i in range(1, len(chars)):
+            if chars[i] == cur:
+                length += 1
+            if chars[i] != cur or i == len(chars) - 1:
+                if length == 1:
+                    res += cur
+                else:
+                    res += cur
+                    res += str(length)
+                length = 1
+                cur = chars[i]
+        return len(res)
+
+
 # three pointers
 # time O(n)
 # space O(1)
