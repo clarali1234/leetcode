@@ -2,6 +2,7 @@
 
 # first go to m - 1 node
 # convert from m to n
+# prev fixed at m - 1, cur fixed at m
 
 
 class Solution:
