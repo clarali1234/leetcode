@@ -3,49 +3,49 @@
 # time O(nlgn)
 # space O(1)
 
-class Solution(object):
-    def longestConsecutive(self, nums):
-        
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
         if not nums:
             return 0
         
-        if len(nums) == 1:
-            return 1
-        
         nums.sort()
+        cur_c = 1
         res = 1
-        cur_len = 1
         for i in range(1, len(nums)):
-            if i > 0 and nums[i] == nums[i - 1]: # take care of dupliation values
+            if nums[i] == nums[i - 1]:
                 continue
-            if nums[i] - nums[i - 1] == 1:
-                cur_len += 1
-                res = max(res, cur_len)
+            if nums[i] == nums[i - 1] + 1:
+                cur_c += 1
+                res = max(res, cur_c)
             else:
-                cur_len = 1
+                cur_c = 1
         return res
+            
 # time O(n)
 # space O(n)
 # hashset
 哈希表，遍历每个数，如果num - 1 在当前set里面，不检查，否则起点设为当前num, while 循环在整个运行过程中只会被迭代 n 次
 
-class Solution(object):
-    def longestConsecutive(self, nums):
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        if len(nums) == 1:
-            return 1
         
-        num_set = set(nums)
-        res = 0
-        cur_len = 1
+        res = 1
+        hashset = set(nums)
         for num in nums:
-            if num - 1 in num_set:
+            if num - 1 in hashset:
                 continue
-            while num + 1 in num_set:
-                cur_len += 1
-                num += 1
-            res = max(res, cur_len)
-            cur_len = 1
+            cur = num
+            c = 1
+            while cur + 1 in hashset:
+                c += 1
+                cur += 1
+            res = max(c, res)
         return res
+            
+                
+            
+        
+                
             
