@@ -27,6 +27,9 @@ class Solution:
         # reverse rgith h
         # check palindrome
         
+node: linked list find middle point, fast, slow pointers at the head, then fast move two, slow move 1, when fast reach to the end, slow is the middle
+# fast is head.next, slow is head, fast 2 slow 1, when fast move to the end, slow.next is middle
+
 
 class Solution(object):
     def isPalindrome(self, head):
