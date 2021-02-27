@@ -1,3 +1,25 @@
+# brute force
+# use list to store node vals
+# then do two pointers
+# time O(n)
+# space O(n)
+class Solution:
+    def isPalindrome(self, head: ListNode) -> bool:
+        if not head:
+            return True
+        vals = []
+        p = head
+        while p:
+            vals.append(p.val)
+            p = p.next
+        l = 0
+        r = len(vals) - 1
+        while l < r:
+            if vals[l] != vals[r]:
+                return False
+        return True
+        
+        
 # time O(n)
 # space O(1)
 # steps :
