@@ -1,0 +1,23 @@
+# 思路: iterate each element, for any concecutive equal chars, only retain the max of the costs (minum cost)
+
+# time O(n)
+# space O(1)
+class Solution:
+    def minCost(self, s: str, cost: List[int]) -> int:
+        res = 0
+        i = 0
+        while i < len(s):
+            if i + 1 < len(s) and s[i] == s[i + 1]:
+                j = i
+                total = 0
+                cur_max = cost[i]
+                while j < len(s) and s[i] == s[j]:
+                    total += cost[j]
+                    cur_max = max(cur_max, cost[j])
+                    j += 1
+                res += total - cur_max
+                i = j 
+            else:
+                i += 1
+        return res
+                
