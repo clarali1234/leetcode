@@ -7,12 +7,12 @@
 class Solution:
     def maxLength(self, arr: List[str]) -> int:
         self.res = 0
-        self.dfs(arr, 0, '', 0)
+        self.dfs(arr, 0, '')
         return self.res
     
-    def dfs(self, arr, index, cur_path, cur_len):
+    def dfs(self, arr, index, path):
         for i in range(index, len(arr)):
-            if len(cur_path + arr[i]) == len(list(set(cur_path + arr[i]))):
-                self.res = max(self.res, len(arr[i] + cur_path))
-                self.dfs(arr, i + 1, cur_path + arr[i], cur_len + len(arr[i]))
-            self.dfs(arr, i + 1, cur_path, cur_len)
+            if len(path + arr[i]) != len(set(path + arr[i])):
+                continue
+            self.res = max(self.res, len(path + arr[i]))
+            self.dfs(arr, i + 1, path + arr[i])
