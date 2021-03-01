@@ -1,0 +1,20 @@
+
+class Solution:
+    def goodNodes(self, root):
+        if not root:
+            return 0
+        
+        self.res = 0
+        self.dfs(root, -sys.maxsize)
+        return self.res
+    
+    
+    def dfs(self, node, max_val):
+        if not node:
+            return 
+        if node.val >= max_val:
+            self.res += 1
+            max_val = node.val
+        
+        self.dfs(node.left, max_val)
+        self.dfs(node.right, max_val)
