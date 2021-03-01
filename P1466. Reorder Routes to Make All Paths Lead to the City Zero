@@ -1,0 +1,23 @@
+# key point: check the cost of all nodes can be reachable from 0
+
+# construct graph, weight: 1 src -> des, 0, des -> src
+# from 0 do bfs, sum up weight
+
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        graph = {i : [] for i in range(n)}
+        for src, des in connections:
+            graph[src].append([des, 1])
+            graph[des].append([src, 0])
+            
+        res = 0
+        q = collections.deque([0])
+        visited = set([0])
+        while q:
+            node = q.popleft()
+            for nb, cost in graph[node]:
+                if nb not in visited:
+                    visited.add(nb)
+                    res += cost
+                    q.append(nb)
+        return res
