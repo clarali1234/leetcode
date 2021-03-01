@@ -1,0 +1,16 @@
+
+# greedy
+# time O(n)
+# space O(1)
+
+class Solution:
+    def minDeletions(self, s: str) -> int:
+        counter = collections.Counter(s)
+        freq_set = set()
+        res = 0
+        for char, freq in counter.items():
+            while freq and freq in freq_set:
+                freq -= 1
+                res += 1
+            freq_set.add(freq)
+        return res
