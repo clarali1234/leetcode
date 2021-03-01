@@ -1,0 +1,32 @@
+# travsesal the grid layer by layer
+# dirs right, down, left, up
+# out of range / in visited set change direction
+# until we fill out the grid
+
+# time O(n^2)
+# space O(n^2)
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        res = [[1 for _ in range(n)] for _ in range(n)]
+        c = 1
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        visited = set()
+        visited.add((0, 0))
+        x, y = 0, 0
+        dx, dy = 0, 1
+        dir_c = 0
+        cur_val = 2
+        while cur_val <= n ** 2:
+            while 0 <= x + dx < n  and 0 <= y + dy < n and (x + dx, y + dy) not in visited:
+                x += dx
+                y += dy
+                visited.add((x, y))
+                res[x][y] = cur_val
+                #print(cur_val)
+                cur_val += 1
+            dir_c =  (dir_c + 1) % 4
+            dx, dy = dirs[dir_c]
+            
+        return res
+            
+        
