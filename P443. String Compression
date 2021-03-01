@@ -56,4 +56,25 @@ class Solution:
                 w = w + digits + 1
             anchor = r
         return w
-            
+        
+        
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        res = []
+        i = 0
+        while i < len(chars):
+            if i + 1 < len(chars) and chars[i] == chars[i + 1]:
+                count = 0
+                j = i
+                while j < len(chars) and chars[i] == chars[j]:
+                    count += 1
+                    j += 1
+                res.append(chars[i])
+                count_s = str(count)
+                for s in count_s:
+                    res.append(s)
+                i = j
+            else:
+                i += 1
+        print(res)
+        return len(res)
