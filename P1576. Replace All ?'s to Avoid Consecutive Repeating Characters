@@ -1,0 +1,26 @@
+# time O(n)
+# space O(n)
+
+class Solution:
+    def modifyString(self, s: str) -> str:
+        s = list(s)
+        for i, ele in enumerate(s):
+            if s[i] == '?':
+                if i == 0:
+                    before = ''
+                else:
+                    before = s[i - 1]
+                
+                if i == len(s) - 1:
+                    after = ''
+                else:
+                    after = s[i + 1]
+                    
+                for cur in 'abcdefghijklmnopqrstuvwxyz':
+                    if cur != before and cur != after:
+                        s[i] = cur
+                        break
+                    else:
+                        continue
+        return ''.join(s)
+                        
