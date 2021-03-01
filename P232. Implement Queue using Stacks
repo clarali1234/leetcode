@@ -1,6 +1,16 @@
 # two stacks
 # push, append at s1; pop, popout element from s1 to s2 and pop from s2.
 # time, append O(1), pop and peek average O(1), worst case O(n)
+实现的核心：采用两个栈，一个命名为输入栈，一个命名为输出栈。
+各个函数实现思路如下：
+1.插入元素时：插入到输入栈中。
+2.移除元素时：判断输出栈是否为空。
+->为空->将输入栈的元素移到输出栈中->移除输出栈的元素。
+->不为空->移除输出栈的元素。
+3.返回首部元素：即输出栈输出的第一个元素
+4.判断即可。
+
+
 
 class MyQueue(object):
 
