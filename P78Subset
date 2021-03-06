@@ -46,3 +46,16 @@ class Solution:
             cur_subset.append(nums[i])
             self.dfs(nums, i+ 1, cur_subset, result)
             cur_subset.pop()
+            
+ # iterative 
+ class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = [[]]
+        for ele in nums:
+            cur_size = len(res)
+            for i in range(cur_size):
+                cur_res = res[i].copy()
+                cur_res.append(ele)
+                res.append(cur_res)
+        return res
+                
