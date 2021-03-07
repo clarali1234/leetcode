@@ -10,3 +10,33 @@ In every step, the only possible way to decrease the difference is to decrease t
 So traverse to the next largest element in the array containing the maximum element for this step and update the answer variable.
 Repeat this step until the array containing the maximum element ends.
 '''
+
+import sys
+
+class Solution(object):
+    def minDifference(self, l1, l2, l3):
+        i = len(l1) - 1
+        j = len(l2) - 1
+        k = len(l3) - 1
+        
+        res = sys.maxsize
+        while i >= 0 and j>= 0 and k >= 0:
+            cur_diff = max(l1[i], l2[j], l3[k]) - min(l1[i], l2[j], l3[k])
+            res = min(res, cur_diff)
+            if max(l1[i], l2[j], l3[k]) == l1[i]:
+                i -= 1
+            elif max(l1[i], l2[j], l3[k]) == l2[j]:
+                j -= 1
+            else:
+                k -= 1
+                
+        return res
+
+test = Solution()
+l1 = [1, 4, 10]
+l2 = [2, 15, 20]
+l3 = [10, 20]
+print(test.minDifference(l1, l2, l3))
+            
+
+
