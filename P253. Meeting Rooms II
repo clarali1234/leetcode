@@ -14,3 +14,22 @@ class Solution:
             ongoing_meeting += delta
             meeting_room = max(meeting_room, ongoing_meeting)
         return meeting_room
+
+# heap
+# time O(nlgn)
+# space O(n)
+# idea: if cureent start > min end -> need more room; or free previous room
+
+from heapq import *
+
+class Solution:
+    def minMeetingRooms(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        heap = []
+        res = 0
+        for s, e in intervals:
+            while heap and heap[0] <= s:
+                heappop(heap)
+            heappush(heap, e)
+            res = max(res, len(heap))
+        return res
