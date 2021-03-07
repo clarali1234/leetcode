@@ -13,7 +13,7 @@ def isAnagram2(self, s, t):
     return dic1 == dic2
     
 2. hash for follow up 
-# time O(n), space O(n)
+# time O(n), space O(1)
 class Solution(object):
     def isAnagram(self, s, t):
         """
