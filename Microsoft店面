@@ -3,4 +3,10 @@
 给三个sorted list，从每个list里面选一个数使得difference最小
 是的，其实就是找三个数，使得他们最大值和最小值的差最小
 
+
+Start with the largest elements in each of the arrays A, B & C.
+Maintain a variable to update the answer during each of the steps to be followed.
+In every step, the only possible way to decrease the difference is to decrease the maximum element out of the three elements.
+So traverse to the next largest element in the array containing the maximum element for this step and update the answer variable.
+Repeat this step until the array containing the maximum element ends.
 '''
