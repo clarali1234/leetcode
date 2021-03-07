@@ -37,6 +37,27 @@ l1 = [1, 4, 10]
 l2 = [2, 15, 20]
 l3 = [10, 20]
 print(test.minDifference(l1, l2, l3))
+
+
+import collections
+class Solution(object):
+    def groupAnagrams(self, strings):
+        dic = collections.defaultdict(list)
+        for s in strings:
+            c = [0 for _ in range(26)]
+            for char in s:
+                index = ord(char) - ord('a')
+                prev = c[index]
+                new = prev | 1
+                c[index] = new
+            dic[tuple(c)].append(s)
+        return dic.values()
+        
+
+test = Solution()
+s = ['good', 'god', 'anagram']
+print(test.groupAnagrams(s))
+            
             
 
 
