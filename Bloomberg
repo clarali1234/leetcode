@@ -1,3 +1,29 @@
+1. merge interval 只要求return merge完以后的array大小，要求O(1) space. 
+# keep track of current end and res
+# [[1,3],[2,6],[8,10],[15,18]] -> 3
+
+class Solution:
+    def merge(self, intervals):
+        if not intervals:
+            return 0
+        intervals.sort()
+        cur_e = 0
+        res = 0
+        for s, e in intervals:
+            if cur_e == 0 or s > cur_e:
+                res += 1
+                cur_e = e
+            else:
+                cur_e = max(cur_e, e)
+        return res
+    
+test = Solution()
+l = [[1,3],[2,6],[8,10],[15,18]]
+print(test.merge(l))
+                
+
+
+
 1. '''
 Q1: Collatz conjecture
 Given a number n, return number of steps it takes to bring n down to 1 using the following operations:
