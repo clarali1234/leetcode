@@ -21,6 +21,25 @@ test = Solution()
 l = [[1,3],[2,6],[8,10],[15,18]]
 print(test.merge(l))
                 
+                
+2. # 第一题 给一个string set, generate all sub set of the string. inptut: {'a', 'b', 'c'} output: {'a', 'b', 'c', 'ab', 'ac', 'bc', 'abc'}
+
+class Solution:
+    def subset(self, s):
+        self.res = []
+        self.dfs(s, 0, '')
+        return self.res
+        
+    def dfs(self, s, index, path):
+        if path:
+            self.res.append(path)
+            
+        for i in range(index, len(s)):
+            self.dfs(s, i + 1, path + s[i])
+            
+test = Solution()
+s = 'abc'
+print(test.subset(s))
 
 
 
