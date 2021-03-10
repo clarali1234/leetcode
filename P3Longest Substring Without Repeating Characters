@@ -2,7 +2,7 @@
 # sliding windown keep the subtring with unique char
 
 # time O(n)
-# space O(n) 
+# space min(m, n) m is size of alphabet, n is the len of input
 
 class Solution(object):
     def lengthOfLongestSubstring(self, s):
