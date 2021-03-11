@@ -41,6 +41,31 @@ test = Solution()
 s = 'abc'
 print(test.subset(s))
 
+# 一个 字符串 remove 所有 frequency 大于 1 的字符， follow up: output 要 是 sorted的。 一开始我直接字符串拼接成答案，被问python 字符串拼接的时间复杂度和怎么体现在内存分配上，我意识到他希望我不要一直做字符串拼接很消耗内存，就说可以用fixed size的数组来存output最后拼起来。
+
+# 'dbbba' -> ad
+
+class Solution:
+    def removeFreq1(self, s):
+        freq = [0 for _ in range(26)]
+        for char in s:
+            freq[ord(char) - ord('a')] =  freq[ord(char) - ord('a')] + 1
+            
+        res = ''
+        #print(freq)
+        for unicode, count in enumerate(freq):
+            if count == 1:
+                #print(count, unicode)
+                res += chr(unicode + ord('a')) * count
+        return res
+            
+            
+        
+            
+test = Solution()
+s = 'abc'
+print(test.removeFreq1(s))
+                
 
 
 1. '''
