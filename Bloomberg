@@ -1,3 +1,47 @@
+'''
+transform digit
+
+123 # digit, c
+
+112233
+
+using with out string
+'''
+
+# num % 10 digit
+# num // 10 -> num
+
+
+class Solution:
+    def convert_digit(self, num):
+        stack = [] # digit, freq
+        while num:
+            cur_digit = num % 10
+            num = num // 10
+            #print(num)
+            if not stack or cur_digit != stack[-1][0]:
+                stack.append([cur_digit, 1])
+            else:
+                stack[-1][1] = stack[-1][1] + 1
+        print(stack)
+        res = 0
+        while stack:
+            digit, count = stack.pop()
+            res = res * 10 + count
+            res = res * 10 + digit
+        return res
+                
+         
+test = Solution()
+s = 111 # 31
+num = 123
+print(test.convert_digit(s))
+print(test.convert_digit(num))
+                
+                
+        
+
+
 1. merge interval 只要求return merge完以后的array大小，要求O(1) space. 
 # keep track of current end and res
 # [[1,3],[2,6],[8,10],[15,18]] -> 3
