@@ -584,6 +584,75 @@ class Solution(object):
                          
 test = Solution()
 test.print([(2, 'x'), (1, 'x'), (3, 'x')])
+
+'''
+⼤致就是每次给⼀个get_seq（seq，char），会多次调⽤
+结果要求按序输出，且输出越快越好，所以不能等全部拿到后在sort然后输出
+就是如果遇⻅1就输出，如果没遇见1，只遇2，就得等遇到1再同时输出1，2，依次类推按序输出。
+⽐如input:(2,x) (1,x) (3,x)
+output: (1,x) (2,x) (3,x)
+
+
+    2 4 1 3
+
+i   1 1 3 
+p       1 2 3 4 
+hashmap/heap
+
+'''
+
+# num % 10 digit
+# num // 10 -> num
+
+
+import heapq
+
+class Solution:
+    def udp(self, s):
+        dic = {}
+        cur_num = 1
+        res = []
+        for num, content in s:
+            if num == cur_num:
+                res.append([num, content])
+                while cur_num + 1 in dic:
+                    cur_num += 1
+                    item = [cur_num, dic.get(cur_num)]
+                    res.append(item)
+                    del dic[cur_num]
+                cur_num += 1
+            else:
+                dic[num] = content
+        return res
+    
+    def udp2(self, s):
+        heap = []
+        res = []
+        cur_num = 1
+        for num, char in s:
+            if cur_num == num:
+                res.append([num, char])
+                cur_num += 1
+                while heap and heap[0][0] == cur_num:
+                    item = heapq.heappop(heap)
+                    res.append(item)
+                    cur_num += 1
+            else:
+                heapq.heappush(heap, [num, char])
+        return res
+                    
+                         
+            
+test = Solution()
+s = [[2,'a'], [1,'b'], [3,'c']]
+s2 = [[2,'a'], [4, 'd'], [1, 'a'], [3, 'c']]
+print(test.udp(s))
+print(test.udp(s2))
+print(test.udp2(s))
+print(test.udp2(s2))
+                
+                
+       
        
 4.'''
 3.    马拉松
