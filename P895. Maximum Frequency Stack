@@ -1,5 +1,7 @@
 # heap
 # heap: (-freq, -index, ele)
+# time O(lng), put, pop
+# space O(n)
 
 from heapq import *
 
