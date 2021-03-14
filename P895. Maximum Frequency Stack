@@ -1,3 +1,33 @@
+# heap
+# heap: (-freq, -index, ele)
+
+from heapq import *
+
+class FreqStack:
+
+    def __init__(self):
+        self.heap = [] # (-freq, -index, ele)
+        self.index = 1
+        self.freq = collections.defaultdict(int) # key:num, val: freq
+        
+
+    def push(self, val: int) -> None:
+        prev_freq = self.freq.get(val, 0)
+        heappush(self.heap, [-(prev_freq + 1), -self.index, val])
+        self.freq[val] = prev_freq + 1
+        self.index += 1
+
+
+    def pop(self) -> int:
+        freq, index, val = heappop(self.heap)
+        if freq == 1:
+            del self.freq[val]
+        else:
+            self.freq[val] -= 1
+        return val
+
+
+
 class FreqStack(object):
 
     def __init__(self):
