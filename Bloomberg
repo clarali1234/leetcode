@@ -21,7 +21,7 @@ cde
 
 '''
 
-
+# brute force time 
 
 class Solution(object):
     def substring(self, s):
