@@ -1,4 +1,78 @@
 '''
+Description: Given a String s, a sub-string is defined as a non-empty string that can be obtained by applying following operation
+
+Remove zero or 1 character from left side of s
+Remove zero or 1 character from right side of s
+Remove zero or 1 character from left & right side of s
+
+Find how many distinct sub-string possible.
+Characters in string are [a-z]
+String length can be up to 10^5
+
+
+abcde -> bcde/abcd/bcd
+
+abcd
+bcde
+abc
+bcd
+bcd
+cde
+
+'''
+
+
+
+class Solution(object):
+    def substring(self, s):
+        self.res = set()
+        self.dfs(s)
+        return self.res
+    
+    def dfs(self, s):
+        if not s:
+            return 
+        self.res.add(s)
+        self.dfs(s[1:])
+        self.dfs(s[:-1])
+        if len(s) > 2:
+            self.dfs(s[1:-1])
+                 
+        
+        
+class Solution2(object):
+    def substring(self, s):
+        self.dic = {}
+        return set(self.dfs(s))
+        
+    
+    def dfs(self, s):
+        if not s:
+            return []
+        
+        if s in self.dic:
+            return self.dic[s]
+        
+        res = [s]
+        res1 = self.dfs(s[1:])
+        res2 = self.dfs(s[:-1])
+        res3 = self.dfs(s[1:-1])
+        res = res + res1 + res2 + res3
+        self.dic[s] = res
+        return res
+        
+        
+        
+test = Solution()
+s = 'abcde'
+print(test.substring(s))
+
+test2 = Solution2()
+s = 'abcde'
+print(test2.substring(s))
+        
+
+'''
 transform digit
 
 123 # digit, c
