@@ -1,4 +1,60 @@
 '''
+Element       NGE
+   4      -->   5
+   5      -->   25
+   2      -->   25
+   25     -->   -1
+   
+ # nums: [4, 5, 2, 25]
+ #  res: [5, 25, 25, -1]
+ 
+ # brute force 2 for loop
+ 
+ # stack start from end 
+ # pop elements in stack <= ele
+ # if stack. res add top, else -1
+ # append(cur ele to stack)
+ 
+
+'''
+
+# 4
+# stack [25, 5]
+# res [5, 25, 25, -1] 
+
+class Solution(object):
+    def nextGreaterElement(self, nums):
+        res = [-1 for _ in range(len(nums))]
+        for i in range(len(nums)):
+            if i == len(nums) - 1:
+                continue
+            for j in range(i + 1, len(nums)):
+                if nums[j] > nums[i]:
+                    res[i] = nums[j]
+                    break
+        return res
+    
+    def nextGreaterElement2(self, nums):
+        res = [-1 for _ in range(len(nums))]
+        stack = []
+        for i in range(len(nums) -1, -1, -1):
+            while stack and stack[-1] <= nums[i]:
+                stack.pop()
+            if stack:
+                res[i] = stack[-1]
+            stack.append(nums[i])
+        return res
+    
+test = Solution()
+num =  [4, 5, 2, 25]
+print(test.nextGreaterElement(num))
+print(test.nextGreaterElement2(num))
+
+
+
+
+
+'''
 Description: Given a String s, a sub-string is defined as a non-empty string that can be obtained by applying following operation
 
 Remove zero or 1 character from left side of s
