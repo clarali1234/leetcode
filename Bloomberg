@@ -1,4 +1,49 @@
 '''
+# N = 1:
+X
+-----------
+# N = 2:
+XX
+XX
+-----------
+# N = 3:
+X X
+ X 
+X X
+-----------
+# N = 4:
+X  X
+ XX 
+ XX 
+X  X
+-----------
+# N = 5:
+X   X
+ X X 
+  X  
+ X X 
+X   X
+-----------
+
+'''
+
+# 4
+# stack [25, 5]
+# res [5, 25, 25, -1] 
+
+class Solution(object):
+    def printX(self, n):
+        res = [['' for _ in range(n)] for _ in range(n)]
+        for i in range(n):
+            res[i][i] = 'X'
+            res[i][n - 1 - i] = 'X'
+        return res
+                
+test = Solution()
+print(test.printX(3))
+
+
+'''
 Element       NGE
    4      -->   5
    5      -->   25
