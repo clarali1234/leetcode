@@ -1,4 +1,45 @@
 '''
+alphabets = ['a','b','c','ch','dd','d','e', 'f', 'ff', 'g', 'ng', 'h', 'i', 'j', 'l', 'll', 'm', 'n', 'o', 'p', 'ph', 'r', 'rh', 's', 't', 'th', 'u', 'w', 'y']
+
+'''
+
+# 4
+# stack [25, 5]
+# res [5, 25, 25, -1] 
+
+class Solution(object):
+    def welOrder(self, strings):
+        alphabets = ['a','b','c','ch','dd','d','e', 'f', 'ff', 'g', 'ng', 'h', 'i', 'j', 'l', 'll', 'm', 'n', 'o', 'p', 'ph', 'r', 'rh', 's', 't', 'th', 'u', 'w', 'y']
+        
+        dic = {}
+        for index, char in enumerate(alphabets):
+            dic[char] = index
+            
+        def comp(s):
+            key = []
+            for i in range(len(s) - 1):
+                if s[i:i + 2] in dic:
+                    key.append(dic[s[i : i + 2]])
+                    i += 2
+                else:
+                    key.append(dic[s[i]])
+                    i += 1
+            key.append(dic[s[-1]])
+            return tuple(key)
+            
+        strings.sort(key = comp)
+        return strings
+        
+                
+test = Solution()
+l = ["ddr","nah","dea","dd","ngah"]
+l2 = ['chr',  'cd']
+print(test.welOrder(l))
+print(test.welOrder(l2))
+                       
+
+
+'''
 # N = 1:
 X
 -----------
