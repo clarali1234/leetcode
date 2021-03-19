@@ -1,4 +1,47 @@
 '''
+但是是一维的，连续三个以上糖果会消除，返回多次消除后的结果，如：ABCDDDDCCB -> ABB
+
+'''
+
+# [
+
+class Solution(object):
+    def candyCrush(self, candy):
+        
+        stack = []
+        i = 0
+        while i < len(candy):
+            ele = candy[i]
+            if not stack or ele != stack[-1][0]:
+                stack.append([ele, 1])
+                i += 1
+            else:
+                j = i 
+                while j + 1 < len(candy) and ele == candy[j + 1]:
+                    j += 1
+                count = stack[-1][1] + j - i + 1
+                if count >= 3:
+                    stack.pop()
+                else:
+                    stack[-1][1] = count
+                i = j + 1
+                
+        print(stack)
+                
+        res = ''
+        while stack:
+            candy, c = stack.pop()
+            res =  candy * c + res
+        return res
+        
+                
+test = Solution()
+candy = 'ABCDDDDCCB'
+print(test.candyCrush(candy))
+
+
+
+'''
 alphabets = ['a','b','c','ch','dd','d','e', 'f', 'ff', 'g', 'ng', 'h', 'i', 'j', 'l', 'll', 'm', 'n', 'o', 'p', 'ph', 'r', 'rh', 's', 't', 'th', 'u', 'w', 'y']
 
 '''
