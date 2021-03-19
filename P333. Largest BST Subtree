@@ -32,7 +32,7 @@ class Solution:
         
 # divide and conquer
 # recursion
-# input: tree node, output: min_ val of cur BST subtree under this cur node , max_ of cur BST subtree under this cur node , size of cur BST substree
+# input: tree node, output: min_val, max_val, size of largest BST in its subtree(inclusive)
 # base case
 
 
