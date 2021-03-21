@@ -1,9 +1,7 @@
 # dfs from 0 to N - 1
-# if ignore the output path, time complexity is O(v) + O(e)
-# else, time O(2^n) 
 
-# time O(2^n)
-# space O(2^n)
+# time O(2^n * n)
+# space O(2^n * n)
 
 class Solution(object):
     def allPathsSourceTarget(self, graph):
@@ -21,6 +19,8 @@ class Solution(object):
             self.dfs(graph, nb, path + [nb])
 
 # if has cycle
+# time O(2^n * n)
+# space O(2^n * n)
 class Solution:
     def allPathsSourceTarget(self, graph):
         n = len(graph)
