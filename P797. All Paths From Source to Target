@@ -19,3 +19,27 @@ class Solution(object):
         
         for nb in graph[index]:
             self.dfs(graph, nb, path + [nb])
+
+# if has cycle
+class Solution:
+    def allPathsSourceTarget(self, graph):
+        n = len(graph)
+        self.res = []
+        self.dfs(graph, 0, n - 1, [0])
+        return self.res
+    
+    def dfs(self, graph, cur, target, path):
+        if target == cur:
+            self.res.append(path[:])
+            return 
+        
+        if len(path) >= len(graph):
+            return 
+        
+        for nb in graph[cur]:
+            self.dfs(graph, nb, target, path + [nb])
+            
+            
+test = Solution()
+graph = [[2], [0, 3], [1], []]
+print(test.allPathsSourceTarget(graph))
