@@ -474,28 +474,31 @@ print(test1.printURL(['A', 'B', 'C', 'B']))
 
 '''
 
-class Solution(object):
-    def interString(self, s):
-        depth = 0
-        dic = {}# key: depth, val: str
-        l_paren = ['(', '[', '{']
-        r_paren = [']', '}', ')']
-        max_depth = 0
-        for i, char in enumerate(s):
-            if char in l_paren:
-                depth += 1
-                max_depth = max(max_depth, depth)
-            elif char in r_paren:
-                depth -= 1
-            else:
-                dic[depth] = dic.get(depth, '') + char
-        print(dic)
-        return dic[max_depth]
+import collections
+def deepest(s):
+    depth = 0
+    dic = collections.defaultdict(list) # key: depth, val: []
+    cur_s = ''
+    for i, char in enumerate(s):
+        if char == '(':
+            dic[depth].append(cur_s)
+            depth += 1
+            cur_s = ''
+        elif char == ')':
+            dic[depth].append(cur_s)
+            depth -= 1
+            cur_s = ''
+        elif i == len(s) - 1:
+            cur_s += char
+            dic[depth].append(cur_s)
+        else:
+            cur_s += char
+    
+    max_depth = max(dic.keys())
+    print(dic)
+    return dic[max_depth]
 
-test = Solution()
-print(test.interString('ab(cd(e)fg)'))
-print(test.interString('Hello World!'))
-print(test.interString('ab{cd[ef]}gh(hello{hi}a)'))
+print(deepest('ab(c(d)e)f'))
 
 4. trapping water那一题，中间是有0的，表示水可以漏出去
 # 是0的话不可以存水， 那我们可以把这个array分成好几个array，在0的地方砍开，然后一段一段算能存多少水。
