@@ -12,31 +12,22 @@ class Solution(object):
                 
 
 # so2: 从中心线向两边枚举，右 = 左，或右 = 左 + 1， time O(n^2)
-class Solution(object):
-    def countSubstrings(self, s):
-        
-        c = 0
-        
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        self.res = 0
         for i in range(len(s)):
-            l = i
-            r = i
-            c += self.count(s, l, r)
-            
-            l = i
-            r = i + 1
-            c += self.count(s, l, r)
-            
-        return c
+            self.count_substring_helper(s, i, i)
+            self.count_substring_helper(s, i, i + 1)
+        return self.res
     
-    
-    def count(self, s, l, r):
-        c = 0
-        while l >= 0 and r < len(s) and s[l] ==  s[r]:
-            c += 1
-            l -= 1
-            r += 1
-            
-        return c
+    def count_substring_helper(self, s, i, j):
+        while j < len(s) and i >= 0 and i <= j:
+            if s[i] == s[j]:
+                self.res += 1
+                i -= 1
+                j += 1
+            else:
+                break
             
  # follow up
  # return all palindrome substrings
