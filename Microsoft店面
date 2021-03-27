@@ -59,5 +59,38 @@ s = ['good', 'god', 'anagram']
 print(test.groupAnagrams(s))
             
             
+'''
 
+Degree of connection in linkedin (min distance between two nodes in a graph)
+Follow-up: implement BFS without saving distance in the queue, i.e. using layers of queues
+Follow-up: how would Linkedin actually implement this? (scaling, precomputing, etc.)
+
+
+'''
+
+import collections
+class Solution(object):
+    def minDistance(self, s, e, graph):
+        q = collections.deque([(s, 0)])
+        visited = set([s])
+        while q:
+            node, dis = q.popleft()
+            if node == e:
+                return dis
+            for nb in graph[node]:
+                if nb not in visited:
+                    q.append([nb, dis + 1])
+                    visited.add(nb)
+        return -1
+    
+    
+    # 0 -> 1 -> 2
+   #       \ 
+   #.      3
+    
+graph = {0: [1], 1:[2, 3], 2 : [], 3: []}
+s = 0
+e = 3
+test = Solution()
+print(test.minDistance(s, e,graph))
 
