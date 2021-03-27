@@ -1,0 +1,9 @@
+class Solution:
+    def angleClock(self, hour: int, minutes: int) -> float:
+        
+        one_minute_angle = 360 / 60
+        one_hour_angle = 360 / 12
+        minutes_angle = minutes * one_minute_angle
+        hours_angle = (hour + minutes/60) * one_hour_angle
+        diff = abs(minutes_angle - hours_angle)
+        return min(diff, 360 - diff)
