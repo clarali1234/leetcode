@@ -58,4 +58,43 @@ class Solution(object):
             return True
         return False
                 
+ class Solution:
+    def validTicTacToe(self, board: List[str]) -> bool:
+        c_X = 0
+        c_O = 0
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == 'X':
+                    c_X += 1
+                elif board[i][j] == 'O':
+                    c_O += 1
+        if not (c_X == c_O or c_X - c_O == 1):
+            return False
+        
+        x_win = self.check_win(board, 'X')
+        o_win = self.check_win(board, 'O')
+        
+        if x_win:
+            if o_win or (c_X - c_O != 1):
+                return False
+        if o_win:
+            if x_win or (c_X != c_O):
+                return False
+        return True
+    
+    def check_win(self, board, player):
+        row = [0 for _ in range(3)]
+        col = [0 for _ in range(3)]  
+        diag = 0
+        anti = 0
+        for x in range(3):
+            for y in range(3):
+                if board[x][y] == player:
+                    row[x] += 1
+                    col[y] += 1
+                    if x == y:
+                        diag += 1
+                    if x == 2 - y:
+                        anti += 1
+        return 3 in [diag, anti] + row + col
                 
