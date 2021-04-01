@@ -94,3 +94,53 @@ e = 3
 test = Solution()
 print(test.minDistance(s, e,graph))
 
+
+'''
+
+给一堆dependency
+A -> B, C (b-> a, c-> a)
+B -> D
+C -> E
+
+a -> b
+
+问如果其中的一个node变了，返回所有受影响的nodes。比如说D变了，return [D,B,A]
+
+[[A, [B,C]], ...
+
+{A: [B, C], A:D, C:E}
+
+'''
+import collections
+class Solution(object):
+    def getImpactedNodes(self, l, node):
+        
+        graph = collections.defaultdict(list)
+        for nodes in l:
+            for nb in nodes[1]:
+                graph[nb].append(nodes[0][0])
+                
+        print(graph)
+        # bfs
+        res = []
+        q = collections.deque([node])
+        visited = set()
+        visited.add(node)
+        while q:
+            cur_node = q.popleft()
+            res.append(cur_node)
+            for nb in graph[cur_node]:
+                if nb not in visited:
+                    visited.add(nb)
+                    q.append(nb)
+        return res
+    
+    
+test = Solution()
+print(test.getImpactedNodes([[['A'], ['B', 'C']], [['B'],['D']], [['C'], ['E']]], 'D'))
+
+                                     
+        
+        
+        
+            
