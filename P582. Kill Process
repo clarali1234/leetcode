@@ -1,23 +1,17 @@
 # time O(n)
 # space O(n)
 
-class Solution(object):
-    def killProcess(self, pid, ppid, kill):
-        
-        # construct graph
-        # dfs travsesal
-        
+class Solution:
+    def killProcess(self, pid: List[int], ppid: List[int], kill: int) -> List[int]:
         graph = collections.defaultdict(list)
         for i in range(len(pid)):
-            id1 = pid[i]
-            id2 = ppid[i]
-            graph[id2].append(id1)
-            
-        self.res = []
-        self.dfs(graph, kill)
-        return self.res
+            graph[ppid[i]].append(pid[i])
+        
+        res = []
+        self.dfs(graph, kill, res)
+        return res
     
-    def dfs(self, graph, kill):
-        self.res.append(kill)
-        for nb in graph[kill]:
-            self.dfs(graph, nb)
+    def dfs(self, graph, node, res):
+        res.append(node)
+        for child in graph[node]:
+            self.dfs(graph, child, res)
