@@ -1,4 +1,29 @@
 # dfs
+# time O(n^2) worst case, complete tree, n // 2 nodes, each path append takes O(n) time complexity
+# space O(n)
+class Solution:
+    def pathSum(self, root: TreeNode, targetSum: int) -> List[List[int]]:
+        self.res = []
+        self.dfs(root, 0, [], targetSum)
+        return self.res
+    
+    def dfs(self, node, cur_sum, cur_path, target):
+        
+        if not node:
+            return 
+    
+        if not node.left and not node.right:
+            if cur_sum + node.val == target:
+                self.res.append(cur_path + [node.val])
+            return 
+        
+        self.dfs(node.left, cur_sum + node.val, cur_path + [node.val], target)
+        self.dfs(node.right, cur_sum + node.val, cur_path + [node.val], target)
+
+
+
+
+# dfs
 # time O(n)
 # space O(h)
 
