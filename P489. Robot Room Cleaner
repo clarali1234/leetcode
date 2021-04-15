@@ -1,4 +1,4 @@
-# time O(4 ^ (n - m)) n - m: number of empty cellss
+# time O(n - m)) n - m: number of empty cellss
 # space O(n - m)
 
 # spiral backtracking
