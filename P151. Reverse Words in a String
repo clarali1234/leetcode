@@ -9,3 +9,60 @@ class Solution:
             i += 1
             j -= 1
         return ' '.join(s)
+
+# without built-in function
+# step1: trim the space and convert the string to array
+# step2: reverse the whole array
+# step3: reverse each words
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        # step1: trim the space at begin and end, trim internal extra space-> array
+        words = self.trim_s(s)
+        # step2: reverse the whole array
+        self.reverse(words, 0, len(words) - 1)
+        # step3: reverse each word
+        self.reverse_word(words)
+        return ''.join(words)
+        
+        
+    def trim_s(self, s):
+        i = 0
+        j = len(s) - 1
+        while i < len(s) and s[i] == ' ':
+            i += 1
+        while j >= 0 and s[j] == ' ':
+            j -= 1
+            
+        words = []
+        while i <= j:
+            if s[i] != ' ':
+                words.append(s[i])
+            elif words[-1] != ' ':
+                words.append(s[i])
+            i += 1
+        
+        return words
+            
+    def reverse(self, words, i, j):
+        while i <= j:
+            words[i], words[j] = words[j], words[i]
+            i += 1
+            j -= 1
+        
+    def reverse_word(self, words):
+        start = 0
+        end = 0
+        while start < len(words):
+            while end < len(words) and words[end] != ' ':
+                end += 1
+            self.reverse(words, start, end - 1)
+            start = end + 1
+            end = start
+            
+        
+            
+        
+        
+        
+        
