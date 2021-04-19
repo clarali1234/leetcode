@@ -192,5 +192,73 @@ matrix2 = [['F', 'F', '.'],
 print(dropFigure(matrix))
 print(dropFigure(matrix2))
         
+'''
+Doordash virtual onsite question:
+Given a set list of pickups and deliveries for order, figure out if the given list is valid or not.
+A delivery cannot happen for an order before pickup.
+
+Examples below:
+[P1, P2, D1, D2]==>valid
+[P1, D1, P2, D2]==>valid
+[P1, D2, D1, P2]==>invalid
+[P1, D2]==>invalid
+[P1, P2]==>invalid
+[P1, D1, D1]==>invalid
+[]==>valid
+[P1, P1, D1]==>invalid
+[P1, P1, D1, D1]==>invalid
+[P1, D1, P1]==>invalid
+[P1, D1, P1, D1]==>invalid
+
+'''
+
+# pick before delivery
+# pair (p, d)
+
+# pickset = (1, 2, 3, ..)
+# p_d pair = set(pick)
+
+
+
+# for each ele in list:
+    # if pick:
+        # p in pickset:
+            # return false
+        # pickse
+        # p_d pair.add
         
+    # else:
+        # if p not in set:
+            # return False
+        # rrenive puck
+    # return set pair is empty
+    
+def valid_delivery(pickups):
+    if not pickups:
+        return True
+    pickup_set = set()
+    pd_pair = set()
+    for ele in pickups:
+        if ele[0] == 'P':
+            if ele in pickup_set:
+                return False
+            pickup_set.add(ele)
+            pd_pair.add(ele)
+        else: # delivery
+            cur_p = 'P' + ele[1]
+            if cur_p not in pickup_set:
+                return False
+            if cur_p not in pd_pair:
+                return False
+            pd_pair.remove(cur_p)
+    return len(pd_pair) == 0
+
+print(valid_delivery(['P1', 'P2', 'D1', 'D2']))
+print(valid_delivery(['P1', 'D1', 'D2'])) 
+print(valid_delivery(['P1', 'P1', 'D2']))
+print(valid_delivery(['P1', 'P1', 'D2', 'D2']))
+print(valid_delivery([]))
+    
+    
+    
             
