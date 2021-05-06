@@ -37,3 +37,34 @@ class Solution(object):
             
         return nums
         
+class Solution:
+    def findStrobogrammatic(self, n: int) -> List[str]:
+        res = []
+        pair = ["11","69","88","96", '00']
+        pair_except_00 = ["11","69","88","96"]
+        
+        if n % 2: # odd
+            res = ['1', '8', '0']
+            n -= 1
+        else:
+            if n == 2:
+                return pair_except_00
+            res = pair
+            n -= 2
+            
+        while n:
+            if n == 2:
+                new_res = []
+                for ele in res:
+                    for c1, c2 in pair_except_00:
+                        new_res.append(c1 + ele + c2)
+                res = new_res
+            else:
+                new_res = []
+                for ele in res:
+                    for c1, c2 in pair:
+                        new_res.append(c1 + ele + c2)
+                res = new_res
+            n -= 2
+                
+        return res
