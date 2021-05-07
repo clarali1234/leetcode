@@ -1,3 +1,24 @@
+# recursion
+class Solution:
+    def findStrobogrammatic(self, n: int) -> List[str]:
+        even_mid = ['0', '1', '8']
+        odd_mid = ['00', '11', '88', '69', '96']
+        if n == 1:
+            return even_mid
+        if n == 2:
+            return odd_mid[1:]
+        
+        if n % 2 == 1:
+            pre_res = self.findStrobogrammatic(n - 1) 
+            mid = even_mid
+        else:
+            pre_res = self.findStrobogrammatic(n - 2) 
+            mid = odd_mid
+        
+        return [pre[ : (n - 1)//2] + m + pre[(n - 1) // 2 : ] for m in mid for pre in pre_res]
+            
+
+
 题目中给了提示说可以用递归来做，而且提示了递归调用n-2，而不是n-1。我们先来列举一下n为0,1,2,3,4的情况：
 
 n = 0:   none
