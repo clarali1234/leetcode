@@ -1,0 +1,21 @@
+# two pointers
+# i: start index of consecutive substring
+# j: end index of consecutive substring
+# time O(n)
+# space O(1)
+
+class Solution:
+    def maxPower(self, s: str) -> int:
+        if not s:
+            return 0
+        max_len = 1
+        i = 0
+        j = 0
+        while i < len(s):
+            while j < len(s) and s[j] == s[i]:
+                j += 1
+            max_len = max(max_len, j - 1 - i + 1)
+            i = j 
+            
+        return max_len
+        
