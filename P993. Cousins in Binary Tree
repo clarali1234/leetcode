@@ -2,6 +2,49 @@
 # bfs
 # time O(n)
 # space O(n)
+
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        cousins_info = collections.defaultdict(tuple) # key. node.val, val: (height, parent)
+        q = collections.deque([(root, 0, None)])
+        while q:
+            for _ in range(len(q)):
+                node, h, parent = q.popleft()
+                if node.val == x:
+                    cousins_info[x] = (h + 1, parent)
+                elif node.val == y:
+                    cousins_info[y] = (h + 1, parent)
+                if node.left:
+                    q.append([node.left, h + 1, node.val])
+                if node.right:
+                    q.append([node.right, h + 1, node.val])
+        if cousins_info[x][0] == cousins_info[y][0] and cousins_info[x][1] != cousins_info[y][1]:
+            return True
+        return False
+        
+# dfs
+# time O(n)
+# space O(n)
+class Solution:
+    def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
+        self.cousins_info_map = collections.defaultdict(tuple)
+        self.dfs(root, 0, None, x, y)
+        if self.cousins_info_map[x][0] == self.cousins_info_map[y][0] and self.cousins_info_map[x][1] != self.cousins_info_map[y][1]:
+            return True
+        return False
+    
+    def dfs(self, node, h, parent, x, y):
+        if not node:
+            return 
+        if node.val == x:
+            self.cousins_info_map[x] = (h + 1, parent)
+        if node.val == y:
+            self.cousins_info_map[y] = (h + 1, parent)
+            
+        self.dfs(node.left, h + 1, node.val, x, y)
+        self.dfs(node.right, h + 1, node.val, x, y)
+        
+
 class Solution(object):
     def isCousins(self, root, x, y):
         
@@ -35,4 +78,6 @@ class Solution(object):
         if dep_x == dep_y and part_x != part_y:
             return True
         return False
+        
+   
             
