@@ -3,6 +3,33 @@
 
 class Solution:
     def modifyString(self, s: str) -> str:
+        
+        s = list(s)
+        chars = 'abcdefghijklmnopqrstuvwxyz'
+        for i, char in enumerate(s):
+            if char == '?':
+                if i == 0:
+                    for candi in chars:
+                        if len(s) == 1:
+                            return 'a'
+                        if i + 1 < len(s) and candi != s[i + 1]:
+                            s[0] = candi
+                            break
+                        
+                elif i == len(s) - 1:
+                    for candi in chars:
+                        if candi != s[-2]:
+                            s[-1] = candi
+                            break
+                else:
+                    for candi in chars:
+                        if candi != s[i - 1] and candi != s[i + 1]:
+                            s[i] = candi
+                            break
+        return ''.join(s)
+
+class Solution:
+    def modifyString(self, s: str) -> str:
         s = list(s)
         for i, ele in enumerate(s):
             if s[i] == '?':
