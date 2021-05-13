@@ -5,19 +5,16 @@
 class Solution:
     def minCost(self, s: str, cost: List[int]) -> int:
         res = 0
-        i = 0
+        i = j = 0
         while i < len(s):
-            if i + 1 < len(s) and s[i] == s[i + 1]:
-                j = i
-                total = 0
-                cur_max = cost[i]
-                while j < len(s) and s[i] == s[j]:
-                    total += cost[j]
-                    cur_max = max(cur_max, cost[j])
-                    j += 1
-                res += total - cur_max
-                i = j 
-            else:
-                i += 1
-        return res
-                
+            max_cost = cost[i]
+            sum_ = cost[i]
+            while j + 1 < len(s) and s[j] == s[j + 1]:
+                j += 1
+                max_cost = max(max_cost, cost[j])
+                sum_ += cost[j]
+            # i, j - 1
+            res += sum_ - max_cost
+            j += 1
+            i = j 
+        return res 
