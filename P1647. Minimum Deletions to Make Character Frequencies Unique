@@ -3,6 +3,12 @@
 # time O(n)
 # space O(1)
 
+# greedy
+# count the occurance of each char
+# use the set to holder all the count
+# interate each char, count in hashmap
+# if the count is duplicate, delete once char at a time, until count is not in set and count is not 0
+
 class Solution:
     def minDeletions(self, s: str) -> int:
         counter = collections.Counter(s)
