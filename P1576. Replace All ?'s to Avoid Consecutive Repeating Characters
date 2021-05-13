@@ -1,6 +1,12 @@
 # time O(n)
 # space O(n)
 
+# 1. add ? at begin and end, no need to handle corner cases
+# 2. only need 3 chars to make sure no repeating char
+
+# main logic: iterate each char in s, if i - 1 != char != i + 1, replace with char
+
+
 class Solution:
     def modifyString(self, s: str) -> str:
         
