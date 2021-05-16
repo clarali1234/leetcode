@@ -21,3 +21,26 @@ class Solution:
                     res += cost
                     q.append(nb)
         return res
+
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        # construt graph 
+        # bfs/dfs find all cities can visit 0, sum up weights
+        graph = collections.defaultdict(list)
+        for src, dst in connections:
+            graph[src].append([dst, 1])
+            graph[dst].append([src, 0])
+        
+        self.res = 0
+        self.visited = set()
+        self.visited.add(0)
+        self.dfs(graph, 0)
+        return self.res
+    
+    
+    def dfs(self, graph, node):
+        for nb, weight in graph[node]:
+            if nb not in self.visited:
+                self.res += weight
+                self.visited.add(nb)
+                self.dfs(graph, nb)
