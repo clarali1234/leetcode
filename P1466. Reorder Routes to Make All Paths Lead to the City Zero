@@ -1,6 +1,6 @@
 # key point: check the cost of all nodes can be reachable from 0
 
-# construct graph, weight: 1 src -> des, 0, des -> src
+# construct undirected graph, weight is cost : 1 src -> des, 0, des -> src
 # from 0 do bfs, sum up weight
 
 class Solution:
