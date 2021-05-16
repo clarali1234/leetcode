@@ -1,3 +1,24 @@
+# 
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        read = 0
+        write = 0
+        while read < len(chars):
+            anchor = read
+            while read + 1 < len(chars) and chars[read + 1] == chars[read]:
+                read += 1
+            length = read - anchor + 1
+            if length == 1:
+                chars[write] = chars[anchor]
+                write = write + 1
+            else:
+                chars[write : write + len(str(length)) + 1] = chars[anchor] + str(length)
+                write = write + int(len(str(length))) + 1
+            read += 1
+        return write
+
+
+
 # brute force 
 # simulation
 
