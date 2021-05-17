@@ -1,3 +1,22 @@
+# keep most recently occurance of word1 and word2
+# time O(n)
+# space O(1)
+class Solution:
+    def shortestDistance(self, wordsDict: List[str], word1: str, word2: str) -> int:
+        index1 = None 
+        index2 = None
+        
+        res = len(wordsDict)
+        for i, word in enumerate(wordsDict):
+            if word == word1:
+                index1 = i
+            elif word == word2:
+                index2 = i
+            if index1 != None and index2 != None:
+                res = min(res, abs(index1 - index2))
+        return res
+
+
 class Solution(object):
     def shortestDistance(self, words, word1, word2):
         """
