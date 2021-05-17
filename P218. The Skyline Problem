@@ -1,20 +1,11 @@
 # time O(nlgn)
 # space O(n)
+# sweep line + heap
 
-# heap [(-h, r)]
-
-# iterate all the points
-# if it is left, put [height, r] in heap
-
-# check if the right borader of the heighest is < cur_point, then pop
-
-# if heap[0] != res[-1]
-# add to res
-
-将建筑物的左右边界存下来；
-遍历所有边界，若其为某个建筑物的左边界，则将建筑物右边界和高度入堆；
-若最大堆堆顶元素的右边界 <= 当前边界值，将其出堆；
-取堆顶元素的建筑物高，若其不等于前一次的关键点，则说明该点与上一次的点不在一条水平线上，为一个“关键点”。
+# heap里面保存的是当前遇到的所有建筑物 （-h, 有边界）
+# sweep line保存所有的点, sort
+# key logic: 遍历所有的点，add (-h, right) to heap 找到这个点下最高的高度 (如果该建筑物没有passed right board > current point) and current height is not add last time
+# add to result
 
 from heapq import * 
 class Solution(object):
