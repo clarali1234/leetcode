@@ -1,0 +1,17 @@
+class Solution:
+    def maxValue(self, n: str, x: int) -> str:
+       
+        if n[0] != '-':
+            for i, char in enumerate(n):
+                if int(char) < x:
+                    return n[:i] + str(x) + n[i:]
+            return n + str(x)
+        else:
+            for i in range(1, len(n)):
+                char = n[i]
+                if int(char) > x:
+                    return n[:i] + str(x) + n[i:]
+                else:
+                    continue
+            return n + str(x)
+            
