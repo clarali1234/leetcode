@@ -1,0 +1,28 @@
+# time O(nOftasks * mOfServers lg(m))
+# space O(m + n)
+
+
+from heapq import * 
+class Solution:
+    def assignTasks(self, servers: List[int], tasks: List[int]) -> List[int]:
+        t = 0
+        res = [-1 for _ in range(len(tasks))]
+        heap1 = [(servers[i], i) for i in range(len(servers))] # (weight, server) available servers 
+        heapify(heap1)
+        heap2 = [] # (time, weight, index) unavailable server
+        
+        # avaialble insert to heap
+        
+        for j in range(len(tasks)):
+            t = max(t, j)
+            if len(heap1) == 0: // no available server at this moment, time jump to unavialable server
+                t = heap2[0][0]
+                
+            while heap2 and t >= heap2[0][0]: // check availe server at this time
+                time, w, index = heappop(heap2)
+                heappush(heap1, (w, index))
+            
+            weight, index_j = heappop(heap1)
+            res[j] = index_j
+            heappush(heap2, (t + tasks[j], weight, index_j))
+        return res
