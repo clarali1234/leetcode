@@ -1,0 +1,51 @@
+1. Minimum Difference Between Largest and Smallest Value in Three Moves
+get 4 largest and 4 smallest elements
+four situation: change 0 largest, 3 smallest (top4[0] - bottom4[3])
+                       1 largest, 2 smallest (top4[1] - bottom4[2])
+                       2 largest, 1 smallest (top4[2] - bottom4[1])
+                       3 largest, 0 smallest (top4[3] - bottom4[0])
+
+[1,5,0,10,14]
+[0, 1, 5, 10, 14]
+
+change up to 3 moves
+
+largest 4 elements: 14, 10, 5, 1 (nlg4)
+smallest 4 elements: 0, 1, 5, 10
+l1[i] - l2[4 - i]
+if len <= 4: return 0
+diff: min(4, 5, 4, 1)
+
+# 
+from heapq import *
+class Solution:
+    def minDifference(self, nums: List[int]) -> int:
+        if len(nums) <= 4:
+            return 0
+        
+        min_heap = []
+        max_heap = []
+        for num in nums:
+            heappush(min_heap, num)
+            heappush(max_heap, -num)
+            if len(min_heap) > 4:
+                heappop(min_heap)
+            if len(max_heap) > 4:
+                heappop(max_heap)
+        
+        top4 = []
+        bottom4 = []
+        while min_heap:
+            top4.append(heappop(min_heap))
+        while max_heap:
+            bottom4.append(-heappop(max_heap))
+            
+        res = sys.maxsize
+        for i in range(4):
+            res = min(res, top4[i] - bottom4[3 - i])
+        return res
+            
+        
+                
+        
+        
