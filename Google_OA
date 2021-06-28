@@ -69,6 +69,52 @@ print(test.minDifference(nums6))
 print(test.minDifference(nums7))
 print(test.minDifference(nums8))
 
+2. 
+class Solution:
+    def numSplits(self, s: str) -> int:
+        left_chars = collections.defaultdict(int) # key: char, val: c
+        right_chars = collections.Counter(s)
+        left_count = 0
+        right_count = len(right_chars)
+        
+        count = 0
+        for i in range(0, len(s)):
+            if s[i] not in left_chars:
+                left_count += 1
+            left_chars[s[i]] += 1
+            
+            right_chars[s[i]] -= 1
+            if right_chars[s[i]] == 0:
+                del right_chars[s[i]]
+                right_count -= 1
+                
+            increase = 0
+            if left_count == right_count:
+                increase = 1
+            count += increase 
+        return count
+
+test = Solution()
+#s = ""
+s = "a"
+s1 = "aa"
+s2 = "aba"
+s3 = "abba"
+s4 = "abcdef"
+s5 = "aaaeeefff"
+s6 = "aaaaaaaaa"
+s7 = "aaabbb"
+s8 = "abcdeedcba"
+print(test.numSplits(s))
+print(test.numSplits(s1))
+print(test.numSplits(s2))
+print(test.numSplits(s3))
+print(test.numSplits(s4))
+print(test.numSplits(s5))
+print(test.numSplits(s6))
+print(test.numSplits(s7))
+print(test.numSplits(s8))
+
 
         
         
