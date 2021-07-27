@@ -1,0 +1,35 @@
+# brute force
+# recursion
+# time O(n*2^k)
+# space O(n)
+
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        self.res = -sys.maxsize
+        self.dfs(cardPoints, 0, k)
+        return self.res
+    
+    def dfs(self, cards, sum_, k):
+        if k == 0:
+            self.res = max(self.res, sum_)
+            return 
+        
+        self.dfs(cards[1:], sum_ + cards[0], k - 1)
+        self.dfs(cards[:-1], sum_ + cards[-1], k - 1)
+        
+        
+# sliding window
+# min sum of continues subarray with length n - k
+# time O(n)
+# space O(1)
+
+class Solution:
+    def maxScore(self, cardPoints: List[int], k: int) -> int:
+        length = len(cardPoints) - k
+        cur_sum = sum(cardPoints[:length])
+        min_sum = cur_sum
+        for i in range(length, len(cardPoints)):
+            cur_sum = cur_sum + cardPoints[i] - cardPoints[i - length]
+            min_sum = min(min_sum, cur_sum)
+        return sum(cardPoints) - min_sum
+            
