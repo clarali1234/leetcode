@@ -1,22 +1,23 @@
-# 基于贪心策略，我们应该要利用好系统的反馈机制，避免我们浪费查询机会。
-# 我们的目标应该是提高每次的 matches 值，即每次都要淘汰词表里不等于matches的单词，缩小我们枚举范围。
+# random choose 1 word from wordlist, guess -> return integer represents the exact mathces (x)
+# reduce the search range of words list
+    iterate each word in wordlist, check the matches which are equal to x
+# return result
+（缩小范围）
 
-# 每次查询之后，如果matches不等于6，我们虽然还不知道"secret"。但我们知道哪些一定不是"secret"，进而缩小范围，逼近答案。
-# 随机选一个String，得到和待找String比较相同位置的个数x，
-# 此时查找整个字典，找到和随机选择的String比较位置相同个数为x的全部String, 将他们存到一个List里，
-# 此时 待比较的String肯定也在这个List里，同时也能去除很多不是最终结果的答案。
+# time O(n) : ['aaaaaa', ... 'zzzzzz']
+# space O(n) : new word list
 
-# time O(n)
-# space O(n)
-class Solution(object):
-    def findSecretWord(self, wordlist, master):
-        """
-        :type wordlist: List[Str]
-        :type master: Master
-        :rtype: None
-        """
-        n = 0
-        while n < 6:
-            guess = random.choice(wordlist)
-            n = master.guess(guess)
-            wordlist = [w for w in wordlist if sum(i == j for i, j in zip(w, guess)) == n]
+class Solution:
+    def findSecretWord(self, wordlist: List[str], master: 'Master') -> None:
+        for _ in range(10):
+            rand = random.choice(wordlist)
+            match_count = master.guess(rand)
+            wordlist = [w for w in wordlist if self.match(w, rand) == match_count]
+        
+        
+    def match(self, w1, w2):
+        count = 0
+        for i in range(len(w1)):
+            if w1[i] == w2[i]:
+                count += 1
+        return count
