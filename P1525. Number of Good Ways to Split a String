@@ -1,0 +1,27 @@
+# simulation
+# sliding window
+
+class Solution:
+    def numSplits(self, s: str) -> int:
+        l_dic = collections.defaultdict(int)
+        r_dic = collections.Counter(s)
+        l_c = 0
+        r_c = len(r_dic)
+        res = 0
+        
+        for i, char in enumerate(s):
+            if char not in l_dic:
+                l_c += 1
+                l_dic[char] += 1
+                
+            if r_dic[char] == 1:
+                r_c -= 1
+                del r_dic[char]
+            else:
+                r_dic[char] -= 1
+        
+            if l_c == r_c:
+                res += 1
+        return res
+                
+                
