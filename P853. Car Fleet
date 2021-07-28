@@ -1,0 +1,13 @@
+class Solution:
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        # sort car by position descending order
+        # calcualte time (target - position)/speed
+        # pi, pj if pi < pj but ti > tj -> form a car fleet
+        time = [(target - p)/s for p,s in sorted(zip(position, speed))]
+        prev = 0
+        res = 0
+        for cur in time[::-1]:
+            if cur > prev:
+                res += 1
+                prev = cur
+        return res
