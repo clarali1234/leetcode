@@ -1,13 +1,23 @@
+Sort cars by the start positions pos
+Loop on each car from the end to the beginning
+Calculate its time needed to arrive the target
+cur records the current biggest time (the slowest)
+
+If another car needs less or equal time than cur,
+it can catch up this car fleet.
+
+If another car needs more time,
+it will be the new slowest car,
+and becomes the new lead of a car fleet.
+
 class Solution:
     def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
-        # sort car by position descending order
-        # calcualte time (target - position)/speed
-        # pi, pj if pi < pj but ti > tj -> form a car fleet
+       
         time = [(target - p)/s for p,s in sorted(zip(position, speed))]
-        prev = 0
+        largest_t = 0
         res = 0
         for cur in time[::-1]:
-            if cur > prev:
+            if cur > largest_t:
                 res += 1
-                prev = cur
+                largest_t = cur
         return res
