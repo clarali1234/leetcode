@@ -1,0 +1,37 @@
+'''
+yi + yj + |xi - xj| = yi + yj + xj - xi = yi - xi + yj + xj, since xi < xj
+
+constraints: xj - xi >= k
+max(yi - xi) heap or queue
+
+heap: time O(nlgn), space O(n)
+queue: tiem O(n), space O(n):queue : max (y - x)
+'''
+
+
+class Solution:
+    def findMaxValueOfEquation(self, points: List[List[int]], k: int) -> int:
+        heap = [] # (x - y)
+        res = -sys.maxsize
+        for x, y in points:
+            while heap and heap[0][1] < x - k:
+                heappop(heap)
+            if heap:
+                cur_res = -heap[0][0] + x + y
+                res = max(res, cur_res)
+            heappush(heap, (x - y, x))
+        return res
+            
+class Solution:
+    def findMaxValueOfEquation(self, points: List[List[int]], k: int) -> int:
+        q = collections.deque()
+        res = -sys.maxsize
+        for x, y in points:
+            while q and q[0][1] < x - k:
+                q.popleft()
+            if q: res = max(res, q[0][0] + x + y)
+            while q and q[-1][0] < y - x:
+                q.pop()
+            q.append([y - x, x])
+        return res
+            
