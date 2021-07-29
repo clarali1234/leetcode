@@ -1,0 +1,16 @@
+# sort the word by len
+# loop from each word
+# dp[word] = max(dp[each possible predecesspr] + 1)
+# return dp.values
+
+# time O(nlgn) sort n: length of words
+# for loop O(n*s*s)
+# space O(n)
+
+class Solution:
+    def longestStrChain(self, words: List[str]) -> int:
+        words.sort(key = len)
+        dic = {} # key: word, val: longest str chain len
+        for word in words:
+            dic[word] = max([dic.get(word[:i] + word[i + 1:], 0) + 1 for i in range(len(word))])
+        return max(dic.values())
