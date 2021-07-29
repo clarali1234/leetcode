@@ -20,3 +20,22 @@ class Solution(object):
         if id_emp[id].subordinates:
             for sub in id_emp[id].subordinates:
                 self.dfs(id_emp, sub)
+
+
+class Solution:
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
+        self.dic = {}
+        for emp in employees:
+            self.dic[emp.id] = emp
+            
+        self.visited = set()
+        self.res = 0
+        self.dfs(self.dic[id])
+        return self.res
+    
+    def dfs(self, emp):
+        self.res += emp.importance
+        self.visited.add(emp)
+        for sub in emp.subordinates:
+            if sub not in self.visited:
+                self.dfs(self.dic[sub])
