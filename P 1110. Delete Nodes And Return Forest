@@ -1,0 +1,30 @@
+# condition to add to res: no parent + not to delete
+# recursion: output -> current node or None
+# time O(n)
+# space O(n)
+
+class Solution:
+    def delNodes(self, root: TreeNode, to_delete: List[int]) -> List[TreeNode]:
+        # no parent and not in to_delete set -> add to res
+        self.to_delete_set = set(to_delete)
+        self.res = []
+        self.dfs(root, True)
+        return self.res
+    
+    def dfs(self, node, no_parent):
+        if not node:
+            return None
+        
+        if node.val not in self.to_delete_set and no_parent:
+            self.res.append(node)
+        
+        new_no_parent = node.val in self.to_delete_set 
+        left = self.dfs(node.left, new_no_parent)
+        right = self.dfs(node.right, new_no_parent)
+        node.left = left
+        node.right = right
+        
+        if node.val in self.to_delete_set:
+            return None
+        else:
+            return node
