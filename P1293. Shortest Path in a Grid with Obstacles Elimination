@@ -1,0 +1,30 @@
+# min steps: 最短路径问题
+# 每个sell 可能重复经过，visited set(x, y, obs) -> less obs
+# time O(kmn)
+# space O(kmn)
+class Solution:
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        # min step 
+        # bfs + queue (x, y, steps, obs)
+        q = collections.deque([(0, 0, 0, 0)])
+        m = len(grid)
+        n = len(grid[0])
+        visited = set()
+        visited.add((0, 0, 0))
+        while q:
+            x, y, steps, obs = q.popleft()
+            if x == m - 1 and y == n - 1 and obs <= k:
+                return steps
+            for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx
+                new_y = y + dy
+                if 0 <= new_x <= m - 1 and 0 <= new_y <= n - 1 and (new_x, new_y, obs) not in visited:
+                    if grid[new_x][new_y] == 0:
+                        q.append((new_x, new_y, steps + 1, obs))
+                        visited.add((new_x, new_y, obs))
+                    elif obs < k:
+                        q.append((new_x, new_y, steps + 1, obs + 1))
+                        visited.add((new_x, new_y, obs))
+        return -1
+                    
+        
