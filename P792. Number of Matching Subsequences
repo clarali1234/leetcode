@@ -1,0 +1,37 @@
+# time O(n)
+# space O(n)
+
+'''
+char : e
+dic: key: start char, value: word list
+    {b:[b]}
+count: 3
+
+for each char in s:
+    char = a:
+    words = [a, acd, ace]
+    dic[char] = []
+    for word words:
+        if len(word) == 1: count += 1
+        else: dic[word[1]].append(word[1:])
+    
+
+'''
+
+
+class Solution:
+    def numMatchingSubseq(self, s: str, words: List[str]) -> int:
+        dic = collections.defaultdict(list)
+        for word in words:
+            dic[word[0]].append(word)
+        count = 0
+        
+        for char in s:
+            cur_words = dic[char]
+            dic[char] = []
+            for word in cur_words:
+                if len(word) == 1:
+                    count += 1
+                else:
+                    dic[word[1]].append(word[1:])
+        return count
