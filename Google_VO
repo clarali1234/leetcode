@@ -1,0 +1,48 @@
+1. rumor spread，地理也有的原题，input， （A，B，200）， （A，C，500）。意思是A和B在时间是200的时候开过会，A和C在时间是500的时候开过会。
+假设A在300的时候知道了rumor，问最后有多少人知道rumor。Follow up是可能一个会议室里面有好几个人，比如（A，B，200）， （B，C，200），
+意思是A，B，C同时开会并都知道了。LZ用的BFS。
+
+第一题先根据timestamp sort一下，因为input是没有sort过的。然后把相同的timestamp的meeting拿来处理。
+面试的时候我一开始想用union find把meeting归类，但感觉有点过于麻烦就没用。在已经知道rumor的人里面做iteration，
+然后每个iteration做BFS来找有没有别的人和知道rumor的人meeting过。同时做个memo来记录已经在BFS里面check过的人，这样的话就不会重复搜索。
+
+import collections
+class Solution(object):
+    def rumerSpread(self, l, p, t): # [(a, b, t)]
+        
+        #l.sort(key = lambda x : x[2])
+        # build graph {}, key: p1, val: p2, time
+        # dfs(p, cur_t)
+        # visited set
+        self.graph = collections.defaultdict(list)
+        self.visited = set()
+        for p1, p2, cur_t in l:
+            self.graph[p1].append([p2, cur_t])
+            self.graph[p2].append([p1, cur_t])
+            
+        #print(self.graph)
+        self.res = 1
+        self.visited.add(p)
+        self.dfs(p, t)
+        return self.res
+    
+    def dfs(self, p, t):
+        #print(p, t, self.graph[p])
+        for nb, m_t in self.graph[p]:
+            if m_t >= t and nb not in self.visited:
+                #print(p, nb, m_t)
+                self.visited.add(nb)
+                self.res += 1
+                self.dfs(nb, t)
+                
+
+l = [('A', 'B', 200), ('A', 'C', 500)]
+p = 'A'
+#t = 300
+test = Solution()
+#print(test.rumerSpread(l, p, t))
+
+t2 = 200
+l2 = [('A', 'B', 200),('B', 'C', 200), ('A', 'C', 500)]
+print(test.rumerSpread(l2, p, t2))
+            
