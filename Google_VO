@@ -46,3 +46,130 @@ t2 = 200
 l2 = [('A', 'B', 200),('B', 'C', 200), ('A', 'C', 500)]
 print(test.rumerSpread(l2, p, t2))
             
+            
+ 2. '''
+
+Tech第二轮：两个人做猜词游戏。给一个list里面是所有可能的词，比如word， weak。A，B两个人轮流选字母，要求必须是组成的字母是list里面的词。比如，A选c就是错。再比如A选w，B只能选o或者e，不然就是错，因为list里面只有word和weak。一开始问的是来判断在给定选择的字母的情况下，A是不是输了或者B是不是输了。Follow up1：A和B只能选list里面的词，可以随机选，知道游戏不能继续。Follow up2：A和B要选尽可能让自己能赢的词。地里有过这道题，用trie做就好了。
+
+
+word
+weak
+
+trieNode (char: [trieNode1, ..])
+
+    w
+  o  e
+ r    a
+d      k
+        e
+'''
+
+class TrieNode(object):
+    def __init__(self, char):
+        self.child = {}
+        self.is_word = False
+        
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        cur = self.root
+        for char in word:
+            if  char not in cur.child:
+                cur.child[char] = TrieNode(char)
+            cur = cur.child[char]
+        cur.is_word = True
+        
+        
+import collections
+class Solution(object):
+    def __init__(self, l):
+        self.trie = Trie()
+        for word in l:
+            self.trie.insert(word)
+        self.cur = self.trie.root
+        
+    def guessWord(self, char): # [(a, b, t)]
+        if char not in self.cur.child:
+            return False
+        self.cur = self.cur.child[char]
+        
+        
+'''
+Tech第三轮：Bingo card，地里面原题。一开始也是form 一个card, follow up也是form多张不同的card
+一个Bingo Card是一个5x5的矩阵
+  3      5    10    11    15,  第1行是1~15中产生的5个互不相同的随机数
+16    22    17    21    23,  第2行是16~30中产生的5个互不相同的随机数
+37    32            42    40,  第3行是31~45中产生的4个互不相同的随机数，中间为空
+47    49    59    56    51,  第4行是46~60中产生的5个互不相同的随机数
+75    73    69    66    62,  第5行是61~75中产生的5个互不相同的随机数
+
+还给出一个getRandomNumber(int a, int b)的API，可以直接用，返回的是[a,b]左闭右闭一个数字
+问题1：写一段程序，生成一个这样的Bingo Card
+问题2:  第一段程序，生成K个互不相同的Bingo Card，其中Bing Card A与Bing card B的互不相同定义为，A与B的每一行都不能相同。
+
+
+sol1:
+number_set 
+ unitl length = 5
+
+sol2:
+    [1, 2, 3, ...  11 12  13  14 15]
+    
+    [
+    
+再进一步提出最终做法，用API调用的不是数字本身而是选取的index，每次选一个数后丢除
+
+1 2 15 4 ... 11 12 13 14 3
+
+# brute force
+# set (numbers we have)
+# get random from [1, 15]
+# if not in set, add it
+    else: keep random
+# drawback: might get same number from 1, 15 each step
+# infinite loops
+
+# sol2:
+get randome from index [1, 15]
+    eg: get 3
+        exchange 3 with tail
+
+get random from index[1, 14]
+    eg: get 3
+        exchange number at 3 with tail 14
+
+# until 5 times
+
+
+'''
+import random
+
+class Solution():
+    def bingoCard(self):
+        res = []
+        start = 0
+        end = 14
+        for i in range(5):
+            res.append(self.generate_row(start, end))
+            start += 15
+            end += 15
+        res[2][2] = None
+        return res
+            
+        
+    def generate_row(self, start, end):
+        nums = [1 for _ in range(15)]
+        for i in range(15):
+            nums[i] = i + start
+        
+        last_index = 14
+        for _ in range(5):
+            rand = random.randint(0, last_index)
+            nums[rand], nums[last_index] =  nums[last_index], nums[rand]
+            last_index -= 1
+        return nums[-5:]
+            
+test = Solution()
+print(test.bingoCard())
