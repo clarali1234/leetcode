@@ -173,3 +173,46 @@ class Solution():
             
 test = Solution()
 print(test.bingoCard())
+
+class Solution2():
+    def bingoCard(self):
+        res = [None for _ in range(5)]
+        
+        hash_sets = [set() for _ in range(5)]
+        
+        for i in range(5):
+            cur_res = []
+            start = 0
+            end = 14
+            for j in range(5):
+                cur_set = hash_sets[j]
+                cur_row = self.generate_row(start, end)
+                while tuple(cur_row) in cur_set:
+                    cur_row = self.generate_row(start, end)
+                cur_set.add(tuple(cur_row))
+                cur_res.append(self.generate_row(start, end)) 
+                start += 15
+                end += 15
+            cur_res[2][2] = None
+            res[i] = cur_res
+            
+        return res
+            
+        
+    def generate_row(self, start, end):
+        nums = [1 for _ in range(15)]
+        for i in range(15):
+            nums[i] = i + start
+        
+        last_index = 14
+        for _ in range(5):
+            rand = random.randint(0, last_index)
+            nums[rand], nums[last_index] =  nums[last_index], nums[rand]
+            last_index -= 1
+        return nums[-5:]
+            
+test2 = Solution2()
+print(test2.bingoCard())
+            
+            
+            
