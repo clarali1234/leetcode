@@ -215,4 +215,27 @@ test2 = Solution2()
 print(test2.bingoCard())
             
             
-            
+class Solution:
+    def shortestPath(self, grid: List[List[int]], k: int) -> int:
+        visited = set()
+        q = collections.deque()
+        q.append((0, 0, k))
+        step = 0
+        while q:
+            for _ in range(len(q)):
+                x, y, cur_obs = q.popleft()
+                if x == len(grid) - 1 and y == len(grid[0]) - 1:
+                    return step
+                for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+                    nx = x + dx
+                    ny = y + dy
+                    if 0 <= nx < len(grid) and 0 <= ny < len(grid[0]):
+                        if grid[nx][ny] == 1 and cur_obs >= 1 and (nx, ny, cur_obs - 1) not in visited:
+                            visited.add((nx, ny, cur_obs - 1))
+                            q.append((nx, ny, cur_obs - 1))
+                        elif grid[nx][ny] == 0 and (nx, ny, cur_obs) not in visited:
+                            visited.add((nx, ny, cur_obs))
+                            q.append((nx, ny, cur_obs))
+            step += 1
+        return -1
+                        
