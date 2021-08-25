@@ -316,6 +316,40 @@ gases = set()
 gases.add(2)
 print(test2.shortestDis([(1, 2), (3, 2), (1, 4)], 1, 3, gases, 2))
       
+'''
+VO3: input：两个数组，第一个为飞机起飞时间，第二个为乘客到达机场时间。飞机的最大容量。
+乘客到达时间要小于等于起飞时间才可登机，乘客遵循到达机场时间顺序排队上飞机。飞机按时起飞，如果坐满即使到达时间比起飞时间早也只能等下一班，如果坐不满飞机也按时起飞。要求返回可以有飞机坐的最晚到达时间。
+
+plane: [7:00, 7:30, 8:00]
+passenger: [6:55, 6:58, 6:59, 7:10, 7:20, 7:45, 7:59]
+capacity=2
+
+return 7:44
+
+'''
+class Solution():
+    def lastestTime(self, plane, passenger, capa):
+        i = 0
+        j = 0
+        for i in range(len(plane)):
+            cur_plane = plane[i]
+            capa = 2
+            while j < len(passenger) and passenger[j] <= cur_plane and capa > 0:
+                j += 1
+                capa -= 1
+            
+        j -= 1
+        return passenger[j]
+            
+
+
+test = Solution()
+plane = [7.00, 7.30, 8]
+passenger = [6.55, 6.58, 6.59, 7.10, 7.20, 7.45, 7.59]
+p2 =  [6.55, 6.58, 6.59, 7.10, 7.20, 7.45]
+capacity=2
+print(test.lastestTime(plane, passenger, capacity))
+print(test.lastestTime(plane, p2, capacity))
         
         
                 
