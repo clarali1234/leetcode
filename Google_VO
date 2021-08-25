@@ -238,4 +238,87 @@ class Solution:
                             q.append((nx, ny, cur_obs))
             step += 1
         return -1
+        
+'''
+二维数组，每个subarray 为可以联通的两个地点，给定起点和终点，要求返回起点到终点最短路径长度。
+E.g. input: {{1, 2}, {3, 2}, {1, 4}}, start=1, end=3
+return 2 (1->2->3)
+
+Follow up：需要加油，在之前基础上给满油状态下的最大行驶距离，以及有加油站的地点。每选择加一次油路径长度加一。求起点到终点最短路径。
+'''
+import collections
+
+class Solution():
+    def shortestDis(self, l, start, end):
+        # build graph
+        # bfs
+        graph = collections.defaultdict(list)
+        for s, e in l:
+            graph[s].append(e)
+            graph[e].append(s)
+        q = collections.deque()
+        visited = set()
+        q.append(start)
+        visited.add(start)
+        step = 0
+        while q:
+            for _ in range(len(q)):
+                node = q.popleft()
+                if node == end:
+                    return step
+                for nb in graph[node]:
+                    if nb not in visited:
+                        q.append(nb)
+                        visited.add(nb)
+            step += 1
+        return step
+        
+test = Solution()
+#print(test.shortestDis([(1, 2), (3, 2), (1, 4)], 1, 3))
+
+import sys
+class Solution2():
+    def shortestDis(self, l, start, end, gases, k):
+        # build graph
+        # bfs
+        graph = collections.defaultdict(list)
+        for s, e in l:
+            graph[s].append(e)
+            graph[e].append(s)
+            
+        q = collections.deque()
+        visited = set()
+        q.append((start, k, 0))
+        visited.add((start, k, 0))
+        
+        res = sys.maxsize
+        while q:
+            for _ in range(len(q)):
+                node, gas, d = q.popleft()
+                if node == end:
+                    res = min(res, d)
+                for nb in graph[node]:
+                    if nb in gases:
+                        if (nb, k) not in visited:
+                            q.append((nb, k, d + 2))
+                    if gas >= 1 and (nb, gas - 1) not in visited:
+                        q.append((nb, gas -1, d + 1))
+                        visited.add((nb, gas - 1))
+        
+        if res != sys.maxsize:
+            print(res)
+            return res
+        return -1
+        
+
+test2 = Solution2()
+gases = set()
+gases.add(2)
+print(test2.shortestDis([(1, 2), (3, 2), (1, 4)], 1, 3, gases, 2))
+      
+        
+        
+                
+
+        
                         
