@@ -352,7 +352,62 @@ print(test.lastestTime(plane, passenger, capacity))
 print(test.lastestTime(plane, p2, capacity))
         
         
-                
+# student attend record or Good string
+# brute force
+# time O(n * 3^n)
 
+class Solution:
+    def checkRecord(self, n: int) -> int:
+        self.count = 0
+        self.dfs(0, n, '')
+        return self.count
+    
+    def dfs(self, day, n, path):
+        if n == day:
+            if self.award(path):
+                self.count += 1
+            return 
+        
+        self.dfs(day + 1, n, path + 'A')
+        self.dfs(day + 1, n, path + 'L')
+        self.dfs(day + 1, n, path + 'P')
+        
+    def award(self, path):
+        absent_A = 0
+        for char in path:
+            if char == 'A':
+                absent_A += 1
+        if absent_A >= 2:
+            return False
+        
+        count_L = 0
+        for i in range(len(path) - 2):
+            if path[i] != 'L':
+                continue
+            if path[i] == path[i + 1] == path[i + 2] == 'L':
+                return False
+        return True
+
+class Solution:
+    def checkRecord(self, n: int) -> int:
+        self.modulo = 1000000007
+        self.memo = {}
+        return self.dfs(0, n, 0, 0) % self.modulo
+    
+    def dfs(self, day, n, absent, late):
+        if day == n:
+            return 1
+        
+        if (day, absent, late) in self.memo:
+            return self.memo[(day, absent, late)]
+        
+        res = 0
+        res += self.dfs(day + 1, n, absent, 0) 
+        if absent < 1:
+            res = res + self.dfs(day + 1, n, 1, 0)
+        if late < 2:
+            res = res + self.dfs(day + 1, n, absent, late + 1)
+        self.memo[(day, absent, late)] = res 
+        return res
         
                         
