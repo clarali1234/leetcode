@@ -35,3 +35,45 @@ class Logger:
             return True
         return False
         
+        
+'''
+
+key: message in ten seconds: queue([])
+
+set()
+
+
+'''
+
+class Logger:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.q = collections.deque() # store messages in 10 minutes (message, time)
+        self.set = set() # fast look up
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        """
+        Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity.
+        """
+        # pop out timestamp - 10 message in queue
+        # if message 
+        while self.q:
+            cur_message, t = self.q[0]
+            if timestamp - t >= 10:
+                self.q.popleft()
+                self.set.remove(cur_message)
+            else:
+                break
+        
+        if message in self.set:
+            return False
+        self.q.append((message, timestamp))
+        self.set.add(message)
+        return True
+        
+
