@@ -412,4 +412,76 @@ class Solution:
         self.memo[(day, absent, late)] = res 
         return res
         
+        
+ '''
+
+trunctate message。给一个2d的list和一个max_length，list是filename和message的组合。需要自己找到一个x， 把所有属于同一文件的message数量超过x的砍掉， 使得总的list长度小于max——length
+LZ用了binary search来做，做完有个off by one error在提醒下才发现并改过来，没有时间问follow up和优化。
+
+
+input: [[filename, message], ...], max_length
+
+
+给一列messages，和一个final_size, 每个msg有一个source。 要求truncate这列msg且满足两个条件：1）队列size <= final_size, 2) 每个source对应的msg都尽可能多。
+
+
+
+Our goal is to truncate a list of messages down to size max_log_messages. For the sake of this problem, our "fair" truncation algorithm is as follows: Let X be the max log messages maintained per client. For each client: If the client has emitted > X messages, truncate the log messages for that client to X messages. If the client has emitted <= X messages, do not truncate the log messages for that client.
+
+
+The goal of this problem is to figure out the maximum value of x which causes the total number of messages retained across all clients to be <= max_log_messages.
+Write Findx, which takes the input list and max_log_messages and returns X.
+
+Example: Suppose there are 5 log clients, and their number of messages is: (A, 50), (B, 20), (C, 1000), (D, 50). (E, 400). Suppose we want to have no more than 300 total messages after truncation.
+
+
+
+brute force:
+sort input
+
+B 20, A 50, D 50, E 400, C 1000 max = 300 
+
+20, avg = 300 / 5 = 60 
+    20 < 60, remove 20
+    
+50  avg = 280 / 4 = 70
+    50 < 70. remove 50 -> 230
+    
+    
+50 avg  = 180 / 3 = 60
+
+    50 < 60 -> 180
+    
+400, 90 
+
+    
+
+'''
+import sys
+class Solution():
+    def truncateMessage(self, v, max_len):
+        v.sort(key = lambda x : x[1])
+        n = len(v)
+        res = -sys.maxsize
+        for i, pair in enumerate(v):
+            client, ele = pair
+            avg = max_len/(n - i)
+            if ele <= avg:
+                res = max(ele, res)
+                max_len -= ele
+            else:
+                res = max(avg, res)
+                break
+        return res
+    
+test = Solution()
+v = [('A', 50), ('B', 20), ('C', 1000), ('D', 50), ('E', 400)]
+max_len = 300
+print(test.truncateMessage(v, max_len))
+
+
+
+
+        
+        
                         
