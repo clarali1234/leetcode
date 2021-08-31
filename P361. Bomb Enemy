@@ -1,0 +1,57 @@
+class Solution:
+    def maxKilledEnemies(self, grid: List[List[str]]) -> int:
+        res = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '0':
+                    cur_res = self.max_kill_cell(grid, i, j)
+                    res = max(cur_res, res)
+        return res
+    
+    def max_kill_cell(self, grid, x, y):
+        res = 0
+        res += self.add_row(grid, x, y)
+        res += self.add_col(grid, x, y)
+        return res
+    
+    def add_row(self, grid, x, y):
+        res = 0
+        i = x - 1
+        j = x + 1
+        while i >= 0:
+            if grid[i][y] == 'W':
+                break
+            elif grid[i][y] == 'E':
+                res += 1
+            i -= 1
+        
+        while j < len(grid):
+            if grid[j][y] == 'W':
+                break
+            elif grid[j][y] == 'E':
+                res += 1
+            j += 1
+        return res
+            
+    
+    def add_col(self, grid, x, y):
+        res = 0
+        i = y - 1
+        j = y + 1
+        while i >= 0:
+            if grid[x][i] == 'W':
+                break
+            elif grid[x][i] == 'E':
+                res += 1
+            i -= 1
+        
+        while j < len(grid[0]):
+            if grid[x][j] == 'W':
+                break
+            elif grid[x][j] == 'E':
+                res += 1
+            j += 1
+        return res
+            
+                
+                
