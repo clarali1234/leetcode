@@ -479,6 +479,13 @@ v = [('A', 50), ('B', 20), ('C', 1000), ('D', 50), ('E', 400)]
 max_len = 300
 print(test.truncateMessage(v, max_len))
 
+'''
+generate 一个 gameboard(n*n子, k players) 要求每人棋子一样多 uniform distribution
+followup: 要求每个人的棋子都connected，最后生成的valid board也要是uniformly distributed （zhen nan：基本上重写:( ）backtrack + dfs?
+
+'''
+
+tech 2: follow up算法： 每个player随机选中第一个棋子之后。 需要record 周围所有可选的空位, 然后随机 + bfs向周边扩展。难点在于维持the list for next candidate positions。
 
 
 
