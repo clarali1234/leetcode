@@ -1,0 +1,23 @@
+class Solution:
+    def findReplaceString(self, s: str, indices: List[int], sources: List[str], targets: List[str]) -> str:
+        triples = [(indices[i], sources[i], targets[i]) for i in range(len(indices))]
+        triples.sort(key = lambda x : x[0])
+        res = ''
+        cur_index = 0
+        
+        for i, triple in enumerate(triples):
+            ele, source, target = triple
+            if ele > cur_index:
+                res += s[cur_index : ele]
+                cur_index = ele
+            #print(ele, res)
+            source_l = len(source)
+            if s[ele : ele + source_l] != source:
+                res += s[ele : ele + source_l]
+            else:
+                res += target
+            cur_index = ele + source_l
+        
+        if cur_index < len(s):
+            res += s[cur_index : len(s)]
+        return res
