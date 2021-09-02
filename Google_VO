@@ -488,7 +488,61 @@ followup: 要求每个人的棋子都connected，最后生成的valid board也�
 tech 2: follow up算法： 每个player随机选中第一个棋子之后。 需要record 周围所有可选的空位, 然后随机 + bfs向周边扩展。难点在于维持the list for next candidate positions。
 
 
+'''
 
+
+# 白棋周围所有的棋子都没有空格（被黑棋占据)
+
+# 一片棋子是活期
+    任何一个棋子call dfs(find empty neighbor)
+    not empty (out of bound, has been visited, take by opponent)
+    
+    
+
+'''
+
+class Solution():
+    
+    def isAlive(self, grid, x, y):
+        if x < 0 or x >= len(grid) or y < 0 or y >= len(grid[0]) or grid[x][y] == 0:
+            return False
+        self.visited = set()
+        return self.find_empty_neighbor(grid, x, y, grid[x][y])
+    
+    def find_empty_neighbor(self, grid, x, y, value):
         
+        # output range, visited, taken by opponent
+        if x < 0 or x >= len(grid) or y < 0 or y >= len(grid[0]) or (x, y) in self.visited or grid[x][y] == -value:
+            return False
+        
+        if grid[x][y] == 0:
+            return True
+        
+        self.visited.add((x, y))
+        return self.find_empty_neighbor(grid, x + 1, y, value) or self.find_empty_neighbor(grid, x - 1, y, value) or self.find_empty_neighbor(grid, x, y + 1, value) or self.find_empty_neighbor(grid, x, y - 1, value)
+                
+                
+test = Solution()
+board = [[0, 1, 1, 1], 
+         [1, 1,  -1, 1]]
+
+board2 = [[0, 1, 0, 1], 
+         [1, 1,  -1, 1]]
+
+board3 = [[0, 1, 0, 1], 
+         [1, 1,  -1, 1],
+         [0, 1, 1, 1]]
+
+board4 = [[0, 1, 1, 1], 
+         [1, 1,  -1, 1],
+         [0, 1, 1, 1]]
+
+print(test.isAlive(board, 1, 2)) # dead (false)
+print(test.isAlive(board2, 1, 2)) # alive (true)
+print(test.isAlive(board3, 1, 2)) # alive (true)
+print(test.isAlive(board4, 1, 2)) # dead (false)
+         
+    
+
         
                         
