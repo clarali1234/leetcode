@@ -1,0 +1,33 @@
+sweep line, one pass 
+
+'''
+
+1. interval: [0, 1), toBeR [2, 5) -> left
+2.  interval: [6, 9), toBeR [2, 5) -> rigth
+3.  [0, 2)  [1, 6) start < toBeRemoveS, e < toBeRemoveE (startInter, startToBE)
+    [3, 4]          start > toBeRemoveS, e < toBeRemoveE (delete)
+    [5, 7]         start > toBeRemoveS, end > toBeRemoveE(endToBeremove, endInterval)
+
+
+'''
+
+class Solution:
+    def removeInterval(self, intervals: List[List[int]], toBeRemoved: List[int]) -> List[List[int]]:
+        left, right, middle = [], [], []
+        res = []
+        
+        for start, end in intervals:
+            if end < toBeRemoved[0]:
+                left.append([start, end])
+            elif start > toBeRemoved[1]:
+                right.append([start, end])
+            elif start < toBeRemoved[0] and end < toBeRemoved[1]:
+                middle.append([start, toBeRemoved[0]])
+            elif start >= toBeRemoved[0] and end > toBeRemoved[1]:
+                 middle.append([toBeRemoved[1], end])
+            elif start < toBeRemoved[0] and end > toBeRemoved[1]:
+                middle.append([start, toBeRemoved[0]])
+                middle.append([toBeRemoved[1], end])
+                               
+                
+        return left + middle + right
