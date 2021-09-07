@@ -543,6 +543,41 @@ print(test.isAlive(board3, 1, 2)) # alive (true)
 print(test.isAlive(board4, 1, 2)) # dead (false)
          
     
+'''
+
+2) 一个计算机阵列，有N行，M列，也就是N*M台计算机。每一个计算机都可以向他直接的下一行的所有计算机发消息，但是cost不同。所以输入是每个计算机给下一行计算机发消息的cost，让输出从第一行发一个消息到最后一行的最小cost是多少？
+
+input [[
+
+dp[i][j] = min(dp[i][j], dp[i-1][k] + costs[i-1][k][j]);
+
+
+第三轮是高频DP题， 加入我们有三层，每一层都有三个node
+比如
+A B C
+D E F
+G H I
+你从第一层走到最后一层的最小路径（路径是 Node的值加上边的值）每一层到下一层的node都是全连接
+比如 A连接 DEF， B连接DEF， C连接DEF 区别是每个node的值和边的权重不一样。
+
+    
+    
+[[
+'''
+
+class Solution():
+    
+    def minCost(self, costs):
+        m = len(costs)
+        n = len(costs[0])
+        dp = [[0 for _ in range(n)] for _ in range(m)]
+        for i in range(1, m):
+            for j in range(n):
+                for k in range(n):
+                    dp[i][j] = min(dp[i][j], dp[i - 1][k] + costs[k][j])
+        return min(x for x in dp[-1])
+    
+        
 
         
                         
