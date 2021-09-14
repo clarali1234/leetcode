@@ -1,39 +1,99 @@
-# time O(n)
-# space O(n)
-class Solution(object):
-    def rotate(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: None Do not return anything, modify nums in-place instead.
-        
-        """
-        k = k % len(nums)
-        nums[:k], nums[k:] = nums[len(nums) - k :], nums[: len(nums) - k]
 
-# time O(n)
-# space O(1)
+'''
+1. brute force 
+    rotate the array to the right by k steps
+    [1,2,3,4,5,6,7] , k = 3
+    
+    [7,1,2,3,4,5,6] , k = 1
+    
+    length = 7
+    0 -> 1  (i -> i + 1 % length)
+    1 -> 2
+    5 -> 6
+    
+    ''
+    6 -> 0
+    
+    time O(n * k)
+    space O(1)
+    
+    
+2. [1,2,3,4,5,6,7] -> [5,6,7,1,2,3,4]
 
-class Solution(object):
-    def rotate(self, nums, k):
+    0 -> 3 (i + k)
+    1 -> 4
+    
+    3 -> 6
+    
+    4 -> 0 (i + k) % length
+    
+    then copy back
+    
+    time O(n)
+    space O(n)
+    
+3. reverse three times
+k = k % length
+    1,2,3,4,5,6,7  (0, n - 1)
+    7,6,5,4,3,2,1  (0, k - 1)
+    
+    5,6,7,1,2,3,4 (k - 1, n)
+
+'''
+sol2 
+
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
         """
-        :type nums: List[int]
-        :type k: int
-        :rtype: None Do not return anything, modify nums in-place instead.
-        
+        Do not return anything, modify nums in-place instead.
         """
-        if k == 0:
-            return nums
+        n = len(nums)
+        copy = [0 for _ in range(n)]
+        for i in range(n):
+            copy[(i + k) % n] = nums[i]
+        for i in range(n):
+            nums[i] = copy[i]
+        return nums
         
-        k = k % len(nums)
-        self.reverse(nums, 0, len(nums) - k - 1)
-        self.reverse(nums, len(nums) - k, len(nums) - 1)
-        self.reverse(nums, 0, len(nums) - 1)
         
         
-    def reverse(self, nums, left, right):
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left += 1 
-            right -= 1
-            
+sol3:
+
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k = k % n
+        self.reverse(nums, 0, n - 1)
+        self.reverse(nums, 0, k - 1)
+        self.reverse(nums, k, n - 1)
+        return nums
+    
+    def reverse(self, nums, l, r):
+        while l <= r:
+            nums[l], nums[r] = nums[r], nums[l]
+            l += 1
+            r -= 1
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
