@@ -28,3 +28,76 @@ grid = [['X', '', '', 'X', '', 'e'],
 s = [1, 1]
 e = [0, 5]
 print(test.shortestPath(grid, s, e))
+
+
+'''
+
+coding是找top K frequent 元素 in a stream，相当于利口 伞似漆 的变体，实现俩APIs - addElement 和 printTopKFrequent
+
+dic {ele : treeMapNode}
+treeMap : sortedDic
+
+sortedDic node: (key: count, []: numbers list) sort by key
+dic: key: ele, value: count 
+
+
+给定一个Stream,实现两个函数，添加一个数字，按照数字出现频率打印前K个数字，如果频率相同，按照添加顺序打印。
+example: add(1), print(2): 1   add(2), print(2): 1,2  add(2),print(2): 2, 1 add(3), print(2):2,3
+
+
+'''
+
+
+from sortedcontainers import SortedDict
+class Solution:
+    def __init__(self):
+        self.sorted_dict = SortedDict()
+        self.dic = {}
+        
+    def add_ele(self, num): # logn * n
+        if num in self.dic:
+            prev_count = self.dic[num]
+            cur_count = self.dic[num] - 1
+            self.dic[num] = cur_count
+            self.sorted_dict[prev_count].remove(num)
+            if cur_count not in self.sorted_dict:
+                self.sorted_dict[cur_count] = []
+            self.sorted_dict[cur_count].append(num)
+            
+        else:
+            self.dic[num] = -1
+            #self.sorted_dict[1] = 2
+            if -1 not in self.sorted_dict:
+                self.sorted_dict[-1] = []
+            self.sorted_dict[-1].append(num)
+            #self.sorted_dict[1] = self.sorted_dict.get(1, []).append(num)
+        
+    def print_k(self, k): # O(k)
+        print("print k ", k)
+        n = len(self.dic)
+        while k and n:
+            for count, eles in self.sorted_dict.items():
+                if eles:
+                    for ele in eles[::-1]:
+                        print(ele)
+                        k -= 1
+                        if k == 0:
+                            break
+                        n -= 1
+                        if n == 0:
+                            break
+
+test = Solution()
+test.add_ele(1)
+test.print_k(2)
+
+test.add_ele(2)
+test.print_k(2)
+
+test.add_ele(2)
+test.print_k(2)
+        
+test.add_ele(3)
+test.print_k(2)
+            
+        
