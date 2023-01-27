@@ -5,28 +5,38 @@
 
 # Definition for a binary tree node.
 # class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution:
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution(object):
+    def diameterOfBinaryTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
         if not root:
             return 0
-        
-        self.res = 0
-        self.dfs(root)
-        return self.res
-        
-    def dfs(self, node):
-        if not node:
-            return 0
-        
-        left = self.dfs(node.left)
-        right = self.dfs(node.right)
-        # max path start a new path, hightest point is the current node
-        self.res = max(self.res, left + right)
-        # continue with the current path
-        return 1 + max(left, right)
 
+        # case1: pass through the root
+        case_1 = 0
+        if root.left:
+            case_1 += self.get_height(root.left) + 1
+        if root.right:
+            case_1 += self.get_height(root.right) + 1
+
+        # case2: didn't pass through the root
+        case_2 = max(self.diameterOfBinaryTree(root.left), self.diameterOfBinaryTree(root.right))
+        return max(case_1, case_2)
+
+    def get_height(self, node):
+        if not node: 
+            return 0
+        if not node.left and not node.right:
+            return 0
+
+        l_height = self.get_height(node.left)
+        r_height = self.get_height(node.right)
+
+        return max(l_height, r_height) + 1
+        
