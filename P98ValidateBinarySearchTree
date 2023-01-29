@@ -1,3 +1,28 @@
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        if not root:
+            return True
+
+        self.res = True
+        self.dfs(root, -sys.maxsize, sys.maxsize)
+        return self.res
+
+    def dfs(self, node, lower_limit, upper_limit):
+        if not node:
+            return 
+
+        if node.val <= lower_limit or node.val >= upper_limit:
+            self.res = False
+
+        self.dfs(node.left, lower_limit, node.val)
+        self.dfs(node.right, node.val, upper_limit)
+
+
+
 1. 暴力解：in-order traversal, 如果不是sorted或者有重复元素则返回false
     time O(nlgn), space: O(h)
 # Definition for a binary tree node.
