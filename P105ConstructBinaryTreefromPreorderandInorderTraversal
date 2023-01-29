@@ -1,5 +1,6 @@
 # Method2 recursion
 
+# time O(n^2) since list slice takes O(N)
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, x):
@@ -17,6 +18,36 @@ class Solution:
         root.right = self.buildTree(preorder[1 + root_index : ], inorder[root_index + 1 : ])
         return root
     
+    
+# optimized: using map to store the val: index pair of each node in inorder traverse
+# preorder traverse, for each time pop it from the left, we alwasy get the root
+# time O(n), space O(n)
+class Solution(object):
+    def buildTree(self, preorder, inorder):
+        
+        if not preorder:
+            return None
+        if len(preorder) == 1:
+            return TreeNode(preorder[0])
+
+        self.inorder_map = {val: index for index, val in enumerate(inorder)}
+        self.preorder_q = deque(preorder)
+
+        return self.dfs(0, len(inorder) - 1)
+
+    def dfs(self, start, end):
+        if not self.preorder_q:
+            return None
+
+        root_val = self.preorder_q.popleft()
+        root = TreeNode(root_val)
+        root_index = self.inorder_map.get(root_val)
+        if root_index != start:
+            root.left = self.dfs(start, root_index - 1)
+        if root_index != end:
+            root.right = self.dfs(root_index + 1, end)
+        return root
+
 
 # Method1 devide and conquer + recursion
 # Time Complexity O(n)
