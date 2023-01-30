@@ -1,3 +1,28 @@
+class Solution(object):
+    def cloneGraph(self, node):
+        if not node:
+            return node
+
+        self.visited = {}
+        new_head = Node(node.val)
+        self.visited[node] = new_head
+        self.dfs(new_head, node)
+        return new_head
+
+    def dfs(self, new_node, node):
+        for nb in node.neighbors:
+            if nb not in self.visited:
+                new_nb = Node(nb.val)
+                self.visited[nb] = new_nb
+                new_node.neighbors.append(new_nb)
+                self.dfs(new_nb, nb)
+            else:
+                new_node.neighbors.append(self.visited.get(nb))
+            
+
+
+
+
 # BFS
 # time O(v+e)
 # space O(v)
