@@ -3,23 +3,25 @@ BFS
 # time O(m*m*n) # m is length of words, n is word numbers, m * n possible words, and takes m to get each new word
 # space O(m * n)
 
-class Solution(object):
-    def ladderLength(self, beginWord, endWord, wordList):
-        
+word_set = set(wordList)
         visited = set()
-        words = set(wordList)
         visited.add(beginWord)
-        q = collections.deque([(beginWord, 1)])
+        q = deque([beginWord])
+        step = 1
         while q:
-            w, step = q.popleft()
-            if w == endWord:
-                return step
-            for i, char in enumerate(w):
-                for letter in 'abcdefghijklmnopqrstuvwxyz':
-                    new_word = w[:i] + letter + w[i + 1:]
-                    if new_word in words and new_word != w and new_word not in visited:
-                        visited.add(new_word)
-                        q.append([new_word, step + 1])
+            for _ in range(len(q)):
+                word = q.popleft()
+                if word == endWord:
+                    return step
+                for index in range(len(word)):
+                    char = word[index]
+                    for j in range(ord('a'), ord('z') + 1):
+                        new_c = chr(j)
+                        new_w = word[:index] + new_c + word[index + 1: ]
+                        if new_w in word_set and new_w not in visited:
+                            visited.add(new_w)
+                            q.append(new_w)
+            step += 1
         return 0
         
         
