@@ -1,3 +1,35 @@
+# left c + 1: > k, dfs -> left
+# left c + 1: < k,  dfs(right, k - leftC - 1)
+# left c + 1: = k, return root
+
+class Solution(object):
+    def kthSmallest(self, root, k):
+        
+        self.res = 0
+        self.dfs(root, k)
+        return self.res
+
+    def dfs(self, node, k): # output 
+        if not node:
+            return 0
+        
+        left_c = self.dfs(node.left, k)
+        if left_c + 1 == k:
+            self.res = node.val
+            return left_c + 1
+        
+        if left_c + 1 < k:
+            right_c = self.dfs(node.right, k - left_c - 1)
+            return left_c + right_c + 1
+
+        if left_c + 1 > k:
+            return left_c + 1
+
+
+
+
+
+
 1. BST in-order traversal 两种实现
     recurion: time O(n), space O(n) to hold our res
     iteration: time O(h + k), space O(h + k) since we need to go down into the tree before we start poping
