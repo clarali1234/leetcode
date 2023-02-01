@@ -1,4 +1,4 @@
-# time O(mn * 4^L), n is the number of node, L is length of word, 如果board很大，word很短, mn is upper bound of 4 ^ L
+# time O(n * 4^L), n is the number of node, L is length of word, 如果board很大，word很短, mn is upper bound of 4 ^ L
 # space O(mn) + O(L), L is the depth of recursion
 # node:
     base case, 先判断 index == len(word),再判断是否出界！！！
