@@ -3,6 +3,56 @@
 # time O(n)
 
 # Definition for singly-linked list.
+class Solution(object):
+    def reorderList(self, head):
+        if not head or not head.next:
+            return head
+            
+        # find the middle node
+        fast = slow = dummy = ListNode(0, head)
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        
+        # reverse second half
+        head_2 = slow.next
+        slow.next = None
+        reversed_head_2 = self.reverse(head_2)
+
+        # merge
+        return self.merge_lists(head, reversed_head_2)
+
+    def reverse(self, node):
+        pre = None
+        cur = node
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+        return pre
+
+    def merge_lists(self, n1, n2):
+        head = p1 = n1
+        p2 = n2
+
+        while p1 and p2:
+            nxt_p1 = p1.next
+            nxt_p2 = p2.next
+            p1.next = p2
+            p2.next = nxt_p1
+
+            p1 = nxt_p1
+            p2 = nxt_p2
+        
+        if p1:
+            p1.next = p2
+        
+        return n1
+
+
+
+
 # class ListNode(object):
 #     def __init__(self, x):
 #         self.val = x
