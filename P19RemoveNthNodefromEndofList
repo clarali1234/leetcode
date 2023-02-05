@@ -4,32 +4,33 @@
 # second pass remove n - k + 1 the node
 # need to add dummy node, to take care of [1], 1 situation
 
+# Optimized brute force, use a dummy head to cover the corner case (remove head)
+         
 class Solution(object):
     def removeNthFromEnd(self, head, n):
-        
         # count all nodes c, remove c + 1 - n from begin
         # go to c - n, remove
         
-        c = 0
-        cur = head
+        cur = dummy = ListNode(0, head)
+        c = 0 # remove: c - n + 1
         while cur:
             c += 1
             cur = cur.next
-            
-        n = c + 1 - n
         
-        i = 0
-        dummy = ListNode(0)
-        dummy.next = head
-        cur = dummy
+        # find c - n node
+        k = 1
+        p = dummy
+        while k < c - n:
+            p = p.next
+            k += 1
         
-        
-        while i < n - 1: # go to n - 1
-            cur = cur.next
-            i += 1
-        
-        cur.next = cur.next.next
-        return dummy.next
+        nxt = p.next
+        p.next = p.next.next
+        nxt.next = None
+
+        res = dummy.next
+        dummy.next = None
+        return res
         
            
             
