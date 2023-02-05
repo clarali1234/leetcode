@@ -26,11 +26,8 @@ class Solution(object):
         
         nxt = p.next
         p.next = p.next.next
-        nxt.next = None
 
-        res = dummy.next
-        dummy.next = None
-        return res
+        return dummy.next
         
            
             
