@@ -37,26 +37,24 @@ class Solution:
             cur = cur.next
         return dummy.next
 
-from heapq import * 
-class Solution:
-    def mergeKLists(self, lists: List[ListNode]) -> ListNode:
+class Solution(object):
+    def mergeKLists(self, lists):
+        
+        cur = dummy = ListNode(0)
         heap = []
-        for i in range(len(lists)):
-            l = lists[i]
+        for l in lists:
             if l:
-                heappush(heap, (l.val, i, l))
-        
-        dummy = ListNode(0)
-        p = dummy
+                heappush(heap, (l.val, l))
+
         while heap:
-            cur_val, index, node = heappop(heap)
-            p.next = node
-            p = p.next
+            val, node = heappop(heap)
+            cur.next = node
+            cur = cur.next
             if node.next:
-                i += 1
-                heappush(heap, (node.next.val, i, node.next))
+                heappush(heap, (node.next.val, node.next))
+
         return dummy.next
-        
+
 
 
 # brute force
