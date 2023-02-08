@@ -1,4 +1,5 @@
-
+Moore Voting Algorithm:
+    遍历数组，每次遇到一个新元素， 如果count = 0, 刷新candidate, 否则若num == cand, count += 1, else: count -=1
 # time O(n)
 
 class Solution(object):
