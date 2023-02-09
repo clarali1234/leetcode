@@ -1,3 +1,30 @@
+class Solution(object):
+    def insert(self, intervals, newInterval):
+        if not intervals:
+            return [newInterval]
+
+        left, right = [], []
+        for s, e in intervals:
+
+            # [s, e] is in the left side of the newInternal
+            if e < newInterval[0]:
+                left.append([s, e])
+
+            # [s, e] is in the right side of the newInternal
+            elif s > newInterval[1]:
+                right.append([s, e])
+            
+            # merge newInterval with [s, e]
+            else:
+                newInterval[0] = min(newInterval[0], s)
+                newInterval[1] = max(newInterval[1], e)
+
+        return left + [newInterval] + right
+
+
+
+
+
 # sol
 # 首先把interval插入到合适的位置，然后merge intervals (sort by start point)
 # step1 insert interval
