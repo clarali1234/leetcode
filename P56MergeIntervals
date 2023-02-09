@@ -4,6 +4,30 @@
   # merge
 # else:
   # insert a new interval
+ 
+ 
+ 
+class Solution(object):
+    def merge(self, intervals):
+       
+        if not intervals:
+            return []
+
+        intervals.sort(key = lambda x : x[0])
+        res = [intervals[0]]
+        for x, y in intervals[1: ]:
+            # merge
+            if x >= res[-1][0] and x <= res[-1][1]:
+                res[-1][1] = max(y, res[-1][1]) 
+
+            # [x, y] in internal right
+            elif x > res[-1][1]:
+                res.append([x, y])
+
+        return res
+
+            
+            
   
 # time o(nlgn)
 # space O(n)
