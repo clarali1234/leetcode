@@ -11,9 +11,27 @@ def isAnagram2(self, s, t):
     for item in t:
         dic2[ord(item)-ord('a')] += 1
     return dic1 == dic2
+
+
+# fixed size list count occurance of each char
+class Solution(object):
+    def isAnagram(self, s, t):
+        
+        counter = [0 for _ in range(26)]
+        for char in s:
+            counter[ord(char) - ord('a')] += 1
+
+        for char2 in t:
+            counter[ord(char2) - ord('a')] -= 1
+
+        for ele in counter:
+            if ele != 0:
+                return False
+        return True
+
     
 2. hash for follow up 
-# time O(n), space O(1)
+# time O(n), space O(n)
 class Solution(object):
     def isAnagram(self, s, t):
         """
