@@ -1,6 +1,29 @@
 class Solution(object):
     def longestPalindrome(self, s):
         
+        counter = collections.Counter(s)
+
+        res = 0
+        for char, c in counter.items():
+            if c % 2: # odd count
+                res += c - 1
+                counter[char] = 1
+            else:
+                res += c
+                del counter[char]
+            
+        if counter:
+            res += 1
+
+        return res
+                
+                
+
+
+
+class Solution(object):
+    def longestPalindrome(self, s):
+        
         res = 0
         dic = collections.defaultdict(int)
         
