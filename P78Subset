@@ -3,6 +3,25 @@ class Solution(object):
         if not nums:
             return []
 
+        res = []
+        self.dfs(nums, 0, [], res)
+        return res
+
+    def dfs(self, nums, i, path, res):
+        res.append(path[:])
+
+        for j in range(i, len(nums)):
+            path.append(nums[j])
+            self.dfs(nums, j + 1, path, res)
+            path.pop()
+
+
+
+class Solution(object):
+    def subsets(self, nums):
+        if not nums:
+            return []
+
         self.res = []
         visited = [False for _ in range(len(nums))]
 
