@@ -1,3 +1,28 @@
+class Solution(object):
+    def subsets(self, nums):
+        if not nums:
+            return []
+
+        self.res = []
+        visited = [False for _ in range(len(nums))]
+
+        self.dfs(nums, 0, [], visited)
+        return self.res
+
+    def dfs(self, nums, i, path, visited):
+        self.res.append(path)
+
+        if i >= len(nums):
+            return 
+
+        for j in range(i, len(nums)):
+            if visited[j] == False:
+                visited[j] = True
+                self.dfs(nums, j + 1, path + [nums[j]], visited)
+                visited[j] = False
+
+                
+
 # dfs + recursion
 # time  O(n * 2^n)
 # space O(n * 2 ^ n)
