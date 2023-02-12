@@ -1,3 +1,25 @@
+# backtrack
+
+class Solution(object):
+    def permute(self, nums):
+        self.res = []
+        visited = [False for _ in range(len(nums))]
+        self.dfs(nums, [], visited)
+        return self.res
+
+    def dfs(self, nums, path, visited):
+        if len(path) == len(nums):
+            self.res.append(path)
+            return
+
+        for i, num in enumerate(nums):
+            if not visited[i]:
+                visited[i] = True
+                self.dfs(nums, path + [num], visited)
+                visited[i] = False
+            
+
+
 # time O(n!)
 # space O(n!)
 
@@ -21,4 +43,7 @@ class Solution(object):
             return 
         for i in range(len(nums)):
             self.dfs(nums[:i] + nums[i + 1:], res, path + [nums[i]])
+           
+         
+
         
