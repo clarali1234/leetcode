@@ -1,3 +1,22 @@
+class Solution(object):
+    def generateParenthesis(self, n):
+        self.res = []
+        self.dfs('', 0, 0, n)
+        return self.res
+
+
+    def dfs(self, path, l_c, r_c, n):
+        if l_c == r_c == n:
+            self.res.append(path)
+            return
+
+        if l_c < n:
+            self.dfs(path + '(', l_c + 1, r_c, n)
+        if l_c > r_c:
+            self.dfs(path + ')', l_c, r_c + 1, n)
+        
+
+
 # time O(2^2n)
 # space O(2^2n)
 
