@@ -1,6 +1,24 @@
 # bianry search
-# time O(n)
+# time O(lgn)
 # space O(1)
+
+class Solution(object):
+    def peakIndexInMountainArray(self, arr):
+       
+        if not arr:
+            return -1
+
+        l, r = 0, len(arr) - 1
+
+        while l < r:
+            m = (l + r) // 2
+            if arr[m] < arr[m + 1]: # middle in left half
+                l = m + 1
+            else:
+                r = m
+
+        return l
+        
 
 class Solution(object):
     def peakIndexInMountainArray(self, A):
