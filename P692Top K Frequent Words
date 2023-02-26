@@ -39,29 +39,31 @@ Follow-up
 # 动态添加 min heap with size K
 # sort by （count, -char)
 
-from heapq import *
-
 class Pair(object):
-    def __init__(self, word, count):
-        self.word = word
-        self.count = count
+    def __init__(self, w, c):
+        self.word = w
+        self.count = c
 
-    def __lt__(self, word2):
-        if self.count == word2.count:
-            return self.word > word2.word
-        return self.count < word2.count
+    def __lt__(self, w2):
+        if self.count == w2.count:
+            return self.word > w2.word
+        return self.count < w2.count
+
 
 class Solution(object):
     def topKFrequent(self, words, k):
-        counter = collections.Counter(words)
+        # min heap size k, (fre, -word)
         heap = []
-        # min heap with size k, weight (count, word)
-        for w, c in counter.items():
+        dic = collections.Counter(words)
+        for word, c in dic.items():
             if len(heap) == k:
-                heappushpop(heap, Pair(w, c))
+                heappushpop(heap, Pair(word, c))
             else:
-                heappush(heap, Pair(w, c))
+                heappush(heap, Pair(word, c))
 
-        return [x.word for x in sorted(heap, reverse = True)]
-
+        res = []
+        for _ in range(k):
+            res.append(heappop(heap).word)
+        return res[::-1]
+        
                              
