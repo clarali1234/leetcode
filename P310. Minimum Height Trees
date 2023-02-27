@@ -36,6 +36,47 @@ class Solution(object):
                         queue.append(nb)
            
         return list(queue)
+        
+        
+        
+class Solution(object):
+    def findMinHeightTrees(self, n, edges):
+        if n == 1:
+            return [0]
+            
+        # build graph
+        graph = collections.defaultdict(set)
+        # cal indegrees
+        indegrees = {i : 0 for i in range(n)}
+        for i, j in edges:
+            indegrees[i] += 1
+            indegrees[j] += 1
+            graph[i].add(j)
+            graph[j].add(i)
+
+        # start for leaves
+        visited = set()
+        q = collections.deque()
+        for edge, indeg in indegrees.items():
+            if indeg == 1:
+                q.append(edge)
+                visited.add(edge)
+
+        # topo sort
+        count = n
+        while count > 2:
+            # level order traverse
+            for _ in range(len(q)):
+                node = q.popleft()
+                count -= 1
+                for nb in graph[node]:
+                    indegrees[nb] -= 1
+                    if indegrees[nb] == 1 and nb not in visited:
+                        q.append(nb)
+                        visited.add(nb)
+                
+        return q
+
                 
                 
             
