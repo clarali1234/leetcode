@@ -1,3 +1,37 @@
+class Solution(object):
+    def accountsMerge(self, accounts):
+        # build graph
+        self.graph = collections.defaultdict(set)
+        for acc in accounts:
+            primary = acc[1]
+            for email in acc[1:]:
+                self.graph[primary].add(email)
+                self.graph[email].add(primary)
+
+        # dfs traverse
+        res = []
+        self.visited = set()
+        for acc in accounts:
+            self.cur_res = []
+            name = acc[0]
+            primary = acc[1]
+            if primary not in self.visited:
+                self.dfs(primary)
+                res.append([name] + sorted(self.cur_res))
+        return res
+
+    def dfs(self, node):
+        self.visited.add(node)
+        self.cur_res.append(node)
+
+        for nb in self.graph[node]:
+            if nb not in self.visited:
+                self.dfs(nb)
+
+
+
+
+
 # bfs/dfs
 
 # step: build graph, for each account, draw edge between first email to each of the other emails(include first email)
@@ -149,5 +183,7 @@ class Solution:
             self.father[u] = user_id
             
         return user_id
+        
+    
 
 
