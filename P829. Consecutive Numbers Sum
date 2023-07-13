@@ -1,8 +1,49 @@
-class Solution:
-    def consecutiveNumbersSum(self, N: int) -> int:
-        count = 0
-        upper_limit = ceil((2 * N + 0.25)**0.5 - 0.5) + 1
-        for k in range(1, upper_limit):
-            if (N - k * (k + 1) // 2) % k == 0:
-                count += 1
-        return count
+常规解法：
+1. brute force:
+try out every possible situation for consecutive sum start from (1, ...n)
+
+hashmap key: sum, val: count -> return count for n -> 
+time O(n^3), space O(n^2)
+
+2. DP + hashtable
+
+DP[i][j] -> consecutive sum from i to j 
+transmition formula:  dp[i][j] = dp[0][j] - dp[0][i - 1]
+
+class Solution(object):
+    def consecutiveNumbersSum(self, n):
+
+        dp = [[0 for _ in range(n)] for _ in range(n)] # n * n -> sum 
+        s = collections.defaultdict(int) # key: sum, val: times
+
+        dp[0][0] = 1
+
+        for j in range(1, n):
+            dp[0][j] = dp[0][j - 1] + j + 1
+            s[dp[0][j]] += 1
+
+        for i in range(1, n):
+            for j in range(i + 1, n):
+                dp[i][j] = dp[0][j] - dp[0][i - 1]
+                s[dp[i][j]] += 1
+
+        return s[n] + 1
+
+time O(n^2), space O(n^2)
+
+
+3. 最优解法 数学
+固定m（起始数字)，寻找k(count)
+
+数学公式，sum = (a1 + an) * k / 2, -> a, a + 1, ... a + k - 1
+n = (2a + k - 1) * k // 2 > 0 
+a = (n - (k - 1) * k/2)/k
+
+class Solution(object):
+    def consecutiveNumbersSum(self, n):
+
+        cnt = 0
+        for k in range(1, int(ceil((2 * n)**(0.5)))):
+            if (n - (k - 1) * k // 2) % k == 0:
+                cnt += 1
+        return cnt
