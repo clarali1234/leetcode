@@ -1,34 +1,29 @@
 # BFS
 # same as CourseSchedule
 
-graph = {i : set() for i in range(numCourses)}
-        degrees = {i : 0 for i in range(numCourses)}
-        
-        # j -> i
-        for i, j in prerequisites:
-            if i not in graph[j]:
-                graph[j].add(i)
-                degrees[i] += 1
+class Solution(object):
+    def findOrder(self, numCourses, prerequisites):
+        graph = {course : [] for course in range(numCourses)}
+        indegrees = [0 for _ in range(numCourses)]
 
-        
-        # topo sort
-        q = collections.deque([])
-        for course, indeg in degrees.items():
-            if indeg == 0:
-                q.append(course)
+        for i, j in prerequisites: # j -> i
+            indegrees[i] += 1
+            graph[j].append(i)
+
+        q = deque()
+        for i in range(numCourses):
+            if indegrees[i] == 0:
+                q.append(i)
+
         res = []
-        
-        print(graph)
-        print(degrees)
         while q:
-            cur_node = q.popleft()
-            res.append(cur_node)
-            for nb in graph[cur_node]:
-                degrees[nb] -= 1
-                if degrees[nb] == 0:
+            node = q.popleft()
+            res.append(node)
+            for nb in graph[node]:
+                indegrees[nb] -= 1
+                if indegrees[nb] == 0:
                     q.append(nb)
-                    
-        print(res)
+            
         if len(res) == numCourses:
             return res
         return []
