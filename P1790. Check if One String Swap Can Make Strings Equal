@@ -1,0 +1,21 @@
+time o(n)
+space O(1)
+
+class Solution(object):
+    def areAlmostEqual(self, s1, s2):
+        """
+        :type s1: str
+        :type s2: str
+        :rtype: bool
+        """
+        diff_count = 0
+        char1 = char2 = None
+
+        for char_s1, char_s2 in zip(s1, s2):
+            if char_s1 != char_s2:
+                diff_count += 1
+                if diff_count > 2 or (diff_count == 2 and (char_s1 != char2 or char_s2 != char1)):
+                    return False
+                char1 = char_s1
+                char2 = char_s2
+        return diff_count != 1
