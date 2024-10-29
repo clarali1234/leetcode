@@ -1,21 +1,26 @@
 class Solution(object):
     def validWordAbbreviation(self, word, abbr):
-        """
-        :type word: str
-        :type abbr: str
-        :rtype: bool
-        """
-        size = len(word)
-        cnt = loc = 0
-        for w in abbr:
-            if w.isdigit():
-                if w == '0' and cnt == 0:
-                    return False
-                cnt = cnt * 10 + int(w)
+        count = 0
+        i = 0
+        
+        while i < len(abbr):
+            # Check for invalid cases: leading zeros or count overflow
+            if abbr[i] == '0' or count >= len(word):
+                return False
+            
+            # Handle numbers
+            number = ''
+            while i < len(abbr) and abbr[i].isdigit():
+                number += abbr[i]
+                i += 1
+            
+            # Update count based on number or letter
+            if number:
+                count += int(number)
             else:
-                loc += cnt
-                cnt = 0
-                if loc >= size or word[loc] != w:
+                if abbr[i] != word[count]:
                     return False
-                loc += 1
-        return loc + cnt == size
+                count += 1
+                i += 1
+        
+        return count == len(word)
