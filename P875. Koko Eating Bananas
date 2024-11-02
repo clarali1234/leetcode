@@ -10,7 +10,7 @@ class Solution(object):
     def minEatingSpeed(self, piles, H):
        
         l = 1
-        r = sum(piles)
+        r = max(piles)
         
         while l + 1 < r:
             m = (l + r) // 2
