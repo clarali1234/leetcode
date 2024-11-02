@@ -1,0 +1,23 @@
+class Solution(object):
+    def buddyStrings(self, s, goal):
+        if len(s) != len(goal):
+            return False
+
+        diff = 0
+        idxs = []
+        for i, a in enumerate(s):
+            if goal[i] != a:
+                diff += 1
+                idxs.append(i)
+
+        counter = dict()
+        if diff == 0:
+            for a in s:
+                if a in counter and counter[a]:
+                    return True
+                else:
+                    counter[a] = True
+                    
+        if diff != 2:
+            return False
+        return s[idxs[0]] == goal[idxs[1]] and s[idxs[1]] == goal[idxs[0]]
