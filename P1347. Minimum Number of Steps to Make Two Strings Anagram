@@ -15,4 +15,21 @@ class Solution:
             else:
                 res += 1
         return res
+
+
+class Solution(object):
+    def minSteps(self, s, t):
+        
+        c_s = collections.Counter(s)
+        c_t = collections.Counter(t)
+
+        count = 0
+        for k,v in c_s.items():
+            if k not in c_t:
+                count += v
+            else:
+                if v > c_t[k]:
+                    count += v - c_t[k]
+        
+        return count
                 
