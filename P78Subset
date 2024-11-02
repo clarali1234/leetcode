@@ -1,3 +1,6 @@
+# time :O(n * 2^n), generate all the subsets and copy them to  the list
+# space: O(n), recursion depth
+
 class Solution(object):
     def subsets(self, nums):
         if not nums:
