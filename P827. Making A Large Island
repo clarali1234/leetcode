@@ -1,0 +1,31 @@
+从每个0开始处理，先把0替换成1，然后再用 DFS 来找所有相连的1的个数，具体如何找就跟之前的岛屿的题目没啥区别了
+
+class Solution(object):
+    def largestIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        res = 0
+        has_zero = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    has_zero += 1
+                    self.cur_res = 1
+                    self.visited = set()
+                    self.visited.add((i, j))
+                    self.dfs(grid, i, j)
+                    res = max(self.cur_res, res)
+        if not has_zero:
+            return len(grid) * len(grid[0])
+        return res
+
+    def dfs(self, grid, x, y):
+        for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1 and (new_x, new_y) not in self.visited:
+                self.cur_res += 1
+                self.visited.add((new_x, new_y))
+                self.dfs(grid, new_x, new_y)
