@@ -1,5 +1,5 @@
 # combination dfs recursion'
-# time complexity:
+# time complexity: O(n^(T/m)+1)
 # < len(nums) ** max_count 
 
 - Combination Sum 限制了组合中的数之和
