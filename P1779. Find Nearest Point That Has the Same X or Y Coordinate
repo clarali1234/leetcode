@@ -1,0 +1,33 @@
+class Solution(object):
+    def nearestValidPoint(self, x, y, points):
+        
+        min_d = sys.maxsize
+        res = -1
+        for i in range(len(points)):
+            if points[i][0] == x or points[i][1] == y:
+                dist = abs(points[i][0] - x) + abs(points[i][1] - y)
+                if min_d > dist:
+                    res = i
+                    min_d = dist
+
+        return res
+
+
+
+
+class Solution(object):
+    def nearestValidPoint(self, x, y, points):
+        """
+        :type x: int
+        :type y: int
+        :type points: List[List[int]]
+        :rtype: int
+        """
+        heap = []
+        for i in range(len(points)):
+            if points[i][0] == x or points[i][1] == y:
+                dist = abs(points[i][0] - x) + abs(points[i][1] - y)
+                heappush(heap, (dist, i))
+        if heap:
+            return heap[0][1]
+        return -1
