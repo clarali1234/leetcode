@@ -7,29 +7,23 @@ class Solution(object):
         
         if not root:
             return None
-        
-   
-        head, tail = self.dfs(root)
-        return head
-    
-    
+
+        h, t = self.dfs(root)
+        return h
+
     def dfs(self, node):
-        
-        head = node
-        tail = node
-        
+        h, t = node, node
         if node.left:
-            l_h, l_t = self.dfs(node.left)
-            head = l_h
-            l_t.right = node
+            h, l_t = self.dfs(node.left)
             node.left = l_t
-            
+            l_t.right = node
+
         if node.right:
-            r_h, r_t = self.dfs(node.right)
-            tail = r_t
-            r_h.left = node
+            r_h, t = self.dfs(node.right)
             node.right = r_h
-            
-        head.left = tail
-        tail.right = head
-        return head, tail
+            r_h.left = node
+
+        h.left = t
+        t.right = h
+        return h, t
+
