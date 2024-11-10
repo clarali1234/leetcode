@@ -1,0 +1,10 @@
+class Solution(object):
+    def findBuildings(self, heights):
+       
+        res = []
+        right_highest = -sys.maxsize
+        for j in range(len(heights) - 1, -1, -1):
+            if heights[j] > right_highest:
+                res.append(j)
+                right_highest = heights[j]
+        return res[::-1]
