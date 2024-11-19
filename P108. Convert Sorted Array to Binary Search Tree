@@ -1,6 +1,6 @@
 # divide and conquer
 # time O(n)
-# space O(n)
+# space O(lgn)
 
 class Solution(object):
     def sortedArrayToBST(self, nums):
