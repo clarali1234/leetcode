@@ -7,24 +7,26 @@
 
 class Solution(object):
     def minDepth(self, root):
-        """
-        :type root: TreeNode
-        :rtype: int
-        """
+        
         if not root:
             return 0
-        
-        self.res = sys.maxsize
-        self.dfs(root, 1)
-        return self.res
-    
-    def dfs(self, node, cur_depth):
+
+        return self.dfs(root)
+
+    def dfs(self, node):
+        if not node:
+            return 0
+
         if not node.left and not node.right:
-            self.res = min(self.res, cur_depth)
-            return 
+            return 1
+
+        l = self.dfs(node.left)
+        r = self.dfs(node.right)
         
-        if node.left:
-            self.dfs(node.left, cur_depth + 1)
-        if node.right:
-            self.dfs(node.right, cur_depth + 1)
+        if node.left is None:
+            return 1 + r
+        if node.right is None:
+            return 1 + l
+
+        return min(l, r) + 1
         
