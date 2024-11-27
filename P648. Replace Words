@@ -1,0 +1,46 @@
+time O(d * w+ s* w)
+space O(d*w + s*w)
+
+
+class TrieNode(object):
+    def __init__(self):
+        self.children = {}
+        self.isEnd = False
+
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        cur = self.root
+        for char in word:
+            if char not in cur.children:
+                cur.children[char] = TrieNode()
+            cur = cur.children[char]
+        cur.isEnd = True
+
+    def search(self, word):
+        prefix = ''
+        cur = self.root
+        for char in word:
+            if char not in cur.children:
+                return word
+            prefix += char
+            if cur.children[char].isEnd:
+                return prefix
+            cur = cur.children[char]
+        return word
+
+
+class Solution(object):
+    def replaceWords(self, dictionary, sentence):
+        trie = Trie()
+        for word in dictionary:
+            trie.insert(word)
+
+        res = []
+        for word in sentence.split(' '):
+            res.append(trie.search(word))
+
+        return ' '.join(res)        
