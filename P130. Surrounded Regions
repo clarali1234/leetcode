@@ -10,45 +10,39 @@ class Solution(object):
         :type board: List[List[str]]
         :rtype: None Do not return anything, modify board in-place instead.
         """
-        if not board:
-            return board
-        
-        m = len(board)
-        n = len(board[0])
-        queue = collections.deque([])
-        
-        visited = set()
-        for i in range(m):
+        q = collections.deque([])
+
+        for i in range(len(board)):
             if board[i][0] == 'O':
-                queue.append([i, 0])
-                visited.add((i, 0))
-            if board[i][n - 1] == 'O':
-                queue.append([i, n - 1])
-                visited.add((i, n - 1))
-                
-        for j in range(n):
+                q.append((i, 0))
+                board[i][0] = 'E'
+            if board[i][len(board[0])-1] == 'O':
+                q.append((i, len(board[0])- 1))
+                board[i][len(board[0]) - 1] = 'E'
+
+        for j in range(len(board[0])):
             if board[0][j] == 'O':
-                queue.append([0, j])
-                visited.add((0, j))
-            if board[m - 1][j] == 'O':
-                queue.append([m - 1, j])
-                visited.add((m - 1, j))
-                
-        # bfs
-        while queue:
-            x, y = queue.popleft()
-            board[x][y] = 'D'
+                q.append((0, j))
+                board[0][j] = 'E'
+            if board[len(board) - 1][j] == 'O':
+                q.append((len(board) - 1, j))
+                board[len(board) - 1][j] = 'E'
+            
+        while q:
+            x, y = q.popleft()
             for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
                 new_x = x + dx
                 new_y = y + dy
-                if 0 <= new_x < m and 0 <= new_y < n and (new_x, new_y) not in visited and board[new_x][new_y] == 'O':
-                    queue.append([new_x, new_y])
-                    visited.add((new_x, new_y))
-                    
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] == 'O':
-                    board[i][j] = 'X'
-                elif board[i][j] == 'D':
-                    board[i][j] = 'O'
+                if 0 <= new_x < len(board) and 0 <= new_y < len(board[0]) and board[new_x][new_y] == 'O':
+                    q.append((new_x, new_y))
+                    board[new_x][new_y] = 'E'
+
+        for x in range(len(board)):
+            for y in range(len(board[0])):
+                if board[x][y] == 'O':
+                    board[x][y] = 'X'
+                if board[x][y] == 'E':
+                    board[x][y] = 'O'
+        
         return board
+        
