@@ -1,0 +1,44 @@
+class TrieNode(object):
+    def __init__(self):
+        self.children = {}
+
+class Trie(object):
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, num):
+        node = self.root
+        num_str = str(num)
+        for digit in num_str:
+            idx = int(digit)
+            if idx not in node.children:
+                node.children[idx] = TrieNode()
+            node = node.children[idx]
+
+    def find_longest_prefix(self, num):
+        node = self.root
+        num_str = str(num)
+        res = 0
+
+        for digit in num_str:
+            idx = int(digit)
+            if idx in node.children:
+                res += 1
+                node = node.children[idx]
+            else:
+                break
+        return res
+
+class Solution(object):
+    def longestCommonPrefix(self, arr1, arr2):
+        
+        trie = Trie()
+        for num in arr1:
+            trie.insert(num)
+        
+        res = 0
+        for num in arr2:
+            cur_res = trie.find_longest_prefix(num)
+            res = max(res, cur_res)
+        return res
+        
