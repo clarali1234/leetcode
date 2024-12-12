@@ -1,0 +1,17 @@
+
+
+class Solution(object):
+    def canConstruct(self, ransomNote, magazine):
+        if len(ransomNote) > len(magazine):
+            return False
+
+        letters = collections.Counter(magazine)
+
+        for char in ransomNote:
+            if char not in letters:
+                return False
+
+            letters[char] -= 1
+            if letters[char] == 0:
+                del letters[char]
+        return True
