@@ -1,0 +1,16 @@
+
+
+
+class Solution(object):
+    def maxChunksToSorted(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        max_ele = 0
+        res = 0
+        for i in range(len(arr)):
+            max_ele = max(max_ele, arr[i])
+            if max_ele == i:
+                res += 1
+        return res
