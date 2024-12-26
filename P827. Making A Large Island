@@ -1,3 +1,38 @@
+class Solution(object):
+    def largestIsland(self, grid):
+        n = len(grid)
+        
+        # DFS 每个岛，统计各个岛的面积，记录到 area 列表中
+        self.area = []
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    self.area.append(self.dfs(grid, i, j))
+
+        ans = 0
+        for i, row in enumerate(grid):
+            for j, x in enumerate(row):
+                if x: continue
+                s = set()
+                for x, y in (i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1):
+                    if 0 <= x < n and 0 <= y < n and grid[x][y]:
+                        s.add(grid[x][y])  # 记录上下左右格子所属岛屿编号
+                ans = max(ans, sum(self.area[idx - 2] for idx in s) + 1)  # 累加面积
+                
+        # 如果最后 ans 仍然为 0，说明所有格子都是 1，返回 n^2
+        return ans if ans else n * n
+
+    def dfs(self, grid, i, j):
+        n = len(grid)
+        size = 1
+        grid[i][j] = len(self.area) + 2  # 记录 (i,j) 属于哪个岛
+        for x, y in (i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1):
+            if 0 <= x < n and 0 <= y < n and grid[x][y] == 1:
+                size += self.dfs(grid, x, y)
+        return size
+
+
+
 从每个0开始处理，先把0替换成1，然后再用 DFS 来找所有相连的1的个数，具体如何找就跟之前的岛屿的题目没啥区别了
 
 class Solution(object):
