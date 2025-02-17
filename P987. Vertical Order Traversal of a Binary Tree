@@ -23,3 +23,24 @@ class Solution(object):
             level = [x[1] for x in sorted(dic[i], key = lambda x : (-x[0], x[1]))]
             res.append(level)
         return res
+
+class Solution(object):
+    def verticalTraversal(self, root):
+        dic = collections.defaultdict(list) # key:column, value: (row, value)
+        q = collections.deque([(root, 0, 0)])
+        while q:
+            node, row, col = q.popleft()
+            dic[col].append((row, node.val))
+
+            if node.left:
+                q.append((node.left, row + 1, col - 1))
+            if node.right:
+                q.append((node.right, row + 1, col + 1))
+
+        res = []
+        for col in range(min(dic.keys()), max(dic.keys()) + 1):
+            vals = dic[col]
+            vals.sort(key = lambda x:(x[0], x[1])) 
+            vals = [val for _, val in vals] 
+            res.append(vals)
+        return res
