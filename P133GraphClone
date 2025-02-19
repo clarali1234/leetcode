@@ -4,16 +4,19 @@ class Solution(object):
             return None
 
         self.visited = {}
-        new_head = Node(node.val)
-        self.visited[node] = new_head
         self.dfs(node)
-        return new_head
+        return self.visited[node]
 
     def dfs(self, node):
+        if not node:
+            return 
+
+        if node not in self.visited:
+            self.visited[node] = Node(node.val)
+
         for nb in node.neighbors:
             if nb not in self.visited:
-                new_nb = Node(nb.val)
-                self.visited[nb] = new_nb
+                self.visited[nb] = Node(nb.val)
                 self.dfs(nb)
             self.visited[node].neighbors.append(self.visited[nb])
             
