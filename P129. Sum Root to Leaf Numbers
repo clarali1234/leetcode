@@ -1,4 +1,4 @@
-# sol1:
+# sol1:preorder traversal
  time O(n), space O(h)
  
  class Solution(object):
