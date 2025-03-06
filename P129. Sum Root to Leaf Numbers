@@ -1,22 +1,24 @@
 # sol1:
  time O(n), space O(h)
  
- class Solution:
-    def sumNumbers(self, root: TreeNode) -> int:
-        if not root:
-            return 0
+ class Solution(object):
+    def sumNumbers(self, root):
+        
         self.res = 0
         self.dfs(root, 0)
         return self.res
-        
-    def dfs(self, root, value):
-        if not root.left and not root.right:
-            self.res += (value * 10 + root.val)
+
+    def dfs(self, node, num):
+        if not node:
             return 
-        if root.left:
-            self.dfs(root.left, value * 10 + root.val)
-        if root.right:
-            self.dfs(root.right, value * 10 + root.val)
+
+        num = num * 10 + node.val
+        if not node.left and not node.right:
+            self.res += num
+            return 
+
+        self.dfs(node.left, num)
+        self.dfs(node.right, num)
             
  # bfs time O(n), space O(n)
  class Solution:
