@@ -1,0 +1,41 @@
+two bfs
+# fist bfs, calculate level sum;  second bfs, calculate slibings sum and subtracted from level sum 
+# time O(n), space O(n)
+
+class Solution(object):
+    def replaceValueInTree(self, root):
+        # fist bfs, calculate level sum
+        level_sum = []
+        q = collections.deque([root])
+        while q:
+            cur_sum = 0
+            for _ in range(len(q)):
+                node = q.popleft()
+                cur_sum += node.val
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            level_sum.append(cur_sum)
+
+        # second bfs, calculate slibings sum and subtracted from level sum 
+        root.val = 0
+        index = 1
+        q = collections.deque([root])
+        while q:
+            for _ in range(len(q)):
+                node = q.popleft()
+                sblings_sum = 0
+                if node.left:
+                    sblings_sum += node.left.val
+                if node.right:
+                    sblings_sum += node.right.val 
+
+                if node.left:
+                    node.left.val = level_sum[index] - sblings_sum
+                    q.append(node.left)
+                if node.right:
+                    node.right.val = level_sum[index] - sblings_sum
+                    q.append(node.right)
+            index += 1
+        return root
