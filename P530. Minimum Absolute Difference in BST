@@ -1,0 +1,19 @@
+# 1. inorder traversal of bst is sorted list
+# 2. cal difference in the inorder traversal (no need additional list)
+
+class Solution(object):
+    def getMinimumDifference(self, root):
+        self.min_d = sys.maxsize
+        self.prev = None
+        self.dfs(root)
+        return self.min_d
+
+    def dfs(self, node):
+        if not node:
+            return 
+
+        self.dfs(node.left)
+        if self.prev:
+            self.min_d = min(self.min_d, abs(self.prev.val - node.val))
+        self.prev = node
+        self.dfs(node.right)
