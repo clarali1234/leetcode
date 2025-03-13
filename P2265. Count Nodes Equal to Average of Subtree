@@ -1,0 +1,30 @@
+# post order traversal
+# time O(n)
+# space O(h)
+
+class Solution(object):
+    def averageOfSubtree(self, root):
+        
+        if not root:
+            return 0
+
+        self.average_count = 0
+        self.dfs(root)
+        return self.average_count
+
+    def dfs(self, node):
+        if not node:
+            return (0, 0) # sum, count 
+        
+        if not node.left and not node.right:
+            self.average_count += 1
+            return (node.val, 1)
+
+        left_sum, left_count = self.dfs(node.left)
+        right_sum, right_count = self.dfs(node.right)
+
+        cur_avg = (left_sum + right_sum + node.val) // (left_count + right_count + 1)
+        if cur_avg == node.val:
+            self.average_count += 1
+        return (left_sum + right_sum + node.val, left_count + right_count + 1)
+
