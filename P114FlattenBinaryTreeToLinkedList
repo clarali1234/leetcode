@@ -4,29 +4,22 @@
 
 class Solution(object):
     def flatten(self, root):
-        
-        if not root:
-            return None
-        
         self.dfs(root)
-        return root
     
     def dfs(self, node):
         if not node:
             return None
-        
+
         l_t = self.dfs(node.left)
         r_t = self.dfs(node.right)
-        
+
         if node.left:
             l_t.right = node.right
             node.right = node.left
             node.left = None
-            
-            
-        # 易错点：if r_t not if node.right
+
         if r_t:
-            return r_t
+            return r_t 
         if l_t:
             return l_t
         return node
