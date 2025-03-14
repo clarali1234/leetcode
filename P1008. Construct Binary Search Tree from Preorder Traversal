@@ -1,3 +1,22 @@
+class Solution(object):
+    def bstFromPreorder(self, preorder):
+        """
+        :type preorder: List[int]
+        :rtype: Optional[TreeNode]
+        """
+        def construct(bound=sys.maxsize):
+            if not preorder or preorder[0] > bound:
+                return None
+            root = TreeNode(preorder.pop(0))
+            root.left = construct(root.val)
+            root.right = construct(bound)
+            return root
+        
+        return construct()
+
+
+
+
 # binary search to find the root
 # then recursion
 # time O(n^2), since for each recursion, O(lgn) bisect, O(n) to slice the list, the worst case for slice is O(n)
