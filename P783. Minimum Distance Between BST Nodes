@@ -1,0 +1,18 @@
+class Solution(object):
+    def minDiffInBST(self, root):
+        self.min_diff = sys.maxsize
+        self.prev = None
+        self.dfs(root)
+        return self.min_diff
+
+    def dfs(self, node):
+        if not node:
+            return 
+
+        self.dfs(node.left)
+
+        if self.prev:
+            self.min_diff = min(self.min_diff, abs(node.val - self.prev.val))
+        self.prev = node
+
+        self.dfs(node.right) 
