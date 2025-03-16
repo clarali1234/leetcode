@@ -20,6 +20,8 @@ class Solution(object):
 # prefix_sum + hash
 # time O(n), space O(n)
 # hash , key: prefix sum, value :count, prefix_sum = current_sum - k
+# whenever sums has increased by a value of k, we've found a subarray of sums=k.
+(https://leetcode.com/problems/subarray-sum-equals-k/solutions/341399/python-clear-explanation-with-code-and-example/?envType=company&envId=facebook&favoriteSlug=facebook-three-months)
 class Solution(object):
     def subarraySum(self, nums, k):
         
