@@ -11,6 +11,42 @@
 # rand int from 0 | 1 2 3 if 0
 # first index in prefix sum > randint
 
+
+class Solution(object):
+
+    def __init__(self, w):
+        """
+        :type w: List[int]
+        """
+        self.prefix_s = []
+        total = 0
+        for num in w:
+            total += num
+            self.prefix_s.append(total)
+        self.total = total
+
+    def pickIndex(self):
+        """
+        :rtype: int
+        """
+        randint = random.randint(0, self.total - 1)
+        # fist index > randint in prefix sum
+        l = 0
+        r = len(self.prefix_s) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if self.prefix_s[m] > randint:
+                r = m 
+            else:
+                l = m + 1
+
+        if self.prefix_s[l] > randint:
+            return l
+        return r
+
+
+
+
 import random
 class Solution:
 
