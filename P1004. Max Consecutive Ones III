@@ -7,21 +7,20 @@ two pointers , sliding window,
 # sliding window实现方法, for 循环的pointer 一定不是contract的那个
 
 class Solution(object):
-    def longestOnes(self, A, K):
-     
+    def longestOnes(self, nums, k):
         res = 0
-        i = 0
-        
-        for j in range(len(A)):
-            if A[j] == 0:
-                if K > 0:
-                    K -= 1
-                else:
-                    while A[i] != 0:
-                        i += 1     
-                    # remove first 0 from i (A[i] == 0)
-                    i += 1
-            res = max(res, j - i + 1)
+        num_zeros = 0
+        l = 0
+        for r in range(len(nums)):
+            if nums[r] == 0:
+                num_zeros += 1
+
+            while num_zeros > k:
+                if nums[l] == 0:
+                    num_zeros -= 1
+                l += 1
+            
+            res = max(r - l + 1, res)
         return res
                     
                     
