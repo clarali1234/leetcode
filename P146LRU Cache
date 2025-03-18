@@ -7,62 +7,62 @@
 # add and remove 都是针对linked list的操作
 # 操作时先操作linked list node,在操作dict
 
-class ListNode(object):
-    def __init__(self, key, val):
-        self.key = key
-        self.val = val
-        self.prev = None
-        self.next = None
-        
 class LRUCache(object):
 
     def __init__(self, capacity):
-        self.capa = capacity
+        """
+        :type capacity: int
+        """
         self.dic = {}
-        self.dummy_head = ListNode(0, 0)
+        self.capacity = capacity
         self.dummy_tail = ListNode(0, 0)
+        self.dummy_head = ListNode(0, 0)
+        self.dummy_tail.prev = self.dummy_head
         self.dummy_head.next = self.dummy_tail
-        self.dummy_tail.prev = self.dummy_head 
         
 
     def get(self, key):
-        
+        """
+        :type key: int
+        :rtype: int
+        """
         if key not in self.dic:
             return -1
+
         node = self.dic[key]
-        self.delete(node)
-        self.insert(node)
+        self.remove(node)
+        self.add(node)
         return node.val
         
 
     def put(self, key, value):
         if key in self.dic:
-            self.delete(self.dic[key])
-            del self.dic[key]
-            
-        if len(self.dic) == self.capa:
-            head = self.dummy_head.next
-            self.delete(head)
-            del self.dic[head.key]
-        
-        new_node = ListNode(key, value)
-        self.insert(new_node)
-        self.dic[key] = new_node
-        
-        
-    def delete(self, node):
+            node = self.dic[key]
+            self.remove(node)
+            self.add(node)
+            node.val = value
+        else:
+            if self.capacity == len(self.dic.keys()):
+                head = self.dummy_head.next
+                self.remove(head)
+                del self.dic[head.key]
+            node = ListNode(key,value)
+            self.add(node)
+            self.dic[key] = node
+
+    def remove(self, node):
         prev = node.prev
-        next = node.next
-        prev.next = next
-        next.prev = prev
-        
-    def insert(self, node): # insert from the tail
+        nxt = node.next
+        prev.next = nxt
+        nxt.prev = prev
+
+    def add(self, node):
+        # add from the tail
         tail = self.dummy_tail.prev
         tail.next = node
         node.prev = tail
         node.next = self.dummy_tail
         self.dummy_tail.prev = node
-        
 
 
 # Your LRUCache object will be instantiated and called as such:
