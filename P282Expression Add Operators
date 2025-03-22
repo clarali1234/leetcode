@@ -5,32 +5,32 @@ use dfs and backtracking here to explor all possible combinations.
 
 class Solution(object):
     def addOperators(self, num, target):
-        """
-        :type num: str
-        :type target: int
-        :rtype: List[str]
-        """
+        if not num:
+            return []
+        
         self.res = []
-        self.dfs(num, 0, '', 0, 0, target)
+        self.dfs(num, target, 0, 0, '', 0)
         return self.res
     
-    def dfs(self, num, index, temp, total, last, target):
+    def dfs(self, num, target, index, cur_sum, cur_path, last_ele):
         if index == len(num):
-            if total == target:
-                self.res.append(temp)
+            if target == cur_sum:
+                self.res.append(cur_path)
             return 
         
         for i in range(index, len(num)):
-            x = int(num[index:i + 1])
+            # take care of '00'
+            cur_num = num[index : i + 1]
             if index == 0:
-                self.dfs(num, i + 1, str(x), x, x, target)
+                self.dfs(num, target, i + 1, int(cur_num), cur_num, int(cur_num))
             else:
-                self.dfs(num, i + 1, temp + '+' + str(x), total + x, x, target)
-                self.dfs(num, i + 1, temp + '-' + str(x), total - x, -x, target)        
-                self.dfs(num, i + 1, temp + '*' + str(x), total - last + last * x ,last * x, target)
-            if x == 0:
-                break
+                self.dfs(num, target, i + 1, cur_sum + int(cur_num), cur_path + '+' + cur_num, int(cur_num))
+                self.dfs(num, target, i + 1, cur_sum - int(cur_num), cur_path + '-' + cur_num, -int(cur_num))
+                self.dfs(num, target, i + 1, cur_sum - last_ele + last_ele * int(cur_num), cur_path + '*' + cur_num, last_ele * int(cur_num))
                 
+            # 00
+            if cur_num == '0':
+                break
                 
                 
         
