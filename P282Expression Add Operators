@@ -1,6 +1,7 @@
 # dfs 
 # time O(4^n))
 # space O(n)
+use dfs and backtracking here to explor all possible combinations.
 
 class Solution(object):
     def addOperators(self, num, target):
