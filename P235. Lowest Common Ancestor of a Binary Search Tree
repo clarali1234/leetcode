@@ -5,23 +5,21 @@
 #         self.left = None
 #         self.right = None
 
-class Solution:
-    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+class Solution(object):
+    def lowestCommonAncestor(self, root, p, q):
         if not root:
             return None
-        max_val = max(p.val, q.val)
-        min_val = min(p.val, q.val)
-        if max_val > root.val and min_val < root.val:
+        
+        min_v = min(p.val, q.val)
+        max_v = max(p.val, q.val)
+
+        if min_v <= root.val <= max_v:
             return root
-        
-        if max_val == root.val or min_val == root.val:
-            return root
-        
-        if root.val > max_val:
-            return self.lowestCommonAncestor(root.left, p, q)
-        
-        if root.val < min_val:
+
+        if min_v > root.val:
             return self.lowestCommonAncestor(root.right, p, q)
+        if max_v < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
 
 
 
