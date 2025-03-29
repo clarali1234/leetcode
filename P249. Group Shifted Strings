@@ -8,16 +8,12 @@
 # space number of keys in dic
 class Solution(object):
     def groupStrings(self, strings):
-        """
-        :type strings: List[str]
-        :rtype: List[List[str]]
-        """
+        
         dic = collections.defaultdict(list)
         for s in strings:
             k = ''
-            for i in range(len(s) - 1):
-                k = k + str((ord(s[i + 1]) - ord(s[i])) % 26)
-                
+            for i in range(len(s)):
+                 # Calculate the number of shifts to make the first character to be 'a'
+                k = k + str((ord(s[i]) - ord(s[0])) % 26 + ord('a'))
             dic[k].append(s)
         return [dic[k] for k in dic.keys()]
-                
