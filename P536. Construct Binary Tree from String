@@ -1,0 +1,27 @@
+
+
+class Solution(object):
+    def str2tree(self, s):
+       
+        if not s:
+            return None
+        
+        # split s into three parts corresponding to root val, left- and right-subtree
+        left = right = len(s)
+        blns = 0
+        for i, char in enumerate(s):
+            if char == "(":
+                blns += 1
+            if char == ")":
+                blns -= 1
+            if char == "(" and blns == 1:
+                if left == len(s):
+                    left = i
+                else:
+                    right = i
+         # note indices left <--> "(", right <--> "("
+        root = TreeNode(int(s[:left]))
+        root.left = self.str2tree(s[left+1:right-1])
+        root.right = self.str2tree(s[right+1:-1])
+        return root        
+        
