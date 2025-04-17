@@ -2,20 +2,19 @@
 
 class Solution(object):
     def minTime(self, n, edges, hasApple):
-       
-        adj = { i:[] for i in range(n)}
-
+        graph = {i : [] for i in range(n)}
         for par, child in edges:
-            adj[par].append(child)
-            adj[child].append(par)
-        return self.dfs(adj, hasApple, 0, -1)
+            graph[par].append(child)
+            graph[child].append(par)
+        return self.dfs(graph, hasApple, 0, -1)
 
-    def dfs(self, adj, hasApple, cur, par):
+    def dfs(self, graph, hasApple, cur, par):
         time = 0
-        for child in adj[cur]:
+        for child in graph[cur]:
             if child == par:
                 continue
-            child_time = self.dfs(adj, hasApple,  child, cur)
-            if child_time or hasApple[child]:
+            child_time = self.dfs(graph, hasApple, child, cur)
+            if child_time or hasApple[child]: # if has apple or child has apple
                 time += 2 + child_time
         return time
+
