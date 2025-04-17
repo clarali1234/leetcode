@@ -2,14 +2,15 @@
 class Solution(object):
     def coinChange(self, coins, amount):
         
-        dp = [sys.maxsize] * (amount + 1)
+        dp = [sys.maxsize for _ in range(amount + 1)]
         dp[0] = 0
-
-        for coin in coins:
-            for i in range(coin, len(dp)):
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-        return dp[amount] if dp[amount] != sys.maxsize else -1
-
+        for i in range(1, len(dp)):
+            for coin in coins:
+                if i >= coin:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        if dp[-1] != sys.maxsize:
+            return dp[-1]
+        return -1
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
