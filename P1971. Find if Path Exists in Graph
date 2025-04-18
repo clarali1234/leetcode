@@ -1,0 +1,22 @@
+# bfs
+# time O(n^2)
+
+class Solution(object):
+    def validPath(self, n, edges, source, destination):
+        graph = collections.defaultdict(list)
+        for a, b in edges:
+            graph[a].append(b)
+            graph[b].append(a)
+        
+        q = collections.deque([source])
+        visited = set()
+        visited.add(source)
+        while q:
+            node = q.popleft()
+            if node == destination:
+                return True
+            for nb in graph[node]:
+                if nb not in visited:
+                    visited.add(nb)
+                    q.append(nb)
+        return False
