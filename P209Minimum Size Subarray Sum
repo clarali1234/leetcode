@@ -5,6 +5,25 @@
 # space O(1)
 
 class Solution(object):
+    def minSubArrayLen(self, target, nums):
+        l = 0
+        r = 0
+        sum_w = 0
+        res = sys.maxsize
+        for r in range(0, len(nums)):
+            sum_w += nums[r]
+
+            while sum_w >= target:
+                res = min(res, r - l + 1)
+                sum_w -= nums[l]
+                l += 1
+
+        if res != sys.maxsize:
+            return res
+        return 0
+
+
+class Solution(object):
     def minSubArrayLen(self, s, nums):
         
         res = sys.maxsize
