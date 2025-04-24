@@ -1,0 +1,33 @@
+时间复杂度：O(dn+m)，其中 m 是数组 supplies 的长度，d 是数组 recipe 中每一个元素（数组）的最大长度，并且我们把所有字符串的长度视为常数。图中会有 n+m 个节点，
+并且会有不超过 dn 条边，因此建立图以及拓扑排序的时间复杂度为 O(n+m+dn)=O(dn+m)。
+
+空间复杂度：O(dn+m)，即为存储图需要的空间。
+
+
+class Solution(object):
+    def findAllRecipes(self, recipes, ingredients, supplies):
+        n = len(recipes)
+        # 图
+        graph = defaultdict(list)
+        # 入度统计
+        indegrees = Counter()
+        for i in range(n):
+            for ingredient in ingredients[i]:
+                graph[ingredient].append(recipes[i])
+            indegrees[recipes[i]] = len(ingredients[i])
+        
+        res = list()
+        # 把初始的原材料放入队列
+        q = deque(supplies)
+        
+        # 拓扑排序
+        while q:
+            cur = q.popleft()
+            if cur in graph:
+                for recipe in graph[cur]:
+                    indegrees[recipe] -= 1
+                    # 如果入度变为 0，说明可以做出这道菜
+                    if indegrees[recipe] == 0:
+                        res.append(recipe)
+                        q.append(recipe)
+        return res
