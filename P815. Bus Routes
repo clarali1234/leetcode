@@ -1,13 +1,14 @@
 time: build graph O(m*n), bfs(m*n)
 space: O(m*n)
     
+# https://www.youtube.com/watch?v=odmGyOJM5EY
 
 class Solution(object):
     def numBusesToDestination(self, routes, source, target):
         graph = collections.defaultdict(set)
         for i, route in enumerate(routes):
             for stop in route:
-                graph[stop].add(i)
+                graph[stop].add(i) # grpah: stop -> bus route
 
         res = 0
 
@@ -21,7 +22,7 @@ class Solution(object):
                     return res 
 
                 for routeId in graph[stop]:
-                    if routeId not in visited_route:
+                    if routeId not in visited_route: # early termiation 
                         for new_s in routes[routeId]:
                             if new_s not in visited:
                                 visited.add((new_s))
