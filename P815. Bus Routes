@@ -1,0 +1,30 @@
+
+
+class Solution(object):
+    def numBusesToDestination(self, routes, source, target):
+        graph = collections.defaultdict(set)
+        for i, route in enumerate(routes):
+            for stop in route:
+                graph[stop].add(i)
+
+        res = 0
+
+        queue = collections.deque([source])
+        visited = set()
+        visited_route = set()
+        while queue:
+            for _ in range(len(queue)):
+                stop = queue.popleft()
+                if stop == target:
+                    return res 
+
+                for routeId in graph[stop]:
+                    if routeId not in visited_route:
+                        for new_s in routes[routeId]:
+                            if new_s not in visited:
+                                visited.add((new_s))
+                                queue.append(new_s)
+                        visited_route.add(routeId)
+
+            res += 1
+        return -1
