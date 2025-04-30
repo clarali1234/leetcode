@@ -1,22 +1,25 @@
 
 这个验证可以通过双指针完成。i 表示两个字符串数组从左开始，最多有 i 个字符串相同。j 表示剩下的字符串数组从右开始，最多有 j 个字符串相同。
-如果 i+j 正好是某个字符串数组的长度，那么原字符串就是相似的。
 
-作者：力扣官方题解
-链接：https://leetcode.cn/problems/sentence-similarity-iii/solutions/2062566/ju-zi-xiang-si-xing-iii-by-leetcode-solu-vjy7/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 class Solution(object):
     def areSentencesSimilar(self, sentence1, sentence2):
+
         s1 = sentence1.split(' ')
         s2 = sentence2.split(' ')
-        i = 0
-        j = 0
-        while i < len(s1) and i < len(s2) and s1[i] == s2[i]:
-            i += 1
+        if len(s2) < len(s1):
+            s1, s2 = s2, s1
 
-        while j < len(s1) - 1 and j < len(s2) - 1 and s1[-j-1] == s2[-j-1]:
-            j += 1
+        l1, l2 = 0, 0
+        r1, r2 = len(s1) - 1, len(s2) - 1
 
-        return i + j == min(len(s1), len(s2))
+        # s1 should be the prefix, surfix or both
+        while l1 < len(s1) and l2 < len(s2) and s1[l1] == s2[l2]:
+            l1 += 1
+            l2 += 1
+        
+        while r1 >= 0 and r2 >= 0 and s1[r1] == s2[r2]:
+            r1 -= 1
+            r2 -= 1
+        
+        return l1 > r1
