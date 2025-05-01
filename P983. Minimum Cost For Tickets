@@ -1,4 +1,5 @@
 
+https://leetcode.cn/problems/minimum-cost-for-tickets/
 
 class Solution(object):
     def mincostTickets(self, days, costs):
