@@ -1,0 +1,27 @@
+https://www.youtube.com/watch?v=I7j0F7AHpb8
+
+class Solution(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        # state: buying or selling
+        # if 
+        dp = {} # key (i, buying) val:max_profit
+        return self.dfs(prices, dp, 0, True)
+    def dfs(self, prices, dp, i, buying):
+        if i >= len(prices):
+            return 0
+
+        if (i, buying) in dp:
+            return dp[(i, buying)]
+        if buying:
+            buy = self.dfs(prices, dp, i + 1, not buying) - prices[i] 
+            cooldown = self.dfs(prices, dp, i + 1, buying) 
+            dp[(i, buying)] = max(buy, cooldown)
+        else:
+            sell = self.dfs(prices, dp, i + 2, not buying) + prices[i]
+            cooldown = self.dfs(prices, dp, i + 1, buying) 
+            dp[(i, buying)] = max(sell, cooldown)
+        return dp[(i, buying)]
