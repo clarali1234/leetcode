@@ -34,7 +34,7 @@
 # With space optimization:
 # Time: O(n * sum)  n: number of elements,
 # Space: O(sum) 
-上面这句话可以解读为：对于前i个数字，能凑成总和为j的，有两种情况：
+上面这句话可以解读为：对于前i个数字(可以为0），能凑成总和为j的，有两种情况：
 1.如果dp数组中已经记录了可以凑成j，那肯定没问题；
 2.如果当前的大小j，减去当前这个数字，还能够凑成的话，那么加上当前数字，肯定也可以凑成，所以这时候也能凑成j。
 
@@ -67,7 +67,7 @@ class Solution:
 
 # dp[i][j] if sum j can be abtained by first i items in nums
 # 转移方程
-dp[i][j] = dp[i - 1][j] or dp[i - 1][j - num]
+dp[i][j] = dp[i - 1][j](不包含i) or dp[i - 1][j - num](包含i)
 # 初始化
 # sum 0 可以由任何数量的数字组成
 # dp[i][0] =  True
