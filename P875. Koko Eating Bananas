@@ -26,10 +26,7 @@ class Solution(object):
     def can_eat(self, piles, speed, H):
         c = 0
         for pile in piles:
-            if pile <= speed:
-                c += 1
-            else:
-                c += pile // speed + 1
+            c += math.ceil(float(pile)/speed)
         return c <= H
                 
                 
