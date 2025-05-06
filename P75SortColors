@@ -27,20 +27,18 @@ class Solution(object):
 i用来遍历整个数组，碰到0把它和p0指向的数交换，碰到2把它和p2指向的数交换，碰到1继续向后遍历
 
 # one time partition
-class Solution:
-    def sortColors(self, nums: List[int]) -> None:
-
+class Solution(object):
+    def sortColors(self, nums):
         i = 0
         j = len(nums) - 1
-        index = 0
-        
-        while index <= j:
-            if nums[index] == 0:
-                nums[i], nums[index] = nums[index], nums[i]
+        cur = 0
+        while cur <= j:
+            if nums[cur] == 0:
+                nums[cur], nums[i] = nums[i], nums[cur]
                 i += 1
-                index += 1
-            elif nums[index] == 2:
-                nums[index], nums[j] = nums[j], nums[index]
+                cur += 1
+            elif nums[cur] == 2:
+                nums[cur], nums[j] = nums[j], nums[cur]
                 j -= 1
             else:
-                index += 1
+                cur += 1
