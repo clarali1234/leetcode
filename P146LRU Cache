@@ -7,6 +7,14 @@
 # add and remove 都是针对linked list的操作
 # 操作时先操作linked list node,在操作dict
 
+
+class ListNode(object):
+    def __init__(self, key, val, prev, nxt):
+        self.key = key
+        self.val = val
+        self.prev = prev 
+        self.next = nxt
+
 class LRUCache(object):
 
     def __init__(self, capacity):
@@ -14,12 +22,12 @@ class LRUCache(object):
         :type capacity: int
         """
         self.dic = {}
-        self.capacity = capacity
-        self.dummy_tail = ListNode(0, 0)
-        self.dummy_head = ListNode(0, 0)
-        self.dummy_tail.prev = self.dummy_head
+        self.dummy_head = ListNode(0, 0, None, None)
+        self.dummy_tail = ListNode(0, 0, None, None)
         self.dummy_head.next = self.dummy_tail
-        
+        self.dummy_tail.prev = self.dummy_head 
+        self.capa = capacity
+
 
     def get(self, key):
         """
@@ -36,19 +44,24 @@ class LRUCache(object):
         
 
     def put(self, key, value):
-        if key in self.dic:
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        if key not in self.dic:
+            node = ListNode(key, value, None, None)
+            if len(self.dic) == self.capa:
+                head = self.dummy_head.next
+                self.remove(head)
+                del self.dic[head.key] # 1. remove head, delete key in dic
+            self.add(node)
+            self.dic[key] = node
+        else:
             node = self.dic[key]
             self.remove(node)
             self.add(node)
-            node.val = value
-        else:
-            if self.capacity == len(self.dic.keys()):
-                head = self.dummy_head.next
-                self.remove(head)
-                del self.dic[head.key]
-            node = ListNode(key,value)
-            self.add(node)
-            self.dic[key] = node
+            node.val = value # 2. change the value
 
     def remove(self, node):
         prev = node.prev
@@ -57,8 +70,7 @@ class LRUCache(object):
         nxt.prev = prev
 
     def add(self, node):
-        # add from the tail
-        tail = self.dummy_tail.prev
+        tail = self.dummy_tail.prev 
         tail.next = node
         node.prev = tail
         node.next = self.dummy_tail
