@@ -1,3 +1,16 @@
+class Solution(object):
+    def maxSubArray(self, nums):
+        
+        max_s = nums[0]
+        cur_sum = 0
+        for num in nums:
+            if cur_sum < 0:
+                cur_sum = 0
+            cur_sum += num
+            max_s = max(cur_sum, max_s)
+        return max_s
+
+
 # greedy
 # time O(n)
 # space O(1)
