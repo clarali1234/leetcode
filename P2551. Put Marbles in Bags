@@ -1,0 +1,20 @@
+time O(nlgn)
+space O(n)
+https://www.youtube.com/watch?v=lB_gLotpnuY
+
+
+class Solution(object):
+    def putMarbles(self, weights, k):
+    
+        if k == 1:
+            return 0
+
+        splits = []
+        for i in range(len(weights) - 1):
+            splits.append(weights[i] + weights[i + 1])
+
+        splits.sort()
+        i = k - 1
+        max_s = sum(splits[-i:])
+        min_s = sum(splits[:i])
+        return max_s - min_s
