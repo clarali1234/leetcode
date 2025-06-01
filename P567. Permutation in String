@@ -1,5 +1,28 @@
 # time O(len(s2))
 # space O(len(s1))
+
+class Solution(object):
+    def checkInclusion(self, s1, s2):
+        
+        if len(s1) > len(s2):
+            return False
+
+        m = len(s1)
+        c1 = collections.Counter(s1)
+        c2 = collections.Counter(s2[:m - 1])
+        l = 0
+        for r in range(m - 1, len(s2)):
+            c2[s2[r]] += 1
+            if c1 == c2:
+                return True
+            else:
+                c2[s2[l]] -= 1
+                if c2[s2[l]] == 0:
+                    del c2[s2[l]]
+                l += 1
+        return False
+
+
 class Solution(object):
     def checkInclusion(self, s1, s2):
         """
