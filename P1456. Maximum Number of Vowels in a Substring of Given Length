@@ -1,0 +1,23 @@
+
+
+class Solution(object):
+    def maxVowels(self, s, k):
+        
+        vowels = set(['a', 'e', 'i', 'o', 'u'])
+        res = 0
+        l = 0
+        cur_len = 0
+        cur_vowels = 0
+        for r in range(len(s)):
+            if s[r] in vowels:
+                cur_vowels += 1
+
+            cur_len += 1
+            
+            if cur_len > k:
+                if s[l] in vowels:
+                    cur_vowels -= 1
+                l += 1
+            
+            res = max(res, cur_vowels)
+        return res
