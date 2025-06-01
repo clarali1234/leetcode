@@ -1,0 +1,22 @@
+
+
+class Solution(object):
+    def characterReplacement(self, s, k):
+        
+        # sliding window feature: len - most frequent count <= k
+        # max suarray
+        counter = collections.defaultdict(int)
+        l = 0
+        max_f = 0
+        res = 0
+        for r in range(len(s)):
+            counter[s[r]] += 1
+            max_f = max(max_f, counter[s[r]])
+
+            while (r - l + 1) - max_f > k:
+                # contract l 
+                counter[s[l]] -= 1
+                l += 1
+            
+            res = max(res, r - l + 1)
+        return res
