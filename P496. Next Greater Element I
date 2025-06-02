@@ -23,7 +23,7 @@ class Solution(object):
 思路: 先处理 nums2, -> hashtable, key: num, ele: next greater element
 # descreasing stack
 # n2 = [2, 1, 3, 4]
-# stack [2, 1, ] -> [3]
+# stack [4, 3, 1, ] -> [4, 3, 2]
 
 time O(m + n)
 space O(m + n)
