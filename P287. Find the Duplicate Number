@@ -79,3 +79,16 @@ class Solution(object):
 根据鸽笼原理，给定n + 1个范围[1, n]的整数，其中一定存在数字出现至少两次。
 
 
+class Solution(object):
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        for num in nums:
+            idx = abs(num) - 1
+            if nums[idx] < 0:
+                return abs(num)
+            nums[idx] *= -1
+        return -1
+
