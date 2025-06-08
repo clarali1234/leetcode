@@ -1,6 +1,11 @@
 # 判断是否为tree
 # 1. n - 1 edges 2. 无环 (traverse all node in one dfs)
 
+* 1. Tree has n-1 edges
+* 2. Disjoint Set can detect if there is cycle in graph
+* 3. Graph with less than n-1 edges is definitely not connected
+* 4. Graph with more than n-1 edges definitely has cycle
+
 class Solution(object):
     def validTree(self, n, edges):
         
