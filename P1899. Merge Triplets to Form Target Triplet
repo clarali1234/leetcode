@@ -1,0 +1,14 @@
+
+class Solution(object):
+    def mergeTriplets(self, triplets, target):
+        
+        a, b, c = 0, 0, 0
+        x, y, z = target
+
+        for i in range(len(triplets)):
+            ai, bi, ci = triplets[i]
+            if ai <= x and bi <= y and ci <= z:
+                a = max(a, ai)
+                b = max(b, bi)
+                c = max(c, ci)
+        return [a, b, c] == target
