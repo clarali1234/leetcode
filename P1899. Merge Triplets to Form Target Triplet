@@ -1,4 +1,8 @@
+go through each triplet, filter the values where are greater that x, y, z
+as it will get the res greater than the target values
 
+# time O(n)
+# space O(1)
 class Solution(object):
     def mergeTriplets(self, triplets, target):
         
