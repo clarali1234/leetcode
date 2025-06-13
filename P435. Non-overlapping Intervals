@@ -1,0 +1,18 @@
+
+greedy
+
+class Solution(object):
+    def eraseOverlapIntervals(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        intervals.sort(key = lambda x : x[1])
+        k = -sys.maxsize
+        res = 0
+        for s, e in intervals:
+            if s >= k:
+                k = e
+            else:
+                res += 1
+        return res
