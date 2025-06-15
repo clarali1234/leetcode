@@ -1,0 +1,20 @@
+
+To generate the maximum value: scan from left to right to find the first digit that is not '9', and replace all occurrences of that digit with '9'
+
+To generate the minimum value: scan from left to right to find the first digit that is not '0', and replace all occurrences of that digit with '0'. 
+Since s[0] is guaranteed not to be '0', we can simply replace all occurrences of s[0] with '0'.
+
+# time O(lgnum)
+# space O(lgnum)
+class Solution(object):
+    def minMaxDifference(self, num):
+        
+        s = str(num)
+        min_v = s
+        i = 0
+        while i < len(s) and s[i] == '9':
+            i += 1
+        if i < len(s):
+            s = s.replace(s[i], '9')
+        min_v = min_v.replace(min_v[0], '0')
+        return int(s) - int(min_v)
