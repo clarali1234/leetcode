@@ -1,0 +1,30 @@
+greedy: If adding the most frequent character would violate the "no three identical consecutive letters" rule,
+we instead take the second most frequent character.
+
+class Solution(object):
+    def longestDiverseString(self, a, b, c):
+        heap = []
+        for c, char in [(-a, 'a'), (-b,'b'), (-c, 'c')]:
+            if c != 0:
+                heappush(heap, (c, char))
+
+        res = []
+        while heap:
+            c, char = heappop(heap)
+            if len(res) >= 2 and res[-1] == res[-2] == char:
+                if not heap:
+                    break
+
+                c2, char2 = heappop(heap)
+                res.append(char2)
+                c2 += 1
+                if c2 != 0:
+                    heappush(heap, (c2, char2))
+                
+                heappush(heap, (c, char))
+            else:
+                res.append(char)
+                c += 1
+                if c != 0:
+                    heappush(heap, (c, char))
+        return ''.join(res)
