@@ -1,0 +1,22 @@
+
+
+the subtree rooted at child must be half the sum of the entire tree.
+
+record the sum of every subtree using dfs
+
+class Solution(object):
+    def checkEqualTree(self, root):
+    
+        self.sums = []
+        total = self.dfs(root) # output: sum of subtree
+        self.sums.pop()
+        return total / 2.0 in self.sums
+
+    def dfs(self, node):
+        if not node:
+            return 0
+
+        total = self.dfs(node.left) + self.dfs(node.right) + node.val
+        self.sums.append(total)
+        return total
+
