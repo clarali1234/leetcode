@@ -4,12 +4,11 @@ https://leetcode.cn/problems/minimum-cost-for-tickets/
 class Solution(object):
     def mincostTickets(self, days, costs):
 
-        last_d = days[-1]
         days = set(days)
-        f = [0] * (last_d + 1)
-        for i in range(1, last_d + 1):
-            if i not in days:
-                f[i] = f[i - 1]
+        dp = [0] * (len(days) + 1)
+        for i in range(1, len(dp):
+            if i not in days: # 不用出行，不买通行证
+                dp[i] = dp[i - 1]
             else:
-                f[i] = min(f[i - 1] + costs[0], f[max(i -  7, 0)] + costs[1], f[max(i - 30, 0)] + costs[2])
-        return f[-1]
+                dp[i] = min(dp[i - 1] + costs[0], dp[max(i -  7, 0)] + costs[1], dp[max(i - 30, 0)] + costs[2])
+        return dp[-1]
