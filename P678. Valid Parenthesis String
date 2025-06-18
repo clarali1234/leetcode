@@ -1,4 +1,6 @@
 
+greedy
+left_min, left_max: 未匹配的左括号
 
 class Solution(object):
     def checkValidString(self, s):
