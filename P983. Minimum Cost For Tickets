@@ -5,7 +5,7 @@ class Solution(object):
     def mincostTickets(self, days, costs):
 
         days = set(days)
-        dp = [0] * (len(days) + 1)
+        dp = [0] * (days[-1] + 1)
         for i in range(1, len(dp):
             if i not in days: # 不用出行，不买通行证
                 dp[i] = dp[i - 1]
