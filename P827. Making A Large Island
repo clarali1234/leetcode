@@ -1,38 +1,47 @@
+# flag the island with index len(self.area) - 2
+# cal each area of nbs 
+# sum nbs together
+# time O(n^2), space O(n^2)
+
 class Solution(object):
     def largestIsland(self, grid):
-        
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        self.area = []
         n = len(grid)
-        self.area = [] # area of island 
         for i in range(n):
             for j in range(n):
                 if grid[i][j] == 1:
                     self.area.append(self.dfs(grid, i, j))
 
-        # connect 0
-        ans = 0
-        for i in range(n):
-            for j in range(n):
-                if grid[i][j]:
-                    continue
-                s = set()
-                for dx, dy in [(-1, 0), (1, 0), (0, 1), (0, -1)]:
-                    new_x = i + dx
-                    new_y = j + dy
-                    if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y]:
-                        s.add(grid[new_x][new_y])
-                ans = max(ans, sum(self.area[idx - 2] for idx in s) + 1)
-        
-        return ans if ans else n * n
-
-    def dfs(self, grid, i, j):
+        # connect 0 with neighbor islands
+        res = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 0:
+                    nb_set = set() # the flag of the grid
+                    for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                        new_x = i + dx 
+                        new_y = j + dy
+                        if 0 <= new_x < n and 0 <= new_y < n and grid[new_x][new_y]:
+                            nb_set.add(grid[new_x][new_y])
+                    cur_area = 1
+                    for flag in nb_set:
+                        cur_area += self.area[flag - 2]
+                    res = max(res, cur_area)
+        return res if res else n ** 2
+    
+    def dfs(self, grid, x, y):
+        grid[x][y] = len(self.area) + 2 # flag the island 
         size = 1
-        grid[i][j] = len(self.area) + 2 # flag the island
         for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
-            new_x = i + dx
-            new_y = j + dy
+            new_x = x + dx
+            new_y = y + dy
             if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y] == 1:
                 size += self.dfs(grid, new_x, new_y)
-        return size 
+        return size
 
 class Solution(object):
     def largestIsland(self, grid):
