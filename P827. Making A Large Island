@@ -2,12 +2,13 @@ class Solution(object):
     def largestIsland(self, grid):
         
         n = len(grid)
-        self.area = []
+        self.area = [] # area of island 
         for i in range(n):
             for j in range(n):
                 if grid[i][j] == 1:
                     self.area.append(self.dfs(grid, i, j))
 
+        # connect 0
         ans = 0
         for i in range(n):
             for j in range(n):
@@ -20,13 +21,12 @@ class Solution(object):
                     if 0 <= new_x < len(grid) and 0 <= new_y < len(grid[0]) and grid[new_x][new_y]:
                         s.add(grid[new_x][new_y])
                 ans = max(ans, sum(self.area[idx - 2] for idx in s) + 1)
-        print(self.area)
-        print(grid)
+        
         return ans if ans else n * n
 
     def dfs(self, grid, i, j):
         size = 1
-        grid[i][j] = len(self.area) + 2
+        grid[i][j] = len(self.area) + 2 # flag the island
         for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
             new_x = i + dx
             new_y = j + dy
