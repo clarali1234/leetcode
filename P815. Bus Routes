@@ -1,6 +1,9 @@
 time: build graph O(m*n), bfs(m*n)
 space: O(m*n)
-    
+
+难点在于如何构建图: (key, value) -> key: stops, value: bus routes (stops to routes relationships)
+
+
 # https://www.youtube.com/watch?v=odmGyOJM5EY
 
 class Solution(object):
