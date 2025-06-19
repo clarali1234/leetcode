@@ -9,11 +9,11 @@ class Solution(object):
         
         m = len(grid)
         n = len(grid[0])
-        dis = [[0 for _ in range(n)] for _ in range(m)]
-        visited = [[0 for _ in range(n)] for _ in range(m)]
+        dis = [[0 for _ in range(n)] for _ in range(m)] # dis to all of the buildings at (i, j)
+        visited = [[0 for _ in range(n)] for _ in range(m)] # visited buildings count
         
 
-        count = 0
+        count = 0 # count of buildings
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 1:
