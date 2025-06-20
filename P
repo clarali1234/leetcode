@@ -1,0 +1,31 @@
+
+
+brute force
+time O(n)
+
+class Solution(object):
+    def findKthPositive(self, arr, k):
+        
+        for num in arr:
+            if num <= k: #it means one less number is missing
+                k += 1 
+            elif num > k: # stop because the missing number lies outside the range of the current numbers in arr
+                break
+        return k
+
+# binary search
+# time O(lgn)
+
+class Solution(object):
+    def findKthPositive(self, arr, k):
+        
+        l = 0
+        r = len(arr) - 1
+        while l <= r:
+            m = (l + r) // 2
+            if arr[m] - m - 1 < k: # missing count: arr[indx] - indx - 1, increasing by index
+                l = m + 1
+            else:
+                r = m - 1
+
+        return l + k # arr[r] + k - (arr[r] - r - 1) (r + 1 = l)
