@@ -1,0 +1,17 @@
+1. 要求写一个function，input是一个array of integers，要求返回input array中在斐波那契数列里的数字。例如 input是[2,4,6,8] 那么应该返回 [2,8].
+
+
+def find_fib(nums):
+    max_v = max(nums)
+    fib_nums = set()
+    a = 0
+    b = 1 
+    while a <= max_v:
+        fib_nums.add(a)
+        tmp = a 
+        a, b = b, a + b
+    
+    res = [num for num in nums if num in fib_nums]
+    return res
+    
+print(find_fib([1, 2, 3, 4 ,8]))
