@@ -1,6 +1,6 @@
 # 知道思路即可
-# hash: key:element, value:[] index of elements in array
-# array [[], []] array中每一个元素，第一部分是element的数值，第二个元素是该数值的index在hash表value中的位置
+# hash: key:element, value:[] indices of elements in array
+# array [[val, pos] array中每一个元素，第一部分是element的数值，第二个元素是该数值的index在hash表value中的位置
 
 insert delete, hashtable O(1)
 get random array O(1)
