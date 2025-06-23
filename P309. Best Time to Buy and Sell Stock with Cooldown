@@ -1,4 +1,4 @@
-https://www.youtube.com/watch?v=I7j0F7AHpb8
+https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/
 
 class Solution(object):
     def maxProfit(self, prices):
@@ -6,22 +6,31 @@ class Solution(object):
         :type prices: List[int]
         :rtype: int
         """
-        # state: buying or selling
-        # if 
-        dp = {} # key (i, buying) val:max_profit
-        return self.dfs(prices, dp, 0, True)
-    def dfs(self, prices, dp, i, buying):
-        if i >= len(prices):
+        if not prices:
             return 0
 
-        if (i, buying) in dp:
-            return dp[(i, buying)]
-        if buying:
-            buy = self.dfs(prices, dp, i + 1, not buying) - prices[i] 
-            cooldown = self.dfs(prices, dp, i + 1, buying) 
-            dp[(i, buying)] = max(buy, cooldown)
-        else:
-            sell = self.dfs(prices, dp, i + 2, not buying) + prices[i]
-            cooldown = self.dfs(prices, dp, i + 1, buying) 
-            dp[(i, buying)] = max(sell, cooldown)
-        return dp[(i, buying)]
+        n = len(prices)
+
+        dp = [[-prices[0], 0, 0]] + [[0] * 3 for _ in range(n - 1)]
+        for i in range(1, n):
+            dp[i][0] = max(dp[i - 1][0], dp[i - 1][2] - prices[i])
+            dp[i][1] = dp[i - 1][0] + prices[i]
+            dp[i][2] = max(dp[i - 1][1], dp[i - 1][2])
+        return max(dp[n - 1][1], dp[n - 1][2])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
