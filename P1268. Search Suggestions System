@@ -51,16 +51,16 @@ class Solution(object):
     def suggestedProducts(self, products, searchWord):
         
         products.sort()
-        start_index = 0
-        prefix = ''
         res = []
-        
-        for char in searchWord:
-            prefix += char
-            left = bisect.bisect_left(products, prefix, start_index)
-            cur_res = [x for x in products[left : left + 3] if x.startswith(prefix)]
-            res.append(cur_res)
-            start_index = left
+        prefix = ''
+        for c in searchWord:
+            prefix += c
+            suggest = []
+            p = bisect_left(products, prefix) # first index of i equal prefix
+            for i in range(p, min(p + 3, len(products))):
+                if products[i].startswith(prefix):
+                    suggest.append(products[i])
+            res.append(suggest)
         return res
             
 
