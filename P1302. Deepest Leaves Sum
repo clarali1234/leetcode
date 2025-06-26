@@ -1,0 +1,16 @@
+
+
+class Solution(object):
+    def deepestLeavesSum(self, root):
+        
+        q = collections.deque([root])
+        while q:
+            res = []
+            for _ in range(len(q)):
+                node = q.popleft()
+                res.append(node.val)
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+        return sum(res)
