@@ -1,11 +1,11 @@
-https://leetcode.com/problems/dot-product-of-two-sparse-vectors/solutions/926985/python-3-99-16-faster/?envType=company&envId=facebook&favoriteSlug=facebook-three-months
+
 
 class SparseVector:
     def __init__(self, nums):
         """
         :type nums: List[int]
         """
-        self.nums = {i: n for i, n in enumerate(nums) if n}
+        self.nums = {i:n for i, n in enumerate(nums) if n} # hashmap: store non-zero elements
 
     # Return the dotProduct of two sparse vectors
     def dotProduct(self, vec):
@@ -13,17 +13,12 @@ class SparseVector:
         :type vec: 'SparseVector'
         :rtype: int
         """
-        result = 0
-        if len(self.nums) < len(vec.nums):
-            for key in self.nums.keys():
-                if key in vec.nums:
-                    result += self.nums[key] * vec.nums[key]
-        else:
-            for key in vec.nums.keys():
-                if key in self.nums:
-                    result += self.nums[key] * vec.nums[key]
-                    
-        return result  
+        res = 0
+        for i, num in self.nums.items():
+            if i in vec.nums:
+                res += vec.nums[i] * num
+
+        return res
 
 
 
