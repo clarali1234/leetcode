@@ -16,7 +16,7 @@ class Solution(object):
         
         
         visited = set()
-        self.dfs(robot, 0, 0, 0, 1, visited)
+        self.dfs(robot, 0, 0, 0, -1, visited)
         
     
     def dfs(self, robot, x, y, dx, dy, visited):
