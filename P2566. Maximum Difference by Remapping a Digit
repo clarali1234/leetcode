@@ -8,13 +8,15 @@ Since s[0] is guaranteed not to be '0', we can simply replace all occurrences of
 # space O(lgnum)
 class Solution(object):
     def minMaxDifference(self, num):
-        
+       
+        # max value: map digits that is not 9 (from left to right)
+        # min value: map first digit to 0
         s = str(num)
-        min_v = s
+        max_v = min_v = s
         i = 0
-        while i < len(s) and s[i] == '9':
-            i += 1
-        if i < len(s):
-            s = s.replace(s[i], '9')
+        for i in range(len(max_v)):
+            if max_v[i] != '9':
+                break
+        max_v = max_v.replace(max_v[i], '9')
         min_v = min_v.replace(min_v[0], '0')
-        return int(s) - int(min_v)
+        return int(max_v) - int(min_v)
