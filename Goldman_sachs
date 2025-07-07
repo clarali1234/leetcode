@@ -1,0 +1,32 @@
+
+1. implement stack using queue
+# push O(n)
+# pop O(1)
+import collections
+class Solution(object):
+    def __init__(self):
+        self.q = collections.deque()
+        
+    def push(self, x):
+        self.q.append(x)
+        for _ in range(len(self.q) - 1):
+            self.q.append(self.q.popleft()) # [1, 2, 3] -> [3, 2, 1] # reverse the elements in the queue
+            
+    def pop(self):
+        return self.q.popleft()
+        
+    def top(self):
+        return self.q[0]
+        
+    def size(self):
+        return len(self.q)
+        
+test = Solution()
+test.push(1)
+test.push(2)
+test.push(3)
+print(test.top())
+print(test.size())
+print(test.pop())
+print(test.top())
+print(test.size())
