@@ -1,0 +1,26 @@
+
+
+
+class Solution(object):
+    def distributeCoins(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: int
+        """
+        self.moves = 0
+        self.dfs(root)
+        return self.moves 
+
+    def dfs(self, node):
+        if not node:
+            return 0
+
+        # Calculate the coins each subtree has available to exchange
+        l_coins = self.dfs(node.left)
+        r_coins= self.dfs(node.right)
+
+        self.moves += abs(l_coins) + abs(r_coins)
+
+        # The number of coins current has available to exchange
+        return l_coins + r_coins + node.val - 1
+
