@@ -1,0 +1,23 @@
+
+
+class Solution(object):
+    def permute(self, n):
+        """
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        nums = [i for i in range(1, n + 1)]
+        self.res = []
+        for i in range(0, n):
+            self.dfs(nums[:i] + nums[i + 1:], nums[i], [nums[i]] )
+        return self.res
+
+    def dfs(self, nums, prev_n, path):
+        if not nums:
+            self.res.append(path[:])
+            return
+
+        mode = prev_n % 2
+        for i in range(len(nums)):
+            if nums[i] % 2 != mode:
+                self.dfs(nums[:i] + nums[i + 1:], nums[i], path + [nums[i]])
