@@ -1,0 +1,26 @@
+
+
+class Solution(object):
+    def smallestNumber(self, pattern):
+        """
+        :type pattern: str
+        :rtype: str
+        """
+        res = []
+        stack = []
+
+        #'DI' -> 213
+        # stack = [1, ,]
+        # res = [2, 1, 3]
+        # Iterate through the pattern
+        for i in range(len(pattern) + 1):
+            # Push the next number onto the stack
+            stack.append(i + 1)
+
+            # If 'I' is encountered or we reach the end, pop all stack elements
+            if i == len(pattern) or pattern[i] == "I":
+                while stack:
+                    res.append(str(stack.pop()))
+
+        return "".join(res)
+        
