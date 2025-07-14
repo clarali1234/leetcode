@@ -15,12 +15,12 @@ class Solution(object):
         if not node:
             return 0
 
-        # Calculate the coins each subtree has available to exchange
+        # Calculate the coins each subtree has available to exchange with parent
         l_coins = self.dfs(node.left)
         r_coins= self.dfs(node.right)
 
         self.moves += abs(l_coins) + abs(r_coins)
 
-        # The number of coins current has available to exchange
+        # The number of coins current has available to exchange with parent
         return l_coins + r_coins + node.val - 1
 
