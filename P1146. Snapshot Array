@@ -1,4 +1,3 @@
-
 class SnapshotArray(object):
 
     def __init__(self, length):
