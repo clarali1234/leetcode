@@ -1,3 +1,66 @@
+
+class SnapshotArray(object):
+
+    def __init__(self, length):
+        """
+        :type length: int
+        """
+        self.array = [[] for _ in range(length)] # [[self.snap_id, val]]
+        self.snap_id = 0
+
+    def set(self, index, val):
+        """
+        :type index: int
+        :type val: int
+        :rtype: None
+        """
+        self.array[index].append([self.snap_id, val])
+
+    def snap(self):
+        """
+        :rtype: int
+        """
+        self.snap_id += 1
+        return self.snap_id - 1
+        
+
+    def get(self, index, snap_id):
+        """
+        :type index: int
+        :type snap_id: int
+        :rtype: int
+        """
+        
+        array = self.array[index]
+        if not array:
+            return 0
+
+        l = 0
+        r = len(array) - 1 # find largest index of snap_id <= snap_id(given value)
+        while l + 1 < r:
+            m = (l + r) // 2
+            if array[m][0] > snap_id:
+                r = m - 1
+            else:
+                l = m
+        
+        if array[r][0] <= snap_id:
+            return array[r][1]
+        elif array[l][0] <= snap_id:
+            return array[l][1]
+        else:
+            return 0
+
+        
+
+
+# Your SnapshotArray object will be instantiated and called as such:
+# obj = SnapshotArray(length)
+# obj.set(index,val)
+# param_2 = obj.snap()
+# param_3 = obj.get(index,snap_id)
+
+
 # set O(1)
 # get O(snap_id) 
 
