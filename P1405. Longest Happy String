@@ -4,27 +4,25 @@ we instead take the second most frequent character.
 class Solution(object):
     def longestDiverseString(self, a, b, c):
         heap = []
-        for c, char in [(-a, 'a'), (-b,'b'), (-c, 'c')]:
+        for c, char in [(-a, 'a'), (-b, 'b'), (-c, 'c')]:
             if c != 0:
                 heappush(heap, (c, char))
 
-        res = []
+        res = ''
         while heap:
             c, char = heappop(heap)
             if len(res) >= 2 and res[-1] == res[-2] == char:
-                if not heap:
+                if len(heap) == 0:
                     break
-
-                c2, char2 = heappop(heap)
-                res.append(char2)
-                c2 += 1
-                if c2 != 0:
-                    heappush(heap, (c2, char2))
                 
+                c2, char2 = heappop(heap)
+                res += char2 
+                if c2 + 1 != 0:
+                    heappush(heap, (c2 + 1, char2))
+
                 heappush(heap, (c, char))
             else:
-                res.append(char)
-                c += 1
-                if c != 0:
-                    heappush(heap, (c, char))
-        return ''.join(res)
+                res += char 
+                if c + 1 != 0:
+                    heappush(heap, (c + 1, char))
+        return res
