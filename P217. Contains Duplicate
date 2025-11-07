@@ -1,5 +1,13 @@
+time O(nlgon), space O(1)
+class Solution:
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        nums.sort()
+        for i in range(len(nums) - 1):
+            if nums[i] == nums[i + 1]:
+                return True
+        return False
 
-
+# time O(n), space O(n)
 class Solution(object):
     def containsDuplicate(self, nums):
         """
