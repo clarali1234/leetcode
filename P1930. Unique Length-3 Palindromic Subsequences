@@ -1,0 +1,16 @@
+# brute force O(n^3)
+# enumerate i, j, k ....
+
+# time O(n), space O(n)
+class Solution:
+    def countPalindromicSubsequence(self, s: str) -> int:
+        left = set()
+        right = Counter(s)
+        res = set()
+        for m in s:
+            right[m] -= 1
+            for c in left:
+                if right[c] > 0:
+                    res.add((m, c))
+            left.add(m)
+        return len(res)
