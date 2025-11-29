@@ -7,6 +7,19 @@
 # space O(k)
  缺点，当k -> n ^2, time complexity很大
 
+# O(klogn)
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        heap = [(matrix[i][0], i, 0) for i in range(len(matrix))]
+        heapify(heap)
+
+        for _ in range(k - 1):
+            num, x, y = heappop(heap)
+            if y + 1 < len(matrix):
+                heappush(heap, (matrix[x][y + 1], x, y + 1))
+
+        return heappop(heap)[0]
+
 
 from heapq import * 
 class Solution(object):
