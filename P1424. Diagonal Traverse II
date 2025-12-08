@@ -1,0 +1,36 @@
+# sol1 
+# time O(n),
+# space O(n)
+# hahmap since sum of i, j in diagonal is the same
+
+class Solution:
+    def findDiagonalOrder(self, nums: List[List[int]]) -> List[int]:
+        groups = collections.defaultdict(list)
+        for i in range(len(nums) - 1, -1, -1):
+            for j in range(len(nums[i])):
+                diagonal = i + j
+                groups[diagonal].append(nums[i][j])
+
+        res = []
+        for sum_ in range(min(groups.keys()), max(groups.keys()) + 1):
+            res.extend(groups[sum_])
+        return res
+
+
+
+# sol2 
+# bfs
+
+class Solution:
+    def findDiagonalOrder(self, nums: List[List[int]]) -> List[int]:
+        q = collections.deque([(0, 0)])
+        res = []
+        while q:
+            x, y = q.popleft()
+            res.append(nums[x][y])
+            if y == 0 and x + 1 < len(nums):
+                q.append([x + 1, y])
+
+            if y + 1 < len(nums[x]):
+                q.append((x, y + 1))
+        return res
