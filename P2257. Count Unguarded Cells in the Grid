@@ -1,0 +1,49 @@
+# brute force simulation
+
+class Solution:
+    def countUnguarded(self, m: int, n: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+        grid = [[0] * n for _ in range(m)]
+        # 0 free 1 guard, 2 wall, 3 guarded
+        for r, c in guards:
+            grid[r][c] = 1
+        for r, c in walls:
+            grid[r][c] = 2
+
+        for r, c in guards:
+            self.mark_guard(grid, r, c, m, n)
+
+        # count 0
+        res = 0
+        for row in grid:
+            for val in row:
+                if val == 0:
+                    res += 1
+
+        return res 
+
+    def mark_guard(self, grid, r, c, m, n):
+        for row in range(r + 1, m):
+            if grid[row][c] in [1, 2]:
+                break
+
+            grid[row][c] = 3
+
+        for row in range(r-1, -1, -1):
+            if grid[row][c] in [1, 2]:
+                break
+
+            grid[row][c] = 3
+
+        for col in range(c + 1, n):
+            if grid[r][col] in [1, 2]:
+                break
+
+            grid[r][col] = 3
+
+        for col in range(c - 1, -1, -1):
+            if grid[r][col] in [1, 2]:
+                break
+
+            grid[r][col] = 3
+
+        
