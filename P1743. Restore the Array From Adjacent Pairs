@@ -1,0 +1,27 @@
+
+# time O(n)
+# space O(n)
+
+# dfs
+class Solution:
+    def restoreArray(self, adjacentPairs: List[List[int]]) -> List[int]:
+        self.graph = collections.defaultdict(list)
+        for a, b in adjacentPairs:
+            self.graph[a].append(b)
+            self.graph[b].append(a) 
+
+        root = None
+        for num in self.graph:
+            if len(self.graph[num]) == 1: # root only have 1 edge
+                root = num 
+                break
+
+        self.res = []
+        self.dfs(root, None) 
+        return self.res
+
+    def dfs(self, node, prev):
+        self.res.append(node)
+        for nb in self.graph[node]:
+            if nb != prev:
+                self.dfs(nb, node)
