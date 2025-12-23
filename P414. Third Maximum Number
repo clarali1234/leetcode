@@ -10,3 +10,26 @@ class Solution(object):
         nums.remove(max(nums))
         nums.remove(max(nums))
         return max(nums)
+
+
+class Solution:
+    def thirdMax(self, nums: List[int]) -> int:
+        first = -sys.maxsize
+        second = -sys.maxsize
+        third = -sys.maxsize
+
+        for num in nums:
+            if first == num or second == num or third == num:
+                continue         
+            if first < num:
+                third = second
+                second = first
+                first = num
+            elif second < num:
+                third = second
+                second = num
+            elif third < num:
+                third = num
+        if third == -sys.maxsize:
+            return first
+        return third
