@@ -16,3 +16,17 @@ class Solution(object):
             else:
                 res += 1
         return res
+
+
+改为计算最多可以选多少个互不重叠的区间，那么没选的区间就是要移除的区间
+
+class Solution:
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort(key = lambda x : x[1])
+        pre_r = -sys.maxsize
+        res = 0
+        for l, r in intervals:
+            if l >= pre_r:
+                res += 1
+                pre_r = r
+        return len(intervals) - res
