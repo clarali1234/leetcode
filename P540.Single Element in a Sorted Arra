@@ -49,24 +49,20 @@ class Solution(object):
 nums[mid] == nums[mid+1]	single 在右边	left = mid + 2
 nums[mid] != nums[mid+1]	single 在左边（或 mid）	right = mid
  
- class Solution(object):
-    def singleNonDuplicate(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        
-        left, right = 0, len(nums) - 1 #[left, right]
-        while (left < right):
-            mid = left + (right - left) / 2
-            if mid % 2 == 1: 
-            # ensure mid is even
-              mid -= 1
-              # value is on the left 
-            if nums[mid] != nums[mid + 1]:
-                right = mid
-              # value is on the right
+ class Solution:
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        l = 0
+        r = len(nums) - 1
+
+        while l < r:
+            m = (l + r) // 2
+            if m % 2:
+                m = m - 1
+
+            if nums[m] == nums[m + 1]:
+                l = m + 2
             else:
-                left = mid + 2
-        return nums[left]
+                r = m 
+
+        return nums[l]
 
