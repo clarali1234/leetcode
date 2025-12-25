@@ -38,10 +38,16 @@ class Solution(object):
         return nums[-1]
  
  # binary search 
- 这个二分查找的思路很奇特。如果i是个偶数，如果nums[i] == nums[i + 1]，
- 那么，说明那个单独出现的元素在i的右边；如果nums[i] != nums[i + 1]，那么说明单独出现的元素在i的左边。
- 所以这个题其实考的lower_bound的写法。
- 参考sol2, 如果没有single value, i 为偶数，则num[i] == num[i + 1]
+二分判断逻辑（重点）
+
+在 mid 位置：
+如果 mid 是 奇数，让它变成偶数（mid -= 1）
+比较 nums[mid] 和 nums[mid + 1]
+
+情况分析：
+情况	说明	搜索方向
+nums[mid] == nums[mid+1]	single 在右边	left = mid + 2
+nums[mid] != nums[mid+1]	single 在左边（或 mid）	right = mid
  
  class Solution(object):
     def singleNonDuplicate(self, nums):
@@ -49,11 +55,12 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        N = len(nums)
-        left, right = 0, N - 1 #[left, right]
+        
+        left, right = 0, len(nums) - 1 #[left, right]
         while (left < right):
             mid = left + (right - left) / 2
             if mid % 2 == 1: 
+            # ensure mid is even
               mid -= 1
               # value is on the left 
             if nums[mid] != nums[mid + 1]:
