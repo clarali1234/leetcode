@@ -51,3 +51,23 @@ class Solution(object):
                     dic[sum_ % k] = i
             return False
             
+
+关键是知道: 若两个前缀和对 k 取模后的余数相等，则它们之间那段子数组的和一定能被 k 整除。
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        dic = collections.defaultdict(int) # key: mod val:index # 存储每个前缀和 mod k 的最早出现位置
+        total = 0
+        dic[0] = -1
+
+        for i, num in enumerate(nums): 
+            total += num
+            mod = total % k
+            if mod in dic:
+                if i - dic[mod] > 1:
+                    return True
+            else:
+                dic[mod] = i 
+
+        return False
+
+
