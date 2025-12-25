@@ -1,3 +1,33 @@
+
+
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        self.visited = set()
+        n = len(isConnected)
+        graph = collections.defaultdict(list)
+        for i in range(n):
+            for j in range(n):
+                if isConnected[i][j] == 1:
+                    graph[i].append(j)
+                    graph[j].append(i)
+
+        res = 0
+        for i in range(len(graph)):
+            if i not in self.visited:
+                self.visited.add(i)
+                self.dfs(graph, i)
+                res += 1
+
+        return res
+
+    def dfs(self, graph, i):
+        for nb in graph[i]:
+            if nb not in self.visited:
+                self.visited.add(nb)
+                self.dfs(graph, nb)
+
+
+
 # dfs
 #time O(n^2)
 # space O(n) visisted array of size n
