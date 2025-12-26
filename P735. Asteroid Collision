@@ -23,7 +23,6 @@ class Solution:
                 prev = stack.pop()
                 if abs(prev) > abs(cur):
                     cur = prev
-                    break  
                 elif abs(prev) == abs(cur):
                     cur = None
             if cur:
