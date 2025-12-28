@@ -1,0 +1,18 @@
+
+# time O(n)
+# space O(n)
+class Solution:
+    def specialTriplets(self, nums: List[int]) -> int:
+        c_full = collections.Counter(nums)
+        c_first = collections.defaultdict(int)
+        mod = 10 ** 9 + 7
+        res = 0
+        for num in nums:
+            target = num * 2
+            l_c = c_first.get(target, 0)
+            c_first[num] = c_first.get(num, 0) + 1
+            r_c = c_full.get(target, 0) - c_first.get(target, 0) # 易错
+            res = (res + l_c * r_c) % mod
+
+        return res
+
