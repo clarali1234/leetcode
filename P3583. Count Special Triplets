@@ -1,6 +1,9 @@
 
 # time O(n)
 # space O(n)
+
+# iterate each middle point, find the count of left and right half
+
 class Solution:
     def specialTriplets(self, nums: List[int]) -> int:
         c_full = collections.Counter(nums)
