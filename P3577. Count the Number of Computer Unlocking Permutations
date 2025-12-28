@@ -1,0 +1,21 @@
+
+记编号为 0 的计算机的密码复杂度为 T=complexity[0]。
+
+如果存在编号大于 0，且密码复杂度小于等于 T 的计算机，取其中密码复杂度最小的那一台，因为没有密码复杂度更小的计算机，因此它永远无法被解锁，答案为 0。
+
+如果不存在编号大于 0，且密码复杂度小于等于 T 的计算机，那么一开始它们就都可以被编号为 0 的计算机解锁，并且能以任意顺序解锁，答案为 (n−1)!。
+
+brain teaser
+
+class Solution:
+    def countPermutations(self, complexity: List[int]) -> int:
+        n = len(complexity)
+        for i in range(1, n):
+            if complexity[i] <= complexity[0]:
+                return 0
+
+        res = 1
+        mod = 10 ** 9 + 7
+        for i in range(2, n):
+            res = res * i % mod
+        return res
