@@ -1,0 +1,46 @@
+
+# brute force
+# time O(mn)
+# space O(1)
+
+class Solution:
+    def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
+        res = 0
+        for i in range(len(grid) - 2):
+            for j in range(len(grid[0]) - 2):
+                if self.is_magic(grid, i, j):
+                    res += 1
+        return res
+
+    def is_magic(self, grid, row, col):
+        seen = set()
+        for i in range(3):
+            for j in range(3):
+                num = grid[row + i][col + j]
+                if num < 1 or num > 9:
+                    return False
+                if num in seen:
+                    return False
+                seen.add(num)
+
+        diag1 = grid[row][col] + grid[row + 1][col + 1] + grid[row + 2][col + 2]
+        diag2 = grid[row + 2][col] + grid[row + 1][col + 1] + grid[row][col + 2]
+
+        if diag1 != diag2:
+            return False 
+
+        row1 = grid[row][col] + grid[row][col + 1] + grid[row][col + 2]
+        row2 = grid[row + 1][col] + grid[row + 1][col + 1] + grid[row +1][col + 2]
+        row3 = grid[row + 2][col] + grid[row + 2][col + 1] + grid[row +2][col + 2]
+
+        if not (row1 == row2 == row3):
+            return False 
+
+        col1 = grid[row][col] + grid[row + 1][col] + grid[row + 2][col]
+        col2 = grid[row][col + 1] + grid[row + 1][col + 1] + grid[row + 2][col + 1]
+        col3 = grid[row][col + 2] + grid[row + 1][col + 2] + grid[row + 2][col + 2]
+
+        if not (col1 == col2 == col3):
+            return False
+        
+        return True
