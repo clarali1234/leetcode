@@ -1,6 +1,6 @@
 
 sliding window
-maintain types <= 2
+maintain types <= 2, find the max res of continuous subarray
 
 
 class Solution:
