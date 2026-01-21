@@ -1,0 +1,29 @@
+
+sliding window
+maintain types <= 2
+
+
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        res = 0
+        max_val = 0
+        types = collections.defaultdict(int)
+        i = 0
+        for j in range(len(fruits)):
+            types[fruits[j]] += 1
+            res += 1
+                
+            # len(types) > 2
+            while len(types) > 2:
+                types[fruits[i]] -= 1
+                res -= 1
+                if types[fruits[i]] == 0:
+                    del types[fruits[i]]
+                i += 1
+
+            max_val = max(max_val, res)
+            
+        return max_val
+
+            
+
