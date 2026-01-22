@@ -1,0 +1,28 @@
+
+
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        # largest element < target
+        l = 0
+        r = len(nums) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if nums[m] == target:
+                return m 
+
+            if nums[m] < target:
+                l = m 
+            else:
+                r = m - 1
+
+        if nums[l] == target:
+            return l
+        if nums[r] == target:
+            return r 
+
+        if nums[r] < target:
+            return r + 1 
+
+        if nums[l] < target:
+            return l + 1
+        return l
