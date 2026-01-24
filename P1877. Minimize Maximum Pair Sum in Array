@@ -1,0 +1,12 @@
+
+
+intution: 首尾两个数相加，让和尽可能平均
+
+
+class Solution:
+    def minPairSum(self, nums: List[int]) -> int:
+        res = 0
+        nums.sort()
+        for i in range(len(nums)):
+            res = max(res, nums[i] + nums[len(nums) - 1 - i])
+        return res
