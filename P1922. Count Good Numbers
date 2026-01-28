@@ -1,0 +1,25 @@
+
+对于偶数下标处的数字，它可以为 0,2,4,6,8 共计 5 种，而长度为 n 的数字字符串有 n + 1 // 2 个偶数下标
+
+对于奇数下标处的数字，它可以为 2,3,5,7 共计 4 种，而长度为 n 的数字字符串有 n // 2 个奇数下标。
+
+因此长度为 n 的数字字符串中，好数字的总数即为：5^(n+1 // 2) + 4(n//2)
+
+
+class Solution:
+    def countGoodNumbers(self, n: int) -> int:
+        # 5^(n+1 // 2) + 4(n//2)
+        self.mod = 10 ** 9 + 7
+        return self.power(5, (n + 1) // 2) * self.power(4, n // 2) % self.mod
+
+    def power(self, x, y):
+        res = 1
+        while y > 0:
+            if y % 2 == 1:
+                res = res * x % self.mod 
+            x = x ** 2 % self.mod
+            y //= 2
+
+        return res
+
+            
