@@ -1,0 +1,11 @@
+
+# nums[0] must have, sort nums[1:], take first two smallest
+# O(nlgn), O(1)
+class Solution:
+    def minimumCost(self, nums: List[int]) -> int:
+        nums[1:] = sorted(nums[1:])
+        return sum(nums[:3])
+
+
+# time O(n)
+return nums[0] + sum(nsmallest(2, nums[1:]))
