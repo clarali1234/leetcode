@@ -1,3 +1,33 @@
+
+
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        l = matrix[0][0]
+        r = matrix[-1][-1]
+
+        while l < r:
+            m = (l + r) // 2
+
+            if self.count_less_equal(matrix, m) < k:
+                l = m + 1
+            else:
+                r = m 
+        return l
+
+    def count_less_equal(self, matrix, m):
+        n = len(matrix)
+        res = 0
+        row = n - 1
+        col = 0
+        while row >= 0 and col < n:
+            if matrix[row][col] <= m:
+                res += row + 1
+                col += 1
+            else:
+                row -= 1
+        return res
+        
+
 首先将矩阵的左上角（下标0,0）元素加入堆
 然后执行k次循环：
 弹出堆顶元素top，记其下标为i, j
