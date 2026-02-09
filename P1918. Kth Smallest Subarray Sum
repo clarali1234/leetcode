@@ -1,0 +1,31 @@
+
+
+class Solution:
+    def kthSmallestSubarraySum(self, nums: List[int], k: int) -> int:
+        def countLessEqual(target):
+            left = 0
+            curr_sum = 0
+            count = 0
+
+            for right in range(len(nums)):
+                curr_sum += nums[right]
+
+                while curr_sum > target:
+                    curr_sum -= nums[left]
+                    left += 1
+
+                count += right - left + 1
+
+            return count
+
+        left, right = min(nums), sum(nums)
+
+        while left < right:
+            mid = (left + right) // 2
+
+            if countLessEqual(mid) >= k: # <= mid 的subarry 有多少个
+                right = mid
+            else:
+                left = mid + 1
+
+        return left
