@@ -1,0 +1,31 @@
+# union find
+# time O(n)
+# space O(n)
+
+如果两个顶点属于不同的连通分量，则说明在遍历到当前的边之前，这两个顶点之间不连通，因此当前的边不会导致环出现，合并这两个顶点的连通分量。
+
+如果两个顶点属于相同的连通分量，则说明在遍历到当前的边之前，这两个顶点之间已经连通，因此当前的边导致环出现，为附加的边，将当前的边作为答案返回。
+
+
+class Solution:
+    def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
+        n = len(edges)
+        self.parent = list(range(n + 1))
+
+        for n1, n2 in edges:
+            if self.find(n1) != self.find(n2):
+                self.union(n1, n2)
+            else:
+                return [n1, n2]
+        print(self.parent)
+        return []
+
+
+    def union(self, n1, n2):
+        self.parent[self.find(n1)] = self.find(n2)
+
+
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
