@@ -1,6 +1,7 @@
 
 Given a weighted undirected graph and a source vertex src. We need to find the shortest path distances from the source vertex to all other vertices in the graph.
 
+Dijkstra’s algorithm always picks the node with the minimum distance first.
   
 
 def dijkstra(adj, src):
@@ -21,14 +22,14 @@ def dijkstra(adj, src):
         d, u = heapq.heappop(pq)
 
         # If this distance not the latest shortest one, skip it
-        if d > dist[u]:
+        if d > dist[u]: # this vertex has already been processed with a smaller distance, so skip it and continue to the next iteration.
             continue
 
         # Explore all neighbors of the current vertex
         for v, w in adj[u]:
 
             # If we found a shorter path to v through u, update it
-            if dist[u] + w < dist[v]:
+            if dist[u] + w < dist[v]: # For each neighbor v of u, check if the path through u gives a smaller distance than the current dist[v].
                 dist[v] = dist[u] + w
                 heapq.heappush(pq, (dist[v], v))
 
