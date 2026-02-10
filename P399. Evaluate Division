@@ -2,6 +2,45 @@
 # time O(q(v + e)), worst case e is v^2
 # space O(v + q)
 
+
+
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        graph = collections.defaultdict(dict)
+        for i, val in enumerate(values):
+            a = equations[i][0]
+            b = equations[i][1]
+            graph[a][b] = val
+            graph[b][a] = 1.0 / val 
+
+        print(graph)
+        res = []
+        for n1, n2 in queries:
+            res.append(self.bfs(graph, n1, n2))
+        return res
+
+    def bfs(self, graph, n1, n2):
+        if n1 not in graph or n2 not in graph:
+            return -1
+        q = collections.deque()
+        q.append([n1, 1])
+        visited = set()
+        visited.add(n1)
+        while q:
+            n, val = q.popleft()
+            if n == n2:
+                return val 
+
+            for nb in graph[n]:
+                val2 = graph[n][nb]
+                if nb not in visited:
+                    visited.add(nb)
+                    q.append((nb, val * val2))
+        return -1
+
+
+
+
 class Solution(object):
     def calcEquation(self, equations, values, queries):
         
