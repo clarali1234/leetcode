@@ -1,0 +1,34 @@
+# bfs
+# bfs计算x, y, z距离所有点的最短距离，再判断是否符合Pythagorean Distance
+
+class Solution:
+    def specialNodes(self, n: int, edges: List[List[int]], x: int, y: int, z: int) -> int:
+        graph = {i : [] for i in range(n)}
+        for a, b in edges:
+            graph[a].append(b)
+            graph[b].append(a)
+
+
+        dis1 = {i: -1 for i in range(n)}
+        dis2 = {i: -1 for i in range(n)}
+        dis3 = {i: -1 for i in range(n)}
+        self.bfs(graph, x, dis1) 
+        self.bfs(graph, y, dis2)
+        self.bfs(graph, z, dis3)
+        res = 0
+        #print(dis1, dis2, dis3)
+        for i in range(n):
+            a,b,c = sorted([dis1[i], dis2[i], dis3[i]])
+            if a ** 2 + b ** 2 == c ** 2:
+                res += 1
+        return res  
+
+    def bfs(self, graph, node, dic):
+        q = collections.deque([(node, 0)])
+        dic[node] = 0
+        while q:
+            node, dis = q.popleft() 
+            for nb in graph[node]:
+                if dic[nb] == -1:
+                    dic[nb] = dis + 1
+                    q.append([nb, dis + 1])
