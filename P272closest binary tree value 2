@@ -1,3 +1,38 @@
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def closestKValues(self, root: Optional[TreeNode], target: float, k: int) -> List[int]:
+        vals = []
+        self.dfs(root, vals)
+        l = 0
+        r = len(vals) - k
+        while l < r:
+            m = (l + r) // 2
+            if abs(vals[m] - target) > abs(vals[m + k] - target): # vals[m], vals[m + k] can't be in the result together
+                l = m + 1
+            else:
+                r = m
+    
+        return vals[l: l + k]
+                
+
+    def dfs(self, node, vals):
+        if not node:
+            return 
+
+        self.dfs(node.left, vals)
+        vals.append(node.val)
+        self.dfs(node.right, vals)
+
+
+
 # non-recursion inorder traversal
 # time O(n), space O(n)
 
