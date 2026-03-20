@@ -1,0 +1,48 @@
+
+linkedin vo
+
+1. Implement a function mergeTrees(TreeNode root1, TreeNode root2) that takes two n-ary trees and returns a new n-ary tree formed by
+merging them node by node. Each node contains an integer value and a list of children; children are aligned by their index in the children list.
+The merge rules are: If both trees have a node at the same position (0-based children array), the merged node's value is the sum of the two 
+original values. If only one tree has a node at a position, the merged tree should include a copy of that entire subtree.
+
+
+class Node:
+    def __init__(self, val, children=None):
+        self.val = val
+        self.children = children or []
+
+
+def mergeTrees(root1, root2):
+
+    # 情况1：都为空
+    if not root1 and not root2:
+        return None
+
+    # 情况2：只存在一个 → 深拷贝
+    if not root1:
+        return clone(root2)
+    if not root2:
+        return clone(root1)
+
+    # 情况3：都存在 → 合并当前节点
+    new_root = Node(root1.val + root2.val)
+
+    len1, len2 = len(root1.children), len(root2.children)
+    max_len = max(len1, len2)
+
+    for i in range(max_len):
+        c1 = root1.children[i] if i < len1 else None
+        c2 = root2.children[i] if i < len2 else None
+        new_root.children.append(mergeTrees(c1, c2))
+
+    return new_root
+
+
+def clone(node):
+    if not node:
+        return None
+    new_node = Node(node.val)
+    for child in node.children:
+        new_node.children.append(clone(child))
+    return new_node
