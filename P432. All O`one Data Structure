@@ -1,0 +1,116 @@
+
+
+
+class ListNode(object):
+    def __init__(self, freq):
+        self.freq = freq
+        self.keys = set()
+        self.prev = None
+        self.next = None
+
+class AllOne:
+
+    def __init__(self):
+        self.dic = {}
+        self.dummy_head = ListNode(0)
+        self.dummy_tail = ListNode(0)
+        self.dummy_head.next = self.dummy_tail
+        self.dummy_tail.prev = self.dummy_head
+
+    def add_node(self, node, prev, nxt):
+        prev.next = node 
+        node.prev = prev
+        node.next = nxt 
+        nxt.prev = node
+
+    def remove_node(self, node):
+        prev = node.prev 
+        nxt = node.next 
+        prev.next = nxt
+        nxt.prev = prev
+
+        
+    def inc(self, key: str) -> None:
+        if key not in self.dic:
+            # insert it with freq 1
+            head = self.dummy_head.next 
+            if head == self.dummy_tail or head.freq > 1:
+                node = ListNode(1)
+                self.add_node(node, self.dummy_head, head)
+                node.keys.add(key)
+                self.dic[key] = node
+
+            else:
+                head.keys.add(key)
+                self.dic[key] = head 
+        else: # if key in self.dic, cur_freq set remove key, freq + 1 add key
+            node = self.dic[key]
+            freq = node.freq 
+            node.keys.remove(key)
+            
+            next_node = node.next 
+            if next_node == self.dummy_tail or next_node.freq != freq + 1:
+                new_next_node = ListNode(freq + 1)
+                self.add_node(new_next_node, node, next_node)
+                new_next_node.keys.add(key)
+                self.dic[key] = new_next_node
+            else:
+                next_node.keys.add(key)
+                self.dic[key] = next_node
+
+            if not node.keys:
+                self.remove_node(node)
+        
+
+    def dec(self, key: str) -> None:
+        node = self.dic[key]
+        freq = node.freq 
+        if node.freq != 1:
+            prev_node = node.prev 
+            if prev_node == self.dummy_head or prev_node.freq != freq - 1:
+                new_node = ListNode(freq - 1)
+                new_node.keys.add(key)
+                self.add_node(new_node, prev_node, node)
+                self.dic[key] = new_node 
+                node.keys.remove(key)
+                if not node.keys:
+                    self.remove_node(node)
+                
+            else:
+                prev_node.keys.add(key)
+                node.keys.remove(key)
+                if not node.keys:
+                    self.remove_node(node)
+                self.dic[key] = prev_node
+
+        else: # node_freq = 1
+            node.keys.remove(key)
+            if not node.keys:
+                self.remove_node(node)
+            del self.dic[key]
+
+
+    def getMaxKey(self) -> str:
+        tail = self.dummy_tail.prev 
+        print(tail.freq, tail.keys)
+        if tail == self.dummy_head:
+            return ""
+        else:
+            return list(tail.keys)[0] if list(tail.keys) else ""
+        
+
+    def getMinKey(self) -> str:
+        head = self.dummy_head.next 
+        
+        if head == self.dummy_tail:
+            return ""
+        return list(head.keys)[0] if list(head.keys) else ""
+        
+
+
+# Your AllOne object will be instantiated and called as such:
+# obj = AllOne()
+# obj.inc(key)
+# obj.dec(key)
+# param_3 = obj.getMaxKey()
+# param_4 = obj.getMinKey()
