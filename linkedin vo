@@ -104,3 +104,56 @@ class LRUCache:
                     lru = self.tail.prev
                     self._remove(lru)
                     del self.map[lru.key]
+
+
+3. from collections import deque, defaultdict
+
+class AlertMonitor:
+
+    def __init__(self):
+        self.q = deque()  # (ts, level)
+        self.level_count = defaultdict(int)
+        self.total = 0
+
+        self.history = []   # 每个时间点的 count
+        self.stack = []     # 单调栈 (index)
+
+        self.WINDOW = 900  # 15 min = 900 sec
+
+    def _evict(self, ts):
+        # 移除窗口外数据
+        while self.q and self.q[0][0] < ts - self.WINDOW:
+            old_ts, level = self.q.popleft()
+            self.level_count[level] -= 1
+            self.total -= 1
+
+    def addAlert(self, ts, level):
+        self.q.append((ts, level))
+        self.level_count[level] += 1
+        self.total += 1
+
+    def getCount(self, ts):
+        self._evict(ts)
+        return self.total
+
+    def getDistribution(self, ts):
+        self._evict(ts)
+        return dict(self.level_count)
+
+    def getSpike(self, ts):
+        self._evict(ts)
+
+        cur = self.total
+        idx = len(self.history)
+
+        # 单调栈：维护递增
+        while self.stack and self.history[self.stack[-1]] >= cur:
+            self.stack.pop()
+
+        # 找左边第一个更小
+        res = self.stack[-1] if self.stack else -1
+
+        self.history.append(cur)
+        self.stack.append(idx)
+
+        return res
