@@ -1,7 +1,6 @@
-# stack
-# time O(n)
-
-def helper(i):
+class Solution:
+    def calculate(self, s: str) -> int:
+        def helper(i):
             stack = []
             num = 0
             sign = '+'
