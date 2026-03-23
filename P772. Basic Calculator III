@@ -1,37 +1,40 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        def helper(i):
-            stack = []
-            num = 0
-            sign = '+'
+        return self.helper(s, 0)[0]
 
-            while i < len(s):
-                ch = s[i]
+    def helper(self, s, i):
+        stack = []
+        num = 0
+        ope = '+'
 
-                if ch.isdigit():
-                    num = num * 10 + int(ch)
+        while i < len(s):
+            char = s[i]
 
-                if ch == '(':
-                    num, i = helper(i + 1)
+            if char.isdigit():
+                num = num * 10 + int(char)
 
-                if ch in "+-*/)" or i == len(s) - 1:
-                    if sign == '+':
-                        stack.append(num)
-                    elif sign == '-':
-                        stack.append(-num)
-                    elif sign == '*':
-                        stack.append(stack.pop() * num)
-                    elif sign == '/':
-                        stack.append(int(stack.pop() / num))
+            if char == '(':
+                num, i = self.helper(s, i + 1)
 
-                    sign = ch
-                    num = 0
+            if char in '+-*/)' or i == len(s) - 1:
+                if ope == '+':
+                    stack.append(num)
+                elif ope == '-':
+                    stack.append(-num) 
 
-                if ch == ')':
-                    return sum(stack), i
+                elif ope == '*':
+                    stack.append(stack.pop() * num)
 
-                i += 1
+                elif ope == '/':
+                    stack.append(int(stack.pop() / num))
 
-            return sum(stack), i
+                ope = char 
+                num = 0
 
-        return helper(0)[0]
+            if char == ')':
+                return sum(stack), i 
+
+            i += 1
+
+        return sum(stack), i
+
