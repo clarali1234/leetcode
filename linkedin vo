@@ -157,3 +157,30 @@ class AlertMonitor:
         self.stack.append(idx)
 
         return res
+
+
+1004. Max Consecutive Ones III 变种 有2，obstacle
+
+def longestOnesWithObstacle(nums, k):
+    left = 0
+    zeros = 0
+    res = 0
+    
+    for right in range(len(nums)):
+        if nums[right] == 2:
+            # 遇到障碍，重置窗口
+            left = right + 1
+            zeros = 0
+            continue
+        
+        if nums[right] == 0:
+            zeros += 1
+        
+        while zeros > k:
+            if nums[left] == 0:
+                zeros -= 1
+            left += 1
+        
+        res = max(res, right - left + 1)
+    
+    return res
