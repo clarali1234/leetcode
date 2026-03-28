@@ -5,22 +5,24 @@
 class Solution(object):
     def canPartitionKSubsets(self, nums, k):
         
+        class Solution:
+    def canPartitionKSubsets(self, nums: List[int], k: int) -> bool:
         if sum(nums) % k != 0:
             return False
         self.target = sum(nums) / k
         self.visited = [False for i in range(len(nums))]
         
-        return self.dfs(nums, 0, 0, [], k)
+        return self.dfs(nums, 0, 0, k)
 
     
-    def dfs(self, nums, cur_sum, cur_index, cur_path, k):
+    def dfs(self, nums, cur_sum, cur_index, k):
         # base case 1
         if cur_sum == self.target and k == 1:
             return True
         
         # base case 2
         if cur_sum == self.target:
-            return self.dfs(nums, 0, 0, [], k - 1)
+            return self.dfs(nums, 0, 0, k - 1)
         
         if cur_sum >= self.target:
             return 
@@ -29,7 +31,7 @@ class Solution(object):
         for i in range(cur_index, len(nums)):
             if not self.visited[i]:
                 self.visited[i] = True
-                if self.dfs(nums, cur_sum + nums[i], i + 1, cur_path, k):
+                if self.dfs(nums, cur_sum + nums[i], i + 1, k):
                     return True
                 self.visited[i] = False
                 
