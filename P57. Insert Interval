@@ -63,7 +63,7 @@ class Solution(object):
         
  
  
- sol2 -- from oo ;)
+ sol2 
  class Solution:
     def insert(self, intervals, newInterval):
         
