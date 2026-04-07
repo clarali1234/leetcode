@@ -3,19 +3,24 @@
 # space O(h)
 
 
-class Solution(object):
-    def rob(self, root):
-        return self.dfs(root)[1]
-        
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        return max(self.dfs(root))
+
     def dfs(self, node):
         if not node:
-            return [0, 0] # (non_cur, max)
-        
+            return [0, 0] # not cur, cur
+
         l = self.dfs(node.left)
         r = self.dfs(node.right)
-        
-        non_cur = l[1] + r[1]
-        cur = max(non_cur, node.val + l[0] + r[0])
-        
-        return [non_cur, cur]
-        
+
+        cur = node.val + l[0] + r[0]
+        not_cur = max(l) + max(r)
+
+        return [not_cur, cur]
