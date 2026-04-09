@@ -1,3 +1,66 @@
+
+sol1 hashtable
+class TwoSum:
+
+    def __init__(self):
+        self.dic = {}
+
+    def add(self, number: int) -> None:
+        self.dic[number] = self.dic.get(number, 0) + 1
+
+    def find(self, value: int) -> bool:
+        for num in self.dic:
+            n2 = value - num 
+            if n2 != num:
+                if n2 in self.dic:
+                    return True
+                return False
+            else:
+                if self.dic[num] > 1:
+                    return True
+                return False
+        
+
+sol2: two pointer + sort
+class TwoSum:
+
+    def __init__(self):
+        self.nums = []
+
+    def add(self, number: int) -> None:
+        bisect.insort(self.nums, number)
+        
+
+    def find(self, value: int) -> bool:
+        l = 0
+        r = len(self.nums) - 1
+        while l < r:
+            if self.nums[l] + self.nums[r] == value:
+                return True
+            if self.nums[l] + self.nums[r] < value:
+                l += 1
+            else:
+                r -= 1
+        return False
+sol3:
+class TwoSum:
+
+    def __init__(self):
+        self.nums = []
+        self.sums = set()
+
+    def add(self, number: int) -> None:
+        
+        for num in self.nums:
+            self.sums.add(num + number)
+
+        self.nums.append(number)
+        
+
+    def find(self, value: int) -> bool:
+        return value in self.sums
+
+
 class TwoSum:
 
     def __init__(self):
