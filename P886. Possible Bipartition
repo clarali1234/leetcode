@@ -1,0 +1,27 @@
+
+
+
+class Solution:
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        self.color = {}
+        self.graph = collections.defaultdict(list)
+        for i, j in dislikes:
+            self.graph[i].append(j)
+            self.graph[j].append(i) 
+
+        for i in range(1, n + 1):
+            if i not in self.color:
+                if not self.dfs(i, 0):
+                    return False
+        return True
+
+        # 给node染c color
+    def dfs(self, node, c):
+        if node in self.color:
+            return self.color[node] == c
+
+        self.color[node] = c
+        for nb in self.graph[node]:
+            if not self.dfs(nb, 1 - c):
+                return False
+        return True
