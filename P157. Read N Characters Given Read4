@@ -1,22 +1,22 @@
 # 目的，把文件内容读在buf里；返回max(len(file, n))
 
-class Solution(object):
+class Solution:
     def read(self, buf, n):
-        """
-        :type buf: Destination buffer (List[str])
-        :type n: Number of characters to read (int)
-        :rtype: The number of actual characters read (int)
-        """
-        # i是下一次开始的坐标
-        i = 0
-        while i < n:
-            # buf4用来缓存每次读出的内容
-            buf4 = [''] * 4
-            count = read4(buf4)
-            if not count:
+        buf4 = [''] * 4
+        total = 0  # 已读取总数
+        
+        while total < n:
+            count = read4(buf4)  # 实际读取数量
+            
+            # 如果 read4 返回 0，说明 EOF
+            if count == 0:
                 break
-             #文件可以继续读出，但是不能超过n个
-            count = min(count, n - i)
-            buf[i: ] = buf4[:count]
-            i += count
-        return i
+            
+            # 把 buf4 的内容拷贝到 buf
+            for i in range(count):
+                if total == n:
+                    break
+                buf[total] = buf4[i]
+                total += 1
+        
+        return total
