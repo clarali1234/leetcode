@@ -1,0 +1,198 @@
+
+
+1. 2571. Minimum Operations to Reduce an Integer to 0
+
+class Solution:
+    def minOperations(self, n: int) -> int:
+        count = 0
+        
+        while n:
+            if n & 1 == 0: # n是偶数
+                n >>= 1  # n // 2
+            else:
+                # 如果是最后一位 或 下一位是0 → 减
+                if n == 1 or (n & 2) == 0:
+                    n -= 1
+                else:
+                    n += 1
+                count += 1
+        
+        return count
+
+2. 992. Subarrays with K Different Integers
+  class Solution:
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        return self.at_most(nums, k) - self.at_most(nums, k - 1)
+
+    def at_most(self, nums, k):
+        dic = collections.defaultdict(int)
+        res = 0
+        i = 0
+        for j, num in enumerate(nums):
+            dic[num] += 1
+
+            while len(dic) > k:
+                if dic[nums[i]] == 1:
+                    del dic[nums[i]]
+                else:
+                    dic[nums[i]] -= 1
+
+                i += 1
+
+            res += j - i + 1
+        return res
+
+3. LeetCode 1475 — Final Prices With a Special Discount in a Shop
+  class Solution:
+    def finalPrices(self, prices: List[int]) -> List[int]:
+        stack = []
+        for i in range(len(prices)):
+            while stack and prices[i] <= prices[stack[-1]]:
+                j = stack.pop()
+                prices[j] -= prices[i]
+
+            stack.append(i)
+        return prices
+
+4. 类似 leetcode 1696 DP题 给了一个数组， 可以选择跳一步 或者跳 以数字3 结尾的 prime number 步， 跳到对应步 加相对应的数组值 求跳到最后步的最大值
+class Solution:
+    def maxScore(self, nums):
+        n = len(nums)
+        
+        # ---------- 预处理 primes ----------
+        def get_primes_ending_with_3(n):
+            is_prime = [True] * (n + 1)
+            is_prime[0] = is_prime[1] = False
+            
+            for i in range(2, int(n**0.5) + 1):
+                if is_prime[i]:
+                    for j in range(i*i, n+1, i):
+                        is_prime[j] = False
+            
+            return [i for i in range(2, n+1) if is_prime[i] and i % 10 == 3]
+        
+        primes = get_primes_ending_with_3(n)
+        
+        # ---------- DP ----------
+        dp = [-float('inf')] * n
+        dp[0] = nums[0]
+        
+        for i in range(1, n):
+            # 跳1步
+            dp[i] = dp[i-1] + nums[i]
+            
+            # 跳 prime steps
+            for p in primes:
+                if p > i:
+                    break
+                dp[i] = max(dp[i], dp[i-p] + nums[i])
+        
+        return dp[-1]
+
+5. from collections import defaultdict
+
+def countPalindromePaths(treeNodes, nodes, nodeFrom, nodeTo, queries):
+    tree = [[] for _ in range(treeNodes)]
+    for u, v in zip(nodeFrom, nodeTo):
+        tree[u].append(v)
+
+    # 把 queries 挂在节点上
+    qmap = defaultdict(list)
+    for i, q in enumerate(queries):
+        qmap[q].append(i)
+
+    res = [0] * len(queries)
+
+    cnt = defaultdict(int)
+    cnt[0] = 1  # root 之前的空路径
+
+    def dfs(u, mask):
+        # 更新当前 mask
+        mask ^= (1 << (ord(nodes[u]) - ord('a')))
+
+        # 处理所有 query
+        for qi in qmap[u]:
+            total = 0
+
+            # 完全匹配
+            total += cnt[mask]
+
+            # 差一位
+            for i in range(26):
+                total += cnt[mask ^ (1 << i)]
+
+            res[qi] = total
+
+        # 加入当前节点
+        cnt[mask] += 1
+
+        for v in tree[u]:
+            dfs(v, mask)
+
+        # 回溯
+        cnt[mask] -= 1
+
+    dfs(0, 0)
+    return res
+
+
+7. 爬楼梯，可以从一开始坐一次电梯，每层楼可以获取一些能量e1，每层楼耗时t1。之后走楼梯，每层楼消耗能量e2, 每层楼耗费时间 ceil(c / curr energy),
+  c是一个常数。爬楼梯过程中能量不能为负。计算坐电梯和爬楼梯时间min diff。可以用binary search做。
+
+import math
+
+class Solution:
+    def minTimeDiff(self, N, e1, t1, e2, c):
+        """
+        N: 总楼层
+        e1: 电梯每层获得能量
+        t1: 电梯每层时间
+        e2: 楼梯每层消耗能量
+        c: 常数（楼梯时间公式）
+        """
+
+        # ---------- 计算楼梯时间 ----------
+        def calc_stairs_time(k):
+            energy = k * e1
+            time = 0
+
+            for _ in range(N - k):
+                if energy <= 0:
+                    return float('inf')  # 不合法
+                
+                time += (c + energy - 1) // energy  # ceil(c / energy)
+                energy -= e2
+
+            return time
+
+        # ---------- k 的合法下界 ----------
+        # k*e1 >= (N-k)*e2
+        # k >= ceil(N*e2 / (e1 + e2))
+        left = (N * e2 + e1 + e2 - 1) // (e1 + e2)
+        right = N
+
+        # ---------- binary search ----------
+        def f(k):
+            elevator = k * t1
+            stairs = calc_stairs_time(k)
+            return elevator - stairs
+
+        while left < right:
+            mid = (left + right) // 2
+            if f(mid) < 0:
+                left = mid + 1
+            else:
+                right = mid
+
+        # ---------- check k 和 k-1 ----------
+        def diff(k):
+            if k < 0 or k > N:
+                return float('inf')
+            elevator = k * t1
+            stairs = calc_stairs_time(k)
+            return abs(elevator - stairs)
+
+        return min(diff(left), diff(left - 1))
+
+
+
