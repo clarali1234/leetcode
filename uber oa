@@ -196,3 +196,108 @@ class Solution:
 
 
 
+8. n个task分给两个人做，每个人做每个task有对应的reward_1/2[i]，要求第一个人必须完成k个，求最大reward
+def maxReward(reward1, reward2, k):
+    # baseline：全部给 person2
+    total = sum(reward2)
+    
+    # 计算切换收益
+    gains = [r1 - r2 for r1, r2 in zip(reward1, reward2)]
+    
+    # 选最大的 k 个
+    gains.sort(reverse=True)
+    
+    return total + sum(gains[:k])
+
+
+def maxReward(reward1, reward2, k):
+    n = len(reward1)
+    NEG = float('-inf')
+    
+    dp = [NEG] * (k + 1)
+    dp[0] = 0
+
+    for i in range(n):
+        prev = dp[:]  # 上一轮
+        
+        for j in range(0, min(i + 1, k) + 1):
+            # 给 person2
+            dp[j] = prev[j] + reward2[i]
+            
+            # 给 person1
+            if j > 0:
+                dp[j] = max(dp[j], prev[j - 1] + reward1[i])
+
+    return dp[k]
+
+9. 两个array，layers和energy，和一个初始值K表示起始能拿到的能量
+假设从第i关开始探险，layers[i]表示这关会消耗的energy，消耗完剩余的eneryg >= energy[i]就表示这关通过，能拿一分，如果闯关失败则不能继续后面的关。
+返回一个size为n的list. list(i)表示从第i关开始探险，能拿多少分
+O(n^2)会timeout。
+
+from collections import deque
+
+def maxPoints(layers, energy, K):
+    n = len(layers)
+    
+    # prefix sum
+    pre = [0] * (n + 1)
+    for i in range(n):
+        pre[i + 1] = pre[i] + layers[i]
+    
+    # need array
+    need = [pre[i + 1] + energy[i] for i in range(n)]
+    
+    res = [0] * n
+    dq = deque()  # 单调递减队列（存 index）
+    
+    j = 0
+    for i in range(n):
+        # 扩展右边界
+        while j < n:
+            # 加入 need[j]
+            while dq and need[dq[-1]] <= need[j]:
+                dq.pop()
+            dq.append(j)
+            
+            # 判断是否满足
+            if need[dq[0]] <= K + pre[i]:
+                j += 1
+            else:
+                # 不满足，撤销刚加入的 j
+                if dq and dq[-1] == j:
+                    dq.pop()
+                break
+        
+        # 当前窗口是 [i, j-1]
+        res[i] = j - i
+        
+        # 移动左边界
+        if dq and dq[0] == i:
+            dq.popleft()
+    
+    return res
+
+10. Longest Subsequence With Limited Sum (Easy)
+class Solution:
+    def answerQueries(self, nums: List[int], queries: List[int]) -> List[int]:
+        nums.sort()
+    
+    # prefix sum
+        pre = [0]
+        for num in nums:
+            pre.append(pre[-1] + num)
+    
+        res = []
+        for q in queries:
+        # 找 <= q 的最大长度
+            k = bisect.bisect_right(pre, q) - 1
+            res.append(k)
+    
+        return res
+
+11. 
+
+
+
+
