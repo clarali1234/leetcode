@@ -8,16 +8,11 @@ ax+by=z
 
 
 
-class Solution(object):
-    def canMeasureWater(self, x, y, z):
-        
-        if x + y < z:
+class Solution:
+    def canMeasureWater(self, x: int, y: int, target: int) -> bool:
+        # find ax + by = target
+        # target % gcd(x, y) = 0
+        if x + y < target:
             return False
-        if x == 0 or y == 0:
-            return z == 0 or x + y == z
-        return z % self.gcd(x, y) == 0
 
-    def gcd(self, x, y):
-        if y == 0:
-            return x
-        return self.gcd(y, x % y)
+        return target % gcd(x, y) == 0
