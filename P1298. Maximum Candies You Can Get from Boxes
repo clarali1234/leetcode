@@ -1,0 +1,41 @@
+
+# bfs
+# time O(n) n个盒子
+# space O(n)
+class Solution:
+    def maxCandies(self, status: List[int], candies: List[int], keys: List[List[int]], containedBoxes: List[List[int]], initialBoxes: List[int]) -> int:
+        keys_l = keys
+        have = set(initialBoxes) # 已经拿在手里的盒子
+        keys = set()
+        res = 0
+        visited = set()
+        q = collections.deque([])
+        for box in initialBoxes:
+            if status[box] == 1:
+                q.append(box)
+
+        while q:
+            box = q.popleft()
+            if box in visited:
+                continue
+
+            res += candies[box]
+            visited.add(box)
+
+            # 拿钥匙
+            for key in keys_l[box]:
+                keys.add(key)
+                if key in have and key not in visited:
+                    q.append(key)
+
+
+            # 拿盒子
+            for box in containedBoxes[box]:
+                have.add(box)
+                if (status[box] == 1 or box in keys) and box not in visited:
+                    q.append(box)
+
+        return res
+                    
+
+            
