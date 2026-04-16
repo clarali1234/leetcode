@@ -1,3 +1,56 @@
+
+用最小堆维护当前最小值，同时跟踪当前最大值，持续收缩区间
+
+heap
+
+# time O(nlgk)
+# space O(k)
+
+class Solution:
+    def smallestRange(self, nums: List[List[int]]) -> List[int]:
+        heap = []
+        res = [-sys.maxsize, sys.maxsize]
+        max_val = -sys.maxsize
+        for i, num in enumerate(nums):
+            heap.append((num[0], i, 0))
+            max_val = max(max_val, num[0])
+
+        heapify(heap)
+
+        while True:
+            val, idx1, idx2 = heappop(heap)
+            if max_val - val < res[1] - res[0]:
+                res = [val, max_val]
+
+            if idx2 + 1 == len(nums[idx1]):
+                break
+
+            heappush(heap, (nums[idx1][idx2 + 1], idx1, idx2 + 1))
+
+            max_val = max(max_val, nums[idx1][idx2 + 1])
+
+        return res
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # idea: hash table  + two pointers
 # steps: combine all the lists in to one, with [ele, i], i: list index
 # sort nums_all 
