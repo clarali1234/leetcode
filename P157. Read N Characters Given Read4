@@ -1,5 +1,30 @@
 # 目的，把文件内容读在buf里；返回max(len(file, n))
 
+
+class Solution:
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Number of characters to read (int)
+        :rtype: The number of actual characters read (int)
+        """
+        total = 0
+        buf4 = [''] * 4
+
+        while total < n:
+            count = read4(buf4)
+            if count == 0:
+                break
+
+            copy = min(count, n - total)
+            for i in range(copy):
+                buf[total] = buf4[i]
+                total += 1
+
+        return total
+
+
+
 class Solution:
     def read(self, buf, n):
         buf4 = [''] * 4
