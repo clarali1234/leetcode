@@ -1,0 +1,20 @@
+
+
+1. job scheduler 其实就是变体版meeting room2
+
+csv形式给定job数量和job开始时间和时常 比如“1030 30”
+
+涉及到read stream和string parsing
+
+问最少需要多少个worker 以及打印出所有job history 形式是J0 W0 代表job 0是由worker 0处理的
+
+注意和meeting rooms2不同的限制是当有多个worker都有空闲时，不是选worker end time最早，而是按照编号选编号最小的
+
+
+
+
+
+2. 设计一个pagination API，你可以call一个external design好的API、但这个API只会返回你第几页的数据，比如你输入3，就返回你第三页的数据。现在让你设计的新API是用户输入个数
+，比如输入30，就返回前三十个数据，再输入8，就返回第31-39的数据，如此类推，你只可以call这个external API，没有原始数据。
+
+写完以后会问你一些follow up，比如数据很大，call的次数很多怎么办。
