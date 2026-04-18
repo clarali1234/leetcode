@@ -1,5 +1,41 @@
 # time O(n * 4^L), n is the number of node, L is length of word, 如果board很大，word很短, mn is upper bound of 4 ^ L
 # space O(mn) + O(L), L is the depth of recursion
+
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        if not board or not word:
+            return False
+
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                self.visited = set()
+                if self.dfs(board, i, j, word, 0):
+                    return True
+
+        return False
+
+    def dfs(self, board, x, y, word, index):
+        if board[x][y] != word[index]:
+            return False
+
+        if index == len(word) - 1:
+            return True
+
+        self.visited.add((x, y))
+        for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(board) and 0 <= new_y < len(board[0]) and (new_x, new_y) not in self.visited:
+                if self.dfs(board, new_x, new_y, word, index + 1):
+                    return True
+
+        self.visited.remove((x, y))
+        return False
+
+        
+
+
 # node:
     base case, 先判断 index == len(word),再判断是否出界！！！
 
