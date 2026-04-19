@@ -23,6 +23,37 @@ class HitCounter(object):
 
 # follow up: if number of hits per second is large, in order to save space, we can use dic
 # key:time, value: num of hits at this time
+最优，节省空间
+class HitCounter:
+
+    def __init__(self):
+        self.times = [0] * 300
+        self.hits = [0] * 300
+
+    def hit(self, timestamp: int) -> None:
+        idx = timestamp % 300
+        if self.times[idx] != timestamp:
+            self.hits[idx] = 1
+            self.times[idx] = timestamp
+        else:
+            self.hits[idx] += 1
+        
+
+    def getHits(self, timestamp: int) -> int:
+        res = 0
+        for idx, t in enumerate(self.times):
+            if  timestamp - t < 300:
+                res += self.hits[idx]
+
+        return res
+
+        
+
+
+# Your HitCounter object will be instantiated and called as such:
+# obj = HitCounter()
+# obj.hit(timestamp)
+# param_2 = obj.getHits(timestamp)
 
 # sol2
 # using dic 
