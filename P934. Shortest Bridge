@@ -2,6 +2,51 @@
 # bfs starts from first island
 
 class Solution:
+    def shortestBridge(self, grid: List[List[int]]) -> int:
+        self.q = collections.deque([])
+        n = len(grid)
+        visited = set()
+        found = False
+        for i in range(n):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    self.dfs(grid, i, j, visited)
+                    found = True
+                    break
+            if found:
+                break
+        
+        return self.bfs(grid,visited)
+
+    def dfs(self, grid, x, y, visited):
+        visited.add((x, y))
+        self.q.append((x, y))
+        for dx, dy in [(1,0), (-1, 0), (0,1), (0, -1)]:
+            new_x = x + dx
+            new_y = y + dy
+            if 0 <= new_x < len(grid) and 0 <= new_y < len(grid) and grid[new_x][new_y] == 1 and (new_x, new_y) not in visited:
+                self.dfs(grid, new_x, new_y, visited)
+
+    def bfs(self, grid, visited):
+        step = 0
+        while self.q:
+            for _ in range(len(self.q)):
+                x, y = self.q.popleft()
+                for dx, dy in [(1, 0), (-1, 0), (0,1), (0, -1)]:
+                    new_x = x + dx
+                    new_y = y + dy
+                    if  0 <= new_x < len(grid) and 0 <= new_y < len(grid) and grid[new_x][new_y] == 1 and (new_x, new_y) not in visited:
+                        return step
+                    if 0 <= new_x < len(grid) and 0 <= new_y < len(grid) and grid[new_x][new_y] == 0 and (new_x, new_y) not in visited:
+                        self.q.append((new_x, new_y))
+                        visited.add((new_x, new_y))
+            step += 1
+
+
+
+
+
+class Solution:
     def shortestBridge(self, A: List[List[int]]) -> int:
 
         self.source = set()
