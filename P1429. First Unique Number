@@ -22,8 +22,52 @@ class FirstUnique(object):
         self.q.append(value)
         self.counter[value] = self.counter.get(value, 0) + 1
 
+sol2:queue+hashset
+    class FirstUnique:
 
-# sol2 : duoubly linked list + hash table 
+    def __init__(self, nums: List[int]):
+        self.q = collections.deque(nums) 
+        self.counter = collections.Counter(nums)
+
+    def showFirstUnique(self) -> int:
+        while self.q and self.counter[self.q[0]] > 1:
+            self.q.popleft()
+        return self.q[0] if self.q else -1
+
+    def add(self, value: int) -> None:
+        self.counter[value] = self.counter.get(value, 0) + 1
+        self.q.append(value)
+
+
+
+sol3:OrderedDict(一个有序字典，存储当前只出现过一次的数字。其顺序即为插入顺序) + set
+
+    class FirstUnique:
+
+    def __init__(self, nums: List[int]):
+        self.unique = OrderedDict()
+        self.all = set()
+        for num in nums:
+            self.add(num)
+
+    def showFirstUnique(self) -> int:
+        if self.unique:
+            return next(iter(self.unique))
+        return -1
+        
+
+    def add(self, value: int) -> None:
+        if value not in self.all:
+            self.all.add(value)
+            self.unique[value] = True
+
+        else:
+            if value in self.unique:
+                del self.unique[value]
+
+
+
+# sol4 : duoubly linked list + hash table 
 # time first unique num O(1)
 class ListNode(object):
     def __init__(self, num, prev = None, nxt = None):
