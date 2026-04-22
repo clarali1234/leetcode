@@ -1,43 +1,65 @@
-
-class Solution(object):
-    def boundaryOfBinaryTree(self, root):
-        
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def boundaryOfBinaryTree(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
-            return None
-        if not root.left and not root.right:
+            return []
+
+        if self.is_leaf(root):
             return [root.val]
-        
+
         self.res = [root.val]
-        self.l_dfs(root.left)
+        left = self.left_b(root)
+        #print(left)
+        self.res.extend(left)
         self.leaves(root)
-        self.r_dfs(root.right)
+        right = self.right_b(root)
+        self.res.extend(right[::-1])
         return self.res
-    
-    def l_dfs(self, node):
-        if not node or not node.left and not node.right:
-            return 
-        
-        self.res.append(node.val)
-        if node.left:
-            self.l_dfs(node.left)
-        elif node.right:
-            self.l_dfs(node.right)
-            
-    def r_dfs(self, node):
-        if not node or not node.left and not node.right:
-            return 
-        
-        if node.right:
-            self.r_dfs(node.right)
-        elif node.left:
-            self.r_dfs(node.left)
-        self.res.append(node.val)
-        
+
+    def left_b(self, node):
+        res = []
+        cur = node.left
+        while cur:
+            if cur and not self.is_leaf(cur):
+                res.append(cur.val)
+
+            if cur.left:
+                cur = cur.left
+            else:
+                cur = cur.right
+        #print(res)
+        return res
+
+    def right_b(self, node):
+        res = []
+        cur = node.right
+        while cur:
+            if cur and not self.is_leaf(cur):
+                res.append(cur.val)
+
+            if cur.right:
+                cur = cur.right
+            else:
+                cur = cur.left
+
+        return res
+
     def leaves(self, node):
         if not node:
             return 
-        if not node.left and not node.right:
+
+        if self.is_leaf(node):
             self.res.append(node.val)
-            
+
         self.leaves(node.left)
         self.leaves(node.right)
+
+    def is_leaf(self, node):
+        if node and not node.left and not node.right:
+            return True
+
