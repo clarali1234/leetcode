@@ -1,24 +1,22 @@
-# time O(mn * max(m,n))
+# time O(mn)
 # space O(mn)
 
-class Solution(object):
-    def findDiagonalOrder(self, matrix):
-        """
-        :type matrix: List[List[int]]
-        :rtype: List[int]
-        """
-        
-        levels = collections.defaultdict(list)
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                if (i + j) % 2: # i + j = level is odd
-                    levels[i + j].append(matrix[i][j])
-                else:
-                    levels[i + j].insert(0, matrix[i][j])
-                    
+class Solution:
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        m = len(mat)
+        n = len(mat[0])
+
+        dic = collections.defaultdict(list)
+        for i in range(m):
+            for j in range(n):
+                dic[i + j].append(mat[i][j])
+
         res = []
-        for level in levels.values():
-            res = res + level
+        for i in range(m + n - 1):
+            if i % 2 == 0:
+                res.extend(dic[i][::-1])
+            else:
+                res.extend(dic[i])
         return res
         
         
