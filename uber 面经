@@ -1,2 +1,49 @@
 
 1. "add(1,2)" -> 3 "sub(3,1)" -> 2 "add(1, sub(3,1))" -> 3 就是一个简单的加减法。 给一个字符，输出数字
+
+class Solution(object):
+    def solve(self, s):
+        if s.isdigit() or (s[0] == '-' and s[1:].isdigit()):
+            return int(s)
+            
+        if s.startswith('add'):
+            ope = 'add'
+        else:
+            ope = 'sub'
+            
+        
+        inner = s[s.find('(') + 1:-1]
+        
+        left = ''
+        right = ''
+        balance = 0
+        for i, char in enumerate(inner):
+            if char == '(':
+                balance += 1 
+                
+            elif char == ')':
+                balance -= 1 
+                
+            elif char == ',' and balance == 0:
+                left = inner[:i]
+                right = inner[i + 1:]
+                break
+                
+        l_res = self.solve(left)
+        r_res = self.solve(right)
+        
+        if ope == 'add':
+            return l_res + r_res
+        else:
+            print('left', l_res
+            , 'right', r_res)
+            return l_res - r_res
+            
+test = Solution()
+
+print(test.solve("add(1,2)"))
+print(test.solve("sub(5, add(2,1))"))
+        
+        
+        
+        
