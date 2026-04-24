@@ -1,3 +1,40 @@
+# sol1, 数组 + binary search
+class HitCounter:
+
+    def __init__(self):
+        self.nums = []
+
+    def hit(self, timestamp: int) -> None:
+        self.nums.append(timestamp)
+        
+
+    def getHits(self, timestamp: int) -> int:
+        if not self.nums:
+            return 0
+
+        # find first index > timestamp - 300 
+        l = 0
+        r = len(self.nums) - 1
+        while l + 1 < r:
+            m = (l + r) // 2
+            if self.nums[m] <= timestamp - 300:
+                l = m + 1
+            else:
+                r = m
+
+        if self.nums[l] > timestamp - 300:
+            index = l
+
+        elif self.nums[r] > timestamp - 300:
+            index = r
+        else:
+            return 0
+
+
+        return len(self.nums) - index
+
+
+
 # sol1
 # using deque
 那么最直接的方法就是用一个队列queue，每次点击时都将当前时间戳加入queue中，
@@ -21,7 +58,7 @@ class HitCounter(object):
         return len(self.time)
         
 
-# follow up: if number of hits per second is large, in order to save space, we can use dic
+# follow up:hits很大，不需要保留旧数据
 # key:time, value: num of hits at this time
 最优，节省空间
 class HitCounter:
@@ -49,28 +86,58 @@ class HitCounter:
 
         
 
-
-# Your HitCounter object will be instantiated and called as such:
-# obj = HitCounter()
-# obj.hit(timestamp)
-# param_2 = obj.getHits(timestamp)
-
-# sol2
-# using dic 
+# sol4 save space，hit sparse, 用dic + 清理
 
 # time hit/get hit O(1)
-# space O(n)
-class HitCounter(object):
+# space O(1)
+class HitCounter:
 
     def __init__(self):
         self.dic = collections.defaultdict(int)
-        
 
-    def hit(self, timestamp):
+    def hit(self, timestamp: int) -> None:
         self.dic[timestamp] += 1
 
-    def getHits(self, timestamp):
+    def getHits(self, timestamp: int) -> int:
         res = 0
-        for i in range(timestamp, timestamp - 300, -1):
-            res += self.dic[i]
+        expired = []
+        for t, hit in self.dic.items():
+            if timestamp - t < 300:
+                res += hit 
+            else:
+                expired.append(t)
+
+        for t in expired:
+            del self.dic[t]
         return res
+
+
+# sol5: map + deque
+class HitCounter:
+
+    def __init__(self):
+        self.dic = collections.defaultdict(int)
+        self.q = collections.deque([])
+        self.total = 0
+
+    def hit(self, timestamp: int) -> None:
+        if timestamp not in self.dic:
+            self.dic[timestamp] = 1
+            self.q.append(timestamp)
+        else:
+            self.dic[timestamp] += 1
+        self.total += 1
+        
+    
+    def getHits(self, timestamp: int) -> int:
+
+        cutoff = timestamp - 300
+        while self.q and self.q[0] <= cutoff:
+            old_time = self.q.popleft()
+            self.total -= self.dic[old_time]
+            del self.dic[old_time]
+        return self.total
+
+
+
+        
