@@ -1,61 +1,60 @@
-The idea is that we build a disjoint set data structure using the formula x * n + y as the index to represent each 
-of the points. First, we iterate over the given points and add it to the UnionFind object by invoking make_set. 
-Then we check its neighbors in four directions (up, down, left, right). 
-If any of the neighbors are also already part of the UnionFInd, it means the neighbor is part of the same island. 
-So, we do a union of the current point with this neighbor. 
-After looking at all the neighbors, we count the total of islands currently present by counting 
-the number of sets stored in the UnionFind data structure.
+class UF(object):
+    def __init__(self, n):
+        self.parent = [-1] * n
+        self.rank = [0] * n
+        self.count = 0
 
-使用并查集，每次对于a和b，找到各自的老大哥节点A和B，其中需要路径压缩, 如果A不等于B，将A树指向B树
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
 
-# union time O(1)
-FIND operation is proportional to the depth of the tree. 
-If N is the number of points added, the average running time is O(logN), 
-and a sequence of 4N operations take O(NlogN). If there is no balancing, the worse case could be O(N^2).
+    def union(self, a, b):
+        ra = self.find(a)
+        rb = self.find(b)
 
-id = n * x + y for (x, y) node
-directions = [(0, 1), (0, -1), (-1, 0), (1, 0)]
+        if ra == rb:
+            return False
+
+        if self.rank[ra] == self.rank[rb]:
+            self.parent[ra] = rb
+            self.rank[rb] += 1
+
+        elif self.rank[ra] < self.rank[rb]:
+            self.parent[ra] = rb
+        else:
+            self.parent[rb] = ra
+
+        self.count -= 1
+        return True
+
+    def add_land(self, x):
+        if self.parent[x] != -1:
+            return False
+        
+        self.parent[x] = x
+        self.count += 1
+        return True
 
 class Solution:
     def numIslands2(self, m: int, n: int, positions: List[List[int]]) -> List[int]:
-        self.size = 0
-        self.father = {}
-        self.island = set([])
-        self.res = []
-        
-        for position in positions:
-            x = position[0]
-            y = position[1]
-            if (x, y) in self.island:
-                self.res.append(self.size)
+
+        uf = UF(m * n)
+        res = []
+        for x, y in positions:
+            cur_id = x * n + y
+            if not uf.add_land(cur_id):
+                res.append(uf.count)
                 continue
-                
-            self.father[(x, y)] = (x, y)
-            self.island.add((x,y))
-            self.size += 1
-            
-            for direction in directions:
-                x_ = direction[0] + x
-                y_ = direction[1] + y
-                if (x_, y_) in self.island:
-                    self.union((x_,y_), (x,y))
-            self.res.append(self.size)
-        return self.res
-                
-    def union(self, a, b):
-        root_a = self.find(a)
-        root_b = self.find(b)
-        if root_a != root_b:
-            self.father[root_a] = root_b
-            self.size -= 1
-    
-    def find(self, node):
-        path = []
-        while self.father[node] != node:
-            node = self.father[node]
-            path.append(node)
-        for n in path:
-            self.father[n] = node
-        return node
-            
+
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                new_x = x + dx 
+                new_y = y + dy
+                new_id = new_x * n + new_y
+                if 0 <= new_x < m and 0 <= new_y < n and uf.parent[new_id] != -1:
+                    uf.union(cur_id, new_id)
+
+            res.append(uf.count)
+        return res
+        
         
