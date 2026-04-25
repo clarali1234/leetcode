@@ -1,0 +1,50 @@
+1. SortedList()
+
+time O(nlgn), space O(n)
+class Solution:
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        sl = SortedList()
+        l = 0
+        res = 0
+
+        for r in range(len(nums)):
+            sl.add(nums[r])
+
+            while sl[-1] - sl[0] > limit:
+                sl.remove(nums[l])
+                l += 1
+
+            res = max(res, r - l + 1)
+
+        return res
+
+
+2. monotonic deque + sliding window 
+time O(n), space O(n)
+
+class Solution:
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        min_q = collections.deque([])
+        max_q = collections.deque([]) # mono decrasing q
+        res = 0
+        l = 0
+        for r, num in enumerate(nums):
+            while max_q and nums[max_q[-1]] <= num:
+                max_q.pop()
+            max_q.append(r)
+
+            while min_q and nums[min_q[-1]] >= num:
+                min_q.pop()
+            min_q.append(r)
+
+            while max_q and min_q and nums[max_q[0]] - nums[min_q[0]] > limit:
+                if max_q[0] == l:
+                    max_q.popleft()
+                if min_q[0] == l:
+                    min_q.popleft()
+                l += 1
+
+            res = max(res, r - l + 1)
+
+        return res
+
