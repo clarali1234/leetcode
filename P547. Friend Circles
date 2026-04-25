@@ -1,3 +1,45 @@
+uf
+class UnionFind(object):
+
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+        self.rank = [0] * n
+
+    def find(self, x):
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, a, b):
+        root_a = self.find(a)
+        root_b = self.find(b)
+
+        if root_a == root_b:
+            return False
+
+        if self.rank[root_a] == self.rank[root_b]:
+            self.parent[root_a] = root_b 
+            self.rank[root_b] += 1
+
+        elif self.rank[root_a] < self.rank[root_b]:
+            self.parent[root_a] = root_b 
+        else:
+            self.parent[root_b] = root_a
+        return True 
+
+
+class Solution:
+    def findCircleNum(self, isConnected: List[List[int]]) -> int:
+        unionFind = UnionFind(len(isConnected))
+        for i in range(len(isConnected)):
+            for j in range(i + 1, len(isConnected)):
+                if isConnected[i][j] == 1:
+                    unionFind.union(i, j)
+
+        roots = set()
+        for i in range(len(isConnected)):
+            roots.add(unionFind.find(i))
+        return len(roots)
 
 
 class Solution:
