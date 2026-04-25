@@ -113,6 +113,9 @@ class HitCounter:
 
 
 # sol5: map + deque
+sparse but high-volume hits (many hits occurring at specific, distant time points).
+Deque (self.queue): Stores unique timestamps in increasing order. This allows for $O(1)$ removal of old data from the front.
+
 class HitCounter:
 
     def __init__(self):
