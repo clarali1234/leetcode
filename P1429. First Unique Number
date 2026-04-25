@@ -22,7 +22,9 @@ class FirstUnique(object):
         self.q.append(value)
         self.counter[value] = self.counter.get(value, 0) + 1
 
+
 sol2:queue+hashset
+# showFirstUnique amortized O(1)
     class FirstUnique:
 
     def __init__(self, nums: List[int]):
@@ -41,29 +43,27 @@ sol2:queue+hashset
 
 
 sol3:OrderedDict(一个有序字典，存储当前只出现过一次的数字。其顺序即为插入顺序) + set
-
-    class FirstUnique:
+    showFirstUnique 真正O(1)
+class FirstUnique:
 
     def __init__(self, nums: List[int]):
-        self.unique = OrderedDict()
-        self.all = set()
+        self.seen = set()
+        self.dic = OrderedDict() # add unique num
         for num in nums:
             self.add(num)
 
     def showFirstUnique(self) -> int:
-        if self.unique:
-            return next(iter(self.unique))
+        if self.dic:
+            return next(iter(self.dic))
         return -1
-        
-
     def add(self, value: int) -> None:
-        if value not in self.all:
-            self.all.add(value)
-            self.unique[value] = True
-
+        if value not in self.seen:
+            self.dic[value] = True
+            self.seen.add(value)
         else:
-            if value in self.unique:
-                del self.unique[value]
+            if value in self.dic:
+                del self.dic[value]
+        
 
 
 
