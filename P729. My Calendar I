@@ -15,7 +15,42 @@ class MyCalendar:
             self.booked[startTime] = endTime
             return True
         return False
+class MyCalendar:
 
+    def __init__(self):
+        self.calendar = SortedDict()
+
+    def book(self, startTime: int, endTime: int) -> bool:
+        if not self.calendar:
+            self.calendar[startTime] = endTime
+            return True
+
+        i = self.bs(self.calendar, endTime) # first start >= endTime
+        if i == 0 or self.calendar.items()[i - 1][1] <= startTime:
+            self.calendar[startTime] = endTime
+            return True
+        return False
+
+
+    def bs(self, nums, target):
+        l = 0
+        r = len(nums.keys())
+
+        while l < r:
+            m = (l + r) // 2
+            if nums.keys()[m] >= target:
+                r = m
+            else:
+                l = m + 1
+        return l
+
+
+        
+
+
+# Your MyCalendar object will be instantiated and called as such:
+# obj = MyCalendar()
+# param_1 = obj.book(startTime,endTime)
 
 # brute force
 # time O(n^2)
