@@ -25,20 +25,33 @@ class FirstUnique(object):
 
 sol2:queue+hashset
 # showFirstUnique amortized O(1)
-    class FirstUnique:
+class FirstUnique:
 
     def __init__(self, nums: List[int]):
-        self.q = collections.deque(nums) 
-        self.counter = collections.Counter(nums)
+        self.q = collections.deque()
+        self.dic = collections.defaultdict(int)
+        for num in nums:
+            self.add(num)
 
     def showFirstUnique(self) -> int:
-        while self.q and self.counter[self.q[0]] > 1:
+        while self.q and self.dic[self.q[0]] > 1:
             self.q.popleft()
         return self.q[0] if self.q else -1
 
     def add(self, value: int) -> None:
-        self.counter[value] = self.counter.get(value, 0) + 1
-        self.q.append(value)
+        if value in self.dic:
+            self.dic[value] += 1
+        else:
+            self.dic[value] = 1
+            self.q.append(value)
+
+        
+
+
+# Your FirstUnique object will be instantiated and called as such:
+# obj = FirstUnique(nums)
+# param_1 = obj.showFirstUnique()
+# obj.add(value)
 
 
 
