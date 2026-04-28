@@ -43,7 +43,24 @@ test = Solution()
 
 print(test.solve("add(1,2)"))
 print(test.solve("sub(5, add(2,1))"))
-        
-        
+
+
+2. 应该是某一道题的变体，有一串log rider A share ride with rider B 打印出最早什么时候所有的rider都互相connected。
+用UnionFind做的结果followup是rider可以block别的人，UF没办法handle这种情况。得用BFS之类的，讲了下思路面试官说满意了就开始聊天
+
+
+Block 往往是动态的。如果 A 在 $T_1$ 时刻 block 了 B，但在 $T_5$ 时刻取消了，或者反之，UF 很难高效地撤销操作（即使有用 rollback 的持久化并查集，逻辑也会极其复杂）。
+
+建图：维护一个邻接表 adj 存储骑行共享关系，同时维护一个 blocked 集合（比如 set((A, B))）存储当前的黑名单。
+触发条件：每当有一个新的 log $(T, A, B)$ 进来：首先检查 A 和 B 是否互相 block。如果没有，在图中添加边 $(A, B)$。
+连通性检查：从任意一个起始点（比如 Rider 0）跑一次 BFS。 在 BFS 遍历过程中，只有当 (u, v) 之间既有边，且互不处于 blocked 状态时，才允许移动到下一个节点。
+终止判定：如果 BFS 访问到的节点数等于总人数 $N$，则当前的 $T$ 就是最早的全连通时间。
+
+性能优化（针对 Follow-up）：如果每条 log 都跑一次 $O(V+E)$ 的 BFS 还是太慢，可以建议：
+
+批量处理 + 二分查找：如果 log 很多，可以二分时间点 $T$，只看 $T$ 之前的边和 block 状态。
+增量 BFS：只有当新加入的边 $(A, B)$ 确实连接了两个之前不连通的部分，且满足 non-blocked 条件时，才考虑触发检查。
+
+3. 
         
         
