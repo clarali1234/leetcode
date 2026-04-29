@@ -129,5 +129,52 @@ class CustomerRevenueSystem:
             result.append(self.sorted_customers[i][1])
 
         return result
+
+4. Print Directory with indentation
+
+Given Root directory, print the directory in the following format
+
+dir
+⟶ subdir1
+⟶ ⟶ file1.ext
+⟶ ⟶ subsubdir1
+⟶ subdir2
+⟶ ⟶ subsubdir2
+⟶ ⟶ ⟶ file2.ext
+
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        
+        self.children = []
+        
+
+class Solution:
+    def printNodes(self, root):
+        self.dfs(root, 0)
+        
+    def dfs(self, node, depth):
+        print('-' * depth + node.name)
+        
+        for child in node.children:
+            self.dfs(child, depth + 1)
+            
+
+root = Node("dir")
+s1 = Node("subdir1")
+s2 = Node("subdir2")
+f1 = Node("file1.ext")
+ss1 = Node("subsubdir1")
+ss2 = Node("subsubdir2")
+f2 = Node("file2.ext")
+
+root.children = [s1, s2]
+s1.children = [f1, ss1]
+s2.children = [ss2]
+ss2.children = [f2]
+
+test = Solution()
+print(test.printNodes(root))
         
         
