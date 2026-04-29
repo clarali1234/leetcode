@@ -61,6 +61,73 @@ Block 往往是动态的。如果 A 在 $T_1$ 时刻 block 了 B，但在 $T_5$ 
 批量处理 + 二分查找：如果 log 很多，可以二分时间点 $T$，只看 $T$ 之前的边和 block 状态。
 增量 BFS：只有当新加入的边 $(A, B)$ 确实连接了两个之前不连通的部分，且满足 non-blocked 条件时，才考虑触发检查。
 
-3. 
+3. add(revenue: 10) -> return customer id: 1;
+add(revenue: 20) -> return customer id: 2;
+addByReferral (revenue: 30, 1) -> means customer id 3 is added from number 1 with the revenue, customer 1's revenue is 10+30 = 40 and customer 3's revenue is 10.
+TopSmallestKCustomer : 返回最小的TOP K REVENUE的ID。 会要求revenu> NUM之后最小的TOP k.
+
+from sortedcontainers import SortedList
+
+
+class CustomerRevenueSystem:
+    def __init__(self):
+        self.next_id = 1
+
+        # customer_id -> revenue
+        self.id_to_revenue = {}
+
+        # sorted by (revenue, id)
+        self.sorted_customers = SortedList()
+
+    def add(self, revenue):
+        customer_id = self.next_id
+        self.next_id += 1
+
+        self.id_to_revenue[customer_id] = revenue
+        self.sorted_customers.add((revenue, customer_id))
+
+        return customer_id
+
+    def addByReferral(self, revenue, referrer_id):
+        if referrer_id not in self.id_to_revenue:
+            return -1
+
+        old_revenue = self.id_to_revenue[referrer_id]
+
+        # remove old value
+        self.sorted_customers.remove((old_revenue, referrer_id))
+
+        # update referrer revenue
+        new_revenue = old_revenue + revenue
+        self.id_to_revenue[referrer_id] = new_revenue
+        self.sorted_customers.add((new_revenue, referrer_id))
+
+        # new customer gets original referrer's revenue
+        new_customer_id = self.next_id
+        self.next_id += 1
+
+        self.id_to_revenue[new_customer_id] = old_revenue
+        self.sorted_customers.add((old_revenue, new_customer_id))
+
+        return new_customer_id
+
+    def topSmallestKCustomer(self, k):
+        result = []
+
+        for revenue, customer_id in self.sorted_customers[:k]:
+            result.append(customer_id)
+
+        return result
+
+    def topSmallestKCustomerWithThreshold(self, k, num):
+        result = []
+
+        # binary search first revenue > num
+        idx = self.sorted_customers.bisect_right((num, float('inf')))
+
+        for i in range(idx, min(idx + k, len(self.sorted_customers))):
+            result.append(self.sorted_customers[i][1])
+
+        return result
         
         
