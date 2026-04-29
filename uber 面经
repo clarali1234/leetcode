@@ -177,4 +177,42 @@ ss2.children = [f2]
 test = Solution()
 print(test.printNodes(root))
         
+
+5. 三色法 1.visiting 2. visited
+
+面了一个graph，有很多service，互相之间有dependency，找graph有没有环
+follow up 1. 现在有不止一个dependencyarray，有没有环
+2.如果在现实工作中，这个code怎么能更好的work
+
+
+class Solution(object):
+    def detectCycle(self, dependency):
+        graph = collections.defaultdict(list)
+        for a, b in dependency:
+            graph[a].append(b)
+            
         
+        self.states = {}
+        
+        for node in graph:
+            if self.dfs(graph, node):
+                return True
+        return False
+        
+    def dfs(self,grpah, node):
+        if node in self.states:
+            if self.states[node] == 1:
+                return True
+                
+            if self.states[node] == 2:
+                return False
+                
+        self.states[node] = 1
+        for nb in graph[node]:
+            if self.dfs(graph, nb):
+                return True
+        
+        self.states[node] = 2
+        return False
+            
+            
