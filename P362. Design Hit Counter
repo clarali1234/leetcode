@@ -184,5 +184,39 @@ class HitCounter:
         return self.total
 
 
+class HitCounter:
+
+    def __init__(self):
+        self.dic = collections.defaultdict(int)
+        self.q = collections.deque([])
+
+    def hit(self, timestamp: int) -> None:
+        if timestamp not in self.dic:
+            self.dic[timestamp] = 1
+            self.q.append(timestamp)
+        else:
+            self.dic[timestamp] += 1
+        
+
+    def getHits(self, timestamp: int) -> int:
+        while self.q and timestamp - 299 > self.q[0]:
+            oldtime = self.q.popleft()
+            del self.dic[oldtime]
+
+        return sum(self.dic.values())
+
+        
+
+
+
+        
+
+
+# Your HitCounter object will be instantiated and called as such:
+# obj = HitCounter()
+# obj.hit(timestamp)
+# param_2 = obj.getHits(timestamp)
+
+
 
         
