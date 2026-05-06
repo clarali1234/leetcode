@@ -214,5 +214,54 @@ class Solution(object):
         
         self.states[node] = 2
         return False
+
+
+6. 给一个stores list比如["McDonald's", "KFC", "Burger king", "Bites", "Biscuit shop"]要求实现一个auto complete方法，autocomplete的input是string s
+然后返回一个list，里面是全部以s开头的store. 比如autoComplete ("B")需要return ["Burger king", "Bites", "Biscuit shop"]
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.words = []
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        cur = self.root
+        for char in word:
+            if char not in cur.children:
+                cur.children[char] = TrieNode()
+            cur = cur.children[char]
+            cur.words.append(word)
             
+    def search(self, prefix):
+        cur = self.root
+        for char in prefix:
+            if char not in cur.children:
+                return []
+                
+            cur = cur.children[char]
+            
+        return cur.words
+            
+class Solution:
+    def autoComplete(self, words, prefix):
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        return trie.search(prefix)
+        
+        
+        
+        
+test = Solution()
+words = ['Bite', 'Bloomberg', 'Apple']
+prefix = 'Bi'
+print(test.autoComplete(words, prefix))
+        
+        
+                
+        
             
