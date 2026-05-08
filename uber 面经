@@ -261,7 +261,65 @@ words = ['Bite', 'Bloomberg', 'Apple']
 prefix = 'Bi'
 print(test.autoComplete(words, prefix))
         
+7. 面试官给了一个接口：
+get_dependencies(package)
+
+：返回某个 package 的直接依赖
+要求：
+给定一个 target package，输出一个合法的 build order，使得所有依赖在它之前被构建。
+约束：
+依赖关系是一个有向图（A 依赖 B）
+图不是一次性给出，而是通过 API 动态查询
+只需要考虑 target 相关的依赖子图
+如果存在循环依赖，返回空 / 报错
+不要求唯一解
+
+
+
+class Solution:
+    def topoResult(self, graph, target):
+        self.color = {}
+        self.res = []
+        if not self.dfs(graph, target):
+            return self.res
+        return []
         
+    def dfs(self, graph, node):
+        if node in self.color:
+            if self.color[node] == 1:
+                return True
+                
+            if self.color[node] == 2:
+                return False
+                
+            
+        self.color[node] = 1 
+        for nb in graph[node]:
+            if self.dfs(graph, nb):
+                return True
+                
+        self.color[node] = 2
+        self.res.append(node)
+        return False
+        
+test = Solution()
+graph = {
+        'A': ['B', 'C'],
+        'B': ['D'],
+        'C': ['D'],
+        'D': []
+    }
+print(test.topoResult(graph, 'A'))
+        
+            
+        
+    
+        
+                
+        
+                
+        
+            
                 
         
             
