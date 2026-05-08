@@ -3,6 +3,8 @@
 
 class Solution(object):
     def solve(self, s):
+        s = s.strip()
+
         if s.isdigit() or (s[0] == '-' and s[1:].isdigit()):
             return int(s)
             
