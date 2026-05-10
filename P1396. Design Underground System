@@ -1,6 +1,7 @@
 # two hashtbale
 # time O(1)
 # space O(n)
+del self.passengers[id] # delete completed check in station
 
 
 class UndergroundSystem:
@@ -17,6 +18,7 @@ class UndergroundSystem:
         start_station, start_time = self.passengers[id]
         prev_time, prev_c = self.stations.get((start_station, stationName), (0, 0))
         self.stations[(start_station, stationName)] = (prev_time + t - start_time, prev_c + 1)
+        del self.passengers[id] # delete completed check in station
         
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
