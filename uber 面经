@@ -63,6 +63,8 @@ Block 往往是动态的。如果 A 在 $T_1$ 时刻 block 了 B，但在 $T_5$ 
 批量处理 + 二分查找：如果 log 很多，可以二分时间点 $T$，只看 $T$ 之前的边和 block 状态。
 增量 BFS：只有当新加入的边 $(A, B)$ 确实连接了两个之前不连通的部分，且满足 non-blocked 条件时，才考虑触发检查。
 
+offline processing, reverse time slots, build uf of all shared edges, meet block(a,b), uf.union(a, b) -> if uf.count == 1, 更新res
+
 3. add(revenue: 10) -> return customer id: 1;
 add(revenue: 20) -> return customer id: 2;
 addByReferral (revenue: 30, 1) -> means customer id 3 is added from number 1 with the revenue, customer 1's revenue is 10+30 = 40 and customer 3's revenue is 10.
