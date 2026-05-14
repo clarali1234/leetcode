@@ -57,3 +57,35 @@ root.left.right = Node('v')
 print(bottomView(root))
 
 
+2. 题目：写一个function，来判断string s 中的每个character是否出现个数相同。如果 all characters have equal frequency return True , 
+otherwise return False "abc" -> True "abcabc" -> True "aab" -> False follow up: 再写一个function，还是given a string s，
+我们必须删除其中一个character。然后check 剩下的字符是是否可以做到每个出现的次数都一样。注意如果原本的字符串本来就平衡，比如每个字符次数一样，
+删掉一个之后有可能就不能平衡了，那就算 False。例如 'aabbccc' -> remove c ok, return True 'aaabbbccc' -> return False 'aaa' -> return True
+
+class Solution:
+    def checkCharCountsEqual(self,s):
+        counter = collections.Counter(s)
+        return len(set(counter.values())) == 1
+
+    def removeOneChar(self, s):
+        counter = collections.Counter(s)
+
+        for char in counter.keys():
+            counter[char] -= 1
+            if not counter[char]:
+                del counter[char]
+
+            # check if the remaining are the same
+            if len(set(counter.values())) == 1:
+                return True
+
+            counter[char] = counter.get(char, 0) + 1
+        return False
+
+test = Solution()
+#print(test.checkCharCountsEqual('aabbcc'))
+#print(test.checkCharCountsEqual('aabcc'))
+print(test.removeOneChar('aaabb'))
+print(test.removeOneChar('aabb'))
+
+
