@@ -1,0 +1,59 @@
+from collections import deque
+import collections
+'''
+第二题
+
+        i
+       r y
+      p v
+
+print(privy)
+
+'''
+
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def bottomView(root):
+    if not root:
+        return []
+    
+    # hd_map 存储每个水平距离对应的最后一个节点值
+    hd_map = collections.defaultdict(list)
+    queue = deque([(root, 0)]) # (node, horizontal_distance)
+    
+    min_hd = max_hd = 0
+    
+    while queue:
+        node, hd = queue.popleft()
+        
+        # 总是更新，确保最后存入的是该 HD 下最底层的节点
+        hd_map[hd].append(node.val)
+        
+        min_hd = min(min_hd, hd)
+        max_hd = max(max_hd, hd)
+        
+        if node.left:
+            queue.append((node.left, hd - 1))
+        if node.right:
+            queue.append((node.right, hd + 1))
+            
+    # 按 HD 从小到大排序输出
+    res = []
+    for i in range(min_hd, max_hd + 1):
+        res.extend(hd_map[i])
+    return "".join(res)
+
+root = Node('i')
+root.left = Node('r')
+root.right = Node('y')
+root.left.left = Node('p')
+root.left.right = Node('v')
+    
+    # Assuming the function is bottom_view_logic(root)
+print(bottomView(root))
+
+
