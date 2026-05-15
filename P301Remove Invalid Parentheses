@@ -1,3 +1,51 @@
+
+
+class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        q = collections.deque()
+        q.append(s)
+        visited = set()
+        visited.add(s)
+        res = []
+        found = False
+        while q:
+            st = q.popleft()
+    
+            if self.is_valid(st):
+                res.append(st)
+                found = True
+                continue
+
+            if found == True:
+                continue
+
+            for i, char in enumerate(st):
+                if char not in '()':
+                    continue
+                new_s = st[:i] + st[i + 1:]
+                if new_s not in visited:
+                    visited.add(new_s)
+                    q.append(new_s)
+
+        return res
+
+             
+
+    def is_valid(self, s):
+        count = 0
+        for char in s:
+            if char == '(':
+                count += 1
+
+            elif char == ')':
+                count -= 1
+                if count < 0:
+                    return False
+        return count == 0
+
+
+
+
 # first, need to find the number of remaining left and right bracket that we need to remove
 # then use dfs recursion, iterate from left most to right for each ele in string
 # for recursion, exit case left == right == 0, and is_valid(s) append to res return 
