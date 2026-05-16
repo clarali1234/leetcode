@@ -88,4 +88,42 @@ test = Solution()
 print(test.removeOneChar('aaabb'))
 print(test.removeOneChar('aabb'))
 
+3. 这道编程题要求实现一个类，该类在初始化时接收一个 window_size（窗口大小）参数，并提供两个方法：insert_record 和 get_average。 
+insert_record 方法接收一个时间戳（timestamp）和一个分数（score）； get_average 方法计算当前窗口内所有分数的平均值； 
+在每次调用 insert_record 或 get_average 时，都需要剔除（evict）已过期的记录（即时间戳不在当前窗口范围内的记录）
+
+import collections
+
+class Solution:
+    def __init__(self, window_size):
+        self.window = window_size
+        self.q = collections.deque()
+        self.total = 0
+
+    def evict(self, t):
+        while self.q and self.q[0][0] < t - self.window:
+            old_time, cur_c = self.q.popleft()
+            self.total -= cur_c
+
+    def insert_record(self, t, score):
+        self.evict(t)
+        self.q.append([t, score])
+        self.total += score
+
+
+    def get_average(self, t):
+
+        self.evict(t)
+
+        if not self.q:
+            return 0
+
+        return self.total / len(self.q)
+
+test = Solution(5)
+test.insert_record(1, 20)
+test.insert_record(2, 30)
+print(test.get_average(3))
+test.insert_record(8, 50)
+print(test.get_average(8))
 
