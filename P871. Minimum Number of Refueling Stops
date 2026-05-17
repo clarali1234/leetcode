@@ -1,0 +1,24 @@
+# time O(nlgn)
+# space O(n)
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        
+        # when have to fuel the gas, choose the max fule station
+        fuel = startFuel
+        heap = []
+        i = 0
+        stops = 0
+        while fuel < target:
+            while i < len(stations) and stations[i][0] <= fuel:
+                heappush(heap, -stations[i][1])
+                i += 1
+
+            if not heap:
+                return -1
+
+            fuel += -heappop(heap)
+            stops += 1
+
+        return stops
+
+
