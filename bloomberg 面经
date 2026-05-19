@@ -127,3 +127,46 @@ print(test.get_average(3))
 test.insert_record(8, 50)
 print(test.get_average(8))
 
+4. '''
+
+大概是aaabcaaacc -> 最后是 b 类似于消消乐
+
+'''
+class Solution:
+    def candyCrush(self, s):
+        stack = []
+        for i, char in enumerate(s):
+            if stack and stack[-1][0] == char:
+                stack[-1][1] += 1
+            else:
+
+                while stack and stack[-1][1] >= 3:
+                    stack.pop()
+
+                if stack and stack[-1][0] == char:
+                    stack[-1][1] += 1
+                else:
+                    stack.append([char, 1])
+
+        
+        while stack and stack[-1][1] >= 3:
+            stack.pop()
+
+        print(stack)
+        res = ''
+        for char, count in stack:
+            res += char * count
+        return res 
+
+test = Solution()
+print(test.candyCrush('aaabcaaacc'))
+
+
+
+
+
+
+
+
+
+
