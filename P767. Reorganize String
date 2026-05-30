@@ -8,37 +8,39 @@
 # 每次选取次数最多的char去添加到新的res里面
 # time O(nAlgA) -> O(nlgA)
 
-from heapq import *
+class Solution:
+    def reorganizeString(self, s: str) -> str:
+        counter = collections.Counter(s)
+        max_value = max(counter.values())
+        if max_value > (len(s) + 1) / 2:
+            return ""
 
-class Solution(object):
-    def reorganizeString(self, S):
-        
-        if not S:
-            return ''
-        
-        counter = collections.Counter(S)
-        if counter.most_common()[0][1] > (len(S) + 1) // 2:
-            return ''
-        
-        res = ''
         heap = []
         for char, c in counter.items():
-            heappush(heap, (-c, char))
-        
-        prev_char = ''
-        prev_c = 0
-        while heap:
-            # step1. aad cur char
-            c, char = heappop(heap)
-            res += char
-            c += 1
-            # step2. push prev_char
-            if prev_c < 0:
-                heappush(heap, (prev_c, prev_char))
-            # step3. cur char in prev_char to asure adj chars are not the same
-            prev_c = c
-            prev_char = char
+            heap.append((-c, char))
+        heapify(heap)
+
+        res = ''
+        while len(heap) >= 2:
+            count1, char1 = heappop(heap)
+            count2, char2 = heappop(heap)
+
+            res += char1
+            res += char2
+
+            if count1 + 1 < 0:
+                heappush(heap, (count1 + 1, char1))
+
+            if count2 + 1 < 0:
+                heappush(heap, (count2 + 1, char2))
+
+        if heap:
+            count, char = heappop(heap)
+            res += char 
+
         return res
+
+
             
         
 # greedy
