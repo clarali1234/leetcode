@@ -4,6 +4,24 @@ node: 遇到过的room不加入q里面
 # time O(mn)
 # space O(mn)
 
+class Solution:
+    def wallsAndGates(self, rooms: List[List[int]]) -> None:
+        q = collections.deque()
+        for i in range(len(rooms)):
+            for j in range(len(rooms[0])):
+                if rooms[i][j] == 0:
+                    q.append([i, j])
+
+        while q:
+            x, y = q.popleft()
+            for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+                new_x = x+dx
+                new_y = y+dy
+                if 0 <= new_x < len(rooms) and 0 <= new_y < len(rooms[0]) and rooms[new_x][new_y] == 2 ** 31 - 1:
+                    rooms[new_x][new_y] = rooms[x][y] + 1
+                    q.append((new_x, new_y))
+
+
 class Solution(object):
     def wallsAndGates(self, rooms):
         
