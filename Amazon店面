@@ -33,5 +33,51 @@ class Solution:
 test = Solution()
 print(test.circular_permutate([1, 2, 3, 4]))
 
+2. 给定一个Tree，以及任意两个节点，返回两个节点关系（siblings or cousin or others）
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+class Solution:
+    def relationship(self, root, p, q):
+        parent1, depth1 = self.dfs(root, None, 0, p)
+        parent2, depth2 = self.dfs(root, None, 0, q)
+        if parent1 == parent2:
+            return "Siblings"
+        if depth1 == depth2:
+            return "Cousins"
+        return "Others"
+
+    def dfs(self, node, parent, depth, target):
+        if not node:
+            return None
+
+        if node == target:
+            return [parent, depth]
+
+        left = self.dfs(node.left, node, depth + 1, target)
+        if left is not None:
+            return left 
+        return self.dfs(node.right, node, depth + 1, target)
+
+
+#  1
+# 2 3
+# 4
+
+node1 = TreeNode(1)
+node2 = TreeNode(2)
+node3 = TreeNode(3)
+node4 = TreeNode(4)
+node1.left = node2
+node1.right = node3
+node2.left = node4
+test=Solution()
+print(test.relationship(node1, node2, node3))
+print(test.relationship(node1, node4, node3))
+
 
 
