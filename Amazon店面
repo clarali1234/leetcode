@@ -80,4 +80,43 @@ print(test.relationship(node1, node2, node3))
 print(test.relationship(node1, node4, node3))
 
 
+'''
+
+3. 亚马逊有很多的服务, 每个服务之间存在依赖关系, 
+当我们将其中的一些服务停机后, 求哪些服务会被影响.
+
+A -> B (a depend on b)
+B -> C
+D -> B
+
+b down -> return [a, d]
+
+'''
+import collections
+class Solution:
+    def impact(self, dependencies, source):
+        graph = collections.defaultdict(list)
+        for a, b in dependencies:
+            graph[b].append(a)
+
+        self.down_services = set(source)
+
+        for service in source:
+            self.dfs(graph, service)
+
+        return list(self.down_services)
+
+    def dfs(self, graph, node):
+        if node not in self.down_services:
+            self.down_services.add(node)
+
+        for nb in graph[node]:
+            if nb not in self.down_services:
+                self.dfs(graph, nb)
+
+test = Solution()
+print(test.impact([['a', 'b'],['b', 'c'], ['d', 'b']], ['b']))
+ 
+
+
 
