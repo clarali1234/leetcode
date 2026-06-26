@@ -116,7 +116,31 @@ class Solution:
 
 test = Solution()
 print(test.impact([['a', 'b'],['b', 'c'], ['d', 'b']], ['b']))
- 
 
+4. 给定两个整数数组a和b，计算具有最小差绝对值的一对数值（每个数组中取一个值），并返回该对数值的差
+
+import sys
+class Solution:
+    def minDiff(self, A, B):
+        i, j = 0, 0
+        min_diff = sys.maxsize
+        while i < len(A) and j < len(B):
+            cur_diff = abs(A[i] - B[j])
+            if cur_diff < min_diff:
+                min_diff = cur_diff
+
+            if cur_diff == 0:
+                break
+
+            if A[i] < B[j]:
+                i += 1
+            else:
+                j += 1
+        return min_diff
+
+test = Solution()
+A = [2, 3, 5]
+B = [10, 12, 17]
+print(test.minDiff(A, B))
 
 
