@@ -143,4 +143,79 @@ A = [2, 3, 5]
 B = [10, 12, 17]
 print(test.minDiff(A, B))
 
+5. '''
+在一个购物网站中，为了挽留流失用户，需要分析那些“非回访用户”（只访问过一次的用户），并向他们提供促销活动。
+核心任务
+你需要实现一个类，包含以下两个核心方法：
+newUserLogin(username): 每当用户登录时调用该方法。
+getOldestOneTimeVisitingUser(): 返回在所有仅访问过一次的用户中，登录时间最早（最久远）的那位用户的用户名。
+Follow-up (图片 9)
+getOldestOneTimeVisitingUsers(int X): 扩展功能，要求返回前 $X$ 个最久远的、仅访问过一次的用户。
+示例分析
+用户登录顺序：john $\rightarrow$ jeff $\rightarrow$ jeff。
+调用 getOldestOneTimeVisitingUser()。
+结果：返回 john。虽然 jeff 也登录过，但他登录了两次，不符合“仅访问一次”的条件。
+'''
+
+import collections
+class Solution:
+    def __init__(self):
+        self.dic = collections.defaultdict(int)
+        self.q = collections.deque()
+
+
+    def newUserLogin(self, username):
+        if username in self.dic:
+            self.dic[username] += 1
+        else:
+            self.dic[username] = 1
+            self.q.append(username)
+
+    def getOldestOneTimeVisitingUser(self):
+
+        while self.q:
+            top_user = self.q[0]
+            if self.dic[top_user] == 1:
+                return top_user
+            self.q.popleft()
+
+        return ''
+
+    def getOldestOneTimeVisitingUsers(self, x):
+        res = []
+
+        for user in self.q:
+            if self.dic[user] == 1:
+                res.append(user)
+
+                if len(res) == x:
+                    break
+
+            else:
+                continue
+
+        return res
+
+test = Solution()
+test.newUserLogin('A')
+test.newUserLogin('B')
+test.newUserLogin('B')
+test.newUserLogin('C')
+test.newUserLogin('D')
+print(test.getOldestOneTimeVisitingUser()) # 'A'
+print(test.getOldestOneTimeVisitingUsers(2)) # 'A', 'C'
+print(test.getOldestOneTimeVisitingUsers(3))# 'A', 'C', 'D'
+
+
+
+
+
+
+
+
+            
+
+
+
+
 
