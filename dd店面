@@ -99,7 +99,19 @@ Q6 服务/节点宕机了怎么办？（Fault Tolerance / Recovery）
 幂等性与去重 (Idempotency & Deduplication):
 宕机恢复后重试可能导致重复投递（At-least-once）。写 DB 或做 Payment 扣款时，必须通过 Idempotency Key (如 order_id + event_type) + 数据库唯一索引 (Unique Key) 或 Redis 分布式锁保证幂等，防止给 Dasher 发两次钱。
 
-Q7 
+Q7 异常输入与边界条件怎么处理？（Robustness & Edge Cases）
+面试官的核心考点是：工程严谨度与防御性编程（Defensive Programming）。
+
+脏数据与死信队列 (Dead Letter Queue - DLQ):
+解析失败、格式错误或非法的 event（如负数 timestamp、缺失 key），不要直接 crash 主线程。记录 Error Log 并推入 DLQ，留给运维/后置 Task 修复。
+
+乱序与延迟事件 (Out-of-Order / Late-arriving Events):
+现实网络中 DELIVERED 可能会比 ACCEPTED 先到。系统设计需要设置 Watermark（水位线） 或允许一个时间窗口（Unmatched Window），将孤立事件暂时暂存在 Redis/内存缓存中，等待配对；超时未配对则打 Alert 人工介入。
+
+逻辑异常 (Cancelled / Multi-accepted):
+建立明确的状态机规范（如 ACCEPTED -> DELIVERED 或 CANCELLED）。同一订单出现多次 ACCEPTED 时保留首个或最新版本。
+
+
 
 
 
