@@ -1,6 +1,4 @@
 1. dash pay
-
-  
 from typing import List, Optional
 
 class Solution:
@@ -81,7 +79,27 @@ store driven by order completion events, allowing efficient lookups by dasher an
                                                         │ 用于 年底 Tax 报表 / 全局数据分析 / 审计
 
 
+Q5 数据量极大，内存放不下怎么办？（Scalability / Big Data）
+单机视角（Out-of-Core / Chunking）：
+  - 分块与流式处理 (Chunking / Streaming): 不要一次性加载整个文件/数据集。采用 Buffer 流式读取（如 Iterable / Generator），按 Block / Chunk 增量处理。
+  - 外部排序 (External Merge Sort): 如果需要对海量订单按时间排序，内存放不下，先将数据切分成小块，在内存中排序后写入磁盘临时文件，最后使用 K-Way Merge Sort (K路归并排序) 配合最小堆进行合并输出。
+分布式视角（Partitioning & MapReduce）：
+  - 按 key 分片 (Sharding / Partitioning): 将海量订单数据通过 hash(dasher_id) % N 散列到不同的 Partition/Worker 节点。
+  - 大数据计算引擎: 引入 MapReduce / Apache Spark / Flink 进行分布式并行计算。
 
+Q6 服务/节点宕机了怎么办？（Fault Tolerance / Recovery）
+面试官的核心考点是：状态如何恢复（State Recovery）以及如何保证数据不重不漏（Exactly-once Semantics）。
+
+持久化与 WAL (Write-Ahead Logging):
+计算过程中，核心状态（如 OrderEvent 的处理进度）不能只存在内存里。每次处理事件前，先把事件或 Offset 写入 WAL 磁盘日志或持久化 Message Queue (Kafka)。
+
+检查点 (Checkpointing) 与状态机恢复:
+节点重启后，从最近一次的 Checkpoint 加载状态，并重新消费 Offset 之后的事件。
+
+幂等性与去重 (Idempotency & Deduplication):
+宕机恢复后重试可能导致重复投递（At-least-once）。写 DB 或做 Payment 扣款时，必须通过 Idempotency Key (如 order_id + event_type) + 数据库唯一索引 (Unique Key) 或 Redis 分布式锁保证幂等，防止给 Dasher 发两次钱。
+
+Q7 
 
 
 
