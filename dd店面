@@ -24,5 +24,51 @@ class Solution:
         return res
 
 
+follow up
+1. 在prod里面call 上游api的话要注意些什么
+超时机制 (Timeouts): 绝不能无限等待，必须设置合理且严格的 Socket/HTTP Timeout (如 200ms)。
+幂等性 (Idempotency): 调用的 API 如果包含写/更新操作，必须带有 idempotency_key (如 order_id + timestamp)。
+重试策略 (Retry Strategies): 不要采用简单的指数退避 (Exponential Backoff)，要加入 Jitter (随机抖动)，防止引发“惊群效应” (Thundering Herd Problem)。
+认证与速率限制 (Auth & Rate Limiting): API Token 管理，并感知上游的 429 Too Many Requests，遵从 Retry-After Header。
 
-        
+2: 上游 Service Latency 变高，如何保证本服务的 Latency SLA？
+熔断机制 (Circuit Breaker): 使用 Resilience4j / Hystrix。当上游失败率或 Latency 超过 threshold 时，快速失败 (Fast Fail)，不再阻塞自身线程。
+降级策略 (Fallback Strategy):
+  -缓存降级 (Cache Fallback): 返回 Redis 中上一次计算的缓存结果/预估值。
+  -异步/平滑处理 (Async Processing): 实时计算降级为异步 MQ 消息处理，先给前端返回 "Processing"。
+隔离 (Bulkheading / Compartmentalization): 将调用上游 API 的线程池 (Thread Pool) 与主服务线程池隔离，防止上游打爆连接池拉垮整个服务。
+缓存 (Caching): 对于频繁查询且不常变动的数据，加入 Redis/Memcached 缓存。
+
+Q3: 给 Dasher 发放 Payment 发生意外时，如何 Gracefully Handle？
+异步结算与状态机 (Asynchronous State Machine):
+Payment 绝不在 Request-Response 同步完成。采用分布式事务状态机 (PENDING -> PROCESSING -> SUCCESS / FAILED)。
+
+Two-Phase / Outbox Pattern:
+使用 Transactional Outbox Pattern 保证写数据库和发送 Payment 消息到 MQ 的原子性。
+
+对账服务 (Reconciliation System):
+引入异步对账 Job（每天/每小时跑一次），核对 Dasher 的 Completed Orders 和 Bank/Stripe 的 Payout 记录，自动补发或人工接入。
+
+Dead Letter Queue (DLQ) & Manual Retry:
+扣款/发钱失败时，消息推入 DLQ，打 Alert 警报并提供 Dashboard 供 Operations 团队手动重试 (Manual Review)。
+
+Q4: 如何支持“查看所有 Dasher 的完成订单记录”？
+数据存储选型 (Database Choice):
+
+OLTP (事务读写): 关系型数据库 (PostgreSQL/MySQL) 分库分表 (Sharding by dasher_id)，用于高效查询单 Dasher 的近期订单。
+OLAP (海量历史/分析): 历史订单同步至 Snowflake / ClickHouse / BigQuery，支持全量分析和大范围查询。
+
+检索与分页 (Search & Pagination):
+对于后台管理系统的全局搜索（如按时间区间、地区、状态过滤），使用 Elasticsearch 建立索引。
+分页查询必须使用 Cursor-based Pagination (Seek Method)，避免 OFFSET 过大导致的性能滑坡。
+
+冷热数据分离 (Hot/Cold Data Tiering):
+近 30 天订单存储在 DynamoDB / Redis 等高性能数据库中。
+30 天以上的历史订单归档至 S3 / Cold Storage，通过 Presto / Athena 提供低频查询。
+
+For production, I'd make upstream API calls resilient by using timeouts, retries with exponential backoff, 
+circuit breakers, caching, and monitoring. If the upstream latency spikes, I'd fail fast, serve cached or partial 
+results when possible, and isolate dependencies so our own SLA is protected. For payments, the key requirement is 
+exactly-once processing, so I'd use idempotency keys, transactional outbox, retries, and audit logs to ensure payments
+are reliable and recoverable. Finally, for querying completed orders at scale, I'd build a separate read-optimized 
+store driven by order completion events, allowing efficient lookups by dasher and time range instead of scanning the entire orders table.
