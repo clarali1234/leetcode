@@ -36,7 +36,6 @@ follow up
 降级策略 (Fallback Strategy):
   -缓存降级 (Cache Fallback): 返回 Redis 中上一次计算的缓存结果/预估值。
   -异步/平滑处理 (Async Processing): 实时计算降级为异步 MQ 消息处理，先给前端返回 "Processing"。
-隔离 (Bulkheading / Compartmentalization): 将调用上游 API 的线程池 (Thread Pool) 与主服务线程池隔离，防止上游打爆连接池拉垮整个服务。
 缓存 (Caching): 对于频繁查询且不常变动的数据，加入 Redis/Memcached 缓存。
 
 Q3: 给 Dasher 发放 Payment 发生意外时，如何 Gracefully Handle？
@@ -72,3 +71,26 @@ results when possible, and isolate dependencies so our own SLA is protected. For
 exactly-once processing, so I'd use idempotency keys, transactional outbox, retries, and audit logs to ensure payments
 are reliable and recoverable. Finally, for querying completed orders at scale, I'd build a separate read-optimized 
 store driven by order completion events, allowing efficient lookups by dasher and time range instead of scanning the entire orders table.
+
+                      ┌─── Hot Data (近 30-90 天) ───► OLTP Database (如 PostgreSQL / MySQL)
+                      │                                 ▲
+[ Dasher 完成订单 ] ──┤                                 │ 用于 实时结算 / 近期账单查询
+                      │                                 ▼
+                      └─── Cold Data (历史全量) ──────► OLAP Data Lake (如 Snowflake / ClickHouse)
+                                                        ▲
+                                                        │ 用于 年底 Tax 报表 / 全局数据分析 / 审计
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
