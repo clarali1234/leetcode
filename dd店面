@@ -1,0 +1,28 @@
+1. dash pay
+
+  
+from typing import List, Optional
+
+class Solution:
+    def calculateSalary(self, records: List[List[str]], doublePayPeriods: List[List[int]], salaryRate: int) -> int:
+        dic = {} # order_id: start time
+        res = 0
+        for orderid, time, status in records:
+            if status == 'ACCEPTED':
+                dic[orderid] = int(time)
+
+            elif status == 'CNCELED':
+                res += 5
+            elif status == 'DELIVERED':
+                start = dic[orderid]
+                end = int(time)
+                res += (end - start) * salaryRate
+
+                for s, e in doublePayPeriods:
+                    if max(s, start) < min(e, end):
+                        res += (min(e, end) - max(s, start)) * salaryRate
+        return res
+
+
+
+        
