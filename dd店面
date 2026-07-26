@@ -158,15 +158,179 @@ activities = ['06:15 accepted orderA',
 '06:45 fulfilled orderB']
 print(test.calculatePay(activities))
 
+'''
+part2
+# Example
+# Input:
+# 06:15: Dx accepted order A  
+# 06:18: Dx accepted order B  
+# 06:19: Dx arrived at pick up location for A  
+# 06:22: Dx picked up order A  
+# 06:30: Dx arrived at pick up location for B  
+# 06:33: Dx picked up order B  
+# 06:36: Dx fulfilled order A  
+# 06:45: Dx fulfilled order B
+
+# Output: final pay: $12.6
+
+# Explanation:
+# 06:15 - 06:18 -> pay = 3 * 0.3 = $0.9
+# 06:18 - 06:19 -> pay = 2 orders * 0.3 = $0.6
+# 06:19 - 06:22 -> pay = 3 * 0.3 = $0.9
+# 06:22 - 06:30 -> pay = 2 orders * 0.3 * 8= $4.8
+# 06:30 - 06:33 -> pay = $0.9
+# 06:33 - 06:36 -> pay = 2 * 0.3 * 3 = $1.8
+# 06:36 - 06:45 -> pay = 0.3 * 9 = $2.7
+
+'''
+class Part2:
+    def calculatePay(self, activities):
+
+        BASE_RATE = 0.3
+        res = 0
+        prev_t = self.convert(activities[0].split(' ')[0])
+        ongoing = 0
+        at_store = None
+        
+        for activity in activities:
+            cur_time, action, order_id = activity.split(' ')
+            cur_time = self.convert(cur_time)
+
+            effective = 0
+            if not at_store:
+                effective = ongoing
+            else:
+                effective = 1
+
+            t_diff = cur_time - prev_t
+            res += effective * t_diff * BASE_RATE
+
+            if action == 'accepted':
+                ongoing += 1
+            elif action == 'fulfilled':
+                ongoing -= 1
+            elif action == 'arrived':
+                at_store = order_id
+            elif action == 'picked':
+                at_store = None
+
+            prev_t = cur_time
+        return res
+
+    def convert(self, time):
+        hour, minute = map(int, time.split(':'))
+        return hour * 60 + minute
+   
+test = Part2()
+activities = [
+'06:15 accepted orderA', 
+'06:18 accepted orderB', 
+'06:19 arrived orderA',
+'06:22 picked orderA',
+'06:30 arrived orderB',
+'06:33 picked orderB',
+'06:36 fulfilled orderA', 
+'06:45 fulfilled orderB']
+print(test.calculatePay(activities))
+
+# part3
+'''
+# Example
+# Input:
+# peak pay windows [[starts, ends]]: [["06:20", "06:30"]]
+# 06:15: Dx accepted order A  
+# 06:18: Dx accepted order B  
+# 06:19: Dx arrived at pick up location for A  
+# 06:22: Dx picked up order A  
+# 06:30: Dx arrived at pick up location for B  
+# 06:33: Dx picked up order B  
+# 06:36: Dx fulfilled order A  
+# 06:45: Dx fulfilled order B
+
+# Output: final pay: $18.0
+
+# Explanation:
+# 06:15 - 06:18 -> pay = $0.9
+# 06:18 - 06:19 -> pay = 2 orders * 0.3 = $0.6
+# 06:19 - 06:20 -> pay = $0.3
+# 06:20 - 06:22 -> **peak pay** = 0.6 * 2 = $1.2
+# 06:22 - 06:30 -> **peak pay** = 2 orders * 0.6 * 8= $9.6
+# 06:30 - 06:33 -> pay = $0.9
+# 06:33 - 06:36 -> pay = 2 orders * 0.3 * 3 = $1.8
+# 06:36 - 06:45 -> pay = 0.3 * 9 = $2.7
+'''
+
+class Part3:
+    def calculatePay(self, activities, peaks):
+        BASE_RATE = 0.3
+        ongoing = 0
+        at_store = None
+        events = [] 
+        res = 0
+
+        peaks = [(self.convert(s), self.convert(e)) for s, e in peaks]
+        # (time, 'activity', (action, order id),
+        # (time, 'peak_start', None)
+        for activity in activities:
+            time, action, order_id = activity.split(' ')
+            time = self.convert(time)
+
+            events.append((time, 'activity', (action, order_id)))
+
+        for s, e in peaks:
+            events.append((s, 'peak_start', None))
+            events.append((e, 'peak_end', None))
 
 
+        events.sort(key = lambda x : x[0])
+        prev_t = events[0][0]
 
 
+        effective = 0
+        for t, event_name, data in events:
+            is_peak = any(start <= prev_t < end for start, end in peaks)
+            base = BASE_RATE * 2 if is_peak else BASE_RATE
+
+            if not at_store:
+                effective = ongoing
+            else:
+                effective = 1
+            time_diff = t - prev_t
+            res += time_diff * base * effective
 
 
+            if event_name == 'activity':
+                action, order_id = data
+                if action == 'accepted':
+                    ongoing += 1
 
-    
+                elif action == 'fulfilled':
+                    ongoing -= 1
 
+                elif action == 'arrived':
+                    at_store = order_id
+                elif action == 'picked':
+                    at_store = None
+
+            prev_t = t
+        return res
+
+    def convert(self, time):
+        hour, minute = map(int, time.split(':'))
+        return hour * 60 + minute
+
+test = Part3()
+activities = [
+'06:15 accepted orderA', 
+'06:18 accepted orderB', 
+'06:19 arrived orderA',
+'06:22 picked orderA',
+'06:30 arrived orderB',
+'06:33 picked orderB',
+'06:36 fulfilled orderA', 
+'06:45 fulfilled orderB']
+peaks = [["06:20", "06:30"]]
+print(test.calculatePay(activities, peaks))
 
     
 
