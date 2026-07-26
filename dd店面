@@ -111,6 +111,105 @@ Q7 异常输入与边界条件怎么处理？（Robustness & Edge Cases）
 逻辑异常 (Cancelled / Multi-accepted):
 建立明确的状态机规范（如 ACCEPTED -> DELIVERED 或 CANCELLED）。同一订单出现多次 ACCEPTED 时保留首个或最新版本。
 
+part1
+
+
+'''
+# Example: # Input:
+ # 06:15: Dx accepted order A 
+ # 06:18: Dx accepted order B 
+ # 06:36: Dx fulfilled order A 
+ # 06:45: Dx fulfilled order B 
+ # Output: final pay: $14.4 
+ # Explanation: 
+ # 06:15 - 06:18 →> рау = 3 * 0.3 →> $0.9 
+ # 06:18 - 06:36 →> pay = 2 orders * 0.3 * 18 →> $10.8 
+ # 06:36 - 06:45 →> рау = 0.3 * 9 = $2.7
+'''
+
+class Part1:
+    def calculatePay(self, activities):
+
+
+        BASE_RATE = 0.3
+        res = 0
+
+        prev_t = None
+        ongoing = 0
+
+
+        prev_t = self.convert(activities[0].split(' ')[0])
+
+        for activity in activities:
+            cur_time, action, _ = activity.split(' ')
+            #print(_, action, cur_time)
+            cur_time = self.convert(cur_time)
+
+            if prev_t:
+                t_diff = cur_time - prev_t
+                res += ongoing * t_diff * BASE_RATE
+
+        
+            if action == 'accepted':
+                ongoing += 1
+
+            elif action == 'fulfilled':
+                ongoing -= 1
+
+            prev_t = cur_time
+
+        return res
+
+    def convert(self, time):
+        hour, minute = map(int, time.split(':'))
+        return hour * 60 + minute
+
+test = Part1()
+activities = ['06:15 accepted orderA', 
+'06:18 accepted orderB', '06:36 fulfilled orderA', 
+'06:45 fulfilled orderB']
+print(test.calculatePay(activities))
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+    
+
+
+
+        
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
 
 
 
