@@ -113,7 +113,6 @@ Q7 异常输入与边界条件怎么处理？（Robustness & Edge Cases）
 
 part1
 
-
 '''
 # Example: # Input:
  # 06:15: Dx accepted order A 
@@ -129,35 +128,24 @@ part1
 
 class Part1:
     def calculatePay(self, activities):
-
-
         BASE_RATE = 0.3
         res = 0
-
-        prev_t = None
-        ongoing = 0
-
-
         prev_t = self.convert(activities[0].split(' ')[0])
+        ongoing = 0
 
         for activity in activities:
             cur_time, action, _ = activity.split(' ')
-            #print(_, action, cur_time)
             cur_time = self.convert(cur_time)
 
-            if prev_t:
-                t_diff = cur_time - prev_t
-                res += ongoing * t_diff * BASE_RATE
+            t_diff = cur_time - prev_t
+            res += ongoing * t_diff * BASE_RATE
 
-        
             if action == 'accepted':
                 ongoing += 1
-
             elif action == 'fulfilled':
                 ongoing -= 1
 
             prev_t = cur_time
-
         return res
 
     def convert(self, time):
@@ -169,6 +157,48 @@ activities = ['06:15 accepted orderA',
 '06:18 accepted orderB', '06:36 fulfilled orderA', 
 '06:45 fulfilled orderB']
 print(test.calculatePay(activities))
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
+
+
+    
+
+
+
+        
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
 
 
 
